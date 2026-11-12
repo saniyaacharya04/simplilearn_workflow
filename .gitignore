@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+venv/
+env/
+.venv/
+
+# Large media files (prevents exceeding GitHub 100MB limit)
+*.mp4
+*.mkv
+*.mov
+*.avi
+*.crdownload
+*.wav
+*.mp3
+
+# Output directories & temporary processing artifacts
+output/
+temp_*/
+**/temp_*/
+*.log
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

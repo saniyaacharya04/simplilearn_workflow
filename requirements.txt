@@ -1,0 +1,10 @@
+# Simplilearn Post-Production AI Pipeline Dependencies
+faster-whisper>=1.0.0
+whisper>=1.1.10
+groq>=0.9.0
+opencv-python>=4.8.0
+numpy>=1.24.0
+python-docx>=0.8.11
+reportlab>=4.0.0
+pypdf>=4.0.0
+python-dotenv>=1.0.0
