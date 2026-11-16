@@ -619,15 +619,15 @@ def generate_llm_storyboard_blueprint(
     return designer.generate_instructions(transcript_data, lesson_title)
 
 
-def run_stage_1(
+def run_stage_6(
     transcript_json: str,
     output_blueprint_json: str,
     lesson_title: Optional[str] = None,
     api_provider: str = "auto"
 ) -> str:
-    """Runs complete Stage 1 workflow."""
+    """Runs complete Stage 6 workflow."""
     print(f"\n==================================================================")
-    print(f"STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN (DYNAMIC SME FRAMING)")
+    print(f"STAGE 6: INSTRUCTIONAL STORYBOARD DESIGN (DYNAMIC SME FRAMING)")
     print(f"Guidelines: {GUIDELINES_TXT_PATH.name}")
     print(f"Compliance: guidelines.md Sections 1, 2, 4, 6, 8 (OSL 3.0)")
     print(f"Dynamic SME Framing: Enabled (100% / 70% / 20%)")
@@ -639,19 +639,23 @@ def run_stage_1(
     with open(out_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    print(f"✓ Stage 1 Complete: Storyboard generated ({len(data.get('scenes', []))} scenes)")
+    print(f"✓ Stage 6 Complete: Storyboard generated ({len(data.get('scenes', []))} scenes)")
     for sc in data.get("scenes", []):
         print(f"  - Scene {sc.get('scene_id')}: Layout {sc.get('sme_layout')}% ({sc.get('dynamic_selection_reason', '')[:65]}...)")
     print(f"  Blueprint saved -> {out_path}\n")
     return out_path
 
 
+# Backward compatibility alias
+run_stage_1 = run_stage_6
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Stage 1: Instructional Storyboard Design")
+    parser = argparse.ArgumentParser(description="Stage 6: Instructional Storyboard Design")
     parser.add_argument("-t", "--transcript", required=True, help="Cleaned transcript JSON")
     parser.add_argument("-o", "--output", required=True, help="Output presentation blueprint JSON")
     parser.add_argument("-l", "--lesson-title", default=None, help="Lesson title")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "openai", "local"])
     args = parser.parse_args()
 
-    run_stage_1(args.transcript, args.output, lesson_title=args.lesson_title, api_provider=args.provider)
+    run_stage_6(args.transcript, args.output, lesson_title=args.lesson_title, api_provider=args.provider)

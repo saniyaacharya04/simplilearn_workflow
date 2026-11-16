@@ -226,14 +226,14 @@ def synthesize_diffusion_prompt(
     return prompter.synthesize_diffusion_prompt(asset, scene_id, lesson_title)
 
 
-def run_stage_3(
+def run_stage_8(
     classified_assets_json: str,
     output_prompts_json: str,
     api_provider: str = "auto"
 ) -> str:
-    """Runs complete Stage 3 workflow."""
+    """Runs complete Stage 8 workflow."""
     print(f"\n==================================================================")
-    print(f"STAGE 3: IMAGE PROMPT GENERATION")
+    print(f"STAGE 8: IMAGE PROMPT GENERATION")
     print(f"Color Guidelines: {COLOR_GUIDELINES_TXT.name}")
     print(f"Standards: 2D Flat Vector Only (No 3D / No Shadows per guidelines.md 6.2)")
     print(f"Diffusion Target: Google Imagen 3 / Stable Diffusion XL")
@@ -245,16 +245,20 @@ def run_stage_3(
     with open(out_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    print(f"✓ Stage 3 Complete: {data['total_image_prompts']} 2D flat vector image prompts synthesized")
+    print(f"✓ Stage 8 Complete: {data['total_image_prompts']} 2D flat vector image prompts synthesized")
     print(f"  Saved -> {out_path}\n")
     return out_path
 
 
+# Backward compatibility alias
+run_stage_3 = run_stage_8
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Stage 3: Image Prompt Generation")
-    parser.add_argument("-a", "--assets", required=True, help="Input classified assets JSON from Stage 2")
+    parser = argparse.ArgumentParser(description="Stage 8: Image Prompt Generation")
+    parser.add_argument("-a", "--assets", required=True, help="Input classified assets JSON from Stage 7")
     parser.add_argument("-o", "--output", required=True, help="Output image generation prompts JSON")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"])
     args = parser.parse_args()
 
-    run_stage_3(args.assets, args.output, api_provider=args.provider)
+    run_stage_8(args.assets, args.output, api_provider=args.provider)

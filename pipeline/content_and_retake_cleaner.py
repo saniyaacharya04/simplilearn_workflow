@@ -1,0 +1,334 @@
+"""
+Simplilearn Content & Retake Cleaner
+Detects and removes:
+- Repeated sentences and false starts
+- Retake phrases ("sorry cut", "let me start again", "wait", etc.)
+- Unnecessary filler words ("uh", "um", "like", "you know", "मतलब", etc.)
+- Long dead silences (> 1.0s, -35dB) and frozen video sections
+Outputs cut decisions and keep segments for synchronized AV trimming.
+"""
+
+import os
+import json
+import re
+import difflib
+import subprocess
+from pathlib import Path
+from typing import List, Dict, Any, Tuple
+
+from .config import (
+    FILLER_WORDS_EN,
+    FILLER_WORDS_HI,
+    RETAKE_KEYWORDS,
+    NOISE_FLOOR_DB,
+    MIN_SILENCE_DURATION,
+    CUT_PADDING_SECONDS,
+    MERGE_GAP_THRESHOLD
+)
+
+
+# ==============================================================================
+# 1. TEXT CLEANING & REPETITION DETECTION
+# ==============================================================================
+
+def clean_filler_words_from_text(text: str) -> Tuple[str, bool]:
+    """
+    Removes filler words while preserving natural pedagogical grammar.
+    Returns (cleaned_text, is_pure_filler).
+    """
+    words = text.split()
+    if not words:
+        return "", True
+
+    all_fillers = set(w.lower() for w in FILLER_WORDS_EN + FILLER_WORDS_HI)
+    filtered = []
+    filler_count = 0
+
+    for w in words:
+        clean_w = re.sub(r"[^\w\s]", "", w).lower()
+        if clean_w in all_fillers:
+            filler_count += 1
+        else:
+            filtered.append(w)
+
+    is_pure_filler = (len(filtered) == 0) or (filler_count / len(words) >= 0.75)
+    cleaned_text = " ".join(filtered).strip()
+    return cleaned_text, is_pure_filler
+
+
+def compute_similarity(text1: str, text2: str) -> float:
+    """Computes normalized text similarity between two phrases."""
+    t1 = re.sub(r"[^\w\s]", "", text1.lower()).strip()
+    t2 = re.sub(r"[^\w\s]", "", text2.lower()).strip()
+    if not t1 or not t2:
+        return 0.0
+    return difflib.SequenceMatcher(None, t1, t2).ratio()
+
+
+def detect_repeated_sentences(segments: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Identifies false starts and repeated sentences.
+    When a trainer stumbles and repeats the sentence or starts over,
+    flags the prior failed take for removal.
+    """
+    retake_cuts = []
+    n = len(segments)
+
+    for i in range(n - 1):
+        curr = segments[i]
+        nxt = segments[i + 1]
+
+        t_curr = curr.get("text", "").strip()
+        t_nxt = nxt.get("text", "").strip()
+
+        # Check explicit verbal retake cues
+        curr_lower = t_curr.lower()
+        has_retake_kw = any(kw in curr_lower for kw in RETAKE_KEYWORDS)
+        if has_retake_kw:
+            retake_cuts.append({
+                "start": curr["start"],
+                "end": curr["end"],
+                "reason": f"Verbal retake keyword detected ('{t_curr}')"
+            })
+            continue
+
+        # Check semantic repetition / restart
+        sim = compute_similarity(t_curr, t_nxt)
+        words_curr = t_curr.split()
+        words_nxt = t_nxt.split()
+
+        # If current segment is a prefix of next segment (e.g. "We will now..." -> "We will now discuss X")
+        is_prefix = False
+        if len(words_curr) >= 2 and len(words_nxt) >= len(words_curr):
+            prefix_match = (
+                " ".join(words_curr[:min(4, len(words_curr))]).lower() ==
+                " ".join(words_nxt[:min(4, len(words_curr))]).lower()
+            )
+            if prefix_match:
+                is_prefix = True
+
+        if sim > 0.60 or is_prefix:
+            retake_cuts.append({
+                "start": curr["start"],
+                "end": curr["end"],
+                "reason": f"False start / repeated take before: '{t_nxt[:40]}...'"
+            })
+
+    return retake_cuts
+
+
+# ==============================================================================
+# 2. AUDIO SILENCE DETECTION
+# ==============================================================================
+
+def detect_audio_silences(
+    media_path: str,
+    noise_db: float = NOISE_FLOOR_DB,
+    min_duration: float = MIN_SILENCE_DURATION
+) -> List[Dict[str, float]]:
+    """Runs FFmpeg silencedetect to locate prolonged dead pauses."""
+    cmd = [
+        "ffmpeg", "-y",
+        "-i", str(media_path),
+        "-af", f"silencedetect=n={noise_db}dB:d={min_duration}",
+        "-f", "null", "-"
+    ]
+    res = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+    output = res.stderr
+
+    silence_starts = []
+    silence_ends = []
+
+    for line in output.splitlines():
+        if "silence_start:" in line:
+            try:
+                val = float(line.split("silence_start:")[1].strip())
+                silence_starts.append(val)
+            except ValueError:
+                pass
+        elif "silence_end:" in line:
+            try:
+                val = float(line.split("silence_end:")[1].split("|")[0].strip())
+                silence_ends.append(val)
+            except ValueError:
+                pass
+
+    silences = []
+    for s, e in zip(silence_starts, silence_ends):
+        if e > s:
+            silences.append({
+                "start": round(s, 3),
+                "end": round(e, 3),
+                "duration": round(e - s, 3)
+            })
+
+    return silences
+
+
+# ==============================================================================
+# 3. CUT DECISION COMPILER & KEEP SEGMENTS GENERATOR
+# ==============================================================================
+
+def get_media_duration(media_path: str) -> float:
+    """Retrieves exact media duration in seconds via ffprobe."""
+    cmd = [
+        "ffprobe", "-v", "error",
+        "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1",
+        str(media_path)
+    ]
+    res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+    return float(res.stdout.strip())
+
+
+def merge_and_pad_cuts(
+    cuts: List[Dict[str, Any]],
+    total_duration: float,
+    padding: float = CUT_PADDING_SECONDS,
+    gap_threshold: float = MERGE_GAP_THRESHOLD
+) -> List[Dict[str, Any]]:
+    """Merges adjacent cut intervals and applies safety padding."""
+    if not cuts:
+        return []
+
+    # Apply padding
+    padded = []
+    for c in cuts:
+        padded.append({
+            "start": max(0.0, c["start"] - padding),
+            "end": min(total_duration, c["end"] + padding),
+            "reason": c.get("reason", "cut")
+        })
+
+    # Sort by start time
+    padded.sort(key=lambda x: x["start"])
+
+    merged = [padded[0]]
+    for curr in padded[1:]:
+        prev = merged[-1]
+        if curr["start"] - prev["end"] <= gap_threshold:
+            prev["end"] = max(prev["end"], curr["end"])
+            prev["reason"] += " + " + curr["reason"]
+        else:
+            merged.append(curr)
+
+    return merged
+
+
+def build_keep_segments(
+    cuts: List[Dict[str, Any]],
+    total_duration: float
+) -> List[Dict[str, float]]:
+    """Inverts cut intervals into valid keep intervals."""
+    keep_segments = []
+    current_time = 0.0
+
+    for cut in cuts:
+        if cut["start"] > current_time:
+            keep_segments.append({
+                "start": round(current_time, 3),
+                "end": round(cut["start"], 3),
+                "duration": round(cut["start"] - current_time, 3)
+            })
+        current_time = max(current_time, cut["end"])
+
+    if current_time < total_duration:
+        keep_segments.append({
+            "start": round(current_time, 3),
+            "end": round(total_duration, 3),
+            "duration": round(total_duration - current_time, 3)
+        })
+
+    # Filter out near-zero segments (< 0.2s)
+    return [k for k in keep_segments if k["duration"] >= 0.2]
+
+
+def analyze_and_clean_content(
+    media_path: str,
+    transcript_json: str,
+    output_decisions_json: str,
+    output_clean_transcript_json: str
+) -> Dict[str, Any]:
+    """
+    Main analysis pipeline:
+    1. Loads timestamped segments.
+    2. Identifies pure filler segments and strips filler words.
+    3. Detects repeated sentences, false starts, and retake verbal cues.
+    4. Detects prolonged silences.
+    5. Computes merged cut decisions and final keep segments.
+    """
+    total_duration = get_media_duration(media_path)
+
+    with open(transcript_json, "r", encoding="utf-8") as f:
+        segments = json.load(f)
+
+    cuts = []
+    cleaned_transcript = []
+
+    # 1. Process filler words per segment
+    for seg in segments:
+        text = seg.get("text", "")
+        cleaned_text, is_filler = clean_filler_words_from_text(text)
+
+        if is_filler and seg.get("duration", 0) < 2.5:
+            cuts.append({
+                "start": seg["start"],
+                "end": seg["end"],
+                "reason": f"Pure filler segment ('{text}')"
+            })
+        else:
+            seg_copy = dict(seg)
+            seg_copy["cleaned_text"] = cleaned_text
+            cleaned_transcript.append(seg_copy)
+
+    # 2. Detect repeated sentences and false starts
+    repetition_cuts = detect_repeated_sentences(segments)
+    cuts.extend(repetition_cuts)
+
+    # 3. Detect long dead silences
+    silences = detect_audio_silences(media_path)
+    for s in silences:
+        cuts.append({
+            "start": s["start"],
+            "end": s["end"],
+            "reason": f"Dead silence ({s['duration']}s)"
+        })
+
+    # 4. Merge cuts and build keep segments
+    merged_cuts = merge_and_pad_cuts(cuts, total_duration)
+    keep_segments = build_keep_segments(merged_cuts, total_duration)
+
+    summary = {
+        "media_path": str(media_path),
+        "total_duration": total_duration,
+        "trimmed_duration": round(sum(k["duration"] for k in keep_segments), 3),
+        "time_saved": round(total_duration - sum(k["duration"] for k in keep_segments), 3),
+        "cut_count": len(merged_cuts),
+        "cuts": merged_cuts,
+        "keep_segments": keep_segments
+    }
+
+    # Save decisions
+    Path(output_decisions_json).parent.mkdir(parents=True, exist_ok=True)
+    with open(output_decisions_json, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+
+    # Save cleaned transcript
+    Path(output_clean_transcript_json).parent.mkdir(parents=True, exist_ok=True)
+    with open(output_clean_transcript_json, "w", encoding="utf-8") as f:
+        json.dump(cleaned_transcript, f, indent=2, ensure_ascii=False)
+
+    print(f"\n✓ Content Analysis Complete:")
+    print(f"  Total Duration: {total_duration:.2f}s -> Trimmed: {summary['trimmed_duration']:.2f}s")
+    print(f"  Removed: {summary['time_saved']:.2f}s across {len(merged_cuts)} cuts")
+    print(f"  Decisions saved to: {output_decisions_json}")
+
+    return summary
+
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) < 5:
+        print("Usage: python -m pipeline.3_content_and_retake_cleaner <media> <transcript_json> <decisions_json> <clean_transcript_json>")
+        sys.exit(1)
+    analyze_and_clean_content(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])

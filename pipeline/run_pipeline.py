@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 """
-Simplilearn OSL 3.0 Pipeline Runner
-Reference: Simplilearn Workflow Standards & Pedagogical Architecture
+================================================================================
+SIMPLILEARN OSL 3.0 MASTER POST-PRODUCTION PIPELINE RUNNER
+================================================================================
+Orchestrates Steps 0 through 8 sequentially from raw teacher video to
+pedagogical blueprints, dynamic SME framing, and asset diffusion prompts.
 
-Integrated Pipeline Stages:
-  0. Hook & Pedagogical Blueprint Generation           [0_generate_hook.py]
-     - Extracts opening motivational hook, learning goals, problem context, and initial framing.
-  1. Instructional Storyboard Design                  [1_instructional_design.py]
-     - Accounts for dynamic SME positioning (100% Full, 70% Left Rounded Rect, 20% PIP Corner).
-     - Governed by: instructional_storyboarding_guidelines.txt
-  2. Asset Classification                              [2_asset_classification.py]
-     - Categorizes cards, text blocks, diagrams, and illustration needs.
-  3. Image Prompt Generation                           [3_image_prompt_generation.py / 4_image_prompt_generation.py]
-     - Generates diffusion prompts for assets using color_guidelines.txt and 2D flat vector style.
+AUDIO & VIDEO PREPROCESSING (RAW TEACHER VIDEO):
+  Step 0: Audio Cleaner & EBU R128 Normalizer (-16 LUFS)      [0_clean_audio.py]
+  Step 1: Speech Transcription & Word-Level Timestamps        [1_transcribe_and_timestamp.py]
+  Step 2: Clean Fillers, Retakes & Repeated Sentences         [2_clean_fillers_and_retakes.py]
+  Step 3: Synchronous Audio/Video Trimmer                     [3_synchronous_av_trimmer.py]
+  Step 4: Voiceover Documentation Generator (DOCX & PDF)      [4_generate_voiceover_docs.py]
+
+PEDAGOGICAL & VISUAL PIPELINE (AFTER AUDIO STEPS):
+  Step 5: Hook & Pedagogical Blueprint Generation             [5_generate_hook.py]
+  Step 6: Instructional Storyboard Design (Dynamic SME 100/70/20) [6_instructional_design.py]
+  Step 7: Asset Classification                                [7_asset_classification.py]
+  Step 8: Image Prompt Generation (2D Flat Vector)            [8_image_prompt_generation.py]
 """
 
 import os
@@ -30,7 +35,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 
 def run_stage_script(script_name: str, args_list: list):
-    """Executes a pipeline script as an isolated subprocess."""
+    """Executes a pipeline stage script as an isolated subprocess."""
     script_path = SCRIPT_DIR / script_name
     if not script_path.exists():
         raise FileNotFoundError(f"Pipeline stage script not found: {script_path}")
@@ -40,102 +45,182 @@ def run_stage_script(script_name: str, args_list: list):
         raise RuntimeError(f"Pipeline failed at stage: {script_name}")
 
 
-def run_assigned_pipeline(
-    input_transcript: str,
+def run_master_pipeline(
+    input_media: str,
     output_dir: str,
     lesson_title: str = None,
-    api_provider: str = "auto",
-    start_stage: int = 0,
-    end_stage: int = 3
+    start_stage: int = None,
+    end_stage: int = 8,
+    whisper_engine: str = "auto",
+    whisper_model: str = "base",
+    api_provider: str = "auto"
 ):
     start_time = time.time()
     out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
 
-    base = Path(input_transcript).stem.replace("_clean_transcript", "").replace("_step2", "").replace("_transcript", "")
+    input_path = Path(input_media)
+    base = input_path.stem.replace("_clean_transcript", "").replace("_step2", "").replace("_transcript", "")
     if not lesson_title:
         lesson_title = base.replace("_", " ").replace("-", " ").title()
 
-    # Tracked output artifacts
-    hook_json      = out_path / f"{base}_hook_blueprint.json"
-    blueprint_json = out_path / f"{base}_storyboard_blueprint.json"
-    assets_json    = out_path / f"{base}_classified_assets.json"
-    prompts_json   = out_path / f"{base}_image_prompts.json"
+    is_video = input_path.suffix.lower() in [".mp4", ".mov", ".mkv", ".avi", ".webm"]
 
-    print("\n" + "=" * 75)
-    print(f"🚀 SIMPLILEARN OSL 3.0 PIPELINE")
-    print(f"   Input Transcript:  {input_transcript}")
+    # Determine default start stage based on input media type
+    if start_stage is None:
+        start_stage = 0 if is_video else 5
+
+    # Tracked file artifacts
+    clean_audio_video = out_path / f"{base}_step0_clean_audio.mp4"
+    timestamps_json   = out_path / f"{base}_step1_timestamps.json"
+    decisions_json    = out_path / f"{base}_step2_cut_decisions.json"
+    clean_transcript  = out_path / f"{base}_step2_clean_transcript.json"
+    trimmed_video     = out_path / f"{base}_step3_trimmed.mp4"
+    hook_json         = out_path / f"{base}_hook_blueprint.json"
+    blueprint_json    = out_path / f"{base}_storyboard_blueprint.json"
+    assets_json       = out_path / f"{base}_classified_assets.json"
+    prompts_json      = out_path / f"{base}_image_prompts.json"
+
+    print("\n" + "=" * 78)
+    print(f"🚀 SIMPLILEARN OSL 3.0 MASTER PIPELINE")
+    print(f"   Input Media:       {input_media} ({'RAW TEACHER VIDEO' if is_video else 'TRANSCRIPT/CONTEXT'})")
     print(f"   Lesson Title:      {lesson_title}")
     print(f"   Output Folder:     {output_dir}")
-    print(f"   Stages:            Stage {start_stage} -> Stage {end_stage}")
+    print(f"   Active Stages:     Step {start_stage} -> Step {end_stage}")
     print(f"   API Provider:      {api_provider}")
-    print("=" * 75 + "\n")
+    print("=" * 78 + "\n")
 
-    # STAGE 0: Hook & Pedagogical Blueprint Generation
-    if start_stage <= 0 <= end_stage:
-        run_stage_script("0_generate_hook.py", [
-            "-i", str(input_transcript),
+    # =========================================================================
+    # AUDIO & VIDEO PREPROCESSING (STEPS 0 TO 4)
+    # =========================================================================
+    if is_video:
+        # STEP 0: Clean Audio & Loudness Normalization
+        if start_stage <= 0 <= end_stage:
+            run_stage_script("0_clean_audio.py", [
+                "-i", str(input_media),
+                "-o", str(clean_audio_video)
+            ])
+
+        # STEP 1: Speech Transcription & Word-Level Timestamps
+        if start_stage <= 1 <= end_stage:
+            media_for_step1 = str(clean_audio_video if clean_audio_video.exists() else input_media)
+            run_stage_script("1_transcribe_and_timestamp.py", [
+                "-i", media_for_step1,
+                "-o", str(timestamps_json),
+                "-e", whisper_engine,
+                "-m", whisper_model
+            ])
+
+        # STEP 2: Clean Fillers, Retakes & Repeated Sentences
+        if start_stage <= 2 <= end_stage:
+            media_for_step2 = str(clean_audio_video if clean_audio_video.exists() else input_media)
+            run_stage_script("2_clean_fillers_and_retakes.py", [
+                "-i", media_for_step2,
+                "-t", str(timestamps_json),
+                "-d", str(decisions_json),
+                "-c", str(clean_transcript)
+            ])
+
+        # STEP 3: Synchronous AV Trimmer
+        if start_stage <= 3 <= end_stage:
+            media_for_step3 = str(clean_audio_video if clean_audio_video.exists() else input_media)
+            run_stage_script("3_synchronous_av_trimmer.py", [
+                "-i", media_for_step3,
+                "-d", str(decisions_json),
+                "-o", str(trimmed_video)
+            ])
+
+        # STEP 4: Voiceover Documentation (DOCX & PDF)
+        if start_stage <= 4 <= end_stage:
+            transcript_for_step4 = str(clean_transcript if clean_transcript.exists() else input_media)
+            run_stage_script("4_generate_voiceover_docs.py", [
+                "-t", transcript_for_step4,
+                "-o", str(out_path),
+                "--title", lesson_title
+            ])
+
+    # Ingest source for pedagogical stages: cleaned transcript from Step 2, or input media if starting from text
+    pedagogical_transcript_input = str(clean_transcript if clean_transcript.exists() else input_media)
+
+    # =========================================================================
+    # PEDAGOGICAL & VISUAL PIPELINE (STEPS 5 TO 8)
+    # =========================================================================
+    # STEP 5: Hook & Pedagogical Blueprint Generation
+    if start_stage <= 5 <= end_stage:
+        run_stage_script("5_generate_hook.py", [
+            "-i", pedagogical_transcript_input,
             "-o", str(hook_json),
             "-l", lesson_title,
             "-p", api_provider
         ])
 
-    # STAGE 1: Instructional Storyboard Design
-    if start_stage <= 1 <= end_stage:
-        run_stage_script("1_instructional_design.py", [
-            "-t", str(input_transcript),
+    # STEP 6: Instructional Storyboard Design (Dynamic SME Framing)
+    if start_stage <= 6 <= end_stage:
+        run_stage_script("6_instructional_design.py", [
+            "-t", pedagogical_transcript_input,
             "-o", str(blueprint_json),
             "-l", lesson_title,
             "-p", api_provider
         ])
 
-    # STAGE 2: Asset Classification
-    if start_stage <= 2 <= end_stage:
-        run_stage_script("2_asset_classification.py", [
+    # STEP 7: Asset Classification
+    if start_stage <= 7 <= end_stage:
+        run_stage_script("7_asset_classification.py", [
             "-b", str(blueprint_json),
             "-o", str(assets_json)
         ])
 
-    # STAGE 3 / 4: Image Prompt Generation
-    if start_stage <= 3 <= end_stage or start_stage <= 4 <= end_stage:
-        prompt_script = "3_image_prompt_generation.py" if (SCRIPT_DIR / "3_image_prompt_generation.py").exists() else "4_image_prompt_generation.py"
-        run_stage_script(prompt_script, [
+    # STEP 8: Image Prompt Generation
+    if start_stage <= 8 <= end_stage:
+        run_stage_script("8_image_prompt_generation.py", [
             "-a", str(assets_json),
             "-o", str(prompts_json),
             "-p", api_provider
         ])
 
     elapsed = time.time() - start_time
-    print("=" * 75)
+    print("=" * 78)
     print(f"🎉 PIPELINE EXECUTION COMPLETED IN {elapsed:.1f}s")
+    if is_video and clean_audio_video.exists():
+        print(f"   0. Clean Audio Video:    {clean_audio_video}")
+    if is_video and timestamps_json.exists():
+        print(f"   1. Timestamps:           {timestamps_json}")
+    if is_video and clean_transcript.exists():
+        print(f"   2. Clean Transcript:     {clean_transcript}")
+    if is_video and trimmed_video.exists():
+        print(f"   3. Trimmed AV Video:     {trimmed_video}")
     if hook_json.exists():
-        print(f"   0. Hook Blueprint:       {hook_json}")
+        print(f"   5. Hook Blueprint:       {hook_json}")
     if blueprint_json.exists():
-        print(f"   1. Storyboard Blueprint: {blueprint_json}")
+        print(f"   6. Storyboard Blueprint: {blueprint_json}")
     if assets_json.exists():
-        print(f"   2. Classified Assets:    {assets_json}")
+        print(f"   7. Classified Assets:    {assets_json}")
     if prompts_json.exists():
-        print(f"   3. Image Prompts:        {prompts_json}")
-    print("=" * 75 + "\n")
+        print(f"   8. Image Prompts:        {prompts_json}")
+    print("=" * 78 + "\n")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Simplilearn Pipeline Runner (Stages 0 to 4)")
-    parser.add_argument("-i", "--input-transcript", required=True, help="Cleaned transcript JSON or text file")
+    parser = argparse.ArgumentParser(description="Simplilearn Master Pipeline Runner (Steps 0 to 8)")
+    parser.add_argument("-i", "--input", required=True, help="Path to raw teacher video (.mp4) or clean transcript (.json/.txt)")
     parser.add_argument("-o", "--output-dir", default="output/saniya_assigned_stages", help="Output directory")
     parser.add_argument("-l", "--lesson-title", default=None, help="Lesson title")
+    parser.add_argument("--start-stage", type=int, default=None, help="Start stage index (0 to 8). Defaults to 0 for video, 5 for text")
+    parser.add_argument("--end-stage", type=int, default=8, help="End stage index (0 to 8)")
+    parser.add_argument("--whisper-engine", choices=["auto", "local", "groq"], default="auto", help="Whisper STT engine")
+    parser.add_argument("--whisper-model", default="base", help="Whisper model size")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM provider")
-    parser.add_argument("--start-stage", type=int, default=0, help="Initial stage to run (default: 0)")
-    parser.add_argument("--end-stage", type=int, default=3, help="Terminal stage to run (default: 3)")
     args = parser.parse_args()
 
-    run_assigned_pipeline(
-        input_transcript=args.input_transcript,
+    run_master_pipeline(
+        input_media=args.input,
         output_dir=args.output_dir,
         lesson_title=args.lesson_title,
-        api_provider=args.provider,
         start_stage=args.start_stage,
-        end_stage=args.end_stage
+        end_stage=args.end_stage,
+        whisper_engine=args.whisper_engine,
+        whisper_model=args.whisper_model,
+        api_provider=args.provider
     )
 
 

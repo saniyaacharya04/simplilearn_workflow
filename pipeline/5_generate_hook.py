@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
 ================================================================================
-PIPELINE STAGE 0: HOOK & PEDAGOGICAL BLUEPRINT GENERATION
+PIPELINE STAGE 5: HOOK & PEDAGOGICAL BLUEPRINT GENERATION
 ================================================================================
 
 1. STAGE OVERVIEW:
-   - Stage Index: 0
-   - Script Name: 0_generate_hook.py
+   - Stage Index: 5
+   - Script Name: 5_generate_hook.py
    - Primary Class: HookGenerator
    - Pipeline Role:
-     Serves as the root entry point of the presentation generation pipeline.
-     Transforms raw curriculum, slide markdown, or cleaned transcripts into a
-     structured pedagogical blueprint, extracting:
+     Transforms the cleaned transcript resulting from audio processing stages 0-4
+     (or raw lecture curriculum/slide markdown) into a structured pedagogical blueprint,
+     extracting:
        * Motivational Hook (Problem, Observation, Surprising Fact, Failure Scenario)
        * Lesson Metadata (Motivation, Learning Goals, Evergreen Classification)
        * Context & Core Problem (Why it exists, where used, misconceptions)
@@ -21,11 +21,11 @@ PIPELINE STAGE 0: HOOK & PEDAGOGICAL BLUEPRINT GENERATION
           Layout 2: 20% PIP corner for architectural deep-dives & demos).
 
 2. UPSTREAM DEPENDENCIES & PREVIOUS STAGES USED:
-   - Uses Previous Stages: NO (Root Stage).
-   - Ingests raw lecture text, video transcript JSON, or raw curriculum files.
+   - Stage 2 / Stage 4: Ingests the cleaned transcript (e.g. *_step2_clean_transcript.json)
+     derived directly from the raw teacher video after filler & retake removal.
 
 3. DOWNSTREAM CONSUMERS:
-   - Stage 1 (1_instructional_design.py): Ingests the hook blueprint to produce
+   - Stage 6 (6_instructional_design.py): Ingests the hook blueprint to produce
      granular, step-by-step presentation storyboards with exact Manim coordinate bounds.
 """
 
@@ -391,16 +391,16 @@ Raw Material:
         return str(out)
 
 
-def run_stage_0(
+def run_stage_5(
     input_file: str,
     output_file: str,
     lesson_title: Optional[str] = None,
     api_provider: str = "auto"
 ) -> str:
-    """Entry point for executing Stage 0."""
+    """Entry point for executing Stage 5."""
     print(f"\n==================================================================")
-    print(f"STAGE 0: HOOK & PEDAGOGICAL BLUEPRINT GENERATION")
-    print(f"Role: Root Entry Point - Ingests raw text and structures lesson blueprint")
+    print(f"STAGE 5: HOOK & PEDAGOGICAL BLUEPRINT GENERATION")
+    print(f"Role: Pedagogical Blueprint - Follows Audio Stages 0-4 from Raw Video")
     print(f"Dynamic SME Framing: Enabled (Initial layout assignments)")
     print(f"==================================================================")
 
@@ -410,7 +410,7 @@ def run_stage_0(
     with open(out_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    print(f"✓ Stage 0 Complete: Pedagogical blueprint created for '{data.get('concept', 'Lesson')}'")
+    print(f"✓ Stage 5 Complete: Pedagogical blueprint created for '{data.get('concept', 'Lesson')}'")
     print(f"  - Hook Type: {data.get('hook', {}).get('type')}")
     print(f"  - Hook Opening: {data.get('hook', {}).get('statement', '')[:75]}...")
     print(f"  - Total Scenes Planned: {len(data.get('scene_blueprint', []))}")
@@ -421,12 +421,16 @@ def run_stage_0(
     return out_path
 
 
+# Backward compatibility alias
+run_stage_0 = run_stage_5
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Stage 0: Hook & Pedagogical Blueprint Generation")
+    parser = argparse.ArgumentParser(description="Stage 5: Hook & Pedagogical Blueprint Generation")
     parser.add_argument("-i", "--input", required=True, help="Input transcript JSON or raw context text file")
     parser.add_argument("-o", "--output", required=True, help="Output hook blueprint JSON file")
     parser.add_argument("-l", "--lesson-title", default=None, help="Lesson title")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM provider")
     args = parser.parse_args()
 
-    run_stage_0(args.input, args.output, lesson_title=args.lesson_title, api_provider=args.provider)
+    run_stage_5(args.input, args.output, lesson_title=args.lesson_title, api_provider=args.provider)

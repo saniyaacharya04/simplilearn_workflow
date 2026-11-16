@@ -42,6 +42,39 @@ OUTRO_DISSOLVE_COLOR = "#FFFFFF"
 OUTRO_DISSOLVE_DURATION = 0.5
 
 # ==============================================================================
+# AUDIO & VOICE STANDARDS (guidelines.md Section 7.2)
+# ==============================================================================
+AUDIO_SAMPLE_RATE = 48000
+AUDIO_CHANNELS = 2
+AUDIO_CODEC = "aac"
+AUDIO_BITRATE = "192k"
+
+# Broadcast EBU R128 Loudness Normalization
+TARGET_I_LUFS = -16.0       # Integrated loudness target
+TARGET_TP_DB = -1.0         # True Peak limit
+TARGET_LRA = 11.0           # Loudness Range
+
+# Noise Filtering
+HIGHPASS_FREQ = 80          # Cut low-frequency rumble below 80 Hz
+NOISE_FLOOR_DB = -35.0      # Silence threshold
+MIN_SILENCE_DURATION = 1.0  # Seconds of silence before flagging cut
+
+# Filler & Retake Removal Standards
+FILLER_WORDS_EN = [
+    "uh", "um", "like", "you know", "basically", "so yeah",
+    "actually", "sort of", "kind of", "i mean", "right"
+]
+FILLER_WORDS_HI = [
+    "मतलब", "हम्म", "उम्", "तो", "यार"
+]
+RETAKE_KEYWORDS = [
+    "sorry cut", "cut", "start again", "restart", "let me repeat",
+    "एक second", "wait", "hold on", "stop", "take two", "sorry"
+]
+CUT_PADDING_SECONDS = 0.20
+MERGE_GAP_THRESHOLD = 0.80
+
+# ==============================================================================
 # 2. SME (TRAINER) PLACEMENT LAYOUTS & GEOMETRY (guidelines.md Section 8)
 # ==============================================================================
 # Layout 1: 100% Full-Screen Presenter (guidelines.md Section 8.3)
