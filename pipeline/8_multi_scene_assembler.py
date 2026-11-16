@@ -34,17 +34,10 @@ from pipeline.config import (
 import importlib
 
 # Import layout functions from 7_sme_placement_layouts
-try:
-    _sme_layouts = importlib.import_module("pipeline.7_sme_placement_layouts")
-    render_sme_layout_100 = getattr(_sme_layouts, "render_sme_layout_100")
-    render_sme_layout_70 = getattr(_sme_layouts, "render_sme_layout_70")
-    render_sme_layout_20 = getattr(_sme_layouts, "render_sme_layout_20")
-except Exception:
-    from pipeline.teacher_cutout_and_placement import (
-        render_sme_layout_100,
-        render_sme_layout_70,
-        render_sme_layout_20
-    )
+_sme_layouts = importlib.import_module("pipeline.7_sme_placement_layouts")
+render_sme_layout_100 = getattr(_sme_layouts, "render_sme_layout_100")
+render_sme_layout_70 = getattr(_sme_layouts, "render_sme_layout_70")
+render_sme_layout_20 = getattr(_sme_layouts, "render_sme_layout_20")
 
 
 def run_stage_8(
