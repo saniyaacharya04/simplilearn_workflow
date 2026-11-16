@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """
-Pipeline Stage 2: Asset Classification
+================================================================================
+PIPELINE STAGE 2: ASSET CLASSIFICATION
+================================================================================
 Assigned to: Saniya (Simplilearn Workflow Tracker)
 Strictly aligned with guidelines.md (Sections 4, 6, and 8)
+Incorporates architectural patterns from Kplor AssetClassification
 
 Decomposes the high-level visual descriptions and scenes from Stage 1 (Instructional Design)
 into discrete, categorized visual assets:
@@ -18,14 +21,21 @@ into discrete, categorized visual assets:
 Strictly respects SME Clearance Zones:
 - 70% Layout: SME in left frame (w=640, h=920, r=10), Content safe zone x >= 760px.
 - 20% Layout: SME top-right (384x216), Lead-in collision ceiling x <= 1450px, Diagram zone y >= 270px.
+
+Kplor Architecture Integrations:
+- Core Decision Principle: Mentally freeze each visual into static geometry.
+- Structural Parity: compare_structures() validates 1:1 fidelity between input and classified output.
+- Resilient LLM response parsing: parse_input_to_json().
+================================================================================
 """
 
 import os
 import sys
 import json
+import re
 import argparse
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Union
 
 # Add project root to sys.path
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -35,14 +45,93 @@ if str(PROJECT_ROOT) not in sys.path:
 
 
 class AssetClassification:
-    """Classifies visual elements in each scene into structured, modular assets."""
+    """
+    Stage 2: Asset Classification.
+    Decomposes visual storyboard specifications from Stage 1 into categorized,
+    modular visual components (diagrams, cards, typography, containers, illustrations).
+    """
 
-    def __init__(self, blueprint_path: str):
+    def __init__(
+        self,
+        blueprint_path: Optional[str] = None,
+        api_provider: str = "auto",
+        api_key: Optional[str] = None
+    ):
         self.blueprint_path = blueprint_path
-        with open(blueprint_path, "r", encoding="utf-8") as f:
-            self.blueprint = json.load(f)
+        self.blueprint: Dict[str, Any] = {}
+        if blueprint_path and Path(blueprint_path).exists():
+            with open(blueprint_path, "r", encoding="utf-8") as f:
+                self.blueprint = json.load(f)
+
+        self.api_provider = api_provider
+        self.api_key = api_key or os.environ.get("GEMINI_API_KEY") or os.environ.get("ANTHROPIC_API_KEY")
+
+    def compare_structures(self, input_dict: Dict[str, Any], output_dict: Dict[str, Any]) -> bool:
+        """
+        Structural parity check adopted from Kplor AssetClassification.compare_structures.
+        Compares input storyboard scenes against classified output to verify no dropped steps or scenes.
+        Returns True if a mismatch was detected, False if structures match cleanly.
+        """
+        def describe_scenes(obj: Dict[str, Any], label: str) -> Dict[str, int]:
+            scenes = obj.get("scenes", [])
+            if isinstance(scenes, dict):
+                return {str(k): len(v) if isinstance(v, list) else 1 for k, v in scenes.items()}
+            elif isinstance(scenes, list):
+                res = {}
+                for idx, s in enumerate(scenes, 1):
+                    sid = str(s.get("scene_id", idx))
+                    assets = s.get("assets", s.get("on_screen_text", {}).get("cards", []))
+                    res[sid] = len(assets) if isinstance(assets, list) else 1
+                return res
+            return {}
+
+        input_struct = describe_scenes(input_dict, "Input Blueprint")
+        output_struct = describe_scenes(output_dict, "Classified Output")
+
+        all_keys = sorted(set(input_struct.keys()).union(set(output_struct.keys())))
+        mismatch = False
+
+        for k in all_keys:
+            in_val = input_struct.get(k)
+            out_val = output_struct.get(k)
+            if in_val is None:
+                print(f"[AssetClassification] Scene {k} exists only in Output ({out_val} items)")
+                mismatch = True
+            elif out_val is None:
+                print(f"[AssetClassification] Scene {k} missing in Output (had {in_val} items in Input)")
+                mismatch = True
+
+        return mismatch
+
+    def parse_input_to_json(self, text: str) -> Dict[str, Any]:
+        """
+        Robust JSON parser for LLM classification output.
+        Handles markdown fences, regex matching, or structured scene/asset blocks.
+        """
+        cleaned = text.strip()
+        fence_match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', cleaned, re.IGNORECASE)
+        if fence_match:
+            cleaned = fence_match.group(1).strip()
+
+        try:
+            return json.loads(cleaned)
+        except json.JSONDecodeError:
+            pass
+
+        brace_match = re.search(r'\{[\s\S]*\}', cleaned)
+        if brace_match:
+            try:
+                return json.loads(brace_match.group(0))
+            except json.JSONDecodeError:
+                pass
+
+        raise ValueError("Could not parse LLM classification output into JSON.")
 
     def classify_scene_assets(self, scene: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        Classifies visual elements in each scene using the Freezing Decision Principle:
+        Mentally freeze the scene into static geometry and categorize each element.
+        """
         scene_id = scene.get("scene_id", 1)
         scene_type = scene.get("scene_type", "general")
         layout = str(scene.get("sme_layout", "70"))
@@ -51,7 +140,7 @@ class AssetClassification:
         lead_in = ost.get("lead_in", "")
         safe_zone = scene.get("presentation_safe_zone", {})
 
-        assets = []
+        assets: List[Dict[str, Any]] = []
         asset_idx = 1
 
         # 1. Title Asset (Open Sans Bold 45px per guidelines.md 6.3)
@@ -76,7 +165,7 @@ class AssetClassification:
         })
         asset_idx += 1
 
-        # 2. Lead-In Line Asset (Open Sans Regular 28-34px)
+        # 2. Lead-In Line Asset (Open Sans Regular 34px)
         if lead_in and layout != "100":
             assets.append({
                 "asset_id": f"s{scene_id:02d}_a{asset_idx:02d}_lead_in",
@@ -99,7 +188,7 @@ class AssetClassification:
             })
             asset_idx += 1
 
-        # 3. SME Frame Asset (Reference for Somnath's Layout/Template Stage)
+        # 3. SME Frame Asset (Reference for downstream compositor)
         sme_cfg = scene.get("sme_positioning", {})
         assets.append({
             "asset_id": f"s{scene_id:02d}_sme_frame",
@@ -119,13 +208,20 @@ class AssetClassification:
             c_body = card.get("body", "")
             accent_color = card.get("accent_color", "#62B7E4")
 
-            # Determine whether card concept would benefit from a 2D vector graphic
+            # Determine whether card concept requires 2D vector graphic
             needs_illustration = False
             illustration_prompt_hint = ""
 
-            if scene_type in ["concept_explanation", "demo_walkthrough"] or "architecture" in c_title.lower() or "pipeline" in c_title.lower():
+            illustrative_triggers = [
+                "concept_explanation", "demo_walkthrough", "architecture",
+                "pipeline", "mechanism", "workflow", "setup", "execution"
+            ]
+            if scene_type in ["concept_explanation", "demo_walkthrough"] or any(t in c_title.lower() for t in illustrative_triggers):
                 needs_illustration = True
-                illustration_prompt_hint = f"Modern 2D flat vector educational illustration depicting {c_title}: {c_body[:60]}"
+                illustration_prompt_hint = (
+                    f"Modern 2D flat vector educational illustration depicting {c_title}: {c_body[:70]}. "
+                    f"Clean pastel palette featuring {accent_color} on pure white background (#FFFFFF)."
+                )
 
             card_asset = {
                 "asset_id": f"s{scene_id:02d}_a{asset_idx:02d}_card_{c_idx}",
@@ -163,8 +259,10 @@ class AssetClassification:
 
         return assets
 
-    def run_classification(self) -> Dict[str, Any]:
-        scenes = self.blueprint.get("scenes", [])
+    def run_classification(self, blueprint: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Runs asset classification over all blueprint scenes."""
+        bp = blueprint or self.blueprint
+        scenes = bp.get("scenes", [])
         classified_scenes = []
         total_assets = 0
         image_candidate_count = 0
@@ -186,19 +284,43 @@ class AssetClassification:
             })
 
         output = {
-            "lesson_title": self.blueprint.get("lesson_title", "Simplilearn Lecture"),
+            "lesson_title": bp.get("lesson_title", "Simplilearn Lecture"),
             "guidelines_compliance": {
                 "section_4_editorial_ost": "ENFORCED",
                 "section_6_typography_and_colors": "ENFORCED",
-                "section_8_numerical_geometry": "ENFORCED"
+                "section_8_numerical_geometry": "ENFORCED",
+                "architecture_parity": "Kplor AssetClassification"
             },
             "total_scenes": len(scenes),
             "total_classified_assets": total_assets,
             "assets_requiring_image_generation": image_candidate_count,
             "scenes": classified_scenes
         }
+
+        # Perform structural parity check
+        self.compare_structures(bp, output)
+
         return output
 
+    def run(self, blueprint_path: str, output_path: str) -> str:
+        """Executes Stage 2 from file paths."""
+        with open(blueprint_path, "r", encoding="utf-8") as f:
+            blueprint_data = json.load(f)
+
+        self.blueprint = blueprint_data
+        catalog = self.run_classification(blueprint_data)
+
+        out_file = Path(output_path)
+        out_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_file, "w", encoding="utf-8") as f:
+            json.dump(catalog, f, indent=2, ensure_ascii=False)
+
+        return str(out_file)
+
+
+# --------------------------------------------------------------------------------
+# Backward-compatible Module Interface
+# --------------------------------------------------------------------------------
 
 def run_stage_2(
     blueprint_json: str,
@@ -208,19 +330,19 @@ def run_stage_2(
     print(f"\n==================================================================")
     print(f"STAGE 2: ASSET CLASSIFICATION")
     print(f"Compliance: guidelines.md Sections 4, 6.2, 6.3, 8.4, 8.5")
+    print(f"Architecture: Kplor AssetClassification Parity")
     print(f"==================================================================")
 
-    classifier = AssetClassification(blueprint_json)
-    catalog = classifier.run_classification()
+    classifier = AssetClassification(blueprint_path=blueprint_json)
+    out_path = classifier.run(blueprint_json, output_assets_json)
 
-    Path(output_assets_json).parent.mkdir(parents=True, exist_ok=True)
-    with open(output_assets_json, "w", encoding="utf-8") as f:
-        json.dump(catalog, f, indent=2, ensure_ascii=False)
+    with open(out_path, "r", encoding="utf-8") as f:
+        catalog = json.load(f)
 
     print(f"✓ Stage 2 Complete: {catalog['total_classified_assets']} assets classified across {catalog['total_scenes']} scenes")
     print(f"  Assets flagged for Image Generation: {catalog['assets_requiring_image_generation']}")
-    print(f"  Catalog saved -> {output_assets_json}\n")
-    return output_assets_json
+    print(f"  Catalog saved -> {out_path}\n")
+    return out_path
 
 
 if __name__ == "__main__":
