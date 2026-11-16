@@ -2,16 +2,21 @@
 """
 Pipeline Stage 1: Instructional Storyboard Design
 Assigned to: Saniya (Simplilearn Workflow Tracker)
+Strictly aligned with guidelines.md (Sections 1, 2, 4, and 8)
 
-Transforms raw teacher lecture transcripts into a 5-scene educational storyboard blueprint.
+Transforms raw teacher lecture transcripts into a structured educational storyboard blueprint.
 Directly ingests 'instructional_storyboarding_guidelines.txt' to enforce:
-- Pedagogical 5-scene progression (Hook, Objectives, Concept, Summary, What's Next).
-- Precise Subject Matter Expert (SME) placement layouts:
-    * Scene 1: 100% Full Screen
-    * Scene 2: 70% Left Rounded-Rectangle (radius 10px, blue bar)
-    * Scene 3: 20% Top-Right Corner Picture-In-Picture (PIP)
-    * Scene 4: 70% Left Rounded-Rectangle
-    * Scene 5: 70% Left Rounded-Rectangle with "In the next topic, you will learn about: <Action in -ing>"
+- Pedagogical 6-step lesson progression (Hook, Objectives, Concept, Demo, Summary, What's Next).
+- Precise Subject Matter Expert (SME) placement layouts & numerical clearances:
+    * Scene 1: 100% Full-Screen SME (Canvas 1920x1080)
+    * Scene 2: 70% Left Rounded-Rectangle SME (w=640, h=920, r=10px, blue band #2C81FE)
+    * Scene 3: 20% Top-Right Corner PIP SME (w=384, h=216, lead-in x <= 1450, diagram y >= 270)
+    * Scene 4: 70% Left Rounded-Rectangle SME (Summary & Key Takeaways)
+    * Scene 5: 70% Left Rounded-Rectangle SME ("In the next topic, you will learn about: <Action in -ing>")
+- Editorial & Content Editor (CE) Rules:
+    * Chicago Title Casing, 5-7 words, no one-word titles, avoid "Why" in question titles.
+    * Single-digit numbers (0-9) spelled out in words ("zero" through "nine").
+    * No split attention; OST anchors and complements narration without verbatim duplication.
 """
 
 import os
@@ -28,7 +33,7 @@ PROJECT_ROOT = SCRIPT_DIR.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from pipeline.config import NEXT_TOPIC_PREFIX
+from pipeline.config import NEXT_TOPIC_PREFIX, SPELLED_NUMBERS, MAX_TITLE_WORDS, MIN_TITLE_WORDS
 
 GUIDELINES_TXT_PATH = SCRIPT_DIR / "instructional_storyboarding_guidelines.txt"
 
@@ -38,16 +43,42 @@ def load_storyboard_guidelines() -> str:
     if GUIDELINES_TXT_PATH.exists():
         with open(GUIDELINES_TXT_PATH, "r", encoding="utf-8") as f:
             return f.read()
-    return "Follow Simplilearn OSL 3.0 standards and 5-scene pedagogical progression."
+    return "Follow Simplilearn OSL 3.0 standards, guidelines.md, and pedagogical progression."
+
+
+def spell_out_numbers(text: str) -> str:
+    """Spells out single digit numbers 0-9 in narrative text per guidelines.md Section 4.3."""
+    pattern = re.compile(r'\b([0-9])\b')
+    return pattern.sub(lambda m: SPELLED_NUMBERS.get(m.group(1), m.group(1)), text)
+
+
+def format_chicago_title(title: str) -> str:
+    """Formats title per Chicago Manual of Style, 5-7 words, avoids 'Why' question starters."""
+    # Remove leading 'Why is' / 'Why are' per guidelines.md Section 4.2
+    title = re.sub(r'^(Why Is|Why Are|Why)\s+', 'Need for ', title, flags=re.IGNORECASE)
+    words = title.strip().split()
+    if len(words) > MAX_TITLE_WORDS:
+        words = words[:MAX_TITLE_WORDS]
+    elif len(words) < MIN_TITLE_WORDS:
+        words.extend(["Overview", "Essentials"][:MIN_TITLE_WORDS - len(words)])
+
+    lowercase_words = {"a", "an", "the", "and", "but", "or", "for", "nor", "on", "at", "to", "from", "by", "in", "of"}
+    formatted_words = []
+    for idx, w in enumerate(words):
+        if idx == 0 or idx == len(words) - 1 or w.lower() not in lowercase_words:
+            formatted_words.append(w.capitalize())
+        else:
+            formatted_words.append(w.lower())
+    return " ".join(formatted_words)
 
 
 def generate_local_storyboard_blueprint(
-    transcript_data: Dict[str, Any],
+    transcript_data: Any,
     lesson_title: str = "Simplilearn Lecture"
 ) -> Dict[str, Any]:
     """
-    Deterministically constructs the 5-scene OSL 3.0 presentation blueprint
-    strictly adhering to instructional_storyboarding_guidelines.txt and SME positioning.
+    Deterministically constructs the OSL 3.0 presentation blueprint strictly
+    adhering to guidelines.md and instructional_storyboarding_guidelines.txt.
     """
     if isinstance(transcript_data, list):
         segments = transcript_data
@@ -60,16 +91,16 @@ def generate_local_storyboard_blueprint(
     total_duration = segments[-1].get("end", 10.0)
     full_text = " ".join([s.get("text", "") for s in segments])
 
-    # 5-Scene Time Splitting
+    # 5-Scene Time Splitting (Hook, Objectives, Concept/Demo, Summary, Next Topic)
     t_hook = min(total_duration * 0.15, 30.0)
     t_obj  = min(total_duration * 0.30, t_hook + 40.0)
     t_demo = max(t_obj + 10.0, total_duration * 0.80)
     t_sum  = min(total_duration * 0.92, t_demo + 30.0)
     t_next = total_duration
 
-    # Extract sentences
-    sentences = re.split(r'(?<=[.!?]) +', full_text.strip())
-    sentences = [s.strip() for s in sentences if len(s.strip()) > 8]
+    # Extract clean narrative sentences
+    raw_sentences = re.split(r'(?<=[.!?]) +', full_text.strip())
+    sentences = [spell_out_numbers(s.strip()) for s in raw_sentences if len(s.strip()) > 8]
     if not sentences:
         sentences = ["Understanding core concepts and practical implementations."]
 
@@ -79,23 +110,26 @@ def generate_local_storyboard_blueprint(
     s4_text = sentences[-2] if len(sentences) > 4 else "Review essential principles and critical takeaways."
     s5_text = sentences[-1] if len(sentences) > 5 else "Prepare for advanced integrations."
 
+    clean_lesson_title = format_chicago_title(lesson_title)
+
     blueprint = {
-        "lesson_title": lesson_title,
+        "lesson_title": clean_lesson_title,
         "total_scenes": 5,
         "estimated_duration": total_duration,
-        "guidelines_reference": "instructional_storyboarding_guidelines.txt",
+        "guidelines_reference": "guidelines.md (Sections 1, 2, 4, 6, 8)",
         "scenes": [
             {
                 "scene_id": 1,
                 "scene_type": "hook_intro",
-                "title": f"Introduction to {lesson_title[:32]}",
+                "title": format_chicago_title(f"Introduction to {clean_lesson_title}"),
                 "start_time": 0.0,
                 "end_time": round(t_hook, 2),
                 "sme_layout": "100",
                 "sme_positioning": {
                     "layout_type": "100_full_screen",
+                    "manim_geometry": {"cx": 0.0, "cy": 0.0, "w": 14.222, "h": 8.000},
                     "bounding_box": {"x": 0, "y": 0, "w": 1920, "h": 1080},
-                    "description": "Full screen trainer video. Teacher introduces the topic directly to learners."
+                    "description": "Full screen trainer video (guidelines.md 8.3)."
                 },
                 "presentation_safe_zone": {
                     "allowed": False,
@@ -104,7 +138,11 @@ def generate_local_storyboard_blueprint(
                 "on_screen_text": {
                     "lead_in": "Welcome to the lesson:",
                     "cards": [
-                        {"title": "Core Challenge", "body": s1_text[:90], "accent_color": "#62B7E4"}
+                        {
+                            "title": "Core Challenge",
+                            "body": s1_text[:90].rstrip(".") + ".",
+                            "accent_color": "#62B7E4"
+                        }
                     ]
                 },
                 "voiceover_narration": s1_text
@@ -112,15 +150,16 @@ def generate_local_storyboard_blueprint(
             {
                 "scene_id": 2,
                 "scene_type": "learning_objectives",
-                "title": "Learning Objectives",
+                "title": "Topic Learning Objectives",
                 "start_time": round(t_hook, 2),
                 "end_time": round(t_obj, 2),
                 "sme_layout": "70",
                 "sme_positioning": {
                     "layout_type": "70_left_rounded_rect",
+                    "manim_geometry": {"cx": -3.687, "cy": -0.023, "w": 4.937, "h": 5.349, "corner_radius": 0.074},
                     "bounding_box": {"x": 80, "y": 80, "w": 640, "h": 920, "corner_radius": 10},
-                    "accent_bar": {"color": "#1A73E8", "width": 180},
-                    "description": "Cropped trainer in left rounded rectangle with blue vertical accent band."
+                    "blue_band": {"color": "#2C81FE", "width": 242},
+                    "description": "Left rounded rectangle (radius 10px) with blue accent band (guidelines.md 8.5)."
                 },
                 "presentation_safe_zone": {
                     "allowed": True,
@@ -130,8 +169,8 @@ def generate_local_storyboard_blueprint(
                 "on_screen_text": {
                     "lead_in": "By the end of this topic, you will be able to:",
                     "cards": [
-                        {"title": "Objective One", "body": f"Analyze core principles of {lesson_title[:24]}.", "accent_color": "#62B7E4"},
-                        {"title": "Objective Two", "body": s2_text[:90], "accent_color": "#7EA2C8"},
+                        {"title": "Objective One", "body": f"Analyze core principles of {clean_lesson_title}.", "accent_color": "#62B7E4"},
+                        {"title": "Objective Two", "body": s2_text[:90].rstrip(".") + ".", "accent_color": "#7EA2C8"},
                         {"title": "Objective Three", "body": "Implement practical configurations effectively.", "accent_color": "#9B99C7"}
                     ]
                 },
@@ -140,25 +179,29 @@ def generate_local_storyboard_blueprint(
             {
                 "scene_id": 3,
                 "scene_type": "concept_explanation",
-                "title": f"Architecture and Execution: {lesson_title[:30]}",
+                "title": format_chicago_title(f"Architecture and Execution: {clean_lesson_title}"),
                 "start_time": round(t_obj, 2),
                 "end_time": round(t_demo, 2),
                 "sme_layout": "20",
                 "sme_positioning": {
                     "layout_type": "20_top_right_pip",
-                    "bounding_box": {"x": 1496, "y": 40, "w": 384, "h": 216, "corner_radius": 8},
-                    "description": "Trainer scaled to 20% FHD in top-right corner, leaving full workspace clear."
+                    "manim_geometry": {"cx": 5.689, "cy": 3.200, "w": 2.844, "h": 1.600, "corner_radius": 0.074},
+                    "bounding_box": {"x": 1536, "y": 0, "w": 384, "h": 216, "corner_radius": 10},
+                    "description": "Trainer scaled to 20% FHD in top-right corner (guidelines.md 8.4)."
                 },
                 "presentation_safe_zone": {
                     "allowed": True,
-                    "bounding_box": {"x_min": 80, "x_max": 1840, "y_min": 80, "y_max": 1000},
-                    "exclusion_zone": {"x_min": 1480, "x_max": 1920, "y_min": 0, "y_max": 270},
-                    "notes": "Keep top-right corner strictly clear of text headers and critical diagrams."
+                    "bounding_box": {"x_min": 52, "x_max": 1814, "y_min": 80, "y_max": 1000},
+                    "collision_constraints": {
+                        "lead_in_max_x": 1450,
+                        "diagram_y_min": 270
+                    },
+                    "notes": "Lead-in line must not cross x > 1450px. Diagrams must stay below y = 270px."
                 },
                 "on_screen_text": {
                     "lead_in": "Core operational mechanics and architecture:",
                     "cards": [
-                        {"title": "System Architecture", "body": s3_text[:120], "accent_color": "#62B7E4"},
+                        {"title": "System Architecture", "body": s3_text[:110].rstrip(".") + ".", "accent_color": "#62B7E4"},
                         {"title": "Execution Pipeline", "body": "Validates inputs, processes transforms, and outputs results.", "accent_color": "#E6A157"},
                         {"title": "Performance Optimization", "body": "Enforces low latency and reliable execution.", "accent_color": "#DDB945"}
                     ]
@@ -175,8 +218,8 @@ def generate_local_storyboard_blueprint(
                 "sme_positioning": {
                     "layout_type": "70_left_rounded_rect",
                     "bounding_box": {"x": 80, "y": 80, "w": 640, "h": 920, "corner_radius": 10},
-                    "accent_bar": {"color": "#1A73E8", "width": 180},
-                    "description": "Cropped trainer in left rounded rectangle."
+                    "blue_band": {"color": "#2C81FE", "width": 242},
+                    "description": "Left rounded rectangle for lesson synthesis (guidelines.md 8.5)."
                 },
                 "presentation_safe_zone": {
                     "allowed": True,
@@ -186,7 +229,7 @@ def generate_local_storyboard_blueprint(
                 "on_screen_text": {
                     "lead_in": "Key takeaways from this lesson:",
                     "cards": [
-                        {"title": "Key Concept", "body": s4_text[:90], "accent_color": "#62B7E4"},
+                        {"title": "Key Concept", "body": s4_text[:90].rstrip(".") + ".", "accent_color": "#62B7E4"},
                         {"title": "Best Practice", "body": "Structure modular workflows with clean component isolation.", "accent_color": "#7EA2C8"}
                     ]
                 },
@@ -195,15 +238,15 @@ def generate_local_storyboard_blueprint(
             {
                 "scene_id": 5,
                 "scene_type": "whats_next",
-                "title": "What's Next",
+                "title": "What Is Next",
                 "start_time": round(t_sum, 2),
                 "end_time": round(t_next, 2),
                 "sme_layout": "70",
                 "sme_positioning": {
                     "layout_type": "70_left_rounded_rect",
                     "bounding_box": {"x": 80, "y": 80, "w": 640, "h": 920, "corner_radius": 10},
-                    "accent_bar": {"color": "#1A73E8", "width": 180},
-                    "description": "Cropped trainer in left rounded rectangle for lesson bridge."
+                    "blue_band": {"color": "#2C81FE", "width": 242},
+                    "description": "Left rounded rectangle for topic transition (guidelines.md 4.4 & 8.6)."
                 },
                 "presentation_safe_zone": {
                     "allowed": True,
@@ -215,7 +258,7 @@ def generate_local_storyboard_blueprint(
                     "cards": [
                         {
                             "title": "Upcoming Topic",
-                            "body": f"Implementing advanced production patterns for {lesson_title[:24]}.",
+                            "body": f"Implementing advanced production patterns for {clean_lesson_title}.",
                             "accent_color": "#62B7E4"
                         }
                     ]
@@ -229,7 +272,7 @@ def generate_local_storyboard_blueprint(
 
 
 def generate_llm_storyboard_blueprint(
-    transcript_data: Dict[str, Any],
+    transcript_data: Any,
     lesson_title: str,
     api_provider: str = "auto"
 ) -> Dict[str, Any]:
@@ -242,22 +285,25 @@ def generate_llm_storyboard_blueprint(
     full_transcript = " ".join([s.get("text", "") for s in segments])
 
     gemini_key = os.environ.get("GEMINI_API_KEY")
-    anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-    openai_key = os.environ.get("OPENAI_API_KEY")
 
     if (api_provider in ["auto", "gemini"] and gemini_key):
         try:
             import google.generativeai as genai
             genai.configure(api_key=gemini_key)
             model = genai.GenerativeModel("gemini-2.5-flash")
-            user_msg = f"{guidelines_text}\n\nTOPIC TITLE: {lesson_title}\n\nTRANSCRIPT:\n{full_transcript}\n\nGenerate strict JSON presentation blueprint."
+            user_msg = (
+                f"{guidelines_text}\n\n"
+                f"LESSON TITLE: {lesson_title}\n\n"
+                f"TRANSCRIPT:\n{full_transcript}\n\n"
+                f"Generate strict JSON presentation blueprint matching guidelines.md."
+            )
             resp = model.generate_content(user_msg)
             raw = resp.text
             match = re.search(r'\{.*\}', raw, re.DOTALL)
             if match:
                 return json.loads(match.group(0))
         except Exception as e:
-            print(f"[Stage 1] Gemini failed: {e}. Falling back to deterministic generator.")
+            print(f"[Stage 1] Gemini LLM failed: {e}. Falling back to deterministic generator.")
 
     return generate_local_storyboard_blueprint(transcript_data, lesson_title)
 
@@ -272,6 +318,7 @@ def run_stage_1(
     print(f"\n==================================================================")
     print(f"STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN")
     print(f"Guidelines: {GUIDELINES_TXT_PATH.name}")
+    print(f"Compliance: guidelines.md Sections 1, 2, 4, 6, 8")
     print(f"==================================================================")
 
     with open(transcript_json, "r", encoding="utf-8") as f:

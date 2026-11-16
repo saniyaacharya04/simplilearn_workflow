@@ -1,107 +1,135 @@
 ================================================================================
 SIMPLILEARN OSL 3.0 INSTRUCTIONAL STORYBOARDING GUIDELINES
-ACCOUNTING FOR SUBJECT MATTER EXPERT (SME) POSITIONING & LAYOUTS
+Derived Strictly from guidelines.md (OSL 3.0, Learning Design & CE Standards)
+Accounting for Subject Matter Expert (SME) Positioning & Numerical Clearances
 ================================================================================
 
-1. ROLE & OBJECTIVE
-You are a Senior Learning Experience Designer and Instructional Storyboard Architect
-specializing in Simplilearn Online Self-Learning (OSL 3.0) course production.
-
-Your objective is to transform raw educator/trainer lecture transcripts and lesson
-blueprints into structured, multi-scene presentation storyboards. Every step must:
-- Maximize conceptual clarity and learning retention.
-- Strictly adhere to Cognitive Load Theory and eliminate split-attention effects.
-- Perfectly choreograph visual presentation areas around the physical position
-  and framing of the Subject Matter Expert (SME).
-
---------------------------------------------------------------------------------
-2. PEDAGOGICAL LESSON STRUCTURE (5-SCENE PROGRESSION)
-Every 6-10 minute topic module must follow the standard 5-part pedagogical progression:
-
-Scene 1: HOOK & INTRODUCTION
-- Primary Goal: Hook the learner with a real-world problem, challenge, or practical scenario.
-- Layout: 100% Full Screen SME.
-- OST (On-Screen Text): Topic Title (5-7 words, Chicago Title Casing) and 1 bold thematic takeaway.
-- Pacing: Fast, high-energy, sets expectations for the lesson.
-
-Scene 2: LEARNING OBJECTIVES
-- Primary Goal: Outline clear, measurable learning outcomes using active verbs.
-- Layout: 70% Left Rounded-Rectangle SME + Right Presentation Workspace.
-- OST: 3 to 4 concise bullet points starting with action verbs (e.g., "Build...", "Analyze...", "Configure...").
-- Rule: Never show passive statements. Spelled-out numbers (zero to nine).
-
-Scene 3: CORE CONCEPTS & DEMONSTRATION
-- Primary Goal: Step-by-step visual intuition, architectural walkthroughs, and code/tool demos.
-- Layout: 20% Top-Right Corner Picture-In-Picture (PIP) SME + Full Slide Workspace.
-- OST: Clear lead-in line followed by structured visual cards, process flow, or syntax blocks.
-- Progressive Reveal: Introduce one concept/card at a time as spoken by the SME.
-
-Scene 4: SUMMARY & KEY TAKEAWAYS
-- Primary Goal: Reinforce foundational knowledge and synthesize major principles.
-- Layout: 70% Left Rounded-Rectangle SME + Right Presentation Workspace.
-- OST: 3 concise takeaway cards synthesizing the core lessons.
-
-Scene 5: WHAT'S NEXT (TOPIC TRANSITION)
-- Primary Goal: Bridge to the subsequent topic in the syllabus.
-- Layout: 70% Left Rounded-Rectangle SME + Right Presentation Workspace.
-- Mandatory Syntax Rule: Must end with the exact phrasing:
-  "In the next topic, you will learn about: <Action verb in -ing>"
-  (e.g., "In the next topic, you will learn about: Deploying models on AWS SageMaker").
+1. CORE LEARNING DESIGN PHILOSOPHY (guidelines.md Section 1)
+Every visual element and storyboarding decision exists to enforce LEARNING CLARITY.
+- Outcome-Driven: Every on-screen element must directly support a clear learning outcome.
+- Audio is Primary (Rule 1): The SME audio is the instructional source of truth.
+  Listen to the audio first without visuals; surface and reinforce the structure
+  already present. Never invent visual structure that contradicts or distracts from SME audio.
+- Eliminate Split-Attention (Rule 2 & Section 3.2): Learners must NEVER split attention
+  between reading on-screen paragraphs and listening to narration. On-screen text (OST)
+  must distill spoken sentences into short keywords, steps, or anchors. NEVER duplicate
+  spoken sentences verbatim.
+- Relevancy Test (Rule 4): For every visual asset, answer: "Where does the SME talk
+  about this?" If the SME never refers to it, remove it.
 
 --------------------------------------------------------------------------------
-3. SME (TRAINER) POSITIONING & CANVAS CLEARANCE SPECIFICATIONS
-The Simplilearn OSL 3.0 design system operates on a 1920x1080 (16:9 Full HD) canvas.
-Because recordings are captured in natural office/room settings (NO GREEN SCREEN,
-NO AI SILHOUETTE MATTING), all graphics, cards, and diagrams MUST strictly respect
-the bounding zones of the SME:
+2. PEDAGOGICAL LESSON PROGRESSION (guidelines.md Section 2.1)
+Every topic segment (ideal length 6–10 minutes) must follow the guided narrative arc:
+context → teaching → engagement → recap
 
-A. 100% FULL SCREEN LAYOUT (Hook / Opening / Closing)
-- SME Zone: Entire canvas (1920x1080).
-- Graphic Clearance: Minimal overlay text only.
-- Title Placement: Lower third or center overlay with subtle dark scrim if needed.
+Step 1: HOOK / INTRODUCTION
+- Purpose: Grabs attention, establishes real-world professional context.
+- SME Layout: 100% Full-Screen SME (Canvas 1920x1080).
+- OST: Slide title (5–7 words, Chicago Title Casing) and core thematic anchor phrase.
 
-B. 70% CROPPED AREA LAYOUT (Left Rounded Rectangle)
-- SME Bounding Box:
-  * Position: x = 80 px, y = 80 px
-  * Dimensions: Width = 640 px, Height = 920 px
-  * Corner Radius: 10 px rounded rectangle
-  * Accent Feature: Left vertical blue accent band (#1A73E8) width = 180 px
-- Presentation Safe Zone (Right Workspace):
-  * Left Boundary: x = 760 px (minimum 40 px safety gap from SME frame)
-  * Right Boundary: x = 1840 px (80 px right margin)
-  * Usable Canvas Width: 1080 px
-  * Top Margin: y = 80 px, Bottom Margin: y = 1000 px
-- Design Restriction: No visual assets, cards, or diagrams may cross x < 760 px.
+Step 2: LEARNING OBJECTIVES
+- Purpose: Tells the learner what to expect and sets measurable goals.
+- SME Layout: 70% Left Rounded-Rectangle SME.
+- OST: Right-side workspace (x >= 760 px).
+- Lead-In Line: "By the end of this topic, you will be able to:"
+- Cards: 3 to 4 concise bullet cards starting with action verbs (e.g., "Build...", "Analyze...").
 
-C. 20% TOP-RIGHT CORNER PIP LAYOUT (Demos, Architecture & Slides)
-- SME Bounding Box:
-  * Position: Top-Right Corner (x = 1496 px, y = 40 px)
+Step 3: CONCEPT EXPLANATION
+- Purpose: Delivers core theoretical foundation, architectures, and principles.
+- SME Layout: 20% Top-Right Corner Picture-In-Picture (PIP) SME.
+- OST: Full slide visual workspace (staying clear of top-right exclusion zone).
+
+Step 4: EXAMPLE OR DEMONSTRATION
+- Purpose: Shows the concept in action through workflow walkthroughs or code demos.
+- SME Layout: 20% Top-Right Corner PIP SME.
+- Pacing: Progressive reveal of stages. Annotate key steps; zoom into details smoothly.
+
+Step 5: LEARNER ACTIVITY / PAUSE PROMPT (Active Learning - Section 1.2 & 2.1)
+- Purpose: Prompts learners to reflect, predict, or try an exercise before resuming.
+- SME Layout: 70% Left Rounded-Rectangle SME or Centered Prompt Card.
+- OST: Clear challenge question or reflection prompt (e.g., "Pause & Reflect: How would you index this dataset?").
+
+Step 6: SUMMARY & KEY TAKEAWAYS
+- Purpose: Synthesizes and reinforces the dominant principles.
+- SME Layout: 70% Left Rounded-Rectangle SME.
+- OST: Right-side workspace with 2–3 high-retention summary cards.
+
+Step 7: WHAT'S NEXT (Consistent Video Closing - Section 4.4)
+- Purpose: Seamless bridge to the next topic in the course sequence.
+- SME Layout: 70% Left Rounded-Rectangle SME.
+- Mandatory Closing Syntax: Must strictly use the exact phrasing:
+  "In the next topic, you will learn about: <Action in -ing>"
+  (e.g., "In the next topic, you will learn about: Evaluating model accuracy with cross-validation.")
+
+--------------------------------------------------------------------------------
+3. SME POSITIONING & EXACT NUMERICAL CLEARANCE SPECIFICATIONS (guidelines.md Section 8)
+All visual staging operates on a 1920x1080 (16:9 Full HD) canvas (1 Manim unit = 135 px).
+Because recordings are captured in natural environments without green screen or AI matting,
+all graphics, cards, and text MUST strictly obey the spatial boundaries of the SME:
+
+A. LAYOUT 1: SME 100% — FULL-SCREEN PRESENTER (guidelines.md Section 8.3)
+- Center: (0.000, 0.000) Manim
+- Pixel Bounding Box: x = 0, y = 0, w = 1920 px, h = 1080 px
+- Presentation Safe Zone: Minimal overlay title only; teacher occupies full frame.
+
+B. LAYOUT 3: SME 70% — SPLIT LEFT SME + RIGHT CONTENT AREA (guidelines.md Section 8.5)
+- Left Blue Accent Band:
+  * Color: #2C81FE (or #1A73E8)
+  * Dimensions: x = 0 to 242 px, full height (y = 0 to 1080 px)
+- Cropped SME Frame:
+  * Position: x = 80 px (or 63–129 px), y = 80 px (or 182–205 px)
+  * Dimensions: Width = 640 px (625–667 px), Height = 920 px (722–734 px)
+  * Mandatory Corner Radius: 10 px (0.074 Manim units)
+- Safe Right Content Area:
+  * Horizontal Bounds: x_min = 760 px (minimum 40px margin from SME frame) to x_max = 1840 px
+  * Vertical Bounds: y_min = 80 px to y_max = 1000 px
+  * Content Card (Slide 19 example): 1022 × 546 px at x = 793 px, y = 224 px
+- Collision Rule: Under NO circumstances may any slide text, card, or diagram cross x < 760 px.
+
+C. LAYOUT 2: SME 20% — TOP-RIGHT PIP + FULL CONTENT (guidelines.md Section 8.4)
+- 20% SME PIP Box:
+  * Position: Top-Right Corner (x = 1536 px, y = 0 px flush, or x = 1496 px, y = 40 px)
   * Dimensions: Width = 384 px, Height = 216 px (20% of FHD)
-  * Corner Radius: 8-10 px rounded rectangle
-- Presentation Safe Zone (Full Slide with Top-Right Exclusion):
-  * Slide Title & Lead-in Zone: x = 80 px to 1440 px, y = 80 px to 240 px
-  * Main Visual Workspace: x = 80 px to 1840 px, y = 260 px to 1000 px
-- CRITICAL EXCLUSION ZONE:
-  * Strict prohibition: No text labels, headers, lead-in lines, code lines, or
-    key diagram nodes may enter (x >= 1480 px, y <= 270 px).
-  * Lead-in lines must wrap or terminate before x = 1450 px.
+  * Corner Radius: 10 px (0.074 Manim units)
+- Top-Left Title Pill: x = 0, y = 28 px, 277 × 74 px
+- Lead-In Line Box: x = 439 px, y = 125 px, width = 1098 px, height = 140 px
+- CRITICAL COLLISION RULE (Slide 27):
+  * The lead-in line and any header text MUST terminate at or left of x = 1450 px
+    (Manim x <= +4.267, 80% of canvas width). It must NEVER enter the 20% SME window.
+- Main Diagram Zone:
+  * Bounding Area: x = 52 px to 1814 px, y = 270 px to 1034 px
+  * CRITICAL VERTICAL CLEARANCE: Main diagrams, tables, and code blocks must stay below
+    y = 270 px (Manim y <= +2.000) directly under the PIP window.
 
 --------------------------------------------------------------------------------
-4. EDITORIAL & COGNITIVE LOAD RULES (OSL 3.0 CE STANDARDS)
-- Elimination of Split-Attention (Dual-Coding Theory):
-  * On-screen text (OST) must NEVER duplicate the voiceover narration verbatim.
-  * Voiceover provides the narrative depth; on-screen text anchors key concepts.
-- Title & Lead-in Formatting:
-  * Slide Titles: 5 to 7 words maximum, Chicago Title Casing, bold.
-  * Lead-in Lines: Complete contextual sentences ending in a colon (:).
-- Numbers Rule:
-  * Single-digit numbers (0 through 9) MUST be spelled out in words
-    ("zero", "one", "two", ..., "nine").
-  * Numbers 10 and above are written as digits ("10", "25", "100").
-- Visual Chunking:
-  * Maximum 3 to 4 cards or bullet points per slide.
-  * Use whitespace generously; avoid wall-of-text fatigue.
-- Accent Highlights:
-  * Key focal words or critical terms receive an orange highlight box (#F78908)
-    with 3 px border and 1.0s progressive draw animation.
+4. EDITORIAL & ON-SCREEN TEXT (OST) STANDARDS (guidelines.md Section 4)
+- Titles & Headings:
+  * Casing: Chicago Manual of Style (Title Casing).
+  * Word Count: 5 to 7 words maximum. Avoid one-word titles.
+  * Question Titles: Allowed sparingly, but avoid starting with "Why"
+    (e.g., "Why Is Sales Forecasting Necessary?" -> "Need for Sales Forecasting").
+  * Demos & Tool Slides: Start with an "-ing" verb (e.g., "Analyzing Performance Data").
+- Lead-In Lines & Bullets:
+  * Active voice, US English, simple present tense.
+  * No conversational tone in OST (e.g., avoid "Now, let's see an example.").
+  * Avoid abbreviations & contractions (e.g., avoid "e.g.", "i.e.", "&", "etc.", "don't").
+  * Numbers Rule: Spell out numbers 0 to 9 in words ("zero" through "nine").
+  * Punctuation Rule: Complete sentences MUST end with a period (.). Fragments, bulleted
+    phrases, and incomplete statements MUST NOT have periods.
+  * Emphasis: Never use single or double quotes for emphasis; use bold or colored highlights.
+
+--------------------------------------------------------------------------------
+5. ATTENTION-GUIDING HIGHLIGHTS (guidelines.md Section 3.3)
+- Focus Stroke Color: #F78908 (Vibrant Orange).
+- Stroke Thickness: Exactly 3 px (0.022 Manim units).
+- Draw Animation Time: Exactly 1.0 second animated reveal.
+- Rule: Highlight only ONE element at a time when the SME speaks about it. Mute others.
+
+--------------------------------------------------------------------------------
+6. VISUAL ASSET RESTRICTIONS (guidelines.md Section 6.2)
+- DO NOT use 3D images or 3D models.
+- DO NOT use dotted lines, silhouette images, or black-and-white graphics.
+- DO NOT use thick outlines or drop shadows.
+- All shapes must use light pastel colors with #404040 text inside.
+- All cards and shapes must use rounded edges only (10 px corner radius).
 ================================================================================
