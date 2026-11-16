@@ -8,15 +8,18 @@ Strictly aligned with guidelines.md (Sections 1, 2, 4, and 8)
 Incorporates architectural patterns from Kplor InstructionalDesign
 
 Transforms raw teacher lecture transcripts into a structured educational
-presentation storyboard blueprint. Directly ingests 'instructional_storyboarding_guidelines.txt'
-to enforce:
-- Pedagogical 6-step lesson progression:
-    1. Hook / Introduction (100% Full-Screen SME, Canvas 1920x1080)
-    2. Learning Objectives (70% Left Rounded-Rectangle SME, w=640, h=920, r=10px, blue band #2C81FE)
-    3. Concept Explanation (20% Top-Right Corner PIP SME, w=384, h=216, lead-in x <= 1450, diagram y >= 270)
-    4. Demonstration or Worked Example (20% Top-Right Corner PIP SME)
-    5. Summary & Key Takeaways (70% Left Rounded-Rectangle SME)
-    6. What's Next ("In the next topic, you will learn about: <Action in -ing>")
+presentation storyboard blueprint with DYNAMIC SME FRAMING.
+Directly ingests 'instructional_storyboarding_guidelines.txt' to enforce:
+- Dynamic SME Framing Selection Matrix (guidelines.md Section 8 & OSL 3.0 Slide 16):
+    * Layout 1: 100% Full-Screen SME (Canvas 1920x1080) for opening hooks, direct address, and sign-offs.
+    * Layout 3: 70% Left Rounded-Rectangle SME (w=640, h=920, r=10px, blue band #2C81FE) for
+      objectives, chunked cards (2-3 items), summary takeaways, and "What's Next" teasers.
+    * Layout 2: 20% Top-Right Corner PIP SME (w=384, h=216, r=10px) for wide architecture diagrams,
+      multi-tier pipelines, code snippets, and demonstration workflows (lead-in x <= 1450, diagram y >= 270).
+- Dynamic In-Scene Transitions & Movement (Slide 6 & Slide 12):
+    * Blue band slide-out to the left when transitioning to 20% PIP.
+    * 0.8s broadcast L-to-R swipe transition overlay (play_ltor_swipe) across cut points.
+- Pedagogical 6-step lesson progression (Hook, Objectives, Concept, Demo, Summary, What's Next).
 - Editorial & Content Editor (CE) Rules:
     * Chicago Title Casing, 5-7 words, no one-word titles, avoid "Why" in question titles.
     * Single-digit numbers (0-9) spelled out in words ("zero" through "nine").
@@ -116,7 +119,116 @@ def load_storyboard_guidelines() -> str:
     if GUIDELINES_TXT_PATH.exists():
         with open(GUIDELINES_TXT_PATH, "r", encoding="utf-8") as f:
             return f.read()
-    return "Follow Simplilearn OSL 3.0 standards, guidelines.md, and pedagogical progression."
+    return "Follow Simplilearn OSL 3.0 standards, guidelines.md, and pedagogical progression with dynamic SME framing."
+
+
+def resolve_dynamic_sme_framing(
+    scene_type: str,
+    content_text: str = "",
+    card_count: int = 1,
+    explicit_layout: Optional[str] = None
+) -> Dict[str, Any]:
+    """
+    Dynamically determines the optimal SME framing layout (100%, 70%, or 20%)
+    based on the pedagogical objective, content density, and screen real-estate demands
+    per guidelines.md Section 8 and instructional_storyboarding_guidelines.txt Section 3.
+    """
+    norm_text = content_text.lower()
+
+    if explicit_layout in ["100", "70", "20"]:
+        chosen_layout = explicit_layout
+        reason = f"Explicitly requested layout {explicit_layout}%"
+    else:
+        # 1. Check for High Visual Density -> 20% Top-Right PIP
+        wide_triggers = [
+            "architecture", "pipeline", "diagram", "schematic", "workflow", "system",
+            "code", "demo", "runtime", "flow", "execution", "components", "infrastructure",
+            "cycle", "loop", "table", "dataset", "framework", "step 1", "step 2"
+        ]
+        is_wide_or_demo = (
+            scene_type in ["demo_walkthrough", "concept_explanation"]
+            and (any(k in norm_text for k in wide_triggers) or card_count >= 3)
+        )
+
+        # 2. Check for Direct Speaker Address -> 100% Full-Screen
+        is_personal_address = (
+            scene_type in ["hook_intro", "personal_hook", "conversational_pause"]
+            and card_count <= 1
+            and not any(k in norm_text for k in ["diagram", "pipeline", "architecture", "code"])
+        )
+
+        # 3. Determine Layout
+        if is_personal_address:
+            chosen_layout = "100"
+            reason = "Direct speaker address / energetic opening hook; minimal on-screen graphics required."
+        elif is_wide_or_demo:
+            chosen_layout = "20"
+            reason = "High visual density (wide architecture / code / workflow); scaled SME to 20% PIP to allocate 1814px width."
+        else:
+            chosen_layout = "70"
+            reason = "Structured content delivery (cards / objectives / summary); balanced cropped SME on left with right-hand workspace."
+
+    # Return full geometry payload corresponding to the dynamically chosen layout
+    if chosen_layout == "100":
+        return {
+            "sme_layout": "100",
+            "dynamic_selection_reason": reason,
+            "sme_positioning": {
+                "layout_type": "100_full_screen",
+                "manim_geometry": {"cx": 0.0, "cy": 0.0, "w": 14.222, "h": 8.000},
+                "bounding_box": {"x": 0, "y": 0, "w": 1920, "h": 1080},
+                "corner_radius": 0,
+                "blue_band": None,
+                "description": "Full screen trainer video (guidelines.md 8.3)."
+            },
+            "presentation_safe_zone": {
+                "allowed": False,
+                "notes": "Minimal overlay text only; teacher occupies full canvas."
+            }
+        }
+    elif chosen_layout == "20":
+        return {
+            "sme_layout": "20",
+            "dynamic_selection_reason": reason,
+            "sme_positioning": {
+                "layout_type": "20_top_right_pip",
+                "manim_geometry": {"cx": 5.689, "cy": 3.200, "w": 2.844, "h": 1.600, "corner_radius": 0.074},
+                "bounding_box": {"x": 1536, "y": 0, "w": 384, "h": 216, "corner_radius": 10},
+                "corner_radius": 10,
+                "blue_band": None,
+                "description": "Trainer scaled to 20% FHD in top-right corner (guidelines.md 8.4)."
+            },
+            "presentation_safe_zone": {
+                "allowed": True,
+                "bounding_box": {"x_min": 52, "x_max": 1814, "y_min": 80, "y_max": 1000},
+                "collision_constraints": {
+                    "lead_in_max_x": 1450,
+                    "diagram_y_min": 270
+                },
+                "notes": "Lead-in line must terminate <= 1450px. Diagrams must stay below y = 270px."
+            }
+        }
+    else:  # "70"
+        return {
+            "sme_layout": "70",
+            "dynamic_selection_reason": reason,
+            "sme_positioning": {
+                "layout_type": "70_left_rounded_rect",
+                "manim_geometry": {"cx": -3.687, "cy": -0.023, "w": 4.937, "h": 5.349, "corner_radius": 0.074},
+                "bounding_box": {"x": 80, "y": 80, "w": 640, "h": 920, "corner_radius": 10},
+                "corner_radius": 10,
+                "blue_band": {"color": "#2C81FE", "width": 242},
+                "description": "Left rounded rectangle (radius 10px) with blue accent band (guidelines.md 8.5)."
+            },
+            "presentation_safe_zone": {
+                "allowed": True,
+                "bounding_box": {"x_min": 760, "x_max": 1840, "y_min": 80, "y_max": 1000},
+                "collision_constraints": {
+                    "content_min_x": 760
+                },
+                "notes": "Right side 1080px workspace for content cards."
+            }
+        }
 
 
 def parse_input_to_json(input_text: str) -> Dict[str, Any]:
@@ -124,19 +236,16 @@ def parse_input_to_json(input_text: str) -> Dict[str, Any]:
     Robust JSON parser for LLM responses.
     Handles markdown code blocks, JSON dictionaries, or structured scene text.
     """
-    # 1. Strip markdown fences if present
     cleaned = input_text.strip()
     fence_match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', cleaned, re.IGNORECASE)
     if fence_match:
         cleaned = fence_match.group(1).strip()
 
-    # 2. Try direct JSON parsing
     try:
         return json.loads(cleaned)
     except json.JSONDecodeError:
         pass
 
-    # 3. Try regex matching outer curly braces
     brace_match = re.search(r'\{[\s\S]*\}', cleaned)
     if brace_match:
         try:
@@ -144,7 +253,7 @@ def parse_input_to_json(input_text: str) -> Dict[str, Any]:
         except json.JSONDecodeError:
             pass
 
-    # 4. Text/markdown fallback parser for Scene blocks (Kplor style)
+    # Text/markdown fallback parser for Scene blocks (Kplor style)
     output: Dict[str, Any] = {"scenes": []}
     scene_blocks = re.split(r"(?im)^\s*#*\s*Scene\s+(\d+)\b", input_text)
     if len(scene_blocks) > 1:
@@ -174,7 +283,7 @@ class InstructionalDesign:
     """
     Stage 1: Instructional Storyboard Design.
     Translates raw transcripts into a structured, step-by-step educational
-    storyboard with verified narration lines, SME clearances, and visual directives.
+    storyboard with verified narration lines, DYNAMIC SME clearances, and visual directives.
     """
 
     def __init__(
@@ -202,7 +311,7 @@ class InstructionalDesign:
         """
         Deterministically constructs the OSL 3.0 presentation blueprint strictly
         adhering to guidelines.md and instructional_storyboarding_guidelines.txt.
-        Enforces 6-step pedagogical flow, exact SME geometries, and clean LaTeX speech.
+        Applies dynamic SME framing based on scene content, pedagogical intent, and cognitive load.
         """
         if isinstance(transcript_data, list):
             segments = transcript_data
@@ -242,11 +351,20 @@ class InstructionalDesign:
 
         clean_lesson_title = format_chicago_title(lesson_title)
 
+        # Dynamically resolve SME framing for each scene based on content and visual demands
+        s1_framing = resolve_dynamic_sme_framing("hook_intro", s1_text, card_count=1)
+        s2_framing = resolve_dynamic_sme_framing("learning_objectives", s2_text, card_count=3)
+        s3_framing = resolve_dynamic_sme_framing("concept_explanation", s3_text, card_count=3)
+        s4_framing = resolve_dynamic_sme_framing("demo_walkthrough", s4_text, card_count=3)
+        s5_framing = resolve_dynamic_sme_framing("summary_takeaways", s5_text, card_count=2)
+        s6_framing = resolve_dynamic_sme_framing("whats_next", s6_text, card_count=1)
+
         blueprint = {
             "lesson_title": clean_lesson_title,
             "total_scenes": 6,
             "estimated_duration": total_duration,
             "guidelines_reference": "guidelines.md (Sections 1, 2, 4, 6, 8) & instructional_storyboarding_guidelines.txt",
+            "dynamic_sme_framing_enabled": True,
             "scenes": [
                 {
                     "scene_id": 1,
@@ -254,17 +372,10 @@ class InstructionalDesign:
                     "title": format_chicago_title(f"Introduction to {clean_lesson_title}"),
                     "start_time": 0.0,
                     "end_time": round(t_hook, 2),
-                    "sme_layout": "100",
-                    "sme_positioning": {
-                        "layout_type": "100_full_screen",
-                        "manim_geometry": {"cx": 0.0, "cy": 0.0, "w": 14.222, "h": 8.000},
-                        "bounding_box": {"x": 0, "y": 0, "w": 1920, "h": 1080},
-                        "description": "Full screen trainer video (guidelines.md 8.3)."
-                    },
-                    "presentation_safe_zone": {
-                        "allowed": False,
-                        "notes": "Minimal overlay text only; teacher occupies full canvas."
-                    },
+                    "sme_layout": s1_framing["sme_layout"],
+                    "dynamic_selection_reason": s1_framing["dynamic_selection_reason"],
+                    "sme_positioning": s1_framing["sme_positioning"],
+                    "presentation_safe_zone": s1_framing["presentation_safe_zone"],
                     "on_screen_text": {
                         "lead_in": "Welcome to the lesson:",
                         "cards": [
@@ -283,19 +394,10 @@ class InstructionalDesign:
                     "title": "Topic Learning Objectives",
                     "start_time": round(t_hook, 2),
                     "end_time": round(t_obj, 2),
-                    "sme_layout": "70",
-                    "sme_positioning": {
-                        "layout_type": "70_left_rounded_rect",
-                        "manim_geometry": {"cx": -3.687, "cy": -0.023, "w": 4.937, "h": 5.349, "corner_radius": 0.074},
-                        "bounding_box": {"x": 80, "y": 80, "w": 640, "h": 920, "corner_radius": 10},
-                        "blue_band": {"color": "#2C81FE", "width": 242},
-                        "description": "Left rounded rectangle (radius 10px) with blue accent band (guidelines.md 8.5)."
-                    },
-                    "presentation_safe_zone": {
-                        "allowed": True,
-                        "bounding_box": {"x_min": 760, "x_max": 1840, "y_min": 80, "y_max": 1000},
-                        "notes": "Right side 1080px workspace for objectives cards."
-                    },
+                    "sme_layout": s2_framing["sme_layout"],
+                    "dynamic_selection_reason": s2_framing["dynamic_selection_reason"],
+                    "sme_positioning": s2_framing["sme_positioning"],
+                    "presentation_safe_zone": s2_framing["presentation_safe_zone"],
                     "on_screen_text": {
                         "lead_in": "By the end of this topic, you will be able to:",
                         "cards": [
@@ -312,22 +414,10 @@ class InstructionalDesign:
                     "title": format_chicago_title(f"Architecture and Execution: {clean_lesson_title}"),
                     "start_time": round(t_obj, 2),
                     "end_time": round(t_conc, 2),
-                    "sme_layout": "20",
-                    "sme_positioning": {
-                        "layout_type": "20_top_right_pip",
-                        "manim_geometry": {"cx": 5.689, "cy": 3.200, "w": 2.844, "h": 1.600, "corner_radius": 0.074},
-                        "bounding_box": {"x": 1536, "y": 0, "w": 384, "h": 216, "corner_radius": 10},
-                        "description": "Trainer scaled to 20% FHD in top-right corner (guidelines.md 8.4)."
-                    },
-                    "presentation_safe_zone": {
-                        "allowed": True,
-                        "bounding_box": {"x_min": 52, "x_max": 1814, "y_min": 80, "y_max": 1000},
-                        "collision_constraints": {
-                            "lead_in_max_x": 1450,
-                            "diagram_y_min": 270
-                        },
-                        "notes": "Lead-in line must terminate <= 1450px. Diagrams must stay below y = 270px."
-                    },
+                    "sme_layout": s3_framing["sme_layout"],
+                    "dynamic_selection_reason": s3_framing["dynamic_selection_reason"],
+                    "sme_positioning": s3_framing["sme_positioning"],
+                    "presentation_safe_zone": s3_framing["presentation_safe_zone"],
                     "on_screen_text": {
                         "lead_in": "Core operational mechanics and architecture:",
                         "cards": [
@@ -344,22 +434,10 @@ class InstructionalDesign:
                     "title": format_chicago_title(f"Practical Demonstration: {clean_lesson_title}"),
                     "start_time": round(t_conc, 2),
                     "end_time": round(t_demo, 2),
-                    "sme_layout": "20",
-                    "sme_positioning": {
-                        "layout_type": "20_top_right_pip",
-                        "manim_geometry": {"cx": 5.689, "cy": 3.200, "w": 2.844, "h": 1.600, "corner_radius": 0.074},
-                        "bounding_box": {"x": 1536, "y": 0, "w": 384, "h": 216, "corner_radius": 10},
-                        "description": "Trainer scaled to 20% FHD in top-right corner for live demonstration (guidelines.md 8.4)."
-                    },
-                    "presentation_safe_zone": {
-                        "allowed": True,
-                        "bounding_box": {"x_min": 52, "x_max": 1814, "y_min": 80, "y_max": 1000},
-                        "collision_constraints": {
-                            "lead_in_max_x": 1450,
-                            "diagram_y_min": 270
-                        },
-                        "notes": "Workspace under PIP reserved for interactive demonstration flow."
-                    },
+                    "sme_layout": s4_framing["sme_layout"],
+                    "dynamic_selection_reason": s4_framing["dynamic_selection_reason"],
+                    "sme_positioning": s4_framing["sme_positioning"],
+                    "presentation_safe_zone": s4_framing["presentation_safe_zone"],
                     "on_screen_text": {
                         "lead_in": "Key demonstration steps and verification:",
                         "cards": [
@@ -376,18 +454,10 @@ class InstructionalDesign:
                     "title": "Lesson Summary",
                     "start_time": round(t_demo, 2),
                     "end_time": round(t_sum, 2),
-                    "sme_layout": "70",
-                    "sme_positioning": {
-                        "layout_type": "70_left_rounded_rect",
-                        "bounding_box": {"x": 80, "y": 80, "w": 640, "h": 920, "corner_radius": 10},
-                        "blue_band": {"color": "#2C81FE", "width": 242},
-                        "description": "Left rounded rectangle for lesson synthesis (guidelines.md 8.5)."
-                    },
-                    "presentation_safe_zone": {
-                        "allowed": True,
-                        "bounding_box": {"x_min": 760, "x_max": 1840, "y_min": 80, "y_max": 1000},
-                        "notes": "Right side workspace for summary cards."
-                    },
+                    "sme_layout": s5_framing["sme_layout"],
+                    "dynamic_selection_reason": s5_framing["dynamic_selection_reason"],
+                    "sme_positioning": s5_framing["sme_positioning"],
+                    "presentation_safe_zone": s5_framing["presentation_safe_zone"],
                     "on_screen_text": {
                         "lead_in": "Key takeaways from this lesson:",
                         "cards": [
@@ -403,18 +473,10 @@ class InstructionalDesign:
                     "title": "What Is Next",
                     "start_time": round(t_sum, 2),
                     "end_time": round(t_next, 2),
-                    "sme_layout": "70",
-                    "sme_positioning": {
-                        "layout_type": "70_left_rounded_rect",
-                        "bounding_box": {"x": 80, "y": 80, "w": 640, "h": 920, "corner_radius": 10},
-                        "blue_band": {"color": "#2C81FE", "width": 242},
-                        "description": "Left rounded rectangle for topic transition (guidelines.md 4.4 & 8.6)."
-                    },
-                    "presentation_safe_zone": {
-                        "allowed": True,
-                        "bounding_box": {"x_min": 760, "x_max": 1840, "y_min": 80, "y_max": 1000},
-                        "notes": "Right side workspace for upcoming topic teaser."
-                    },
+                    "sme_layout": s6_framing["sme_layout"],
+                    "dynamic_selection_reason": s6_framing["dynamic_selection_reason"],
+                    "sme_positioning": s6_framing["sme_positioning"],
+                    "presentation_safe_zone": s6_framing["presentation_safe_zone"],
                     "on_screen_text": {
                         "lead_in": NEXT_TOPIC_PREFIX,
                         "cards": [
@@ -440,6 +502,7 @@ class InstructionalDesign:
         """
         Generates storyboard blueprint using available LLM API, with resilient fallback.
         Embeds instructional_storyboarding_guidelines.txt as system prompt.
+        Enforces dynamic SME framing evaluation for each scene.
         """
         guidelines_text = self.load_guidelines()
 
@@ -448,6 +511,16 @@ class InstructionalDesign:
         else:
             segments = transcript_data.get("segments", [])
         full_transcript = " ".join([s.get("text", "") for s in segments])
+
+        dynamic_framing_instruction = (
+            "DYNAMIC SME FRAMING REQUIREMENT:\n"
+            "Evaluate each scene's content density and pedagogical intent to dynamically select "
+            "'sme_layout' from ['100', '70', '20']:\n"
+            "- Use '100' for direct speaker address, opening hook, or sign-off with no slide graphics.\n"
+            "- Use '70' for structured cards, learning objectives, bullet lists, or summaries (x >= 760 safe zone).\n"
+            "- Use '20' for wide horizontal architectures, multi-tier pipelines, flowcharts, code, or tool walkthroughs.\n"
+            "Include 'dynamic_selection_reason' explaining each layout choice."
+        )
 
         # Try Google Gemini
         if self.api_provider in ["auto", "gemini"] and (self.api_key or os.environ.get("GEMINI_API_KEY")):
@@ -458,14 +531,23 @@ class InstructionalDesign:
                 model = genai.GenerativeModel("gemini-2.5-flash")
                 prompt = (
                     f"### SYSTEM INSTRUCTIONS & STORYBOARDING GUIDELINES:\n{guidelines_text}\n\n"
+                    f"{dynamic_framing_instruction}\n\n"
                     f"### LESSON TITLE: {lesson_title}\n\n"
                     f"### TRANSCRIPT:\n{full_transcript}\n\n"
                     f"Generate a strict JSON presentation blueprint following Simplilearn guidelines.md. "
-                    f"Output MUST be valid JSON containing 'lesson_title', 'total_scenes', and 'scenes' array."
+                    f"Output MUST be valid JSON containing 'lesson_title', 'total_scenes', 'dynamic_sme_framing_enabled': true, and 'scenes' array."
                 )
                 resp = model.generate_content(prompt)
                 parsed = parse_input_to_json(resp.text)
                 if "scenes" in parsed and len(parsed["scenes"]) > 0:
+                    # Enrich any scenes missing full SME positioning geometries
+                    for sc in parsed["scenes"]:
+                        layout = sc.get("sme_layout", "70")
+                        framing = resolve_dynamic_sme_framing(sc.get("scene_type", "concept"), sc.get("voiceover_narration", ""), explicit_layout=layout)
+                        if "sme_positioning" not in sc:
+                            sc["sme_positioning"] = framing["sme_positioning"]
+                        if "presentation_safe_zone" not in sc:
+                            sc["presentation_safe_zone"] = framing["presentation_safe_zone"]
                     return parsed
             except Exception as e:
                 print(f"[Stage 1] Gemini generation notice: {e}. Falling back to deterministic generator.")
@@ -479,18 +561,25 @@ class InstructionalDesign:
                 resp = client.messages.create(
                     model="claude-3-5-sonnet-20241022",
                     max_tokens=4096,
-                    system=guidelines_text,
+                    system=f"{guidelines_text}\n\n{dynamic_framing_instruction}",
                     messages=[
-                        {"role": "user", "content": f"Topic: {lesson_title}\nTranscript:\n{full_transcript}\nGenerate JSON presentation blueprint."}
+                        {"role": "user", "content": f"Topic: {lesson_title}\nTranscript:\n{full_transcript}\nGenerate JSON presentation blueprint with dynamic SME framing."}
                     ]
                 )
                 parsed = parse_input_to_json(resp.content[0].text)
                 if "scenes" in parsed and len(parsed["scenes"]) > 0:
+                    for sc in parsed["scenes"]:
+                        layout = sc.get("sme_layout", "70")
+                        framing = resolve_dynamic_sme_framing(sc.get("scene_type", "concept"), sc.get("voiceover_narration", ""), explicit_layout=layout)
+                        if "sme_positioning" not in sc:
+                            sc["sme_positioning"] = framing["sme_positioning"]
+                        if "presentation_safe_zone" not in sc:
+                            sc["presentation_safe_zone"] = framing["presentation_safe_zone"]
                     return parsed
             except Exception as e:
                 print(f"[Stage 1] Claude generation notice: {e}. Falling back to deterministic generator.")
 
-        # Deterministic generation adhering to guidelines.md
+        # Deterministic generation adhering to guidelines.md with dynamic SME framing
         return self.generate_local_blueprint(transcript_data, lesson_title)
 
     def run(
@@ -546,10 +635,10 @@ def run_stage_1(
 ) -> str:
     """Runs complete Stage 1 workflow."""
     print(f"\n==================================================================")
-    print(f"STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN")
+    print(f"STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN (DYNAMIC SME FRAMING)")
     print(f"Guidelines: {GUIDELINES_TXT_PATH.name}")
-    print(f"Compliance: guidelines.md Sections 1, 2, 4, 6, 8")
-    print(f"Architecture: Kplor InstructionalDesign Parity")
+    print(f"Compliance: guidelines.md Sections 1, 2, 4, 6, 8 (OSL 3.0)")
+    print(f"Architecture: Kplor InstructionalDesign Parity with Dynamic SME Framing")
     print(f"==================================================================")
 
     designer = InstructionalDesign(api_provider=api_provider)
@@ -559,6 +648,8 @@ def run_stage_1(
         data = json.load(f)
 
     print(f"✓ Stage 1 Complete: Storyboard generated ({len(data.get('scenes', []))} scenes)")
+    for sc in data.get("scenes", []):
+        print(f"  - Scene {sc.get('scene_id')}: Layout {sc.get('sme_layout')}% ({sc.get('dynamic_selection_reason', '')[:65]}...)")
     print(f"  Blueprint saved -> {out_path}\n")
     return out_path
 

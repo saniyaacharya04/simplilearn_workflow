@@ -1,7 +1,7 @@
 ================================================================================
 SIMPLILEARN OSL 3.0 INSTRUCTIONAL STORYBOARDING GUIDELINES
 Derived Strictly from guidelines.md & Simplilearn Guide (Learning Design & CE Standards)
-Focused Exclusively on Instructional Storyboarding & SME Positioning
+Focused Exclusively on Instructional Storyboarding & Dynamic SME Positioning
 ================================================================================
 
 1. CORE INSTRUCTIONAL DESIGN PHILOSOPHY (guidelines.md Section 1)
@@ -19,76 +19,91 @@ Every storyboarding decision exists to enforce LEARNING CLARITY.
   "Where does the SME talk about this?" If the SME never refers to it, remove it.
 
 --------------------------------------------------------------------------------
-2. PEDAGOGICAL LESSON PROGRESSION (guidelines.md Section 2.1)
+2. PEDAGOGICAL LESSON PROGRESSION & DYNAMIC FRAMING ADAPTATION (guidelines.md Section 2.1)
 Every topic module (ideal duration 6–10 minutes) must follow the guided narrative arc:
-context → teaching → engagement → recap
+context → teaching → engagement → recap.
+
+Within this progression, SME framing is DYNAMIC. The framing layout adapts to the instructional
+content and screen real-estate demands of each individual scene:
 
 Step 1: HOOK / INTRODUCTION
 - Purpose: Grabs attention, establishes real-world professional context.
-- SME Framing: 100% Full-Screen SME (Full 1920x1080 canvas).
+- Dynamic SME Framing:
+    * Primary Recommendation: 100% Full-Screen SME (Full 1920x1080 canvas) to maximize personal connection.
+    * Dynamic Alternative: 70% Left Frame if an immediate on-screen challenge or problem statement card is anchored.
 - On-Screen Text: Topic Title (5–7 words, Chicago Title Casing) and core thematic anchor.
 - Pacing: Brief, energetic introduction directly addressing the learner.
 
 Step 2: LEARNING OBJECTIVES
 - Purpose: Outlines clear, measurable goals and sets expectations.
-- SME Framing: 70% Left Rounded-Rectangle SME.
-- Presentation Workspace: Right side of canvas.
+- Dynamic SME Framing:
+    * Primary Recommendation: 70% Left Rounded-Rectangle SME (Layout 4 LO Template).
+    * Presentation Workspace: Right side of canvas (x >= 760 px).
 - Lead-In Line: "By the end of this topic, you will be able to:"
 - Content: 3 to 4 concise bullet cards starting with active verbs (e.g., "Build...", "Analyze...", "Configure...").
 
 Step 3: CONCEPT EXPLANATION
 - Purpose: Delivers core theoretical foundations, principles, and architectural breakdowns.
-- SME Framing: 20% Top-Right Corner Picture-In-Picture (PIP) SME.
-- Presentation Workspace: Full slide visual area, maintaining clearance under the PIP window.
+- Dynamic SME Framing:
+    * High Visual Density (Complex Architecture / Multi-Stage Flow): Dynamically switch to 20% Top-Right Corner PIP SME.
+      Leaves full horizontal width (1814 px) for wide schematics, tables, or component blocks.
+    * Medium Visual Density (Conceptual Pillars / 2-3 Comparison Cards): Dynamically switch to 70% Left Rounded-Rectangle SME.
+      Keeps teacher presence while presenting structured vertical/chunked cards on the right.
 
 Step 4: DEMONSTRATION OR WORKED EXAMPLE
 - Purpose: Shows the concept in action through step-by-step procedures, tool walkthroughs, or code execution.
-- SME Framing: 20% Top-Right Corner PIP SME.
-- Pacing: Progressive reveal of workflow steps. Zoom into key details smoothly; hold steady during explanation.
+- Dynamic SME Framing:
+    * Primary Recommendation: 20% Top-Right Corner PIP SME.
+    * Presentation Workspace: Full slide visual area underneath the PIP window (y >= 270 px).
+    * Pacing: Progressive reveal of workflow steps. Zoom into key details smoothly; hold steady during explanation.
 
 Step 5: LEARNER ACTIVITY / PAUSE PROMPT (Active Learning - Section 1.2 & 2.1)
 - Purpose: Prompts learners to reflect, predict an outcome, or practice before proceeding.
-- SME Framing: 70% Left Rounded-Rectangle SME or Centered Prompt Container.
+- Dynamic SME Framing:
+    * Dynamic Choice: 70% Left Rounded-Rectangle SME with an active reflection prompt card, or 100% Full-Screen SME
+      when the instructor directly challenges the learner to pause and think.
 - Content: A focused reflection question or action challenge (e.g., "Pause & Reflect: Which architecture best fits high throughput?").
 
 Step 6: SUMMARY & KEY TAKEAWAYS
 - Purpose: Synthesizes core principles and reinforces durable understanding.
-- SME Framing: 70% Left Rounded-Rectangle SME.
-- Content: Right side workspace with 2–3 high-retention summary cards.
+- Dynamic SME Framing:
+    * Primary Recommendation: 70% Left Rounded-Rectangle SME.
+    * Content: Right side workspace with 2–3 high-retention summary cards.
 
 Step 7: WHAT'S NEXT (Consistent Video Closing - Section 4.4)
 - Purpose: Seamless bridge to the subsequent topic in the syllabus.
-- SME Framing: 70% Left Rounded-Rectangle SME.
+- Dynamic SME Framing:
+    * Primary Recommendation: 70% Left Rounded-Rectangle SME (Layout 4 What's Next Template).
+    * Dynamic Alternative: 100% Full-Screen SME for a final conversational sign-off.
 - Mandatory Closing Syntax: Must strictly use the standard grammatical template:
   "In the next topic, you will learn about: <Action in -ing>"
   (e.g., "In the next topic, you will learn about: Evaluating model accuracy with cross-validation.")
 
 --------------------------------------------------------------------------------
-3. SME POSITIONING & CANVAS CLEARANCE SPECIFICATIONS (guidelines.md Section 8)
+3. DYNAMIC SME FRAMING SELECTION MATRIX & CLEARANCE SPECIFICATIONS (guidelines.md Section 8)
 All visual staging operates on a 1920x1080 (16:9 Full HD) canvas.
-Because recordings are captured in natural room settings without green screen or AI matting,
-storyboards must strictly choreograph content around the physical bounding boxes of the SME:
+SME framing must NEVER be a rigid static lock. The storyboard generator dynamically assigns
+the optimal layout for each scene based on the following criteria:
 
-A. LAYOUT 1: SME 100% — FULL-SCREEN PRESENTER (guidelines.md Section 8.3)
-- SME Coverage: Entire canvas (1920 × 1080 px).
-- Storyboard Rule: No slide graphic containers or side panels. Minimal lower-third title overlay only.
+================================================================================
+LAYOUT SELECTION MATRIX
+================================================================================
+| Layout Type | SME Size & Position | When to Select Dynamically | Collision & Safe Workspace Rules |
+| :--- | :--- | :--- | :--- |
+| **Layout 1: 100% Full-Screen** | Entire canvas (1920×1080 px), center (0, 0) | Direct teacher address, opening hook, major narrative pivots, reflective pause, or closing farewell with no slide graphics. | Teacher occupies full canvas. Minimal lower-third title overlay only. |
+| **Layout 3: 70% Split-Screen** | Left frame (w=640 px, h=920 px, r=10 px) at x=80, y=80 px with blue band asset | Learning objectives, chunked concept cards (2-3 cards), structured comparisons, summary takeaways, "What's Next" teaser. | Safe workspace: x = 760 px to 1840 px, y = 80 px to 1000 px. Zero content allowed in left zone (x < 760 px). |
+| **Layout 2: 20% Top-Right PiP** | Top-right corner box (w=384 px, h=216 px, r=10 px) at x=1536, y=0 px | Wide horizontal architectures, multi-tier pipelines, flowcharts, code walkthroughs, software demos, or data tables. | Lead-in line MUST terminate at or left of x = 1450 px (80% canvas width). Main diagram must stay below y = 270 px. |
 
-B. LAYOUT 3: SME 70% — SPLIT LEFT SME + RIGHT CONTENT AREA (guidelines.md Section 8.5)
-- SME Bounding Box: Left-aligned frame (width = 640 px, height = 920 px, positioned at x = 80 px, y = 80 px).
-- Mandatory Corner Radius: 10 px rounded rectangle.
-- Safe Content Workspace:
-  * Horizontal Bounds: x = 760 px to x = 1840 px (provides minimum 40 px safety gap from SME frame).
-  * Vertical Bounds: y = 80 px to y = 1000 px.
-- Collision Constraint: No slide cards, text boxes, or diagrams may cross into the left zone (x < 760 px).
-
-C. LAYOUT 2: SME 20% — TOP-RIGHT PIP + FULL CONTENT (guidelines.md Section 8.4)
-- 20% SME PIP Box: Scaled to 384 × 216 px (20% of FHD) positioned in top-right corner.
-- Mandatory Corner Radius: 10 px rounded rectangle.
-- CRITICAL COLLISION RULES:
-  * Lead-In Line Termination: The lead-in line and any top header text MUST terminate at or left of
-    x = 1450 px (80% of canvas width) so it never collides with the 20% SME window.
-  * Diagram & Code Workspace: Main diagrams, tables, and code walkthroughs must remain below
-    y = 270 px directly underneath the PIP window.
+--------------------------------------------------------------------------------
+DYNAMIC IN-SCENE TRANSITIONS & MOVEMENT (Slide 6 & Slide 12)
+1. Blue Band Movement:
+   - When transitioning dynamically from Layout 3 (70%) to Layout 2 (20%), the left blue band must animate
+     off-screen to the left (x -> -7.111 - band_width/2) while the SME scales and shifts to top-right.
+2. Cut Point Transition Overlays:
+   - When cutting between Layout 1 (100% Full-Screen) and Layout 3 (70%) or Layout 2 (20%), use a 0.8-second
+     broadcast Left-to-Right swipe transition (play_ltor_swipe) to occlude the cut cleanly.
+3. Corner Radius Uniformity:
+   - All cropped SME frames (both 70% and 20%) must maintain a mandatory corner radius of 10 px.
 
 --------------------------------------------------------------------------------
 4. EDITORIAL & ON-SCREEN TEXT (OST) STANDARDS (guidelines.md Section 4)
