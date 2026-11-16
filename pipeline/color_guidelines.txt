@@ -1,6 +1,6 @@
 ================================================================================
 SIMPLILEARN OSL 3.0 COLOR SYSTEM & VISUAL PALETTE GUIDELINES
-Derived Strictly from guidelines.md (OSL 3.0 Section 6.4)
+Derived Strictly from guidelines.md & Simplilearn Guide (OSL 3.0 Section 6.4)
 ================================================================================
 
 1. ROLE & BRAND DIRECTIVE
@@ -26,31 +26,25 @@ Use these 10 approved light/pastel tones for diagrams, nodes, category pills, an
 --------------------------------------------------------------------------------
 3. SYSTEM UI & ACCENT COLORS (guidelines.md Section 6.4 & 8.1)
 - Focus Highlight Stroke:  #F78908  (3 px stroke, 1.0 s animated draw time)
-- Primary Content Text:    #404040  (Open Sans Regular 34 px inside light cards)
-- Splash Text & Outro:     #FFFFFF  (Course title 45 px bold & 0.5s dissolve outro)
-- 70% Layout Left Band:    #2C81FE  (Library gradient / blue accent band asset)
+- Primary Content Text:    #404040  (Text inside light cards)
+- Splash Text & Outro:     #FFFFFF  (Course title & 0.5s white dissolve outro)
+- 70% Layout Left Band:    #2C81FE  (Library blue accent band asset)
 - Banner & Table Header:   #0B3C5D  (Deep Simplilearn Navy Blue, white text #FFFFFF)
 - Slide Background:        #FFFFFF  (Camtasia) or #F8FAFC (Soft neutral off-white)
-- Card Containers:         #FFFFFF  (Pure white with soft border #CBD5E1 / #E2E8F0, corner radius 10 px)
+- Card Containers:         #FFFFFF  (Pure white with soft border #CBD5E1, corner radius 10 px)
 
 --------------------------------------------------------------------------------
-4. STRICT RESTRICTION: REDUCE GREEN USAGE
-- HARD RULE: Minimize green (#06C170, #2D6A4F, #10B981) across all scenes.
-- Green must NEVER be used as a primary card background, title color, or large container fill.
-- Green is permitted ONLY for small positive verification icons (e.g., checkmarks, passed validation).
-
---------------------------------------------------------------------------------
-5. STRICT RESTRICTION: NO 3D IMAGES (guidelines.md Section 6.2)
-- HARD RULE: DO NOT use 3D images, 3D renderings, or 3D models.
+4. VISUAL ASSET & SHIFT RESTRICTIONS (guidelines.md Section 6.2)
+- DO NOT use 3D images, 3D renderings, or 3D models.
 - DO NOT use dotted lines, silhouette or black-and-white images, thick outlines, or drop shadows.
 - All illustrative visual assets must be clean 2D flat vector educational graphics with smooth
   geometric shapes and soft pastel tones.
 
 --------------------------------------------------------------------------------
-6. DIFFUSION / IMAGE PROMPT COLOR HARMONY
+5. DIFFUSION / IMAGE PROMPT COLOR HARMONY
 When formulating prompts for raster illustrations and conceptual graphics:
-- Specify minimalist white background (#FFFFFF) for clean compositing.
-- Direct diffusion models to adopt the dominant course palette colors:
+- Specify minimalist pure white background (#FFFFFF) for clean compositing.
+- Direct diffusion models to adopt the approved course palette colors:
   "Clean modern 2D flat vector educational illustration with soft pastel accents in sky blue (#62B7E4),
    steel blue (#7EA2C8), and warm amber (#E6A157) against an isolated pure white background (#FFFFFF).
    No 3D elements, no drop shadows, no thick outlines, no text."

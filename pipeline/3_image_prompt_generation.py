@@ -86,8 +86,7 @@ def synthesize_diffusion_prompt(
             "accent_hex": accent_color,
             "style": "clean_2d_flat_vector_infographic",
             "forbid_3d": True,
-            "forbid_drop_shadows": True,
-            "avoid_green": True
+            "forbid_drop_shadows": True
         },
         "guidelines_compliance": {
             "section_6_2_no_3d": "PASS",
@@ -145,8 +144,7 @@ def run_stage_3(
                 "accent_hex": "#62B7E4",
                 "style": "clean_2d_flat_vector_infographic",
                 "forbid_3d": True,
-                "forbid_drop_shadows": True,
-                "avoid_green": True
+                "forbid_drop_shadows": True
             },
             "guidelines_compliance": {
                 "section_6_2_no_3d": "PASS",
