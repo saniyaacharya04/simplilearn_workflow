@@ -1,0 +1,92 @@
+The **Cash Flow Statement asset** is a structured, document-style visual designed to represent the movement of cash within a business over a period of time. It is constructed as a **single-column financial sheet**, where information flows vertically from top to bottom, reflecting the sequential nature of cash flow computation. Unlike multi-column financial layouts, this asset emphasizes a **linear narrative structure**, making it easy to interpret how individual components contribute to the final cash position. The design is modular, with each row and divider built as an independent object, enabling precise control and easy integration into downstream workflows.
+
+---
+
+### Overall Sheet Composition
+
+The asset is built as a top-level `VGroup` that acts as a container for all visual elements, including the paper background, header, divider, and content rows. The sheet has a defined width and height, and all internal elements are positioned relative to the sheet’s geometry. The layout is centered horizontally, with a consistent vertical spacing system that determines the placement of each row. This creates a **grid-like structure**, where rows are aligned along a central axis and spaced evenly to maintain readability and visual balance.
+
+---
+
+### Paper and Border Construction
+
+At the base of the asset is a **rectangular paper element**, which serves as the visual background. This rectangle is filled with a solid white color to simulate a clean document and is outlined with a subtle border to define its edges within the scene. Inside this outer boundary, a slightly smaller rectangle is added as an **inner border**, creating a framed effect that enhances the visual hierarchy. The combination of these two rectangles establishes the sheet as a self-contained unit and provides a neutral backdrop for the financial data.
+
+---
+
+### Header Construction
+
+The top portion of the sheet contains a **header section**, composed of two text elements: the company name and the document title (“Cash Flow Statement”). These elements are arranged vertically with minimal spacing and positioned slightly below the top edge of the paper. The title is styled to stand out, while the subtitle provides contextual clarity. Both elements are grouped together, allowing them to be treated as a single unit within the overall structure. This header establishes the identity and purpose of the document before the detailed content begins.
+
+---
+
+### Divider and Column Alignment
+
+Although the asset follows a single-column structure, a **vertical divider line** is introduced slightly left of the center. This divider runs from near the top of the content area to just above the bottom margin. Its purpose is subtle but important: it visually separates the **label region (on the left)** from the **value region (on the right)**.
+
+All rows are aligned relative to the horizontal center of the sheet, with:
+
+* Labels positioned toward the left side using a fixed offset from the center
+* Values positioned toward the right side using a mirrored offset
+
+This creates a consistent alignment system where labels are left-aligned and values are right-aligned, ensuring that the sheet remains easy to scan despite being a single-column layout.
+
+---
+
+### Row Construction and Positioning
+
+Each row in the cash flow statement is constructed as a pair of text elements—a label and a value—grouped together into a `VGroup`. Rows are positioned using explicit y-coordinates, creating a **top-down vertical sequence**. The spacing between rows is consistent, ensuring that the document maintains a clean and readable structure.
+
+The row construction supports several variations:
+
+* **Bold styling** for section headers and totals
+* **Indentation** for sub-items, achieved by shifting the label slightly to the right
+* **Color differentiation** to indicate semantic meaning (e.g., green for additions, red for outflows)
+* **Variable font sizes** for emphasis, particularly in final totals
+
+Each row is also stored in a dictionary using a unique key, allowing it to be retrieved and manipulated independently without affecting the rest of the layout.
+
+---
+
+### Section Structure and Hierarchy
+
+The content of the sheet is organized into **distinct financial sections**, each following a hierarchical structure. The first section, representing operating activities, begins with a bold header and is followed by individual line items such as net profit and adjustments. These adjustment rows are slightly indented, visually indicating that they belong to the section and contribute to the calculation.
+
+After the individual entries, a horizontal divider line is placed to separate the detailed rows from the computed total. The resulting total row is styled in bold, distinguishing it from the preceding entries and marking it as a key outcome.
+
+A second section, representing investing activities, follows a similar pattern. It begins with a header, includes one or more line items, and is separated by another divider line before leading to the final computed value. This repetition of structure ensures consistency and makes the document easy to interpret.
+
+---
+
+### Divider Lines and Visual Separation
+
+Horizontal divider lines are used throughout the sheet to create **clear visual boundaries between logical groups**. These lines span the width of the content area, from the left label boundary to the right value boundary. They are styled with a consistent stroke color and thickness, providing subtle separation without overwhelming the layout.
+
+These dividers play an important role in organizing the content, helping the viewer distinguish between:
+
+* Individual entries within a section
+* Subtotals and final totals
+
+---
+
+### Final Value Emphasis
+
+The final row of the sheet represents the **net cash movement**, which is the culmination of all preceding values. This row is positioned near the bottom of the sheet and is styled with a larger font size and bold weight, making it the most visually prominent element in the content area. Its placement and styling ensure that it stands out as the key takeaway of the entire statement.
+
+---
+
+### Structural Consistency and Alignment
+
+Throughout the asset, strict alignment rules are maintained:
+
+* All rows share a common horizontal alignment system
+* Vertical spacing between rows is consistent
+* Labels and values are anchored to fixed offsets from the center
+
+Because all positioning is relative to the sheet’s dimensions, the layout remains stable even if the overall size of the sheet is adjusted. This ensures that the asset is **scalable and reusable** across different contexts.
+
+---
+
+### Summary
+
+The Cash Flow Statement asset is a **vertically organized financial document**, constructed with a strong emphasis on hierarchy, alignment, and modularity. It combines a clean paper layout, a clearly defined header, a subtle divider system, and a sequence of structured rows to represent the flow of cash within a business. By organizing content into sections with consistent visual patterns and exposing each row as an independent object, the asset provides a robust foundation for workflows that require structured financial visualization and precise control over individual elements.

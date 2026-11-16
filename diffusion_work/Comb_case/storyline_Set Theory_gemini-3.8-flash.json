@@ -1,0 +1,67 @@
+{
+    "diffusion_clip": {
+        "act_1": {
+            "title": "The Setup",
+            "timestamp_range": "0:00 - 0:14",
+            "goal": "Establish the environment, the characters, and the physical items representing the data/math.",
+            "beats": [
+                {
+                    "beat_number": 1,
+                    "timestamp": "0:00 - 0:05",
+                    "visual": "A wide, dynamic 3D shot opens in a bustling conference summit concourse bathed in warm golden-yellow directional spotlights against deep royal purple stage drapery. In the foreground, Maya stands in a sharp charcoal-gray blazer, clutching a heavy matte-black clipboard layered with thick ivory attendee registry sheets. Marcus steps briskly into the frame from the right, his rumpled navy blazer shifting as he taps his headset with his index finger, his brow furrowed as he consults a compact digital schedule.",
+                    "audio": "We need to invite specific attendees to our private roundtable."
+                },
+                {
+                    "beat_number": 2,
+                    "timestamp": "0:05 - 0:10",
+                    "visual": "Cut to a medium two-shot tracking slightly left. Maya pivots on her heel toward an ornate dark-stained wooden easel supporting a small, black-framed acrylic display board. Marcus extends his left arm, holding up a dense four-page printed roster of names between his thumb and forefinger, waving it toward the miniature brass invitation card bracket that measures barely six inches across.",
+                    "audio": "Marcus has fifty senior engineers selected, but listing every single name on this tiny invite board is completely impossible."
+                },
+                {
+                    "beat_number": 3,
+                    "timestamp": "0:10 - 0:14",
+                    "visual": "Extreme close-up on Maya's hands as she unclips a fine-tipped crimson marker from her clipboard. She brings the pen tip toward a tiny 3x5-inch white cardstock placard already pinned to the easel, where three names are cramped in illegible microscopic scrawl before trailing off the bottom edge. Maya sighs, tilts her head, and lowers the marker, her eyes narrowing as she realizes the physical constraint.",
+                    "audio": "If we try to write out each person one by one, we run out of physical space before we even reach the letter D."
+                }
+            ]
+        },
+        "act_2": {
+            "title": "The Escalation",
+            "timestamp_range": "0:14 - 0:28",
+            "goal": "A camera cut initiates this act. Deepen the physical sorting/arranging problem.",
+            "beats": [
+                {
+                    "beat_number": 1,
+                    "timestamp": "0:14 - 0:20",
+                    "visual": "Cut to an over-the-shoulder angle behind Marcus looking past his shoulder at Maya. In the background, crowds of delegates wearing sky-blue and crimson attendee lanyards drift past blurred velvet stanchions. Maya firmly pulls the cramped, ink-smeared card out of the brass easel channel with her right thumb and forefinger, setting it aside onto the easel tray. She pulls a clean, blank heavy cardstock card from the front pocket of her binder and steadies it flat against the firm wooden shelf of the easel.",
+                    "audio": "Enumerating every individual takes forever and creates chaotic clutter, whereas defining a single precise rule solves it instantly."
+                },
+                {
+                    "beat_number": 2,
+                    "timestamp": "0:20 - 0:28",
+                    "visual": "Close-up angled low on the blank card. Maya grips the crimson pen firmly between her first two fingers, leaning her torso forward with deliberate posture. In smooth, bold strokes, the nib leaves crisp matte-crimson lettering: 'All registered attendees with 5+ years of experience in AI'. Marcus steps closer, his gaze locked downward onto the text, nodding in relieved realization as the single elegant sentence replaces the overflowing pile of printed sheets in his hand.",
+                    "audio": "Whether we list every single item individually or define them by a shared characteristic, we are using two fundamental ways to represent data."
+                }
+            ]
+        },
+        "act_3": {
+            "title": "The Transition",
+            "timestamp_range": "0:28 - 0:42",
+            "goal": "Bring the physical dilemma to its peak and deliver the final transition line. Characters MUST remain completely immersed in their task\u2014no looking at the camera, no gesturing to the viewer, and no breaking the fourth wall.",
+            "beats": [
+                {
+                    "beat_number": 1,
+                    "timestamp": "0:28 - 0:35",
+                    "visual": "Medium close-up showing Maya capping the marker with a decisive mechanical snap. She takes the newly inked card with both hands, sliding its bottom edge into the polished brass channel of the easel display board until it clicks snugly against the backplate. Marcus leans in, his fingers adjusting the corner of the card so it sits perfectly level, both characters completely absorbed in inspecting the crisp, definitive boundary statement on the board under the warm spotlight.",
+                    "audio": "One method explicitly lists every member, while the other builds an unambiguous boundary that filters membership cleanly."
+                },
+                {
+                    "beat_number": 2,
+                    "timestamp": "0:35 - 0:42",
+                    "visual": "Cinematic camera push-in moving steadily past Maya and Marcus into an extreme close-up of the crisp black-framed card. The warm golden light catches the fibrous texture of the cardstock and the sharp boundary line drawn under the rule, with the background concourse dissolving into a soft optical blur of deep purple and sky-blue ambient hues. The camera glides directly toward the sharp outer boundary line of the card until the crisp geometric border fills the entire screen frame, dissolving smoothly into the theoretical workspace boundary.",
+                    "audio": "Let's explore how we formally write and define these collections."
+                }
+            ]
+        }
+    }
+}

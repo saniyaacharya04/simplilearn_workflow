@@ -1,0 +1,67 @@
+--------------------------------------------------------------------------------------------------
+Impact Dashboard Asset Collection: A detailed breakdown of the `MetricCard`, `GeographyCard`, `DonutCard`, and `BarCard` components, describing their visual construction and modular code implementation.
+--------------------------------------------------------------------------------------------------
+
+Step 1: The Base Card — Foundation and Depth
+
+All dashboard metrics are built upon a foundational `Card` structure. This base consists of a rounded white rectangle that establishes the card's boundary and content area. 
+
+To create a sense of depth and separation from the background, a subtle, semi-transparent black shadow is positioned slightly off-center beneath the main card. This drop-shadow effect elevates the cards, making them appear as distinct, floating widgets on the dashboard rather than flat UI elements.
+
+Step 2: Metric Cards — Clear and Emphasized Data
+
+The `MetricCard` is designed to highlight key numerical data clearly. The number itself is displayed prominently using a large, dynamic `DecimalNumber`. 
+
+To provide immediate context, optional prefix (e.g., currency symbols like "₹") and suffix (e.g., "Cr", "+") elements are seamlessly integrated alongside the number. These elements are carefully aligned along their bottom edges to maintain a clean baseline. Below the metric group, a smaller, gray text label provides a descriptive title for the data point.
+
+Step 3: Specialized Visualizations — Geography, Donut, and Bar
+
+Beyond simple metrics, the dashboard includes specialized cards for complex data representations:
+
+-   **GeographyCard**: Displays two side-by-side metric counters for "Districts" and "States", each housed in its own subtle bounding box, emphasizing pan-India reach.
+-   **DonutCard**: Visualizes a percentage using an `AnnularSector` that acts as the active ring, laid over a translucent background ring. The percentage number sits squarely in the center of the ring.
+-   **BarCard**: Illustrates a ratio using a horizontal bar chart. An active teal bar fills up a portion of a gray background track, with the numerical ratio (e.g., "9/10") displayed clearly above it.
+
+Step 4: Code Implementation — Logic, Getters, and Setters
+
+The visual components are encapsulated in the Python classes `MetricCard`, `GeographyCard`, `DonutCard`, and `BarCard`, which all inherit from the base `Card` (and thus `manim.VGroup`). The code is designed to be highly modular and manipulatable from external scenes.
+
+1.  **Component Access**: Each class provides a `get_subcomponent` method that maps string keys to specific internal parts of the asset.
+    -   `MetricCard`: `number`, `prefix`, `metric_group`, `label`, `bg`
+    -   `DonutCard`: `sector`, `number`, `group`, `base`
+
+    ```python
+    def get_subcomponent(self, component_name: str):
+        components = {
+            "number": self.number,
+            "prefix": self.prefix_elem,
+            ...
+        }
+        return components.get(component_name, None)
+    ```
+
+2.  **Dynamic Setters**: The classes expose setter methods to modify their logical state at runtime, automatically handling visual realignment. For example, `set_value()` dynamically changes the counter, while `set_percent()` efficiently redraws the donut geometry to match the new percentage.
+
+    ```python
+    def set_percent(self, percent):
+        self.num.set_value(percent)
+        # Recreate the AnnularSector with the new angle
+        new_sector = AnnularSector(
+            angle=max(0.001, (percent / 100) * TAU),
+            ...
+        )
+        self.sector.become(new_sector)
+    ```
+
+3.  **Animation Interactivity**: Standardizing the animation process, each card exposes animation helpers like `animate_entry()` and specialized transition functions like `animate_value_change()`. 
+
+    ```python
+    def animate_value_change(self, target_value: float, run_time: float = 1.0):
+        start_value = self.number.get_value()
+        def update_func(m, alpha):
+            val = interpolate(start_value, target_value, alpha)
+            self.set_value(val)
+        return UpdateFromAlphaFunc(self, update_func, run_time=run_time)
+    ```
+
+This structure makes the dashboard completely modular. Rather than hard-coding animations into the dashboard's initialization, an external `Scene` instantiates standard cards and dynamically triggers their transitions during the presentation.

@@ -1,0 +1,90 @@
+The **Building asset** is a geometrically structured, modular representation of a large institutional complex, designed using Manim primitives. It is not an animated scene, but a **static architectural blueprint** that exposes all of its subcomponents for external manipulation. The structure is intentionally designed to resemble a **grand, symmetric building with extensions**, where each section—central hall, side wings, annex, entrance, roof, and foundation—can be independently accessed and modified. This makes it ideal for animation systems or procedural workflows that need **fine-grained control over individual visual elements**.
+
+---
+
+### Overall Structural Composition
+
+The building is constructed as a single top-level `VGroup`, composed of multiple nested groups representing different architectural sections. The layout follows a **centralized composition**, where a dominant main building sits at the center, flanked symmetrically by wings on both sides, and extended asymmetrically by an annex on the far right.
+
+All elements are positioned using **relative spatial relationships** such as `next_to()` and `align_to()`, ensuring that every component is anchored to another rather than placed arbitrarily. This creates a structure that is both **visually cohesive and programmatically stable**, as changes to one component naturally propagate through the layout. The entire building is scaled at the end to fit within a desired frame width, maintaining consistent proportions regardless of the input dimensions.
+
+---
+
+### Central Hall (Main Building Core)
+
+At the heart of the structure is the **central hall**, which acts as the visual and spatial anchor of the entire building. It is constructed as a tall rectangular block filled with a smooth vertical gradient, created by stacking multiple thin horizontal strips. This gives the surface a sense of depth and material richness, similar to a façade with subtle lighting variation.
+
+Inside this central hall is a **grid of window panels**, arranged in a 3×3 configuration. These windows are evenly spaced and positioned slightly above the vertical center of the hall, creating a balanced composition while leaving space below for the main entrance. Each window is a small rectangular unit with a consistent aspect ratio and a higher visual priority (z-index), ensuring it remains clearly visible against the background.
+
+---
+
+### Main Entrance (Door System)
+
+At the base of the central hall is the **main entrance**, designed as a framed double-door system. The entrance consists of a background panel, two door leaves, and a surrounding frame. The door leaves are symmetrically aligned to the left and right halves of the entrance and are slightly inset to create a realistic margin.
+
+The entire entrance assembly is grouped together and aligned precisely with the bottom edge of the central hall. This ensures that the doorway reads as an integrated part of the structure rather than an overlay. The doors are also designed to be **individually movable**, allowing them to open outward or close inward through simple horizontal shifts.
+
+---
+
+### Upper Architectural Features (Roof and Spire)
+
+Above the central hall, a sequence of layered elements forms the **roof and spire system**. Immediately on top of the hall sits a thin horizontal slab, acting as a transitional ledge. Above this, a semi-circular dome is placed, spanning the width of the central structure. The dome provides a sense of grandeur and vertical emphasis, typical of institutional or heritage buildings.
+
+Emerging from the dome is a **lantern-like vertical structure**, which slightly overlaps with the dome to create continuity. From the top of this lantern extends a slender pole, at the end of which a small rectangular flag is attached. This flag acts as the highest point of the building, visually completing the vertical hierarchy.
+
+---
+
+### Side Wings (Lateral Extensions)
+
+Extending from both sides of the central hall are **modular wing structures**, which represent additional sections of the building. These wings are constructed using a consistent pattern: a rectangular body with a gradient fill, a grid of windows, and a thin ledge on top.
+
+The wings are organized in two layers on each side:
+
+* **Inner wings**, directly attached to the central hall, contain a denser arrangement of windows (2×3 grid).
+* **Outer wings**, attached to the inner wings, contain a slightly smaller grid (2×2), giving a sense of tapering complexity as the structure expands outward.
+
+All wings are aligned along their bottom edges and placed flush against one another, with no gaps between them. This creates a continuous horizontal expansion that feels structurally unified.
+
+---
+
+### Annex Building (Right-Side Extension)
+
+On the far right of the structure is an **annex building**, which serves as an additional extension of the main complex. This section is more intricate and combines multiple architectural elements into a compact unit.
+
+At its center is a smaller rectangular block with a gradient fill, containing a set of windows positioned slightly above its midpoint. Below this is a dedicated entrance, similar in structure to the main door but scaled to fit the smaller building. Above the central block is a flat ledge, topped with a triangular roof that gives the annex a distinct silhouette.
+
+Flanking the central portion of the annex are two smaller side sections, each resembling miniature wings with their own window arrangements. These are attached directly to the central block and aligned along the same baseline as the rest of the building. The entire annex is positioned adjacent to the outermost wing on the right, maintaining the overall horizontal alignment.
+
+---
+
+### Pathways and Vertical Accents
+
+Running along the inner edges of the central hall are two vertical lines that act as **decorative or structural accents**, suggesting columns or internal divisions. These lines extend from the bottom to the top of the hall and are slightly inset from the edges, adding subtle visual detail without disrupting the overall symmetry.
+
+---
+
+### Foundation and Steps
+
+Beneath the entire structure lies a **multi-layered foundation**, composed of a series of լայն rectangular steps. These steps increase in width as they descend, creating a stable base that visually supports the building above.
+
+The width of each step is calculated dynamically based on the total horizontal span of the building, ensuring that the foundation always extends beyond the structure on both sides. The steps are stacked directly on top of one another with no gaps, forming a continuous base. The lowest layer is styled with a darker tone, grounding the entire composition.
+
+---
+
+### Final Assembly and Scaling
+
+All components—the central hall, wings, annex, and foundation—are added into the main `VGroup` in a deliberate order that preserves layering and visual clarity. Once assembled, the entire building is uniformly scaled so that it fits within a predefined width relative to the scene. This ensures that the structure remains visually balanced and consistent across different rendering contexts.
+
+---
+
+### Behavioral Manipulation Capabilities
+
+Although the building is static by default, it is explicitly designed for **external manipulation**. The double doors at the main entrance can be animated by shifting the left and right panels horizontally, simulating opening and closing. Window grids across the building can be individually accessed and modified, allowing for effects such as illumination, highlighting, or sequencing.
+
+Entire sections of the building—such as wings or the annex—can be shifted, scaled, or faded to create the impression of expansion, focus, or interaction. Because all components are grouped logically and positioned relative to one another, these transformations can be applied without disrupting the structural coherence of the building.
+
+---
+
+### Summary
+
+The Building asset is a **modular architectural composition** that combines a central hall, symmetrical wings, an extended annex, and a layered foundation into a cohesive structure. Every element is constructed with relative positioning and exposed grouping, making the asset both visually expressive and highly controllable. It serves as a robust foundation for any workflow that requires **structured, component-level manipulation of a complex visual entity**.

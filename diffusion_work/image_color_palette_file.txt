@@ -1,0 +1,1 @@
+A color palette comprising of purple(#7651A2), blue(#73C2E5), red(#EA212A), yellow(#F9C72C) and black(#000000). You can use an optimal mix of these primary colors along with their lighter shades

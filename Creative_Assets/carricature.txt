@@ -1,0 +1,142 @@
+This code defines a reusable animated character class called MiniStickFigure. It is not a scene — it is a modular character system that can be added to any Manim animation and dynamically resized, reshaped, or animated. The class inherits from VGroup, meaning the entire character behaves as a single grouped object while still allowing individual body parts to be accessed and manipulated.
+
+1. Character Proportions System
+
+When a MiniStickFigure is created, it accepts adjustable proportions:
+- head_radius
+- body_width
+- body_height
+- arm_length
+- leg_length
+
+These values are stored internally so the figure can be rebuilt later with updated proportions.
+
+Immediately after initialization:
+
+_build() constructs the geometry.
+
+_store_base_copies() saves neutral arm positions for future animation.
+
+This design allows dynamic morphing without breaking animations.
+
+2. Build System (Geometry Construction)
+
+The _build() method constructs the entire character from basic shapes.
+
+*Head*
+
+A white filled circle with black stroke.
+Two small black dots for eyes.
+A small arc positioned downward to form a smiling mouth.
+The eyes and mouth are positioned relative to the head center.
+
+*Body*
+
+The torso is a rounded rectangle:
+Width = body_width
+Height = body_height
+Corner radius = half the width (giving it a pill shape)
+Black outline, white fill
+
+It is placed directly below the head with no gap.
+
+*Shoulders & Hands*
+
+The shoulder points are calculated from the body edges.
+Each hand is a tiny rounded square placed at shoulder height.
+Left hand is rotated -35°
+Right hand is rotated +35°
+This gives the arms a natural angled starting position.
+
+*Arms*
+
+Each arm is a vertical rounded rectangle:
+Width = 0.25
+Height = arm_length
+The arms are positioned directly below their corresponding hands.
+Because hands are rotated, the arms appear slightly angled outward.
+
+*Legs*
+
+Each leg is a vertical rounded rectangle:
+Width = 0.3
+Height = leg_length
+They are placed directly under the body and shifted slightly left and right for separation.
+
+At the end of _build(), all parts are added to the main group:
+
+Head
+Eyes
+Mouth
+Body
+Hands
+Arms
+Legs
+
+The character is now complete.
+
+3. Rebuild System
+
+The rebuild() method: Clears the existing geometry
+Reconstructs the character using updated proportions
+Stores fresh base copies of arms
+This is important because animations depend on stored base states.
+
+4. Scaling System
+
+Scale Entire Character
+set_scale(factor)
+Scales the entire figure proportionally.
+Scale Individual Part
+scale_part(part_name, factor)
+Allows resizing of specific body parts like:
+"head"
+"left_arm"
+"right_leg"
+This enables exaggerated animation effects.
+
+5. Dynamic Proportion Editing
+
+The method: set_proportion(head_radius=..., body_height=..., etc)
+
+Updates any stored proportion value and rebuilds the entire character.
+
+This allows:
+Taller bodies
+Longer legs
+Bigger heads
+Cartoon exaggeration
+
+All without manually repositioning parts.
+
+6. Base State Storage
+
+The method _store_base_copies() saves neutral copies of:
+left_arm_base
+right_arm_base
+
+These are used during animation to avoid cumulative rotation errors.
+Without this step, arm rotations would compound over time and break.
+
+7. Walk Animation System
+
+The method: animate_walk(duration=4)
+
+Creates a smooth arm-swing animation driven by a ValueTracker.
+
+How it works:
+A ValueTracker called walk increases from 0 to 4π.
+Arm swing angle = 20° × sin(walk_value)
+Left arm rotates by +angle
+Right arm rotates by -angle
+This creates natural opposing arm motion.
+
+Each arm:
+
+Copies its base position
+Rotates around its shoulder joint
+Replaces itself with the rotated version using .become()
+Because base copies are used, the motion stays stable even after scaling.
+The function returns the animation:
+walk.animate.set_value(4 * PI)
+This allows it to be used inside self.play() in a scene.

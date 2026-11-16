@@ -9,6 +9,22 @@ Strictly derived from guidelines.md (compiled from all 5 official OSL documents)
 """
 
 from pathlib import Path
+import os
+try:
+    from dotenv import load_dotenv
+    _env_path = Path(__file__).resolve().parent.parent / ".env"
+    if _env_path.exists():
+        load_dotenv(_env_path)
+        if "GOOGLE_API_KEY" in os.environ and "GEMINI_API_KEY" not in os.environ:
+            os.environ["GEMINI_API_KEY"] = os.environ["GOOGLE_API_KEY"]
+        elif "GEMINI_API_KEY" in os.environ and "GOOGLE_API_KEY" not in os.environ:
+            os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
+        if "CLAUDE_API_KEY" in os.environ and "ANTHROPIC_API_KEY" not in os.environ:
+            os.environ["ANTHROPIC_API_KEY"] = os.environ["CLAUDE_API_KEY"]
+        elif "ANTHROPIC_API_KEY" in os.environ and "CLAUDE_API_KEY" not in os.environ:
+            os.environ["CLAUDE_API_KEY"] = os.environ["ANTHROPIC_API_KEY"]
+except ImportError:
+    pass
 
 # ==============================================================================
 # 1. VIDEO & CANVAS STANDARDS (guidelines.md Section 7.1)

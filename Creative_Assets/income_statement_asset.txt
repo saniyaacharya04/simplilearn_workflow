@@ -1,0 +1,253 @@
+The **Income Statement asset** is a structured, document-style visual representation of a company’s financial performance, organized as a **single-column vertical statement**. It is designed to reflect the logical progression from revenue to net profit, with each row positioned precisely using relative coordinates. The construction emphasizes **strict spatial consistency**, where both horizontal alignment and vertical spacing are governed by numeric offsets derived from the sheet’s dimensions. This ensures that the asset behaves like a well-formatted financial document while remaining fully modular and controllable.
+
+---
+
+### Overall Sheet Composition and Coordinate System
+
+The entire asset is constructed as a top-level `VGroup`, with all elements positioned relative to the **paper’s center coordinate**. The sheet has a fixed width of `10.0` units and height of `7.2` units, which defines the coordinate space.
+
+The horizontal positioning is anchored around:
+
+* `x_center = self.paper.get_center()[0]`
+
+From this center:
+
+* Left label boundary = `x_center - 4.4`
+* Right value boundary = `x_center + 4.4`
+
+This creates a total usable content width of approximately `8.8 units`, leaving margins on both sides within the 10-unit sheet.
+
+Vertically, content begins at:
+
+* Initial y-position = `y = 1.6`
+
+Rows are then placed sequentially downward using:
+
+* Standard row spacing = `0.6 units`
+* Divider spacing adjustment = `0.3 units` above and below lines
+
+This establishes a **consistent vertical rhythm** across the document.
+
+---
+
+### Paper and Border Construction
+
+The base layer consists of a **paper rectangle**:
+
+* Width = `10.0`
+* Height = `7.2`
+* Centered at the origin
+
+This rectangle is filled with white and outlined with a border of stroke width `2.5`.
+
+Inside this, an **inner border** is constructed:
+
+* Width = `9.5` (10.0 - 0.5)
+* Height = `6.7` (7.2 - 0.5)
+
+This creates a uniform inset margin of `0.25 units` on all sides, giving the sheet a framed appearance. Both rectangles are perfectly center-aligned, ensuring symmetry.
+
+---
+
+### Header Construction and Positioning
+
+The header consists of two text elements arranged vertically:
+
+* Title (company name)
+* Subtitle (statement type)
+
+These are grouped and positioned relative to the top edge of the paper:
+
+* `paper.get_top() + DOWN * 0.9`
+
+Given the sheet height of `7.2`, the top edge is at approximately `y = +3.6`, so the header is placed around:
+
+* `y ≈ +2.7`
+
+The spacing between title and subtitle is:
+
+* `0.15 units`
+
+This creates a compact header block that sits clearly above the content region without overlapping it.
+
+---
+
+### Vertical Divider Placement
+
+A **vertical divider line** is introduced to separate labels and values. Its placement is intentionally offset to the right:
+
+* Base line spans:
+
+  * From: `paper.get_top() + DOWN * 1.5` → `y ≈ +2.1`
+  * To: `paper.get_bottom() + UP * 0.5` → `y ≈ -3.1`
+
+* Horizontal shift:
+
+  * `RIGHT * 2.0`
+
+This places the divider at:
+
+* `x = x_center + 2.0`
+
+This offset creates:
+
+* A wider **label region** on the left (~6.4 units from left edge to divider)
+* A narrower **value region** on the right (~2.4 units)
+
+This asymmetry is intentional to accommodate longer text labels.
+
+---
+
+### Row Construction and Alignment
+
+Each row consists of:
+
+* A label (`lbl`)
+* A value (`val`)
+
+Both are positioned using the shared y-coordinate and fixed horizontal anchors:
+
+* Label position:
+
+  * `x = x_center - 4.4 + indent`
+  * Left-aligned
+
+* Value position:
+
+  * `x = x_center + 4.4`
+  * Right-aligned
+
+Indentation is applied as:
+
+* Standard indent = `+0.4 units` (for sub-items)
+
+This means:
+
+* Primary rows start at `x_center - 4.4`
+* Sub-items start at `x_center - 4.0`
+
+All rows are vertically spaced using:
+
+* `y -= 0.6` after each row
+
+This creates consistent separation between entries.
+
+---
+
+### Content Flow and Section Positioning
+
+The content begins at:
+
+* `y = 1.6`
+
+From here, rows are placed sequentially:
+
+1. **Revenue**
+
+   * Positioned at `y = 1.6`
+   * Bold, primary entry
+
+2. **Cost of Goods Sold**
+
+   * Positioned at `y = 1.0`
+   * Red-highlighted to indicate deduction
+
+3. **Divider Line (line_sep)**
+
+   * Inserted after reducing y by `0.3` → `y = 0.7`
+   * Line drawn from:
+
+     * `x = x_center - 4.4` to `x_center + 4.4`
+   * Another `0.3` reduction → next row at `y = 0.4`
+
+4. **Gross Profit**
+
+   * Positioned at `y ≈ 0.4`
+   * Bold to indicate subtotal
+
+5. **Operating Expenses Header**
+
+   * Positioned at `y ≈ -0.2`
+   * Styled as section header
+
+6. **Expense Sub-items**
+
+   * Depreciation → `y ≈ -0.8`
+   * Admin Expenses → `y ≈ -1.4`
+   * Both indented by `0.4 units`
+
+7. **Second Divider Line**
+
+   * Inserted with same ±0.3 spacing logic
+   * Positioned around `y ≈ -1.7`
+
+8. **Net Profit**
+
+   * Final row at `y ≈ -2.3`
+   * Font size = `26` (larger than standard 21)
+   * Bold and highlighted
+
+---
+
+### Divider Lines and Spacing Logic
+
+Divider lines are inserted using a two-step vertical adjustment:
+
+* First: `y -= 0.3` → place line
+* Then: `y -= 0.3` → continue content
+
+This creates a total vertical gap of `0.6 units`, matching standard row spacing but visually segmented.
+
+Each divider spans:
+
+* From `x_center - 4.4` to `x_center + 4.4`
+
+Stroke width:
+
+* `1.5`, slightly heavier than standard lines
+
+This ensures visual prominence without overpowering text.
+
+---
+
+### Final Row Emphasis
+
+The **Net Profit row** is distinguished through:
+
+* Increased font size (`26` vs default `21`)
+* Bold weight
+* Placement near bottom of content area (`y ≈ -2.3`)
+
+Its position ensures:
+
+* Clear separation from preceding rows
+* Visual anchoring as the final outcome
+
+---
+
+### Structural Consistency and Scaling
+
+All elements are positioned relative to:
+
+* `paper.get_center()`
+* Fixed horizontal offsets (±4.4 units)
+* Fixed vertical spacing (0.6 units)
+
+Because of this:
+
+* The layout maintains proportional integrity if scaled
+* All rows remain aligned regardless of content changes
+
+The consistent use of:
+
+* Shared x-coordinates
+* Uniform y-step decrements
+* Standard indent offsets
+
+ensures that the document remains visually stable and structurally predictable.
+
+---
+
+### Summary
+
+The Income Statement asset is a **precisely aligned, coordinate-driven financial document**, where every element is positioned using explicit numeric offsets relative to the sheet’s center. The layout combines a fixed-width paper base, a structured header, an offset vertical divider, and a sequence of evenly spaced rows to create a clear financial hierarchy. By enforcing consistent horizontal anchors (`±4.4 units`), vertical spacing (`0.6 units`), and indentation (`0.4 units`), the asset achieves both visual clarity and structural rigor, making it highly suitable for workflows that require deterministic layout control and modular manipulation.

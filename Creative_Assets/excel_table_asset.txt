@@ -1,0 +1,259 @@
+The **Excel Table asset** is a highly structured visual simulation of a spreadsheet interface, designed to replicate the look and spatial logic of a modern Excel sheet. It combines a **tabular grid system**, **formula bar**, **column/row headers**, and **contextual annotation components** into a single cohesive layout. The asset is built with strict geometric control, where every element—from individual cells to auxiliary UI components—is positioned using explicit numeric offsets. This ensures that the structure behaves like a true spreadsheet, with consistent alignment, predictable spacing, and modular access to every cell and row.
+
+---
+
+### Overall Layout and Coordinate Framework
+
+The entire asset is centered around the origin and constructed within a coordinate system defined by the **total table width (`TOTAL_W`)** and a fixed vertical stacking of sections. The total width is computed as:
+
+* `TOTAL_W = ROW_NUM_W + sum(COL_W)`
+* = `0.55 + (0.9 + 2.55 + 2.7 + 2.35)`
+* = **9.05 units**
+
+This width defines the horizontal span of the table grid. The left boundary of the table is therefore:
+
+* `table_left = -TOTAL_W / 2 ≈ -4.525`
+
+All horizontal placements of cells are computed incrementally from this left boundary.
+
+Vertically, the layout is divided into stacked bands:
+
+1. Title section (top)
+2. Formula bar
+3. Column headers
+4. Data header row
+5. Data rows
+6. Bottom banner
+
+Each section is anchored using explicit y-coordinates, ensuring no overlap and consistent spacing.
+
+---
+
+### Title Section Positioning
+
+The title block consists of two text elements (title and subtitle) arranged vertically with a spacing of `0.12 units`. This group is positioned at:
+
+* `y = 3.65`
+
+This places it near the top of the frame, clearly separated from the spreadsheet grid below. The alignment is center-based (`x = 0`), ensuring symmetry with the table.
+
+---
+
+### Formula Bar Construction
+
+The formula bar is a horizontal rectangular strip that mimics Excel’s input area:
+
+* Width = `TOTAL_W = 9.05`
+* Height = `0.38`
+
+It is positioned using:
+
+* `y = 1.45 + 0.19 = 1.64`
+
+This places it just above the grid region.
+
+Internally, the formula bar contains three elements:
+
+* **Cell reference text (“B2”)**, positioned:
+
+  * Near the left edge: `fb_bg.get_left() + RIGHT * 0.18`
+  * Slight upward shift: `+ UP * 0.1`
+* **Vertical divider line**, placed:
+
+  * `RIGHT * 0.15` from the reference text
+  * Slight downward alignment correction: `DOWN * 0.03`
+* **Formula text**, positioned:
+
+  * `RIGHT * 0.18` from the divider
+  * Same vertical alignment as the reference text
+
+This creates a left-to-right flow within the formula bar, maintaining tight spacing and alignment.
+
+---
+
+### Column Header Row (A–D)
+
+The column header row is positioned just below the formula bar. Its vertical position is:
+
+* `col_letter_y = 1.45 - COL_HDR_H / 2`
+* = `1.45 - 0.21 ≈ 1.24`
+
+The row begins with a **corner cell**:
+
+* Width = `ROW_NUM_W = 0.55`
+* Positioned at:
+
+  * `x = table_left + 0.275`
+
+Following this, each column header cell is placed sequentially:
+
+* Column A:
+
+  * Center at `x = table_left + 0.55 + 0.9/2 ≈ -3.625`
+* Column B:
+
+  * Center at previous + `COL_W[0] + COL_W[1]/2`
+* And so on cumulatively
+
+Each column’s x-position is calculated as:
+
+* `x = table_left + ROW_NUM_W + cumulative_width + (current_col_width / 2)`
+
+This ensures precise horizontal tiling with no gaps.
+
+---
+
+### Data Header Row
+
+The data header row sits directly below the column headers:
+
+* `hdr_y = 1.45 - COL_HDR_H - HDR_H / 2`
+* = `1.45 - 0.42 - 0.475 ≈ 0.555`
+
+The row includes:
+
+* A **row number cell (“1”)** at the far left
+* Four header cells aligned exactly with the column headers above
+
+Each header cell uses the same x-centers as the column headers, ensuring perfect vertical alignment across the grid.
+
+The header row height is:
+
+* `HDR_H = 0.95`
+
+This makes it visually taller than data rows, emphasizing its importance.
+
+---
+
+### Data Rows Construction and Positioning
+
+Each data row is placed using a consistent vertical formula:
+
+* `row_y = 1.45 - COL_HDR_H - HDR_H - ROW_H * r_idx - ROW_H / 2`
+
+Substituting values:
+
+* Base = `1.45 - 0.42 - 0.95 = 0.08`
+* So:
+
+  * Row 0 center ≈ `0.08 - 0.31 = -0.23`
+  * Row 1 center ≈ `-0.23 - 0.62 = -0.85`
+  * Row 2 center ≈ `-1.47`
+  * Row 3 center ≈ `-2.09`
+  * Row 4 center ≈ `-2.71`
+
+Each row has:
+
+* Height = `ROW_H = 0.62`
+
+Horizontally:
+
+* First cell (row number) at:
+
+  * `x = table_left + 0.275`
+* Data cells follow using the same cumulative width logic as headers
+
+---
+
+### Cell Construction and Alignment
+
+Each cell is a `VGroup` consisting of:
+
+* A rectangle (background + border)
+* A text object centered within it
+
+Text is constrained using:
+
+* `if hasattr(cell_txt, "width") and cell_txt.width > (w - 0.12): cell_txt.scale_to_fit_width(w - 0.12)`
+
+This ensures:
+
+* A horizontal padding of `~0.06 units` on each side when text overflows
+* Strict uniform font sizing: short cell text maintains natural font size and is never stretched into giant text!
+
+All text is center-aligned within the cell rectangle, ensuring visual balance regardless of content length.
+
+---
+
+### Alternating Row Colors and Highlighting
+
+Row backgrounds alternate between:
+
+* `ROW_ALT1` (light green tint)
+* `ROW_ALT2` (white)
+
+This alternation is based on:
+
+* `r_idx % 2`
+
+A special highlight is applied to:
+
+* Cell at `(row 4, col 3)` (final carrying amount)
+* Fill color = `#BBFABB`
+
+This cell visually indicates completion (fully amortised value = 0).
+
+---
+
+### Asset Card Positioning
+
+A separate **asset summary card** is placed to the left of the table:
+
+* Positioned using:
+
+  * `next_to(self.rows_group, LEFT, buff=0.5)`
+
+This ensures:
+
+* A horizontal gap of `0.5 units` from the table’s left edge
+
+The card itself has:
+
+* Width = `3.0`
+* Height = `2.5`
+
+Its vertical alignment matches the center of the data rows group, making it visually anchored to the table content rather than the entire frame.
+
+---
+
+### Final Banner Placement
+
+The final banner is positioned independently at the bottom:
+
+* `move_to([0, -3.7, 0])`
+
+This places it below the last data row (which ends around `y ≈ -3.0`), leaving a clear separation.
+
+The banner width is dynamically computed based on its content:
+
+* `width = content_width + 1.1`
+* Height = `content_height + 0.55`
+
+This ensures consistent padding around the text.
+
+---
+
+### Structural Organization and Access Points
+
+The asset is organized into clearly defined subcomponents:
+
+* Title (`title_group`)
+* Formula bar (`formula_bar`)
+* Column headers (`col_letter_row`)
+* Data headers (`data_header_row`)
+* Rows (`rows_group`)
+* Asset card (`asset_card`)
+* Final banner (`final_banner`)
+
+Additionally:
+
+* Each cell is indexed via `(row, col)` in `cell_mobjects`
+* Each row is stored as a `VGroup` in `row_mobjects`
+
+This allows precise retrieval and manipulation without recalculating positions.
+
+---
+
+### Summary
+
+The Excel Table asset is a **grid-accurate, coordinate-driven spreadsheet simulation**, where every component—from individual cells to auxiliary UI elements—is positioned using explicit numeric relationships. The layout is governed by a left-anchored cumulative width system and a top-down vertical stacking model, ensuring perfect alignment across rows and columns. With fixed dimensions (`ROW_H = 0.62`, `COL_HDR_H = 0.42`, `HDR_H = 0.95`) and precise offsets (e.g., `±4.525` horizontal bounds), the asset achieves a highly deterministic structure. This makes it ideal for workflows that require fine-grained control over tabular data visualization and component-level manipulation.

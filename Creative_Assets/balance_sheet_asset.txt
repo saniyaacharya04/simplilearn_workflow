@@ -1,0 +1,178 @@
+The **Balance Sheet asset** is a structured, document-style visual representation of a company’s financial position, designed as a clean, printable sheet using Manim primitives. Rather than being an animated scene, it functions as a **static financial canvas** where each row, label, and value is individually addressable. The layout mirrors a traditional balance sheet, with **Assets on the left and Liabilities & Equity on the right**, separated by a central divider. The asset is intentionally built in a modular way so that external workflows—such as RAG pipelines or animation systems—can **update values, highlight rows, or animate transitions** without altering the underlying structure.
+
+---
+
+### Overall Sheet Composition
+
+The entire asset is constructed as a top-level `VGroup`, representing a single sheet of paper. This sheet acts as the **primary container**, within which all elements—header, dividers, and rows—are positioned relative to the sheet’s geometry.
+
+The sheet has a fixed width and height, and all internal positioning is calculated using:
+
+* The **center of the sheet** (`cx`) for column alignment
+* Explicit **y-coordinate anchors** for row placement
+* Left and right **column boundaries** for text alignment
+
+This ensures that the layout behaves like a **grid-based financial document**, where spatial consistency is maintained across all rows.
+
+---
+
+### Paper and Border Construction
+
+The base of the asset is a **rectangular paper background**, filled with a solid white color to simulate a clean document. This rectangle also has a visible outer border, giving it a defined boundary within the scene.
+
+Inside this outer boundary, a slightly smaller rectangle is added as an **inner border**, creating a subtle framing effect. This inner border uses a thinner stroke and a contrasting color, providing a sense of depth and polish without cluttering the layout.
+
+Both rectangles are grouped together and added first, establishing the **visual foundation** upon which all other elements are layered.
+
+---
+
+### Header Construction
+
+At the top of the sheet sits the **header section**, composed of two text elements:
+
+* The **company name** (title)
+* The **document type** (subtitle, e.g., “Balance Sheet”)
+
+These two elements are arranged vertically with a small spacing between them and then positioned slightly below the top edge of the paper. This creates a clear visual hierarchy:
+
+* The title appears more prominent due to its size and color
+* The subtitle reinforces the context of the document
+
+The entire header is grouped into a single `VGroup`, allowing it to be manipulated as one unit if needed.
+
+---
+
+### Central Divider and Column Layout
+
+The sheet is divided into two equal halves using a **vertical line (center divider)**. This line starts slightly below the header and extends toward the bottom of the sheet, stopping just above the lower margin.
+
+This divider establishes the two primary sections:
+
+* **Left side → Assets**
+* **Right side → Liabilities & Equity**
+
+Column boundaries are defined relative to the sheet’s center:
+
+* Left column:
+
+  * Label anchor (`al_xl`) → far left
+  * Value anchor (`al_xr`) → near the center divider
+* Right column:
+
+  * Label anchor (`rl_xl`) → just right of divider
+  * Value anchor (`rl_xr`) → far right
+
+This setup ensures that:
+
+* Labels are **left-aligned**
+* Values are **right-aligned**
+* Both columns mirror each other structurally
+
+---
+
+### Row Construction Logic
+
+Each row in the balance sheet is constructed using a reusable helper that creates:
+
+* A **label text object** (e.g., “CASH”)
+* A **value text object** (e.g., “12,000”)
+
+These two elements are grouped together and positioned using:
+
+* A shared **y-coordinate** (for vertical placement)
+* Separate **x-coordinates** for label and value alignment
+
+Rows support several variations through parameters:
+
+* **Bold styling** for headers and totals
+* **Indentation** for subcategories (e.g., line items under “Current Assets”)
+* **Custom font sizes** for emphasis (e.g., totals)
+* **Color overrides** for headers or highlights
+
+Each constructed row is stored in a dictionary (`row_mobjects`) using a clean key, allowing external systems to **retrieve and manipulate specific rows directly**.
+
+---
+
+### Left Section (Assets)
+
+The left half of the sheet represents **Assets**, organized in a top-down hierarchy.
+
+It begins with a section header (“ASSETS”), followed by a subheader (“CURRENT ASSETS”). Under this, individual line items such as “CASH” and “ACCOUNTS RECEIVABLE” are listed with slight indentation, visually indicating that they belong to the subcategory.
+
+Between logical groupings, **horizontal divider lines** are inserted. These lines vary in thickness to distinguish between:
+
+* Minor separations (thin lines)
+* Major totals (thicker lines)
+
+Totals such as “TOTAL CURRENT ASSETS” and “TOTAL ASSETS” are styled in bold, with the final total using a larger font size to emphasize its importance.
+
+Below the current assets section, a second category (“NON-CURRENT ASSETS”) is introduced, following the same structural pattern.
+
+---
+
+### Right Section (Liabilities & Equity)
+
+The right half mirrors the structure of the left but represents **Liabilities and Equity**.
+
+It begins with a combined header (“LIABILITIES & EQUITY”), followed by:
+
+* A subcategory for **Current Liabilities**
+* Individual entries such as “ACCOUNTS PAYABLE”
+* A subtotal line (“TOTAL LIABILITIES”)
+
+Below this, a second category for **Equity** is introduced, containing entries like “RETAINED EARNINGS”.
+
+As with the left side, horizontal divider lines are used to separate sections and emphasize totals. The final row (“TOTAL LIAB. & EQUITY”) is styled prominently to match the total assets value, reinforcing the fundamental accounting identity.
+
+---
+
+### Divider Lines and Visual Separation
+
+Throughout both sections, **horizontal lines** are used as separators. These are not grouped with rows but are independently added as line objects spanning the width of their respective columns.
+
+Two levels of emphasis are created:
+
+* **Thin lines** → minor separation between items
+* **Thicker lines** → separation before totals
+
+These lines help structure the document visually, making it easier to scan and interpret.
+
+---
+
+### Final Assembly
+
+All elements—paper, header, divider, rows, and lines—are added sequentially into the main `VGroup`. The layering ensures that:
+
+* The paper sits at the back
+* Text and lines are rendered clearly on top
+* The divider remains visible but unobtrusive
+
+Because all positions are computed relative to the paper and center axis, the layout remains stable even if the sheet dimensions are adjusted.
+
+---
+
+### Behavioral Manipulation Capabilities
+
+Although the asset is static, it is designed for **dynamic updates and interaction**.
+
+Each row is stored and can be accessed using a unique key. This allows external systems to:
+
+* **Update values** dynamically using `update_row_value()`
+* Change text color (e.g., highlight gains in green or losses in red)
+* Replace values without disturbing alignment
+
+Because labels and values are separate objects, animations such as:
+
+* Fading values in/out
+* Highlighting specific rows
+* Sequentially revealing financial data
+
+can be applied at a granular level.
+
+The entire sheet can also be animated as a single unit using the provided `animate_entry()` method, which introduces the sheet with a slight upward fade-in motion.
+
+---
+
+### Summary
+
+The Balance Sheet asset is a **grid-structured financial document simulation**, built with precise positional logic and modular components. It combines a clean paper layout, hierarchical text organization, and symmetrical column design to faithfully represent a traditional balance sheet. By exposing each row and maintaining strict alignment rules, the asset enables **fine-grained control over financial data visualization**, making it highly suitable for workflows that require dynamic updates, highlighting, or staged presentation of structured information.
