@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 """
-Simplilearn OSL 3.0 Pipeline Runner (Saniya's Assigned Stages)
-Reference: Simplilearn Workflow tracker.xlsx (Owner: Saniya)
+Simplilearn OSL 3.0 Pipeline Runner
+Reference: Simplilearn Workflow Standards
 
 Assigned Workflow Stages:
   1. Instructional Storyboarding Guidelines & Design   [1_instructional_design.py]
-     - Accounts for SME positioning (100% Full, 70% Left Rounded Rect, 20% PIP Corner)
+     - Accounts for dynamic SME positioning (100% Full, 70% Left Rounded Rect, 20% PIP Corner)
      - Governed by: instructional_storyboarding_guidelines.txt
   2. Asset Classification                              [2_asset_classification.py]
      - Categorizes cards, text blocks, diagrams, and illustration needs
   3. Image Prompt Generation                           [3_image_prompt_generation.py]
      - Generates diffusion prompts for assets using color_guidelines.txt
-     - Direct hand-off to Somnath for 'Add image generation'
 """
 
 import os
@@ -57,8 +56,7 @@ def run_assigned_pipeline(
     prompts_json   = out_path / f"{base}_image_prompts.json"
 
     print("\n" + "=" * 75)
-    print(f"🚀 SIMPLILEARN OSL 3.0 PIPELINE (SANIYA'S ASSIGNED STAGES)")
-    print(f"   Tracker Reference: Simplilearn Workflow tracker.xlsx")
+    print(f"🚀 SIMPLILEARN OSL 3.0 PIPELINE")
     print(f"   Input Transcript:  {input_transcript}")
     print(f"   Lesson Title:      {lesson_title}")
     print(f"   Output Folder:     {output_dir}")
@@ -91,12 +89,11 @@ def run_assigned_pipeline(
     print(f"   1. Storyboard Blueprint: {blueprint_json}")
     print(f"   2. Classified Assets:    {assets_json}")
     print(f"   3. Image Prompts:        {prompts_json}")
-    print(f"   Downstream Hand-off:     Ready for Somnath (Image Generation & Templates)")
     print("=" * 75 + "\n")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Simplilearn Pipeline Runner (Saniya's Assigned Stages)")
+    parser = argparse.ArgumentParser(description="Simplilearn Pipeline Runner")
     parser.add_argument("-i", "--input-transcript", required=True, help="Cleaned transcript JSON")
     parser.add_argument("-o", "--output-dir", default="output/assigned_stages", help="Output directory")
     parser.add_argument("-l", "--lesson-title", default=None, help="Lesson title")

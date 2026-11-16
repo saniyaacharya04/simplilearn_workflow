@@ -3,9 +3,7 @@
 ================================================================================
 PIPELINE STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN
 ================================================================================
-Assigned to: Saniya (Simplilearn Workflow Tracker)
 Strictly aligned with guidelines.md (Sections 1, 2, 4, and 8)
-Incorporates architectural patterns from Kplor InstructionalDesign
 
 Transforms raw teacher lecture transcripts into a structured educational
 presentation storyboard blueprint with DYNAMIC SME FRAMING.
@@ -24,10 +22,6 @@ Directly ingests 'instructional_storyboarding_guidelines.txt' to enforce:
     * Chicago Title Casing, 5-7 words, no one-word titles, avoid "Why" in question titles.
     * Single-digit numbers (0-9) spelled out in words ("zero" through "nine").
     * No split attention; OST anchors and complements narration without verbatim duplication.
-- Kplor Architecture Integrations:
-    * clean_narration_latex(): converts LaTeX expressions into natural spoken English for TTS.
-    * parse_input_to_json(): resilient parsing of markdown, code fences, and structured text.
-    * InstructionalDesign class with full error handling and offline fallback.
 ================================================================================
 """
 
@@ -54,7 +48,6 @@ def clean_narration_latex(text: str) -> str:
     """
     Cleans raw LaTeX markup and converts common mathematical LaTeX expressions 
     into natural spoken English for Text-to-Speech (TTS) narration.
-    Adopted from Kplor InstructionalDesign.clean_narration_latex.
     """
     if not text:
         return ""
@@ -253,7 +246,7 @@ def parse_input_to_json(input_text: str) -> Dict[str, Any]:
         except json.JSONDecodeError:
             pass
 
-    # Text/markdown fallback parser for Scene blocks (Kplor style)
+    # Text/markdown fallback parser for Scene blocks
     output: Dict[str, Any] = {"scenes": []}
     scene_blocks = re.split(r"(?im)^\s*#*\s*Scene\s+(\d+)\b", input_text)
     if len(scene_blocks) > 1:
@@ -540,7 +533,6 @@ class InstructionalDesign:
                 resp = model.generate_content(prompt)
                 parsed = parse_input_to_json(resp.text)
                 if "scenes" in parsed and len(parsed["scenes"]) > 0:
-                    # Enrich any scenes missing full SME positioning geometries
                     for sc in parsed["scenes"]:
                         layout = sc.get("sme_layout", "70")
                         framing = resolve_dynamic_sme_framing(sc.get("scene_type", "concept"), sc.get("voiceover_narration", ""), explicit_layout=layout)
@@ -638,7 +630,7 @@ def run_stage_1(
     print(f"STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN (DYNAMIC SME FRAMING)")
     print(f"Guidelines: {GUIDELINES_TXT_PATH.name}")
     print(f"Compliance: guidelines.md Sections 1, 2, 4, 6, 8 (OSL 3.0)")
-    print(f"Architecture: Kplor InstructionalDesign Parity with Dynamic SME Framing")
+    print(f"Dynamic SME Framing: Enabled (100% / 70% / 20%)")
     print(f"==================================================================")
 
     designer = InstructionalDesign(api_provider=api_provider)

@@ -3,9 +3,7 @@
 ================================================================================
 PIPELINE STAGE 3: IMAGE PROMPT GENERATION
 ================================================================================
-Assigned to: Saniya (Simplilearn Workflow Tracker)
 Strictly aligned with guidelines.md (Sections 6.2 & 6.4)
-Incorporates prompt engineering patterns from Kplor ImagePrompting
 
 Synthesizes diffusion-ready image generation prompts for visual assets identified
 in Stage 2 (Asset Classification) as requiring custom illustrations or conceptual graphics.
@@ -15,16 +13,6 @@ Enforces guidelines.md compliance:
 - Brand Palette Harmony: Infuses the approved 10-color infographic palette (Section 6.4).
 - Clean Background: Pure white isolated background (#FFFFFF) for seamless compositing.
 - Zero Split-Attention: Forbids embedded text or labels inside images.
-
-Kplor Architecture Integrations:
-- Visual Decomposition Law: Decomposes subjects into primary forms, major components,
-  surface relationships, depth cues, and palette distribution.
-- Stylized Character Design: Renders any human subjects as friendly modern 2D vector characters
-  in palette attire, never generic stick figures or faceless silhouettes.
-- ImagePrompting class with full downstream metadata for Somnath.
-
-Downstream Hand-off:
-The output JSON directly feeds Somnath's task: 'Add image generation'.
 ================================================================================
 """
 
@@ -89,8 +77,8 @@ class ImagePrompting:
         lesson_title: str
     ) -> Dict[str, Any]:
         """
-        Synthesizes an Imagen 3 / SDXL diffusion prompt applying Kplor's
-        Visual Decomposition Law and strictly enforcing Simplilearn guidelines.md (2D flat vector).
+        Synthesizes an Imagen 3 / SDXL diffusion prompt strictly enforcing
+        Simplilearn guidelines.md (2D flat vector).
         """
         card_content = asset.get("content", {})
         header = card_content.get("header", "Educational Concept")
@@ -98,7 +86,7 @@ class ImagePrompting:
         accent_color = asset.get("styling", {}).get("accent_color", "#62B7E4")
         concept_hint = asset.get("image_generation_concept") or f"{header}: {body}"
 
-        # Detect human or user presence to invoke Kplor Stylized Character Construction
+        # Detect human or user presence for clean 2D vector styling
         is_human_related = any(k in header.lower() or k in body.lower() for k in [
             "person", "human", "user", "developer", "engineer", "customer", "student", "trainer", "team"
         ])
@@ -112,7 +100,7 @@ class ImagePrompting:
         else:
             character_directive = ""
 
-        # Positive Prompt: Kplor Visual Decomposition (primary subject -> components -> surfaces -> palette -> background)
+        # Positive Prompt (primary subject -> components -> surfaces -> palette -> background)
         positive_prompt = (
             f"A clean modern 2D flat vector educational illustration representing {header}. "
             f"{character_directive}"
@@ -150,10 +138,8 @@ class ImagePrompting:
             "guidelines_compliance": {
                 "section_6_2_no_3d": "PASS",
                 "section_6_4_palette_harmony": "PASS",
-                "section_3_2_zero_embedded_text": "PASS",
-                "architecture_parity": "Kplor ImagePrompting"
-            },
-            "downstream_assignee": "Somnath (Add image generation)"
+                "section_3_2_zero_embedded_text": "PASS"
+            }
         }
 
     def generate_prompts(self, catalog: Dict[str, Any]) -> Dict[str, Any]:
@@ -199,10 +185,8 @@ class ImagePrompting:
                 "guidelines_compliance": {
                     "section_6_2_no_3d": "PASS",
                     "section_6_4_palette_harmony": "PASS",
-                    "section_3_2_zero_embedded_text": "PASS",
-                    "architecture_parity": "Kplor ImagePrompting"
-                },
-                "downstream_assignee": "Somnath (Add image generation)"
+                    "section_3_2_zero_embedded_text": "PASS"
+                }
             }
             generated_prompts.append(fallback_prompt)
 
@@ -210,7 +194,6 @@ class ImagePrompting:
             "lesson_title": lesson_title,
             "color_guidelines_applied": "color_guidelines.txt",
             "guidelines_reference": "guidelines.md Section 6.2 & 6.4",
-            "architecture_parity": "Kplor ImagePrompting",
             "total_image_prompts": len(generated_prompts),
             "prompts": generated_prompts
         }
@@ -253,7 +236,7 @@ def run_stage_3(
     print(f"STAGE 3: IMAGE PROMPT GENERATION")
     print(f"Color Guidelines: {COLOR_GUIDELINES_TXT.name}")
     print(f"Standards: 2D Flat Vector Only (No 3D / No Shadows per guidelines.md 6.2)")
-    print(f"Architecture: Kplor ImagePrompting Parity")
+    print(f"Diffusion Target: Google Imagen 3 / Stable Diffusion XL")
     print(f"==================================================================")
 
     prompter = ImagePrompting(api_provider=api_provider)
@@ -263,7 +246,6 @@ def run_stage_3(
         data = json.load(f)
 
     print(f"✓ Stage 3 Complete: {data['total_image_prompts']} 2D flat vector image prompts synthesized")
-    print(f"  Downstream Hand-off: Somnath (Add image generation)")
     print(f"  Saved -> {out_path}\n")
     return out_path
 

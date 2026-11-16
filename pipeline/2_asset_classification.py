@@ -3,9 +3,7 @@
 ================================================================================
 PIPELINE STAGE 2: ASSET CLASSIFICATION
 ================================================================================
-Assigned to: Saniya (Simplilearn Workflow Tracker)
 Strictly aligned with guidelines.md (Sections 4, 6, and 8)
-Incorporates architectural patterns from Kplor AssetClassification
 
 Decomposes the high-level visual descriptions and scenes from Stage 1 (Instructional Design)
 into discrete, categorized visual assets:
@@ -21,11 +19,6 @@ into discrete, categorized visual assets:
 Strictly respects SME Clearance Zones:
 - 70% Layout: SME in left frame (w=640, h=920, r=10), Content safe zone x >= 760px.
 - 20% Layout: SME top-right (384x216), Lead-in collision ceiling x <= 1450px, Diagram zone y >= 270px.
-
-Kplor Architecture Integrations:
-- Core Decision Principle: Mentally freeze each visual into static geometry.
-- Structural Parity: compare_structures() validates 1:1 fidelity between input and classified output.
-- Resilient LLM response parsing: parse_input_to_json().
 ================================================================================
 """
 
@@ -68,8 +61,8 @@ class AssetClassification:
 
     def compare_structures(self, input_dict: Dict[str, Any], output_dict: Dict[str, Any]) -> bool:
         """
-        Structural parity check adopted from Kplor AssetClassification.compare_structures.
-        Compares input storyboard scenes against classified output to verify no dropped steps or scenes.
+        Structural parity check comparing input storyboard scenes against classified output
+        to verify no dropped steps or scenes.
         Returns True if a mismatch was detected, False if structures match cleanly.
         """
         def describe_scenes(obj: Dict[str, Any], label: str) -> Dict[str, int]:
@@ -129,8 +122,8 @@ class AssetClassification:
 
     def classify_scene_assets(self, scene: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
-        Classifies visual elements in each scene using the Freezing Decision Principle:
-        Mentally freeze the scene into static geometry and categorize each element.
+        Classifies visual elements in each scene by mentally freezing the scene into
+        static geometry and categorizing each element.
         """
         scene_id = scene.get("scene_id", 1)
         scene_type = scene.get("scene_type", "general")
@@ -288,8 +281,7 @@ class AssetClassification:
             "guidelines_compliance": {
                 "section_4_editorial_ost": "ENFORCED",
                 "section_6_typography_and_colors": "ENFORCED",
-                "section_8_numerical_geometry": "ENFORCED",
-                "architecture_parity": "Kplor AssetClassification"
+                "section_8_numerical_geometry": "ENFORCED"
             },
             "total_scenes": len(scenes),
             "total_classified_assets": total_assets,
@@ -330,7 +322,6 @@ def run_stage_2(
     print(f"\n==================================================================")
     print(f"STAGE 2: ASSET CLASSIFICATION")
     print(f"Compliance: guidelines.md Sections 4, 6.2, 6.3, 8.4, 8.5")
-    print(f"Architecture: Kplor AssetClassification Parity")
     print(f"==================================================================")
 
     classifier = AssetClassification(blueprint_path=blueprint_json)
