@@ -30,7 +30,9 @@ PROJECT_ROOT = SCRIPT_DIR.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-COLOR_GUIDELINES_TXT = SCRIPT_DIR / "color_guidelines.txt"
+COLOR_GUIDELINES_TXT = SCRIPT_DIR / "guidelines" / "color_guidelines.txt"
+if not COLOR_GUIDELINES_TXT.exists():
+    COLOR_GUIDELINES_TXT = SCRIPT_DIR / "color_guidelines.txt"
 
 
 def load_color_guidelines() -> str:

@@ -314,13 +314,13 @@ class AssetClassification:
 # Backward-compatible Module Interface
 # --------------------------------------------------------------------------------
 
-def run_stage_7(
+def run_stage_6(
     blueprint_json: str,
     output_assets_json: str
 ) -> str:
-    """Runs complete Stage 7 workflow."""
+    """Runs complete Stage 6 workflow."""
     print(f"\n==================================================================")
-    print(f"STAGE 7: ASSET CLASSIFICATION")
+    print(f"STAGE 6: ASSET CLASSIFICATION")
     print(f"Compliance: guidelines.md Sections 4, 6.2, 6.3, 8.4, 8.5")
     print(f"==================================================================")
 
@@ -330,20 +330,21 @@ def run_stage_7(
     with open(out_path, "r", encoding="utf-8") as f:
         catalog = json.load(f)
 
-    print(f"✓ Stage 7 Complete: {catalog['total_classified_assets']} assets classified across {catalog['total_scenes']} scenes")
+    print(f"✓ Stage 6 Complete: {catalog['total_classified_assets']} assets classified across {catalog['total_scenes']} scenes")
     print(f"  Assets flagged for Image Generation: {catalog['assets_requiring_image_generation']}")
     print(f"  Catalog saved -> {out_path}\n")
     return out_path
 
 
-# Backward compatibility alias
-run_stage_2 = run_stage_7
+# Backward compatibility aliases
+run_stage_2 = run_stage_6
+run_stage_7 = run_stage_6
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Stage 7: Asset Classification")
-    parser.add_argument("-b", "--blueprint", required=True, help="Input presentation blueprint JSON from Stage 6")
+    parser = argparse.ArgumentParser(description="Stage 6: Asset Classification")
+    parser.add_argument("-b", "--blueprint", required=True, help="Input presentation blueprint JSON from Stage 5")
     parser.add_argument("-o", "--output", required=True, help="Output classified assets JSON")
     args = parser.parse_args()
 
-    run_stage_7(args.blueprint, args.output)
+    run_stage_6(args.blueprint, args.output)

@@ -1,10 +1,15 @@
 import json
+import re
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from nltk.tokenize import sent_tokenize
-import nltk
 import os
-nltk.download("punkt", quiet=True)
+
+try:
+    from nltk.tokenize import sent_tokenize
+    import nltk
+    nltk.download("punkt", quiet=True)
+except Exception:
+    sent_tokenize = None
 
 # ----------------------------
 # CONFIG
@@ -76,7 +81,14 @@ def match_manim_snippets(
     """
 
     # 1. Split guideline into sentences
-    sentences = sent_tokenize(guideline_text)
+    sentences = []
+    if sent_tokenize is not None:
+        try:
+            sentences = sent_tokenize(guideline_text)
+        except Exception:
+            sentences = []
+    if not sentences:
+        sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', guideline_text) if s.strip()]
 
     if not sentences:
         return []
@@ -87,7 +99,8 @@ def match_manim_snippets(
 
     # 2. Compare each sentence to all snippet descriptions
     for sent, sent_emb in zip(sentences, sent_embs):
-        sims = _SNIPPET_EMBS @ sent_emb
+        sims = np.dot(_SNIPPET_EMBS, sent_emb)
+        sims = np.nan_to_num(sims, nan=0.0, posinf=1.0, neginf=-1.0)
         best_idxs = np.argsort(sims)[::-1][:top_k]
 
         for idx in best_idxs:

@@ -4,19 +4,19 @@
 SIMPLILEARN OSL 3.0 MASTER POST-PRODUCTION PIPELINE RUNNER
 ================================================================================
 Orchestrates Steps 0 through 8 sequentially from raw teacher video to
-pedagogical blueprints, dynamic SME framing, and asset diffusion prompts.
+pedagogical blueprints, dynamic SME framing, asset construction, and diffusion prompts.
 
 AUDIO & VIDEO PREPROCESSING (RAW TEACHER VIDEO):
   Step 0: Audio Cleaner & EBU R128 Normalizer (-16 LUFS)      [0_clean_audio.py]
   Step 1: Speech Transcription & Word-Level Timestamps        [1_transcribe_and_timestamp.py]
   Step 2: Clean Fillers, Retakes & Repeated Sentences         [2_clean_fillers_and_retakes.py]
   Step 3: Synchronous Audio/Video Trimmer                     [3_synchronous_av_trimmer.py]
-  Step 4: Voiceover Documentation Generator (DOCX & PDF)      [4_generate_voiceover_docs.py]
 
 PEDAGOGICAL & VISUAL PIPELINE (AFTER AUDIO STEPS):
-  Step 5: Hook & Pedagogical Blueprint Generation             [5_generate_hook.py]
-  Step 6: Instructional Storyboard Design (Dynamic SME 100/70/20) [6_instructional_design.py]
-  Step 7: Asset Classification                                [7_asset_classification.py]
+  Step 4: Hook & Pedagogical Blueprint Generation             [4_generate_hook.py]
+  Step 5: Instructional Storyboard Design (Dynamic SME 100/70/20) [5_instructional_design.py]
+  Step 6: Asset Classification                                [6_asset_classification.py]
+  Step 7: Asset Construction (Geometry & RAG Templates)       [7_asset_construction.py]
   Step 8: Image Prompt Generation (2D Flat Vector)            [8_image_prompt_generation.py]
 """
 
@@ -68,18 +68,19 @@ def run_master_pipeline(
 
     # Determine default start stage based on input media type
     if start_stage is None:
-        start_stage = 0 if is_video else 5
+        start_stage = 0 if is_video else 4
 
     # Tracked file artifacts
-    clean_audio_video = out_path / f"{base}_step0_clean_audio.mp4"
-    timestamps_json   = out_path / f"{base}_step1_timestamps.json"
-    decisions_json    = out_path / f"{base}_step2_cut_decisions.json"
-    clean_transcript  = out_path / f"{base}_step2_clean_transcript.json"
-    trimmed_video     = out_path / f"{base}_step3_trimmed.mp4"
-    hook_json         = out_path / f"{base}_hook_blueprint.json"
-    blueprint_json    = out_path / f"{base}_storyboard_blueprint.json"
-    assets_json       = out_path / f"{base}_classified_assets.json"
-    prompts_json      = out_path / f"{base}_image_prompts.json"
+    clean_audio_video   = out_path / f"{base}_step0_clean_audio.mp4"
+    timestamps_json     = out_path / f"{base}_step1_timestamps.json"
+    decisions_json      = out_path / f"{base}_step2_cut_decisions.json"
+    clean_transcript    = out_path / f"{base}_step2_clean_transcript.json"
+    trimmed_video       = out_path / f"{base}_step3_trimmed.mp4"
+    hook_json           = out_path / f"{base}_hook_blueprint.json"
+    blueprint_json      = out_path / f"{base}_storyboard_blueprint.json"
+    assets_json         = out_path / f"{base}_classified_assets.json"
+    constructed_json    = out_path / f"{base}_constructed_assets.json"
+    prompts_json        = out_path / f"{base}_image_prompts.json"
 
     print("\n" + "=" * 78)
     print(f"🚀 SIMPLILEARN OSL 3.0 MASTER PIPELINE")
@@ -91,7 +92,7 @@ def run_master_pipeline(
     print("=" * 78 + "\n")
 
     # =========================================================================
-    # AUDIO & VIDEO PREPROCESSING (STEPS 0 TO 4)
+    # AUDIO & VIDEO PREPROCESSING (STEPS 0 TO 3)
     # =========================================================================
     if is_video:
         # STEP 0: Clean Audio & Loudness Normalization
@@ -130,44 +131,44 @@ def run_master_pipeline(
                 "-o", str(trimmed_video)
             ])
 
-        # STEP 4: Voiceover Documentation (DOCX & PDF)
-        if start_stage <= 4 <= end_stage:
-            transcript_for_step4 = str(clean_transcript if clean_transcript.exists() else input_media)
-            run_stage_script("4_generate_voiceover_docs.py", [
-                "-t", transcript_for_step4,
-                "-o", str(out_path),
-                "--title", lesson_title
-            ])
-
     # Ingest source for pedagogical stages: cleaned transcript from Step 2, or input media if starting from text
     pedagogical_transcript_input = str(clean_transcript if clean_transcript.exists() else input_media)
 
     # =========================================================================
-    # PEDAGOGICAL & VISUAL PIPELINE (STEPS 5 TO 8)
+    # PEDAGOGICAL & VISUAL PIPELINE (STEPS 4 TO 8)
     # =========================================================================
-    # STEP 5: Hook & Pedagogical Blueprint Generation
-    if start_stage <= 5 <= end_stage:
-        run_stage_script("5_generate_hook.py", [
+    # STEP 4: Hook & Pedagogical Blueprint Generation
+    if start_stage <= 4 <= end_stage:
+        run_stage_script("4_generate_hook.py", [
             "-i", pedagogical_transcript_input,
             "-o", str(hook_json),
             "-l", lesson_title,
             "-p", api_provider
         ])
 
-    # STEP 6: Instructional Storyboard Design (Dynamic SME Framing)
-    if start_stage <= 6 <= end_stage:
-        run_stage_script("6_instructional_design.py", [
+    # STEP 5: Instructional Storyboard Design (Dynamic SME Framing)
+    if start_stage <= 5 <= end_stage:
+        run_stage_script("5_instructional_design.py", [
             "-t", pedagogical_transcript_input,
             "-o", str(blueprint_json),
             "-l", lesson_title,
             "-p", api_provider
         ])
 
-    # STEP 7: Asset Classification
-    if start_stage <= 7 <= end_stage:
-        run_stage_script("7_asset_classification.py", [
+    # STEP 6: Asset Classification
+    if start_stage <= 6 <= end_stage:
+        run_stage_script("6_asset_classification.py", [
             "-b", str(blueprint_json),
             "-o", str(assets_json)
+        ])
+
+    # STEP 7: Asset Construction (Geometry & RAG Templates)
+    if start_stage <= 7 <= end_stage:
+        run_stage_script("7_asset_construction.py", [
+            "-a", str(assets_json),
+            "-b", str(blueprint_json),
+            "-o", str(constructed_json),
+            "-p", api_provider
         ])
 
     # STEP 8: Image Prompt Generation
@@ -190,11 +191,13 @@ def run_master_pipeline(
     if is_video and trimmed_video.exists():
         print(f"   3. Trimmed AV Video:     {trimmed_video}")
     if hook_json.exists():
-        print(f"   5. Hook Blueprint:       {hook_json}")
+        print(f"   4. Hook Blueprint:       {hook_json}")
     if blueprint_json.exists():
-        print(f"   6. Storyboard Blueprint: {blueprint_json}")
+        print(f"   5. Storyboard Blueprint: {blueprint_json}")
     if assets_json.exists():
-        print(f"   7. Classified Assets:    {assets_json}")
+        print(f"   6. Classified Assets:    {assets_json}")
+    if constructed_json.exists():
+        print(f"   7. Constructed Assets:   {constructed_json}")
     if prompts_json.exists():
         print(f"   8. Image Prompts:        {prompts_json}")
     print("=" * 78 + "\n")
@@ -205,7 +208,7 @@ def main():
     parser.add_argument("-i", "--input", required=True, help="Path to raw teacher video (.mp4) or clean transcript (.json/.txt)")
     parser.add_argument("-o", "--output-dir", default="output/saniya_assigned_stages", help="Output directory")
     parser.add_argument("-l", "--lesson-title", default=None, help="Lesson title")
-    parser.add_argument("--start-stage", type=int, default=None, help="Start stage index (0 to 8). Defaults to 0 for video, 5 for text")
+    parser.add_argument("--start-stage", type=int, default=None, help="Start stage index (0 to 8). Defaults to 0 for video, 4 for text")
     parser.add_argument("--end-stage", type=int, default=8, help="End stage index (0 to 8)")
     parser.add_argument("--whisper-engine", choices=["auto", "local", "groq"], default="auto", help="Whisper STT engine")
     parser.add_argument("--whisper-model", default="base", help="Whisper model size")
