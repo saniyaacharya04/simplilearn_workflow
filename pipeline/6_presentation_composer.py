@@ -256,7 +256,7 @@ SYSTEM_PROMPT_PRESENTATION_COMPOSER = """
         Strictly avoid boring 2005-style PowerPoint text dumps (paragraphs and plain bullet walls).
         HOWEVER, "minimal text" DOES NOT MEAN ZERO TEXT! Pure animations without text are disorienting and make it impossible for the learner to follow the teacher.
         
-        Follow the canonical GROUP 3 STANDARD: Rich dynamic vector visuals paired with clean, persistent COGNITIVE ANCHOR CARDS:
+        Follow the canonical GROUP 3 STANDARD: Rich dynamic vector visuals paired with clean, persistent COGNITIVE LABELS & LIVING METAPHORS (NO PPT CARDS):
         • Reason from first principles about how the concept actually behaves in the real world:
           - Finance & Economics: Dynamic supply/demand curves shifting equilibrium, balance scales of risk vs yield, cash reservoirs with liquidity valves, compound growth splines.
           - Business & Management: Multi-stage conversion funnels, circular sprint cycles with WIP queue gauges, value-chain process flows, decision tree branches.
@@ -585,6 +585,9 @@ SIMPLILEARN OSL 3.0 CLEARANCE & WORKSPACE MANDATE:
 3. Text & LaTeX Integrity:
    - Preserve all LaTeX mathematical expressions, equations, and symbols verbatim.
    - Use Chicago title casing (5-7 words). Never write titles in all-caps.
+4. PRESERVE & AMPLIFY STAGE 1 KINETIC CHOREOGRAPHY:
+   - When the storyboard describes active physical mechanisms (such as dials with moving needles dropping below threshold lines, sprouting decision tree branches, flowing particle packets along curved conduits, rotating radar wedges, neural dies, or bi-directional loops), you MUST retain and explicitly describe these exact kinetic actions in your Instruction block!
+   - Strictly NEVER replace physical mechanisms with "cards" or "pills". Describe the kinetic vector mechanisms, their positions, their motion, and how they evolve across beats!
 ------------------------
 Scene Storyboard Guidelines:
 {storyboard_context}

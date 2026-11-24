@@ -201,12 +201,18 @@ def generate_simplilearn_manim_template(
 
     color_palette = ["#62B7E4", "#7EA2C8", "#9B99C7", "#E6A157", "#8ECDB7", "#DDB945", "#E58F6D", "#B88968"]
 
-    # Check for Simplilearn OSL 3.0 Standard Template Cases
+    # Check for Simplilearn OSL 3.0 Standard Canonical Pure Template Cases
     grp_str = str(group).strip()
     norm_t = clean_title.lower()
-    is_title_template = (grp_str == "1" or "title splash" in norm_t or "introduction" in norm_t or "topic intro" in norm_t)
-    is_roadmap_template = (grp_str == "2" or ("objective" in norm_t or "roadmap" in norm_t or "agenda" in norm_t or "milestone" in norm_t))
-    is_whats_next_template = (grp_str == "9" or "what is next" in norm_t or "next topic" in norm_t or "next steps" in norm_t or "from theory to silicon" in norm_t)
+    
+    # Title template is ONLY for dedicated short intro splash (runtime <= 12s)
+    is_title_template = (float(run_time) <= 12.0 and ("title splash" in norm_t or "introduction" in norm_t or "topic intro" in norm_t or (grp_str == "1" and float(run_time) <= 10.0)))
+    
+    # Roadmap template is ONLY for dedicated learning objectives / roadmap scenes
+    is_roadmap_template = (len(parsed_cards) >= 1 and any(kw in norm_t for kw in ["learning objectives", "learning outcomes", "roadmap", "what you will learn"]))
+    
+    # What's next template is ONLY for dedicated next topic / closing transition scenes
+    is_whats_next_template = any(kw in norm_t for kw in ["what is next", "what's next", "next topic", "next steps"])
 
     if is_title_template:
         eff_runtime = max(3.0, float(run_time))
@@ -263,154 +269,9 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         )
 '''
 
-    if layout == "100":
-        # Layout 1: 100% Full-Screen Layout (OSL 3.0 Page 16, strictly <= 20s)
-        eff_runtime = min(20.0, max(1.0, float(run_time)))
-        return f'''from manim import *
-from feedback_functions.instrumented_scene import InstrumentedScene
-from template1_title_intro import CrispText
-
-class FinalScene(InstrumentedScene, MovingCameraScene):
-    def construct(self):
-        self.camera.background_color = "#0F172A"
-
-        # High-Impact Full-Screen Instructor Header (OSL 3.0 Layout 100 <= 20s)
-        banner = RoundedRectangle(width=12.2, height=1.0, corner_radius=0.074, fill_color="#1E293B", fill_opacity=0.88, stroke_color="#2C81FE", stroke_width=2.0).move_to([0, -3.15, 0])
-        accent_strip = Rectangle(width=0.15, height=0.75, fill_color="#2C81FE", fill_opacity=1.0, stroke_width=0).next_to(banner.get_left(), RIGHT, buff=0.25)
-        title_mob = CrispText("{clean_title}", font="Open Sans", size=22, weight=BOLD, color="#FFFFFF").next_to(accent_strip, RIGHT, buff=0.25)
-
-        self.play(FadeIn(banner), FadeIn(accent_strip), FadeIn(title_mob), run_time=1.0)
-        self.wait({max(1.0, eff_runtime - 1.0):.2f})
-'''
-
-    elif layout == "20":
-        # Layout 2: 20% Right Corner PIP Layout (OSL 3.0 Page 16 & 27)
-        # Header terminating left of PIP window (x <= 4.26). Lower content arena below y <= 2.0
-        n1_data = parsed_cards[0]
-        n2_data = parsed_cards[1]
-        n3_data = parsed_cards[2]
-        return f'''from manim import *
-from feedback_functions.instrumented_scene import InstrumentedScene
-from template1_title_intro import CrispText
-
-class FinalScene(InstrumentedScene, MovingCameraScene):
-    def construct(self):
-        self.camera.background_color = "#F0F4F8"
-
-        # Colors (Simplilearn OSL 3.0)
-        C_BRAND_BLUE = "#2C81FE"
-        C_DARK_SLATE = "#0F172A"
-        C_CARD_BG = "#F8FAFC"
-        C_FOCUS = "#F78908"
-        C_SKY = "#62B7E4"
-        C_STEEL = "#7EA2C8"
-        C_AMBER = "#E6A157"
-
-        # Header Title in Safe Content Zone (terminating left of PIP window x <= 4.26)
-        title_mob = CrispText("{clean_title}", font="Open Sans", size=30, weight=BOLD, color=C_DARK_SLATE).move_to([-0.8, 3.10, 0])
-        lead_mob = CrispText("{clean_lead or 'Core operational mechanics and architectural data flow:'}", font="Open Sans", size=18, color=C_BRAND_BLUE).next_to(title_mob, DOWN, buff=0.18, aligned_edge=LEFT)
-
-        # Architectural Node Grid (Lower Content Arena below y=2.0)
-        n1 = RoundedRectangle(width=3.8, height=2.6, corner_radius=0.08, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_SKY, stroke_width=2.0).move_to([-4.4, -0.4, 0])
-        n1_lbl = CrispText("{n1_data['title']}", font="Open Sans", size=20, weight=BOLD, color=C_DARK_SLATE).next_to(n1.get_top(), DOWN, buff=0.25)
-        n1_desc = CrispText("{n1_data['body']}", font="Open Sans", size=16, color="#404040").next_to(n1_lbl, DOWN, buff=0.15)
-        n1_grp = VGroup(n1, n1_lbl, n1_desc)
-
-        n2 = RoundedRectangle(width=3.8, height=2.6, corner_radius=0.08, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_STEEL, stroke_width=2.0).move_to([0.0, -0.4, 0])
-        n2_lbl = CrispText("{n2_data['title']}", font="Open Sans", size=20, weight=BOLD, color=C_DARK_SLATE).next_to(n2.get_top(), DOWN, buff=0.25)
-        n2_desc = CrispText("{n2_data['body']}", font="Open Sans", size=16, color="#404040").next_to(n2_lbl, DOWN, buff=0.15)
-        n2_grp = VGroup(n2, n2_lbl, n2_desc)
-
-        n3 = RoundedRectangle(width=3.8, height=2.6, corner_radius=0.08, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_AMBER, stroke_width=2.0).move_to([4.4, -0.4, 0])
-        n3_lbl = CrispText("{n3_data['title']}", font="Open Sans", size=20, weight=BOLD, color=C_DARK_SLATE).next_to(n3.get_top(), DOWN, buff=0.25)
-        n3_desc = CrispText("{n3_data['body']}", font="Open Sans", size=16, color="#404040").next_to(n3_lbl, DOWN, buff=0.15)
-        n3_grp = VGroup(n3, n3_lbl, n3_desc)
-
-        arr1 = Arrow(n1.get_right(), n2.get_left(), buff=0.15, color=C_BRAND_BLUE, stroke_width=2.5, max_tip_length_to_length_ratio=0.25)
-        arr2 = Arrow(n2.get_right(), n3.get_left(), buff=0.15, color=C_BRAND_BLUE, stroke_width=2.5, max_tip_length_to_length_ratio=0.25)
-
-        # Focus Highlight on Center Reasoning Node (OSL 3.0 Orange #F78908 3px, 1.0s draw time)
-        focus_stroke = RoundedRectangle(width=3.6, height=2.4, corner_radius=0.074, stroke_color=C_FOCUS, stroke_width=3.5, fill_opacity=0).move_to(n2.get_center())
-
-        self.play(FadeIn(title_mob), FadeIn(lead_mob), run_time=0.8)
-        self.play(Create(n1_grp), run_time=0.8)
-        self.play(GrowArrow(arr1), Create(n2_grp), run_time=0.8)
-        # Kinetic particle flow
-        p1 = Dot(radius=0.08, color=C_FOCUS)
-        self.play(MoveAlongPath(p1, arr1), run_time=0.6)
-        self.remove(p1)
-        self.play(GrowArrow(arr2), Create(n3_grp), run_time=0.8)
-        p2 = Dot(radius=0.08, color=C_FOCUS)
-        self.play(MoveAlongPath(p2, arr2), run_time=0.6)
-        self.remove(p2)
-        self.play(Create(focus_stroke), run_time=0.8)
-        self.play(FadeOut(focus_stroke), run_time=0.4)
-        self.wait({max(1.0, run_time - 5.0):.2f})
-'''
-
-    else:
-        # Layout 3: 70% Cropped Area Layout (OSL 3.0 Pages 6, 16, 17 & Simplilearn Output Standard)
-        # Right elevated workspace at x in [-0.8, 6.2] (center = 2.65). Pure kinetic vector flow.
-        n0_title = parsed_cards[0]['title'] if len(parsed_cards) > 0 else "Perception"
-        n1_title = parsed_cards[1]['title'] if len(parsed_cards) > 1 else "Reasoning"
-        n2_title = parsed_cards[2]['title'] if len(parsed_cards) > 2 else "Action"
-
-        return f'''from manim import *
-from feedback_functions.instrumented_scene import InstrumentedScene
-from template1_title_intro import CrispText
-
-class FinalScene(InstrumentedScene, MovingCameraScene):
-    def construct(self):
-        self.camera.background_color = "#FFFFFF"
-
-        # Colors (Simplilearn OSL 3.0 Standard)
-        C_BRAND_BLUE = "#2C81FE"
-        C_SKY_BLUE   = "#62B7E4"
-        C_STEEL_BLUE = "#7EA2C8"
-        C_AMBER      = "#E6A157"
-        C_MINT       = "#8ECDB7"
-        C_TITLE      = "#1E293B"
-        C_TEXT       = "#404040"
-        C_FOCUS      = "#F78908"
-
-        # Title Header in Right Safe Workspace (x in [-0.8, 6.2])
-        title_mob = CrispText("{clean_title}", font="Open Sans", size=22, weight=BOLD, color=C_TITLE)
-        line_len = max(3.0, min(getattr(title_mob, 'width', 3.0) + 0.4, 6.2))
-        line = Line(ORIGIN, RIGHT * line_len, color=C_BRAND_BLUE, stroke_width=2.5).next_to(title_mob, DOWN, buff=0.10, aligned_edge=LEFT)
-        header_grp = VGroup(title_mob, line).move_to([2.65, 3.25, 0])
-
-        # Kinetic Vector Nodes (x = 0.8, 2.65, 4.5)
-        def create_vec_node(center, label, color):
-            outer = Circle(radius=0.60, color=color, stroke_width=2.2, fill_color="#F8FAFC", fill_opacity=1.0).move_to(center)
-            inner = Circle(radius=0.40, color=color, stroke_width=1.5, stroke_opacity=0.6).move_to(center)
-            dot   = Dot(center, radius=0.08, color=color)
-            txt   = CrispText(label, font="Open Sans", size=11, weight=BOLD, color=C_TEXT).next_to(outer, DOWN, buff=0.12)
-            return VGroup(outer, inner, dot, txt)
-
-        node_0 = create_vec_node([0.8, 0.4, 0], "{n0_title}", C_SKY_BLUE)
-        node_1 = create_vec_node([2.65, 0.4, 0], "{n1_title}", C_BRAND_BLUE)
-        node_2 = create_vec_node([4.5, 0.4, 0], "{n2_title}", C_AMBER)
-
-        # Conduits
-        c1 = Line([1.4, 0.4, 0], [2.05, 0.4, 0], color=C_BRAND_BLUE, stroke_width=2.5)
-        c2 = Line([3.25, 0.4, 0], [3.9, 0.4, 0], color=C_AMBER, stroke_width=2.5)
-        p1 = Dot(radius=0.07, color=C_FOCUS).move_to([1.4, 0.4, 0])
-        p2 = Dot(radius=0.07, color=C_FOCUS).move_to([3.25, 0.4, 0])
-
-        # Bottom Metric Dial
-        dial_bg = Arc(radius=0.55, start_angle=-PI*0.25, angle=PI*1.5, color="#CBD5E1", stroke_width=4.0).move_to([2.65, -1.8, 0])
-        dial_fill = Arc(radius=0.55, start_angle=-PI*0.25, angle=PI*1.2, color=C_MINT, stroke_width=4.5).move_to([2.65, -1.8, 0])
-        dial_txt = CrispText("Optimal State: 96%", font="Open Sans", size=11, weight=BOLD, color=C_MINT).move_to([2.65, -1.8, 0])
-        dial_lbl = CrispText("Operational Equilibrium", font="Open Sans", size=10, weight=SEMIBOLD, color=C_TEXT).next_to(dial_bg, DOWN, buff=0.10)
-        dial_grp = VGroup(dial_bg, dial_fill, dial_txt, dial_lbl)
-
-        self.play(FadeIn(header_grp, shift=DOWN*0.12), run_time=0.6)
-        self.play(FadeIn(node_0, shift=RIGHT*0.1), FadeIn(node_1, scale=0.9), FadeIn(node_2, shift=LEFT*0.1), run_time=0.8)
-        self.play(Create(c1), Create(c2), run_time=0.5)
-        self.play(MoveAlongPath(p1, c1), MoveAlongPath(p2, c2), run_time=0.8)
-        self.play(FadeIn(dial_grp, shift=UP*0.15), run_time=0.6)
-        self.wait({max(1.0, run_time - 3.3):.2f})
-'''
+    # For all other scenes that are not pure canonical templates, return None
+    # to guarantee 100% full LLM synthesis (gemini-3.8-flash) with living vector mechanics.
+    return None
 
 
 class CodeGenerator:
@@ -1269,6 +1130,25 @@ class CodeGenerator:
               * Human escalation handoff paths activating when confidence drops.
             - Strictly execute THESE EXACT CINEMATIC MECHANISMS as active Manim geometry, particle flows, and transparent illustration assets!
             - Strictly DO NOT replace living mechanisms with static RoundedRectangle cards or bullet boxes!
+        15. CONTINUOUS LIVING MOTION & AMBIENT ANIMATION (MANDATORY TO AVOID STATIC VIDEO):
+            - Every scene MUST be continuously alive and kinetic during narration!
+            - During long intervals where the narrator speaks (up to 10-30 seconds per step), DO NOT let the screen sit as a frozen still frame!
+            - Attach continuous updaters (`add_updater`, `always_redraw`, or `ValueTracker`) to core visual elements:
+              * Ambient rotating rings, gears, or halos: `mob.add_updater(lambda m, dt: m.rotate(0.3 * dt))`
+              * Continuous particle streams traveling along conduits: `FlowingStream` with active particle updaters
+              * Telemetry signals or breathing waves: `TelemetryWaves`, `PulsingShockwaves`
+              * Dynamic gauges with dithering or reactive needles: `ValueTracker`
+            - Because these updaters run smoothly during `self.wait()` and `self.sync_to()`, the video remains dynamic, living, and visually captivating at all times!
+
+        16. CANONICAL SIMPLILEARN OSL 3.0 TEMPLATES & MODULAR BEAT INTEGRATION:
+            - Reusable Simplilearn templates are available in local scope if a step calls for them:
+              * Title Intro: `from template1_title_intro import play_title_intro, CrispText`
+              * Learning Roadmap: `from template2_learning_roadmap import play_learning_roadmap, create_checkmark_badge, CrispText`
+              * Topic Coverage: `from template3_topic_coverage import play_topic_coverage, CrispText`
+            - Integration Rules for Mixed / Composite Scenes:
+              * Learning Objectives / Outcomes Step (e.g. Step 3 in Scene 2): Call `play_learning_roadmap(self, bullets=[...], bullet_durations=[...], header_text="By the end of this topic, you will be able to:")` OR construct the official blue circular checkmark badges (`create_checkmark_badge(radius=0.17, color="#0D6EFD")`) progressively revealed in sync with narration.
+              * Outro / What's Next Step (e.g. concluding What's Next beat in the final scene): Call `play_topic_coverage(self, bullets=[...], header_text="In the next topic, you will learn about:", bullet_durations=[...], hold_duration=2.5, dissolve_to_white=True)`.
+              * Pure Content Steps and Content Scenes (Scenes 3 through 8): Must NEVER use template cards or static boxes. They must strictly execute living vector mechanics (planetary gears, radar sweeps, telemetry waveforms, particle loops, and hero illustration images) exactly as specified in the Visual Choreography.
 
         ------------------------
         Scene Context:
@@ -1521,9 +1401,13 @@ class CodeGenerator:
                     scene_context += f"  - Palette Family: {global_color_rules.get('palette_family', '10-color infographic pastel palette')}\n"
                     scene_context += f"  - Green Prohibition: {global_color_rules.get('green_prohibition', 'Zero green containers/cards')}\n"
                     scene_context += f"  - Casing Mandate: {global_color_rules.get('all_caps_prohibition', 'Strictly Title Case for headings, Sentence case for body')}\n"
-                    scene_context += f"  - Card Corner Radius: {global_color_rules.get('corner_radius_px', 10)}px (0.074 Manim units)\n"
+                    if not (instructions_data and str(group) in instructions_data):
+                        scene_context += f"  - Card Corner Radius: {global_color_rules.get('corner_radius_px', 10)}px (0.074 Manim units)\n"
+                    else:
+                        scene_context += "  - Visual Architecture: Living kinetic vector mechanisms and hero illustrations in open canvas space (strictly NO generic PPT cards)\n"
                     scene_context += f"  - Focus Highlight: {global_color_rules.get('highlight_color_hex', '#F78908')} (stroke_width=3)\n"
                 
+                has_stage1_instr = bool(instructions_data and str(group) in instructions_data)
                 if sc_styling and sc_styling.get("styled_blocks"):
                     blocks = sc_styling.get("styled_blocks", [])
                     scene_context += f"Styled Component Blocks ({len(blocks)} blocks):\n"
@@ -1534,7 +1418,7 @@ class CodeGenerator:
                             scene_context += f"  * [{b_id}] Component: {c_type}\n"
                         # Only include matching_section from styling if instructions_data is not available,
                         # to prevent card-based prose from overriding authentic cinematic visual choreography
-                        if b.get("matching_section") and not (instructions_data and str(group) in instructions_data):
+                        if b.get("matching_section") and not has_stage1_instr:
                             scene_context += f"  * Visual Styling & Instructions: {b.get('matching_section')}\n"
                         typo = b.get("typography")
                         if typo:
@@ -1542,8 +1426,9 @@ class CodeGenerator:
                         lay = b.get("layout")
                         if lay:
                             scene_context += f"    - Layout: position={lay.get('position')}, safe_zone={lay.get('safe_zone')}, coordinates={lay.get('coordinates')}\n"
+                        # Suppress generic container styling if authentic Stage 1 kinetic choreography is present
                         cont = b.get("container_styling")
-                        if cont:
+                        if cont and not has_stage1_instr:
                             scene_context += f"    - Container: fill={cont.get('fill_color', '#F8FAFC')}, opacity={cont.get('fill_opacity', 0.95)}, border_color={cont.get('border_color')} ({cont.get('accent_name')}), border_width={cont.get('border_width_px', 2)}px, radius={cont.get('corner_radius_px', 10)}px (0.074 u)\n"
                         h_typo = b.get("header_typography")
                         if h_typo:
@@ -1631,7 +1516,10 @@ class CodeGenerator:
                             if comps:
                                 scene_context += "Visual Components:\n"
                                 for comp in comps:
-                                    scene_context += f"  - [{comp.get('column', 'Workspace')}] {comp.get('component_type', 'Card')}: {comp.get('content', '')}\n"
+                                    comp_t = comp.get('component_type', 'Mechanism')
+                                    if comp_t.lower() == 'card':
+                                        comp_t = 'Kinetic Mechanism'
+                                    scene_context += f"  - [{comp.get('column', 'Workspace')}] {comp_t}: {comp.get('content', '')}\n"
                         elif isinstance(v_desc, str):
                             scene_context += f"Visual Description: {v_desc}\n"
                     v_evo = st_step.get("visual_evolution")
@@ -1708,24 +1596,33 @@ class CodeGenerator:
             )
 
             # Check for Simplilearn OSL 3.0 Standard Template Cases
-            # Default to False: all scenes are synthesized with deep cinematic LLM reasoning (Gemini 3.1 Pro).
-            # Templates only used if explicitly opted in via USE_MANIM_TEMPLATES=true.
+            # Pure templates are ONLY used for standalone single-beat scenes (e.g., dedicated <= 12s title splash or pure 1-step outro).
+            # Mixed/composite scenes (e.g. Scene 1 with 48s narration, Scene 2 with Solara+Objectives, Scene 9 with Key Takeaways)
+            # MUST be synthesized dynamically with deep cinematic LLM reasoning (gemini-3.8-flash) to avoid freezing or destroying content.
             grp_s = str(group).strip()
             norm_t = clean_topic_title.lower()
             use_tmpl_env = os.environ.get("USE_MANIM_TEMPLATES", "true").lower() in ("true", "1", "yes")
-            is_tmpl = use_tmpl_env and (grp_s == "1" or grp_s == "2" or grp_s == all_last_group)
+
+            sc_title = clean_topic_title
+            sc_layout = str(sc_styling.get("sme_layout", "70")).replace("%", "") if sc_styling else "70"
+            sc_lead = sc_styling.get("lead_in", "") if sc_styling else ""
+            sc_cards = sc_styling.get("styled_blocks") or sc_styling.get("cards") if sc_styling else []
+            sc_runtime = 20.0
+            num_steps = 1
+            if structured_cgi and group in structured_cgi and structured_cgi[group]:
+                sc_runtime = sum(float(st.get("run_time", 20.0)) for st in structured_cgi[group])
+                num_steps = len(structured_cgi[group])
+                sc_cards = [{"title": st.get("title") or st.get("step_title", f"Point {idx+1}"), "body": st.get("narration_statement", "")} for idx, st in enumerate(structured_cgi[group])]
+
+            is_pure_title = (grp_s == "1" and sc_runtime <= 12.0 and num_steps == 1)
+            is_pure_roadmap = (num_steps == 1 and any(kw in norm_t for kw in ["learning objectives", "learning outcomes", "roadmap"]))
+            is_pure_outro = (grp_s == all_last_group and num_steps == 1 and any(kw in norm_t for kw in ["what's next", "what is next", "next topic"]))
+
+            is_tmpl = use_tmpl_env and (is_pure_title or is_pure_roadmap or is_pure_outro)
 
             generated_result = None
             if is_tmpl:
-                print(f"    -> Using official Simplilearn OSL 3.0 template for template scene {group} ({clean_topic_title})...")
-                sc_title = clean_topic_title
-                sc_layout = str(sc_styling.get("sme_layout", "70")).replace("%", "") if sc_styling else "70"
-                sc_lead = sc_styling.get("lead_in", "") if sc_styling else ""
-                sc_cards = sc_styling.get("styled_blocks") or sc_styling.get("cards") if sc_styling else []
-                sc_runtime = 20.0
-                if structured_cgi and group in structured_cgi and structured_cgi[group]:
-                    sc_runtime = sum(float(st.get("run_time", 20.0)) for st in structured_cgi[group])
-                    sc_cards = [{"title": st.get("title") or st.get("step_title", f"Point {idx+1}"), "body": st.get("narration_statement", "")} for idx, st in enumerate(structured_cgi[group])]
+                print(f"    -> Using official Simplilearn OSL 3.0 template for pure template scene {group} ({clean_topic_title})...")
                 generated_result = generate_simplilearn_manim_template(
                     group=str(group),
                     layout=sc_layout,
@@ -1734,8 +1631,11 @@ class CodeGenerator:
                     cards=sc_cards,
                     run_time=sc_runtime
                 )
+
+            if generated_result is not None:
+                print(f"    -> Successfully applied Simplilearn canonical template for Scene {group}.")
             elif scene_coding_vendor in ["google", "gemini"]:
-                target_model = scene_coding_model_name or "gemini-3.1-pro-preview"
+                target_model = scene_coding_model_name or "gemini-3.8-flash"
                 print(f"Attempting LLM code synthesis with {target_model} for Scene {group}...")
                 full_prompt = f"{formatted_system_prompt}\n\nUser Query: {formatted_user_prompt}"
                 generated_result = None
@@ -2273,7 +2173,7 @@ class BalanceScale(VGroup):
         folder_path: str,
         topic_name: Optional[str] = None,
         provider: str = "gemini",
-        model_name: str = "gemini-3.5-flash",
+        model_name: str = "gemini-3.8-flash",
         force: bool = False
     ) -> str:
         folder = Path(folder_path)
@@ -2294,7 +2194,7 @@ class BalanceScale(VGroup):
             "asset_class_model_name": config_data.get("asset_class_model_name", "gemini-3.8-flash"),
             "asset_builder_model_name": config_data.get("asset_builder_model_name", "gemini-2.5-flash"),
             "scene_coding_vendor": config_data.get("scene_coding_vendor", vendor),
-            "scene_coding_model_name": model_name if model_name != "gemini-3.5-flash" else config_data.get("scene_coding_model_name", "gemini-2.5-flash"),
+            "scene_coding_model_name": model_name if model_name != "gemini-3.8-flash" else config_data.get("scene_coding_model_name", "gemini-3.8-flash"),
             "styling_vendor": config_data.get("styling_vendor", "google"),
             "styling_model_name": config_data.get("styling_model_name", "gemini-3.5-flash"),
             "theme": config_data.get("theme", "dynamic"),
@@ -2309,7 +2209,7 @@ if __name__=="__main__":
     parser.add_argument("-i", "--input-folder", default=None, help="Directory containing stage JSONs")
     parser.add_argument("-o", "--output-folder", default=None, help="Output directory for manim_codes")
     parser.add_argument("-p", "--provider", default="gemini", choices=["auto", "gemini", "claude", "local"], help="Coding LLM provider")
-    parser.add_argument("-m", "--model", default="gemini-3.5-flash", help="Coding LLM model name")
+    parser.add_argument("-m", "--model", default="gemini-3.8-flash", help="Coding LLM model name")
     parser.add_argument("-t", "--topic", default=None, help="Topic identifier")
     parser.add_argument("-s", "--scene", default=None, help="Target scene ID (e.g. 3)")
     parser.add_argument("-f", "--force", action="store_true", help="Force regenerate existing manim codes")

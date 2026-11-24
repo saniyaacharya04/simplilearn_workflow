@@ -479,6 +479,15 @@ Your responsibility is precise TEMPORAL SYNCHRONIZATION, PACING, and LEGIBILITY:
    - Adjust `run_time` so animations complete before the next timestamp beat.
    - Conclude construct() with `self.sync_to(total_audio_duration)` matching the group's total audio duration.
 
+5. AMBIENT KINETIC MOTION DURING EXTENDED SPOKEN INTERVALS (NO DEAD FREEZES):
+   - When a statement or explanation spans more than 4–5 seconds between reveals, DO NOT leave the video as a completely frozen still frame during `self.sync_to()`.
+   - Preserve and maintain continuous updaters (`add_updater`, rotating elements, flowing particle dots, breathing telemetry halos) across pauses.
+   - If a scene has long waits, inject subtle kinetic micro-actions at intermediate timestamps:
+     * Gentle focus stroke pulse or subtle scale ping on the active concept being explained.
+     * Traveling data dot along an existing conduit using `MoveAlongPath`.
+     * Dithering or progressive update on gauge or value readouts.
+   - The screen must remain visually dynamic and engaging at all times throughout the speaker's voiceover.
+
 ## FORWARD-ONLY TIMING
 
 `sync_to()` only waits forward.
@@ -1255,7 +1264,7 @@ class GenerateTimingAdjustments:
         print("Appended all parts including word-level timestamps")
         return "\n".join(parts)
 
-    def call_gemini(self, prompt: str, model: str = "gemini-3.6-flash") -> str:
+    def call_gemini(self, prompt: str, model: str = "gemini-3.8-flash") -> str:
         key = self.google_api_key
 
         try:
@@ -1264,8 +1273,8 @@ class GenerateTimingAdjustments:
 
             google_client = genai.Client(api_key=self.google_api_key)
 
-            clean_model = "gemini-3.6-flash" if model in ("gemini-2.5-flash", "gemini-3.6-flash") else model
-            models_to_try = [clean_model, "gemini-3.5-flash"]
+            clean_model = "gemini-3.8-flash" if model in ("gemini-2.5-flash", "gemini-3.6-flash", "gemini-3.8-flash") else model
+            models_to_try = [clean_model, "gemini-3.8-flash", "gemini-3.5-flash"]
             last_err = None
 
             for attempt in range(1, 4):
@@ -1417,13 +1426,16 @@ class GenerateTimingAdjustments:
 
             timed_code_file = os.path.join(timed_code_dir, f"group_{group_num}.py")
 
-            grp_s = str(group_num).strip()
-            if grp_s in ("1", "2", "9") or (grp_s == str(len(manifest["groups"]))):
-                print(f"Preserving official Simplilearn template for Scene {group_num} in Stage 21...")
-                with open(absolute_script_path, "r", encoding="utf-8") as rf:
-                    tmpl_code = rf.read()
+            with open(absolute_script_path, "r", encoding="utf-8") as rf:
+                raw_code = rf.read()
+            has_tmpl_call = any(t in raw_code for t in ["play_title_intro(", "play_learning_roadmap(", "play_topic_coverage("])
+            has_multiple_steps = "## Presentation Step 2" in raw_code or "## Presentation Step 3" in raw_code
+            is_pure_template = has_tmpl_call and not has_multiple_steps and len(raw_code.splitlines()) < 80
+
+            if is_pure_template:
+                print(f"Preserving official pure Simplilearn template for Scene {group_num} in Stage 21...")
                 with open(timed_code_file, "w", encoding="utf-8") as wf:
-                    wf.write(tmpl_code)
+                    wf.write(raw_code)
                 continue
 
             # Check if timed_code_file already exists, is newer, and ACTUALLY has valid timing synchronization

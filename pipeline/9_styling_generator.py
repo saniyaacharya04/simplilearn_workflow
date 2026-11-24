@@ -285,36 +285,22 @@ SYSTEM_PROMPT_STYLING_GENERATOR = """
 
         Do not place every piece of content inside a panel.
 
-        Prefer panels for
-
-        • grouped information
-        • definitions
-        • comparisons
-        • worked examples
-        • references
-        • knowledge checks
-        • important callouts
-
-        Presentation cards should generally use rounded corners.
+        Do NOT force living physical architectures, dials, networks, or process loops into static container cards. Only use container panels when representing explicit data tables, code editors, or document windows. Vector mechanisms must live directly in open canvas space with crisp labels.
 
         Use solid and dotted borders only where prescribed by the design system or where they improve semantic distinction.
 
-        NESTING PRINCIPLE — LIGHT OUTSIDE, DARK INSIDE
+        NESTING PRINCIPLE — CLEAN LIGHT CANVAS & LIVING MECHANISMS
 
         Never place raw text or isolated content directly on large colored background regions.
 
         Use layered visual hierarchy:
 
-        • Macro-containers: Large structural regions must use lighter treatments such as Low-Opacity Blue, Low-Opacity Purple or Solid Light Blue.
-        • Micro-grouping: Related visual/text content inside a macro-container should be grouped into distinct inner micro-panels using darker contrasting solid treatments such as Solid Dark Blue or Solid Purple with appropriate contrasting text.
-        • Micro-panels: Standalone numbers, variables, labels or members of a set must not float as raw text. Encapsulate them in small circular or rounded rectangular micro-panels.
-
-        When a macro-container contains multiple related visual or textual elements, introduce appropriate micro-grouping even if it is not explicitly specified in the input, provided this does not alter instructional meaning, structure or layout.
-
-        Avoid placing dark large-area fills behind unstructured collections of text.
+        • Living Vector Mechanisms: Primary conceptual models (dials, decision trees, neural cores, conduits) exist in open canvas space.
+        • Micro-labels: Concise 1-3 word high-contrast labels adjacent to mechanisms.
+        • Standalone numbers, variables, or tags should be styled with clean pastel badge pills, not large rectangular cards.
 
         The visual hierarchy should generally read:
-        light macro-container → dark micro-group → contained text/data.
+        living vector mechanism -> focused accent label -> high-contrast data.
 
         Micro-panels should be sized proportionally to their content and should not become unnecessary large cards.
 
@@ -698,11 +684,28 @@ class StylingGenerator:
             genai.configure(api_key=self.api_key, transport="rest")
             model = genai.GenerativeModel(self.model_name)
 
+        # Ingest authoritative Stage 1 instructional design if present
+        import glob
+        instructions_map = {}
+        for cand_dir in [self.input_folder, os.path.join(self.input_folder, "metadata_blueprints")]:
+            if cand_dir and os.path.exists(cand_dir):
+                inst_matches = glob.glob(f"{cand_dir}/instructions_*.json") or glob.glob(f"{cand_dir}/*instructions*.json")
+                if inst_matches:
+                    try:
+                        with open(inst_matches[0], "r", encoding="utf-8") as f:
+                            instructions_map = json.load(f)
+                        print(f"  [StylingGenerator] Ingested {len(instructions_map)} scenes from authoritative Stage 1 instructions: {inst_matches[0]}")
+                        break
+                    except Exception:
+                        pass
+
         for s_idx, scene in enumerate(scenes, 1):
             sid = str(scene.get("scene_id") or scene.get("scene_index") or s_idx)
             title = scene.get("title", f"Scene {sid}")
             layout = str(scene.get("sme_layout", "70"))
             steps = scene.get("experience_steps") or scene.get("instructions") or []
+            if instructions_map and sid in instructions_map and instructions_map[sid]:
+                steps = instructions_map[sid]
 
             storyboard_context = f"Scene {sid}:\nTitle: {title}\nLayout: {layout}%\n"
             for st in steps:

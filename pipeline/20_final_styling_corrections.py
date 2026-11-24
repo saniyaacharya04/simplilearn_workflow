@@ -1073,9 +1073,13 @@ class FinalStylingCorrections:
 
             output_file = os.path.join(styled_scenes_dir, f"group_{group}.py")
 
-            grp_s = str(group).strip()
-            if grp_s in ("1", "2", "9") or (grp_s == str(len(storyboard))):
-                print(f"Preserving official Simplilearn template for Scene {group} in Stage 20...")
+            # A scene is a pure template only if it exclusively calls a template function and has no multi-step presentation
+            has_tmpl_call = any(t in code_script for t in ["play_title_intro(", "play_learning_roadmap(", "play_topic_coverage("])
+            has_multiple_steps = "## Presentation Step 2" in code_script or "## Presentation Step 3" in code_script
+            is_pure_template = has_tmpl_call and not has_multiple_steps and len(code_script.splitlines()) < 80
+
+            if is_pure_template:
+                print(f"Preserving official pure Simplilearn template for Scene {group} in Stage 20...")
                 with open(output_file, 'w', encoding='utf-8') as f:
                     f.write(code_script)
                 continue

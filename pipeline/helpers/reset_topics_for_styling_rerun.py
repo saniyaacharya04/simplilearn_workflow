@@ -38,6 +38,7 @@ STAGE_TRACKER_MAP = {
     20: "20_eng_corrections_tracker.json",
     21: "21_timing_adjustment_tracker.json",
     22: "22_final_render_tracker.json",
+    23: "23_sme_post_production_tracker.json",
 }
 
 STAGE_DIR_MAP = {
@@ -56,6 +57,7 @@ STAGE_DIR_MAP = {
     20: ["manim_styled_codes"],
     21: ["manim_time_synced_code", "manim_time_synced_videos", "manim_code_timing_extract"],
     22: ["audio_integrated_videos", "verification_screenshots"],
+    23: ["final_composited_videos", "temp_sme_assembly"],
 }
 
 STAGE_FILE_PATTERNS_MAP = {
@@ -87,8 +89,9 @@ def main():
 
     parser = argparse.ArgumentParser(description="Reset topic trackers and artifact dirs for styling/pipeline re-run.")
     parser.add_argument("--folders", nargs="+", required=True, help="Topic folders to reset")
-    parser.add_argument("--from-stage", type=int, default=18, choices=list(range(23)), help="Stage to reset from (0-22, default: 18)")
+    parser.add_argument("--from-stage", type=int, default=18, choices=list(range(24)), help="Stage to reset from (0-23, default: 18)")
     parser.add_argument("--keep-audio", action="store_true", help="Preserve audio files (audio_elements, audio_concat_dir, CGI_Input.json, avatar_strategy.json) and Stage 5 audio tracker")
+    parser.add_argument("--keep-images", action="store_true", help="Preserve generated images in images/ and Stage 8 tracker")
     parser.add_argument("--trackers-dir", type=str, default=default_trackers_dir, help="Trackers directory")
     parser.add_argument("--data-dir", type=str, default=default_data_dir, help="Data directory")
     args = parser.parse_args()
@@ -96,14 +99,15 @@ def main():
     trackers_dir = Path(args.trackers_dir).resolve()
     data_dir = Path(args.data_dir).resolve()
 
-    print(f"=== Resetting Topics for Stages {args.from_stage}->22 ===")
+    print(f"=== Resetting Topics for Stages {args.from_stage}->23 ===")
     print(f"Topics: {args.folders}")
     print(f"Keep Audio: {args.keep_audio}")
+    print(f"Keep Images: {args.keep_images}")
     print(f"Trackers Directory: {trackers_dir}")
     print(f"Data Directory: {data_dir}")
 
     # Determine stages to clean
-    stages_to_reset = [stg for stg in range(args.from_stage, 23)]
+    stages_to_reset = [stg for stg in range(args.from_stage, 24)]
     if args.keep_audio:
         if 5 in stages_to_reset:
             stages_to_reset.remove(5)
@@ -112,6 +116,10 @@ def main():
             # Preserving narration text because existing audio files were synthesized from it
             stages_to_reset.remove(1)
             print("  [Audio Preserved] Preserving Stage 1 narration instructions so audio stays in sync.")
+    if args.keep_images:
+        if 8 in stages_to_reset:
+            stages_to_reset.remove(8)
+            print("  [Images Preserved] Skipping Stage 8 (image generation) reset.")
 
     # 1. Clean folders inside data_dir
     dirs_to_clean = set()
