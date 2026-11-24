@@ -1,0 +1,2028 @@
+{
+  "1": {
+    "scene": "4",
+    "section": 1,
+    "window": [
+      0.8,
+      63.7333
+    ],
+    "frame_range": [
+      0,
+      16
+    ],
+    "issues": [
+      {
+        "id": "overlap:header_group|header_group[0]",
+        "type": "overlap",
+        "objects": [
+          "header_group",
+          "header_group[0]"
+        ],
+        "extent": 0.3143066499999998,
+        "frame": 0,
+        "timestamp": 0.7999999999999999,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.3143066499999998
+        },
+        "description": "header_group overlaps with header_group[0]. header_group's top left is touching header_group[0]'s bottom right. Estimated overlap extent 0.31 units."
+      },
+      {
+        "id": "overlap:header_group|header_group[1]",
+        "type": "overlap",
+        "objects": [
+          "header_group",
+          "header_group[1]"
+        ],
+        "extent": 0.19624022500000016,
+        "frame": 0,
+        "timestamp": 0.7999999999999999,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.19624022500000016
+        },
+        "description": "header_group overlaps with header_group[1]. header_group's bottom left is touching header_group[1]'s top right. Estimated overlap extent 0.20 units."
+      },
+      {
+        "id": "overlap:env_badge[1]|env_ring_pulse",
+        "type": "overlap",
+        "objects": [
+          "env_ring_pulse",
+          "env_badge[1]"
+        ],
+        "extent": 0.0870654312500001,
+        "frame": 1,
+        "timestamp": 2.2,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.0870654312500001
+        },
+        "description": "env_ring_pulse overlaps with env_badge[1]. env_ring_pulse's top left is touching env_badge[1]'s bottom right. Estimated overlap extent 0.09 units."
+      },
+      {
+        "id": "overlap:env_badge|env_ring_outer",
+        "type": "overlap",
+        "objects": [
+          "env_ring_outer",
+          "env_badge"
+        ],
+        "extent": 0.15000000000000036,
+        "frame": 1,
+        "timestamp": 2.2,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.15000000000000036
+        },
+        "description": "env_ring_outer overlaps with env_badge. env_ring_outer's top left is touching env_badge's bottom right. Estimated overlap extent 0.15 units."
+      },
+      {
+        "id": "overlap:env_badge|env_ring_pulse",
+        "type": "overlap",
+        "objects": [
+          "env_ring_pulse",
+          "env_badge"
+        ],
+        "extent": 0.2200000000000002,
+        "frame": 1,
+        "timestamp": 2.2,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.2200000000000002
+        },
+        "description": "env_ring_pulse overlaps with env_badge. env_ring_pulse's top left is touching env_badge's bottom right. Estimated overlap extent 0.22 units."
+      },
+      {
+        "id": "overlap:Text[Reasoning]|env_ring_outer",
+        "type": "overlap",
+        "objects": [
+          "env_ring_outer",
+          "Text[Reasoning]"
+        ],
+        "extent": 1.1808316219347568,
+        "frame": 4,
+        "timestamp": 4.933333333333335,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 1.1808316219347568
+        },
+        "description": "env_ring_outer overlaps with Text[Reasoning]. env_ring_outer's bottom right is touching Text[Reasoning]'s top left. Estimated overlap extent 1.18 units."
+      },
+      {
+        "id": "overlap:env_ring_outer|node_reason",
+        "type": "overlap",
+        "objects": [
+          "env_ring_outer",
+          "node_reason"
+        ],
+        "extent": 1.7861517292772193,
+        "frame": 4,
+        "timestamp": 4.933333333333335,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 1.7861517292772193
+        },
+        "description": "env_ring_outer overlaps with node_reason. env_ring_outer's bottom right is touching node_reason's top left. Estimated overlap extent 1.79 units."
+      },
+      {
+        "id": "overlap:env_ring_pulse|node_reason",
+        "type": "overlap",
+        "objects": [
+          "env_ring_pulse",
+          "node_reason"
+        ],
+        "extent": 1.8653476887701124,
+        "frame": 4,
+        "timestamp": 4.933333333333335,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 1.8653476887701124
+        },
+        "description": "env_ring_pulse overlaps with node_reason. env_ring_pulse's bottom right is touching node_reason's top left. Estimated overlap extent 1.87 units."
+      },
+      {
+        "id": "overlap:link_label|mem_group",
+        "type": "overlap",
+        "objects": [
+          "mem_group",
+          "link_label"
+        ],
+        "extent": 0.6084135377901349,
+        "frame": 4,
+        "timestamp": 4.933333333333335,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.6084135377901349
+        },
+        "description": "mem_group overlaps with link_label. mem_group's top right is touching link_label's bottom left. Estimated overlap extent 0.61 units."
+      },
+      {
+        "id": "overlap:link_label|node_reason",
+        "type": "overlap",
+        "objects": [
+          "node_reason",
+          "link_label"
+        ],
+        "extent": 0.6311308743708149,
+        "frame": 4,
+        "timestamp": 4.933333333333335,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.6311308743708149
+        },
+        "description": "node_reason overlaps with link_label. node_reason's top left is touching link_label's bottom right. Estimated overlap extent 0.63 units."
+      },
+      {
+        "id": "overlap:env_ring_outer|node_act",
+        "type": "overlap",
+        "objects": [
+          "env_ring_outer",
+          "node_act"
+        ],
+        "extent": 1.7861517292772193,
+        "frame": 5,
+        "timestamp": 5.7333333333333325,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 1.7861517292772193
+        },
+        "description": "env_ring_outer overlaps with node_act. env_ring_outer's bottom left is touching node_act's top right. Estimated overlap extent 1.79 units."
+      },
+      {
+        "id": "overlap:env_ring_pulse|node_act",
+        "type": "overlap",
+        "objects": [
+          "env_ring_pulse",
+          "node_act"
+        ],
+        "extent": 1.8653476887701124,
+        "frame": 5,
+        "timestamp": 5.7333333333333325,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 1.8653476887701124
+        },
+        "description": "env_ring_pulse overlaps with node_act. env_ring_pulse's bottom left is touching node_act's top right. Estimated overlap extent 1.87 units."
+      },
+      {
+        "id": "overlap:arrow_a_to_p|mem_group",
+        "type": "overlap",
+        "objects": [
+          "mem_group",
+          "arrow_a_to_p"
+        ],
+        "extent": 0.216562208847209,
+        "frame": 6,
+        "timestamp": 7.533333333333326,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.216562208847209
+        },
+        "description": "mem_group overlaps with arrow_a_to_p. mem_group's top left is touching arrow_a_to_p's bottom right. Estimated overlap extent 0.22 units."
+      },
+      {
+        "id": "overlap:arrow_a_to_p|node_perceive",
+        "type": "overlap",
+        "objects": [
+          "node_perceive",
+          "arrow_a_to_p"
+        ],
+        "extent": 0.17447144472365905,
+        "frame": 6,
+        "timestamp": 7.533333333333326,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.17447144472365905
+        },
+        "description": "node_perceive overlaps with arrow_a_to_p. node_perceive's bottom left is touching arrow_a_to_p's top right. Estimated overlap extent 0.17 units."
+      },
+      {
+        "id": "overlap:arrow_a_to_p|h_perceive",
+        "type": "overlap",
+        "objects": [
+          "arrow_a_to_p",
+          "h_perceive"
+        ],
+        "extent": 0.17447144472365905,
+        "frame": 7,
+        "timestamp": 9.733333333333318,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.17447144472365905
+        },
+        "description": "arrow_a_to_p overlaps with h_perceive. arrow_a_to_p's top right is touching h_perceive's bottom left. Estimated overlap extent 0.17 units."
+      },
+      {
+        "id": "overlap:arrow_a_to_p|particle_3",
+        "type": "overlap",
+        "objects": [
+          "arrow_a_to_p",
+          "particle_3"
+        ],
+        "extent": 0.11135130695654583,
+        "frame": 7,
+        "timestamp": 9.733333333333318,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.11135130695654583
+        },
+        "description": "arrow_a_to_p overlaps with particle_3. arrow_a_to_p's bottom left is touching particle_3's top right. Estimated overlap extent 0.11 units."
+      },
+      {
+        "id": "overlap:arrow_r_to_a|particle_2",
+        "type": "overlap",
+        "objects": [
+          "arrow_r_to_a",
+          "particle_2"
+        ],
+        "extent": 0.1032576089709829,
+        "frame": 7,
+        "timestamp": 9.733333333333318,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.1032576089709829
+        },
+        "description": "arrow_r_to_a overlaps with particle_2. arrow_r_to_a's top right is touching particle_2's bottom left. Estimated overlap extent 0.10 units."
+      },
+      {
+        "id": "overlap:env_ring_outer|h_reason",
+        "type": "overlap",
+        "objects": [
+          "env_ring_outer",
+          "h_reason"
+        ],
+        "extent": 1.7861517292772193,
+        "frame": 9,
+        "timestamp": 12.466666666666642,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 1.7861517292772193
+        },
+        "description": "env_ring_outer overlaps with h_reason. env_ring_outer's bottom right is touching h_reason's top left. Estimated overlap extent 1.79 units."
+      },
+      {
+        "id": "overlap:env_ring_pulse|h_reason",
+        "type": "overlap",
+        "objects": [
+          "env_ring_pulse",
+          "h_reason"
+        ],
+        "extent": 1.8653476887701124,
+        "frame": 9,
+        "timestamp": 12.466666666666642,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 1.8653476887701124
+        },
+        "description": "env_ring_pulse overlaps with h_reason. env_ring_pulse's bottom right is touching h_reason's top left. Estimated overlap extent 1.87 units."
+      },
+      {
+        "id": "overlap:h_reason|link_label",
+        "type": "overlap",
+        "objects": [
+          "link_label",
+          "h_reason"
+        ],
+        "extent": 0.6311308743708149,
+        "frame": 9,
+        "timestamp": 12.466666666666642,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.6311308743708149
+        },
+        "description": "link_label overlaps with h_reason. link_label's bottom right is touching h_reason's top left. Estimated overlap extent 0.63 units."
+      },
+      {
+        "id": "overlap:env_ring_outer|h_act",
+        "type": "overlap",
+        "objects": [
+          "env_ring_outer",
+          "h_act"
+        ],
+        "extent": 1.7861517292772193,
+        "frame": 11,
+        "timestamp": 15.199999999999966,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 1.7861517292772193
+        },
+        "description": "env_ring_outer overlaps with h_act. env_ring_outer's bottom left is touching h_act's top right. Estimated overlap extent 1.79 units."
+      },
+      {
+        "id": "overlap:env_ring_pulse|h_act",
+        "type": "overlap",
+        "objects": [
+          "env_ring_pulse",
+          "h_act"
+        ],
+        "extent": 1.8653476887701124,
+        "frame": 11,
+        "timestamp": 15.199999999999966,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 1.8653476887701124
+        },
+        "description": "env_ring_pulse overlaps with h_act. env_ring_pulse's bottom left is touching h_act's top right. Estimated overlap extent 1.87 units."
+      },
+      {
+        "id": "overlap:node_perceive|particle_1",
+        "type": "overlap",
+        "objects": [
+          "node_perceive",
+          "particle_1"
+        ],
+        "extent": 0.06376238526549827,
+        "frame": 14,
+        "timestamp": 39.733333333333626,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.06376238526549827
+        },
+        "description": "node_perceive overlaps with particle_1. node_perceive's bottom left is touching particle_1's top right. Estimated overlap extent 0.06 units."
+      },
+      {
+        "id": "overlap:node_perceive|particle_3",
+        "type": "overlap",
+        "objects": [
+          "node_perceive",
+          "particle_3"
+        ],
+        "extent": 0.06376238526549827,
+        "frame": 15,
+        "timestamp": 51.73333333333422,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.06376238526549827
+        },
+        "description": "node_perceive overlaps with particle_3. node_perceive's bottom left is touching particle_3's top right. Estimated overlap extent 0.06 units."
+      },
+      {
+        "id": "overlap:node_perceive|particle_2",
+        "type": "overlap",
+        "objects": [
+          "node_perceive",
+          "particle_2"
+        ],
+        "extent": 0.06376238526549871,
+        "frame": 16,
+        "timestamp": 63.73333333333482,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.06376238526549871
+        },
+        "description": "node_perceive overlaps with particle_2. node_perceive's bottom left is touching particle_2's top right. Estimated overlap extent 0.06 units."
+      }
+    ],
+    "part_details": {
+      "arrow_a_to_p": {
+        "dimensions": [
+          "0.92 units wide by 1.32 units tall"
+        ],
+        "current_position": [
+          [
+            -1.29,
+            0.54
+          ]
+        ],
+        "constraints": [
+          "above arrow_r_to_a with edge distance 0.25 units",
+          "above loop_badge with edge distance 0.91 units",
+          "above particle_1 with edge distance 0.89 units",
+          "above particle_2 with edge distance 0.89 units",
+          "above particle_3 with edge distance 0.00 units",
+          "above particle_3 with edge distance 0.89 units",
+          "below particle_1 with edge distance 0.00 units",
+          "below particle_2 with edge distance 0.00 units",
+          "below particle_3 with edge distance 0.00 units",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "left of env_ring_outer with edge distance 0.00 units",
+          "left of h_perceive with edge distance 0.00 units",
+          "left of mem_group with edge distance 0.00 units",
+          "left of node_perceive with edge distance 0.00 units"
+        ]
+      },
+      "arrow_r_to_a": {
+        "dimensions": [
+          "3.51 units wide by 1.23 units tall"
+        ],
+        "current_position": [
+          [
+            -0.01,
+            -1.59
+          ]
+        ],
+        "constraints": [
+          "below arrow_a_to_p with edge distance 0.25 units",
+          "below arrow_p_to_r with edge distance 0.27 units",
+          "below env_ring_outer with edge distance 0.00 units",
+          "below link_label with edge distance 0.00 units",
+          "below loop_badge with edge distance 0.00 units",
+          "below mem_group with edge distance 0.11 units",
+          "below mem_link with edge distance 0.00 units",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "left of particle_1 with edge distance 0.44 units",
+          "left of particle_2 with edge distance 0.00 units",
+          "left of particle_2 with edge distance 0.44 units",
+          "left of particle_3 with edge distance 0.44 units",
+          "right of particle_1 with edge distance 0.00 units",
+          "right of particle_2 with edge distance 0.00 units",
+          "right of particle_3 with edge distance 0.00 units",
+          "right of particle_3 with edge distance 0.43 units"
+        ]
+      },
+      "env_badge": {
+        "dimensions": [
+          "1.65 units wide by 0.40 units tall"
+        ],
+        "current_position": [
+          [
+            0.0,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "contained within env_badge[0]"
+        ]
+      },
+      "env_ring_outer": {
+        "dimensions": [
+          "4.70 units wide by 4.70 units tall"
+        ],
+        "current_position": [
+          [
+            0.0,
+            -0.3
+          ]
+        ],
+        "constraints": [
+          "above arrow_r_to_a with edge distance 0.00 units",
+          "above loop_badge with edge distance 0.00 units",
+          "above mem_group with edge distance 0.00 units",
+          "below h_perceive with edge distance 0.00 units",
+          "below node_perceive with edge distance 0.00 units",
+          "below particle_1 with edge distance 0.00 units",
+          "below particle_2 with edge distance 0.00 units",
+          "below particle_3 with edge distance 0.00 units",
+          "contained within env_ring_pulse",
+          "left of arrow_p_to_r with edge distance 0.00 units",
+          "left of link_label with edge distance 0.00 units",
+          "left of mem_link with edge distance 0.00 units",
+          "left of particle_1 with edge distance 0.00 units",
+          "left of particle_2 with edge distance 0.00 units",
+          "left of particle_3 with edge distance 0.00 units",
+          "right of arrow_a_to_p with edge distance 0.00 units",
+          "right of particle_1 with edge distance 0.00 units",
+          "right of particle_2 with edge distance 0.00 units",
+          "right of particle_3 with edge distance 0.00 units"
+        ]
+      },
+      "h_act": {
+        "dimensions": [
+          "1.70 units wide by 0.76 units tall"
+        ],
+        "current_position": [
+          [
+            -1.75,
+            -0.55
+          ]
+        ],
+        "constraints": [
+          "above node_act with edge distance 0.00 units",
+          "contained within node_act",
+          "contained within node_act[0]"
+        ]
+      },
+      "h_perceive": {
+        "dimensions": [
+          "1.70 units wide by 0.76 units tall"
+        ],
+        "current_position": [
+          [
+            0.0,
+            1.25
+          ]
+        ],
+        "constraints": [
+          "above env_ring_outer with edge distance 0.00 units",
+          "above link_label with edge distance 0.65 units",
+          "above mem_group with edge distance 0.62 units",
+          "above node_perceive with edge distance 0.00 units",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "contained within node_perceive",
+          "contained within node_perceive[0]",
+          "left of arrow_p_to_r with edge distance 0.00 units",
+          "right of arrow_a_to_p with edge distance 0.00 units"
+        ]
+      },
+      "h_reason": {
+        "dimensions": [
+          "1.70 units wide by 0.76 units tall"
+        ],
+        "current_position": [
+          [
+            1.75,
+            -0.55
+          ]
+        ],
+        "constraints": [
+          "above node_reason with edge distance 0.00 units",
+          "contained within node_reason",
+          "contained within node_reason[0]"
+        ]
+      },
+      "link_label": {
+        "dimensions": [
+          "1.26 units wide by 0.13 units tall"
+        ],
+        "current_position": [
+          [
+            0.88,
+            -0.29
+          ]
+        ],
+        "constraints": [
+          "above arrow_r_to_a with edge distance 0.00 units",
+          "above loop_badge with edge distance 0.30 units",
+          "above mem_link with edge distance 0.04 units",
+          "below arrow_p_to_r with edge distance 0.00 units",
+          "below h_perceive with edge distance 0.65 units",
+          "below node_perceive with edge distance 0.65 units",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "left of particle_1 with edge distance 0.05 units",
+          "left of particle_2 with edge distance 0.05 units",
+          "left of particle_2 with edge distance 0.47 units",
+          "left of particle_3 with edge distance 0.05 units",
+          "right of env_ring_outer with edge distance 0.00 units",
+          "right of mem_group with edge distance 0.00 units"
+        ]
+      },
+      "mem_group": {
+        "dimensions": [
+          "1.70 units wide by 1.10 units tall"
+        ],
+        "current_position": [
+          [
+            0.0,
+            -0.3
+          ]
+        ],
+        "constraints": [
+          "above arrow_r_to_a with edge distance 0.11 units",
+          "above loop_badge with edge distance 0.31 units",
+          "below env_ring_outer with edge distance 0.00 units",
+          "below h_perceive with edge distance 0.62 units",
+          "below node_perceive with edge distance 0.62 units",
+          "below particle_1 with edge distance 0.56 units",
+          "below particle_2 with edge distance 0.56 units",
+          "below particle_3 with edge distance 0.56 units",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "contained within mem_card",
+          "left of arrow_p_to_r with edge distance 0.00 units",
+          "left of link_label with edge distance 0.00 units",
+          "left of mem_link with edge distance 0.00 units",
+          "left of particle_1 with edge distance 0.60 units",
+          "left of particle_2 with edge distance 0.60 units",
+          "left of particle_2 with edge distance 0.78 units",
+          "left of particle_3 with edge distance 0.60 units",
+          "right of arrow_a_to_p with edge distance 0.00 units",
+          "right of particle_1 with edge distance 0.77 units",
+          "right of particle_2 with edge distance 0.77 units",
+          "right of particle_3 with edge distance 0.77 units"
+        ]
+      },
+      "node_act": {
+        "dimensions": [
+          "1.70 units wide by 0.76 units tall"
+        ],
+        "current_position": [
+          [
+            -1.75,
+            -0.55
+          ]
+        ],
+        "constraints": [
+          "above h_act with edge distance 0.00 units",
+          "contained within h_act",
+          "contained within node_act[0]"
+        ]
+      },
+      "node_perceive": {
+        "dimensions": [
+          "1.70 units wide by 0.76 units tall"
+        ],
+        "current_position": [
+          [
+            0.0,
+            1.25
+          ]
+        ],
+        "constraints": [
+          "above env_ring_outer with edge distance 0.00 units",
+          "above h_perceive with edge distance 0.00 units",
+          "above link_label with edge distance 0.65 units",
+          "above mem_group with edge distance 0.62 units",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "contained within h_perceive",
+          "contained within node_perceive[0]",
+          "left of arrow_p_to_r with edge distance 0.00 units",
+          "right of arrow_a_to_p with edge distance 0.00 units",
+          "right of particle_1 with edge distance 0.00 units",
+          "right of particle_2 with edge distance 0.00 units",
+          "right of particle_3 with edge distance 0.00 units"
+        ]
+      },
+      "node_reason": {
+        "dimensions": [
+          "1.70 units wide by 0.76 units tall"
+        ],
+        "current_position": [
+          [
+            1.75,
+            -0.55
+          ]
+        ],
+        "constraints": [
+          "above h_reason with edge distance 0.00 units",
+          "contained within h_reason",
+          "contained within node_reason[0]"
+        ]
+      },
+      "particle_1": {
+        "dimensions": [
+          "0.16 units wide by 0.16 units tall"
+        ],
+        "current_position": [
+          [
+            -1.68,
+            -1.15
+          ],
+          [
+            -0.92,
+            1.02
+          ],
+          [
+            1.6,
+            -0.03
+          ]
+        ],
+        "constraints": [
+          "above arrow_a_to_p with edge distance 0.00 units",
+          "above env_ring_outer with edge distance 0.00 units",
+          "above mem_group with edge distance 0.56 units",
+          "above particle_2 with edge distance 0.78 units",
+          "below arrow_a_to_p with edge distance 0.89 units",
+          "below arrow_p_to_r with edge distance 0.00 units",
+          "contained within arrow_a_to_p",
+          "contained within arrow_p_to_r",
+          "contained within arrow_r_to_a",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "left of arrow_r_to_a with edge distance 0.00 units",
+          "left of env_ring_outer with edge distance 0.00 units",
+          "left of loop_badge with edge distance 0.84 units",
+          "left of mem_group with edge distance 0.77 units",
+          "left of node_perceive with edge distance 0.00 units",
+          "right of arrow_r_to_a with edge distance 0.44 units",
+          "right of env_ring_outer with edge distance 0.00 units",
+          "right of link_label with edge distance 0.05 units",
+          "right of mem_group with edge distance 0.60 units",
+          "right of mem_link with edge distance 0.69 units"
+        ]
+      },
+      "particle_2": {
+        "dimensions": [
+          "0.16 units wide by 0.16 units tall"
+        ],
+        "current_position": [
+          [
+            -1.68,
+            -1.15
+          ],
+          [
+            -0.92,
+            1.02
+          ],
+          [
+            1.6,
+            -0.03
+          ],
+          [
+            1.75,
+            -0.98
+          ]
+        ],
+        "constraints": [
+          "above arrow_a_to_p with edge distance 0.00 units",
+          "above env_ring_outer with edge distance 0.00 units",
+          "above mem_group with edge distance 0.56 units",
+          "below arrow_a_to_p with edge distance 0.89 units",
+          "below arrow_p_to_r with edge distance 0.00 units",
+          "below arrow_p_to_r with edge distance 0.73 units",
+          "below particle_1 with edge distance 0.78 units",
+          "below particle_3 with edge distance 0.86 units",
+          "contained within arrow_a_to_p",
+          "contained within arrow_p_to_r",
+          "contained within arrow_r_to_a",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "left of arrow_r_to_a with edge distance 0.00 units",
+          "left of env_ring_outer with edge distance 0.00 units",
+          "left of loop_badge with edge distance 0.84 units",
+          "left of mem_group with edge distance 0.77 units",
+          "left of node_perceive with edge distance 0.00 units",
+          "right of arrow_r_to_a with edge distance 0.00 units",
+          "right of arrow_r_to_a with edge distance 0.44 units",
+          "right of env_ring_outer with edge distance 0.00 units",
+          "right of link_label with edge distance 0.05 units",
+          "right of link_label with edge distance 0.47 units",
+          "right of loop_badge with edge distance 0.92 units",
+          "right of mem_group with edge distance 0.60 units",
+          "right of mem_group with edge distance 0.78 units",
+          "right of mem_link with edge distance 0.69 units",
+          "right of mem_link with edge distance 0.90 units"
+        ]
+      },
+      "particle_3": {
+        "dimensions": [
+          "0.16 units wide by 0.16 units tall"
+        ],
+        "current_position": [
+          [
+            -1.75,
+            -0.12
+          ],
+          [
+            -1.68,
+            -1.15
+          ],
+          [
+            -0.92,
+            1.02
+          ],
+          [
+            1.6,
+            -0.03
+          ]
+        ],
+        "constraints": [
+          "above arrow_a_to_p with edge distance 0.00 units",
+          "above env_ring_outer with edge distance 0.00 units",
+          "above mem_group with edge distance 0.56 units",
+          "above particle_2 with edge distance 0.86 units",
+          "below arrow_a_to_p with edge distance 0.00 units",
+          "below arrow_a_to_p with edge distance 0.89 units",
+          "below arrow_p_to_r with edge distance 0.00 units",
+          "contained within arrow_a_to_p",
+          "contained within arrow_p_to_r",
+          "contained within arrow_r_to_a",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "left of arrow_r_to_a with edge distance 0.00 units",
+          "left of arrow_r_to_a with edge distance 0.43 units",
+          "left of env_ring_outer with edge distance 0.00 units",
+          "left of loop_badge with edge distance 0.84 units",
+          "left of mem_group with edge distance 0.77 units",
+          "left of node_perceive with edge distance 0.00 units",
+          "right of arrow_r_to_a with edge distance 0.44 units",
+          "right of env_ring_outer with edge distance 0.00 units",
+          "right of link_label with edge distance 0.05 units",
+          "right of mem_group with edge distance 0.60 units",
+          "right of mem_link with edge distance 0.69 units"
+        ]
+      }
+    }
+  },
+  "2": {
+    "scene": "4",
+    "section": 2,
+    "window": [
+      69.4667,
+      102.2
+    ],
+    "frame_range": [
+      17,
+      37
+    ],
+    "issues": [
+      {
+        "id": "overlap:new_header_group|new_header_group[0]",
+        "type": "overlap",
+        "objects": [
+          "new_header_group",
+          "new_header_group[0]"
+        ],
+        "extent": 0.3195312500000005,
+        "frame": 20,
+        "timestamp": 70.33333333333476,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.3195312500000005
+        },
+        "description": "new_header_group overlaps with new_header_group[0]. new_header_group's top left is touching new_header_group[0]'s bottom right. Estimated overlap extent 0.32 units."
+      },
+      {
+        "id": "overlap:new_header_group|new_header_group[1]",
+        "type": "overlap",
+        "objects": [
+          "new_header_group",
+          "new_header_group[1]"
+        ],
+        "extent": 0.1945312500000005,
+        "frame": 20,
+        "timestamp": 70.33333333333476,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.1945312500000005
+        },
+        "description": "new_header_group overlaps with new_header_group[1]. new_header_group's bottom left is touching new_header_group[1]'s top right. Estimated overlap extent 0.19 units."
+      },
+      {
+        "id": "overlap:header_group[0]|new_header_group",
+        "type": "overlap",
+        "objects": [
+          "new_header_group",
+          "header_group[0]"
+        ],
+        "extent": 0.3195312500000005,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.3195312500000005
+        },
+        "description": "new_header_group overlaps with header_group[0]. new_header_group's top left is touching header_group[0]'s bottom right. Estimated overlap extent 0.32 units."
+      },
+      {
+        "id": "overlap:header_group[1]|new_header_group",
+        "type": "overlap",
+        "objects": [
+          "new_header_group",
+          "header_group[1]"
+        ],
+        "extent": 0.1945312500000005,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.1945312500000005
+        },
+        "description": "new_header_group overlaps with header_group[1]. new_header_group's bottom left is touching header_group[1]'s top right. Estimated overlap extent 0.19 units."
+      },
+      {
+        "id": "text_overflow:Text[Action]|env_badge[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Action]",
+          "env_badge[0]"
+        ],
+        "extent": 1.6394409159375,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.5362500000000001,
+              0.0
+            ],
+            "extent": 0.6579836372568193
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.13000000000000012
+            ],
+            "extent": 1.6394409159375
+          }
+        ],
+        "description": "Text[Action] overflows parent env_badge[0] at: left edge (at -0.54, 0.00) by 0.66; bottom edge (at 0.00, -0.13) by 1.64 units."
+      },
+      {
+        "id": "text_overflow:Text[Action]|loop_badge[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Action]",
+          "loop_badge[0]"
+        ],
+        "extent": 0.7067336372568196,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.4874999999999998,
+              0.0
+            ],
+            "extent": 0.7067336372568196
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.12349999999999994
+            ],
+            "extent": 0.4434409159375
+          }
+        ],
+        "description": "Text[Action] overflows parent loop_badge[0] at: left edge (at -0.49, 0.00) by 0.71; top edge (at 0.00, 0.12) by 0.44 units."
+      },
+      {
+        "id": "text_overflow:Text[Action]|mem_card",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Action]",
+          "mem_card"
+        ],
+        "extent": 0.6417336372568192,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.6417336372568192
+          }
+        ],
+        "description": "Text[Action] overflows parent mem_card at: left edge (at -0.55, 0.00) by 0.64 units."
+      },
+      {
+        "id": "text_overflow:Text[Action]|node_perceive[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Action]",
+          "node_perceive[0]"
+        ],
+        "extent": 0.9699409159375,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.6417336372568192
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.247
+            ],
+            "extent": 0.9699409159375
+          }
+        ],
+        "description": "Text[Action] overflows parent node_perceive[0] at: left edge (at -0.55, 0.00) by 0.64; bottom edge (at 0.00, -0.25) by 0.97 units."
+      },
+      {
+        "id": "text_overflow:Text[Action]|node_reason[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Action]",
+          "node_reason[0]"
+        ],
+        "extent": 1.7792336372568194,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.5525000000000002,
+              0.0
+            ],
+            "extent": 1.7792336372568194
+          }
+        ],
+        "description": "Text[Action] overflows parent node_reason[0] at: left edge (at -0.55, 0.00) by 1.78 units."
+      },
+      {
+        "id": "text_overflow:Text[Perception]|env_badge[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Perception]",
+          "env_badge[0]"
+        ],
+        "extent": 0.48150146281250006,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.13000000000000012
+            ],
+            "extent": 0.48150146281250006
+          }
+        ],
+        "description": "Text[Perception] overflows parent env_badge[0] at: bottom edge (at 0.00, -0.13) by 0.48 units."
+      },
+      {
+        "id": "text_overflow:Text[Perception]|loop_badge[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Perception]",
+          "loop_badge[0]"
+        ],
+        "extent": 1.6255014628125,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.12349999999999994
+            ],
+            "extent": 1.6255014628125
+          }
+        ],
+        "description": "Text[Perception] overflows parent loop_badge[0] at: top edge (at 0.00, 0.12) by 1.63 units."
+      },
+      {
+        "id": "text_overflow:Text[Perception]|mem_card",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Perception]",
+          "mem_card"
+        ],
+        "extent": 0.7090014628124999,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.35750000000000004
+            ],
+            "extent": 0.7090014628124999
+          }
+        ],
+        "description": "Text[Perception] overflows parent mem_card at: top edge (at 0.00, 0.36) by 0.71 units."
+      },
+      {
+        "id": "text_overflow:Text[Perception]|node_act[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Perception]",
+          "node_act[0]"
+        ],
+        "extent": 1.0455142099999999,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 1.0455142099999999
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.24700000000000005
+            ],
+            "extent": 0.9820014628125
+          }
+        ],
+        "description": "Text[Perception] overflows parent node_act[0] at: right edge (at 0.55, 0.00) by 1.05; top edge (at 0.00, 0.25) by 0.98 units."
+      },
+      {
+        "id": "text_overflow:Text[Perception]|node_reason[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Perception]",
+          "node_reason[0]"
+        ],
+        "extent": 0.9820014628125,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.76861421
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.24700000000000005
+            ],
+            "extent": 0.9820014628125
+          }
+        ],
+        "description": "Text[Perception] overflows parent node_reason[0] at: left edge (at -0.55, 0.00) by 0.77; top edge (at 0.00, 0.25) by 0.98 units."
+      },
+      {
+        "id": "text_overflow:Text[Reasoning]|env_badge[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Reasoning]",
+          "env_badge[0]"
+        ],
+        "extent": 1.6520251475,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5362499999999999,
+              0.0
+            ],
+            "extent": 1.0450939971875002
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.13000000000000012
+            ],
+            "extent": 1.6520251475
+          }
+        ],
+        "description": "Text[Reasoning] overflows parent env_badge[0] at: right edge (at 0.54, 0.00) by 1.05; bottom edge (at 0.00, -0.13) by 1.65 units."
+      },
+      {
+        "id": "text_overflow:Text[Reasoning]|loop_badge[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Reasoning]",
+          "loop_badge[0]"
+        ],
+        "extent": 1.0938439971875002,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.4874999999999998,
+              0.0
+            ],
+            "extent": 1.0938439971875002
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.12349999999999994
+            ],
+            "extent": 0.4560251475
+          }
+        ],
+        "description": "Text[Reasoning] overflows parent loop_badge[0] at: right edge (at 0.49, 0.00) by 1.09; top edge (at 0.00, 0.12) by 0.46 units."
+      },
+      {
+        "id": "text_overflow:Text[Reasoning]|mem_card",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Reasoning]",
+          "mem_card"
+        ],
+        "extent": 1.0288439971874999,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 1.0288439971874999
+          }
+        ],
+        "description": "Text[Reasoning] overflows parent mem_card at: right edge (at 0.55, 0.00) by 1.03 units."
+      },
+      {
+        "id": "text_overflow:Text[Reasoning]|node_act[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Reasoning]",
+          "node_act[0]"
+        ],
+        "extent": 2.1663439971875,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 2.1663439971875
+          }
+        ],
+        "description": "Text[Reasoning] overflows parent node_act[0] at: right edge (at 0.55, 0.00) by 2.17 units."
+      },
+      {
+        "id": "text_overflow:Text[Reasoning]|node_perceive[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Reasoning]",
+          "node_perceive[0]"
+        ],
+        "extent": 1.0288439971874999,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 1.0288439971874999
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.247
+            ],
+            "extent": 0.9825251475
+          }
+        ],
+        "description": "Text[Reasoning] overflows parent node_perceive[0] at: right edge (at 0.55, 0.00) by 1.03; bottom edge (at 0.00, -0.25) by 0.98 units."
+      },
+      {
+        "id": "text_overflow:env_badge[0]|link_label",
+        "type": "text_overflow",
+        "objects": [
+          "link_label",
+          "env_badge[0]"
+        ],
+        "extent": 1.46773774391991,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5362499999999999,
+              0.0
+            ],
+            "extent": 0.44036865031250017
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.13000000000000012
+            ],
+            "extent": 1.46773774391991
+          }
+        ],
+        "description": "link_label overflows parent env_badge[0] at: right edge (at 0.54, 0.00) by 0.44; bottom edge (at 0.00, -0.13) by 1.47 units."
+      },
+      {
+        "id": "text_overflow:env_badge[0]|loop_badge[1]",
+        "type": "text_overflow",
+        "objects": [
+          "loop_badge[1]",
+          "env_badge[0]"
+        ],
+        "extent": 2.1632812500000003,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.13000000000000012
+            ],
+            "extent": 2.1632812500000003
+          }
+        ],
+        "description": "loop_badge[1] overflows parent env_badge[0] at: bottom edge (at 0.00, -0.13) by 2.16 units."
+      },
+      {
+        "id": "text_overflow:env_badge[0]|mem_label",
+        "type": "text_overflow",
+        "objects": [
+          "mem_label",
+          "env_badge[0]"
+        ],
+        "extent": 1.653859618125,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.13000000000000012
+            ],
+            "extent": 1.653859618125
+          }
+        ],
+        "description": "mem_label overflows parent env_badge[0] at: bottom edge (at 0.00, -0.13) by 1.65 units."
+      },
+      {
+        "id": "text_overflow:env_badge[1]|loop_badge[0]",
+        "type": "text_overflow",
+        "objects": [
+          "env_badge[1]",
+          "loop_badge[0]"
+        ],
+        "extent": 2.1625925303124998,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.12349999999999994
+            ],
+            "extent": 2.1625925303124998
+          }
+        ],
+        "description": "env_badge[1] overflows parent loop_badge[0] at: top edge (at 0.00, 0.12) by 2.16 units."
+      },
+      {
+        "id": "text_overflow:env_badge[1]|mem_card",
+        "type": "text_overflow",
+        "objects": [
+          "env_badge[1]",
+          "mem_card"
+        ],
+        "extent": 1.2460925303125,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.35750000000000004
+            ],
+            "extent": 1.2460925303125
+          }
+        ],
+        "description": "env_badge[1] overflows parent mem_card at: top edge (at 0.00, 0.36) by 1.25 units."
+      },
+      {
+        "id": "text_overflow:env_badge[1]|node_act[0]",
+        "type": "text_overflow",
+        "objects": [
+          "env_badge[1]",
+          "node_act[0]"
+        ],
+        "extent": 1.5190925303125,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.9436901865624998
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.24700000000000005
+            ],
+            "extent": 1.5190925303125
+          }
+        ],
+        "description": "env_badge[1] overflows parent node_act[0] at: right edge (at 0.55, 0.00) by 0.94; top edge (at 0.00, 0.25) by 1.52 units."
+      },
+      {
+        "id": "text_overflow:env_badge[1]|node_perceive[0]",
+        "type": "text_overflow",
+        "objects": [
+          "env_badge[1]",
+          "node_perceive[0]"
+        ],
+        "extent": 0.3490925303125001,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.2469999999999999
+            ],
+            "extent": 0.3490925303125001
+          }
+        ],
+        "description": "env_badge[1] overflows parent node_perceive[0] at: top edge (at 0.00, 0.25) by 0.35 units."
+      },
+      {
+        "id": "text_overflow:env_badge[1]|node_reason[0]",
+        "type": "text_overflow",
+        "objects": [
+          "env_badge[1]",
+          "node_reason[0]"
+        ],
+        "extent": 1.5190925303125,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.9436901865624998
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.24700000000000005
+            ],
+            "extent": 1.5190925303125
+          }
+        ],
+        "description": "env_badge[1] overflows parent node_reason[0] at: left edge (at -0.55, 0.00) by 0.94; top edge (at 0.00, 0.25) by 1.52 units."
+      },
+      {
+        "id": "text_overflow:link_label|loop_badge[0]",
+        "type": "text_overflow",
+        "objects": [
+          "link_label",
+          "loop_badge[0]"
+        ],
+        "extent": 0.6077808148300902,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.4874999999999998,
+              0.0
+            ],
+            "extent": 0.48911865031250024
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.12349999999999994
+            ],
+            "extent": 0.6077808148300902
+          }
+        ],
+        "description": "link_label overflows parent loop_badge[0] at: right edge (at 0.49, 0.00) by 0.49; top edge (at 0.00, 0.12) by 0.61 units."
+      },
+      {
+        "id": "text_overflow:link_label|mem_card",
+        "type": "text_overflow",
+        "objects": [
+          "link_label",
+          "mem_card"
+        ],
+        "extent": 0.42411865031249985,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.42411865031249985
+          }
+        ],
+        "description": "link_label overflows parent mem_card at: right edge (at 0.55, 0.00) by 0.42 units."
+      },
+      {
+        "id": "text_overflow:link_label|node_act[0]",
+        "type": "text_overflow",
+        "objects": [
+          "link_label",
+          "node_act[0]"
+        ],
+        "extent": 1.5616186503125,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 1.5616186503125
+          }
+        ],
+        "description": "link_label overflows parent node_act[0] at: right edge (at 0.55, 0.00) by 1.56 units."
+      },
+      {
+        "id": "text_overflow:link_label|node_perceive[0]",
+        "type": "text_overflow",
+        "objects": [
+          "link_label",
+          "node_perceive[0]"
+        ],
+        "extent": 0.7982377439199099,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.42411865031249985
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.247
+            ],
+            "extent": 0.7982377439199099
+          }
+        ],
+        "description": "link_label overflows parent node_perceive[0] at: right edge (at 0.55, 0.00) by 0.42; bottom edge (at 0.00, -0.25) by 0.80 units."
+      },
+      {
+        "id": "text_overflow:link_label|node_reason[0]",
+        "type": "text_overflow",
+        "objects": [
+          "link_label",
+          "node_reason[0]"
+        ],
+        "extent": 0.42411865031249985,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.42411865031249985
+          }
+        ],
+        "description": "link_label overflows parent node_reason[0] at: left edge (at -0.55, 0.00) by 0.42 units."
+      },
+      {
+        "id": "text_overflow:loop_badge[0]|mem_label",
+        "type": "text_overflow",
+        "objects": [
+          "mem_label",
+          "loop_badge[0]"
+        ],
+        "extent": 0.44485961812499997,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.12349999999999994
+            ],
+            "extent": 0.44485961812499997
+          }
+        ],
+        "description": "mem_label overflows parent loop_badge[0] at: top edge (at 0.00, 0.12) by 0.44 units."
+      },
+      {
+        "id": "text_overflow:loop_badge[1]|mem_card",
+        "type": "text_overflow",
+        "objects": [
+          "loop_badge[1]",
+          "mem_card"
+        ],
+        "extent": 0.3757812500000002,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.35750000000000004
+            ],
+            "extent": 0.3757812500000002
+          }
+        ],
+        "description": "loop_badge[1] overflows parent mem_card at: bottom edge (at 0.00, -0.36) by 0.38 units."
+      },
+      {
+        "id": "text_overflow:loop_badge[1]|node_act[0]",
+        "type": "text_overflow",
+        "objects": [
+          "loop_badge[1]",
+          "node_act[0]"
+        ],
+        "extent": 0.8788330078125002,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.8788330078125002
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.247
+            ],
+            "extent": 0.32378125000000013
+          }
+        ],
+        "description": "loop_badge[1] overflows parent node_act[0] at: right edge (at 0.55, 0.00) by 0.88; bottom edge (at 0.00, -0.25) by 0.32 units."
+      },
+      {
+        "id": "text_overflow:loop_badge[1]|node_perceive[0]",
+        "type": "text_overflow",
+        "objects": [
+          "loop_badge[1]",
+          "node_perceive[0]"
+        ],
+        "extent": 1.49378125,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.247
+            ],
+            "extent": 1.49378125
+          }
+        ],
+        "description": "loop_badge[1] overflows parent node_perceive[0] at: bottom edge (at 0.00, -0.25) by 1.49 units."
+      },
+      {
+        "id": "text_overflow:loop_badge[1]|node_reason[0]",
+        "type": "text_overflow",
+        "objects": [
+          "loop_badge[1]",
+          "node_reason[0]"
+        ],
+        "extent": 0.8788330078125002,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.8788330078125002
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.247
+            ],
+            "extent": 0.32378125000000013
+          }
+        ],
+        "description": "loop_badge[1] overflows parent node_reason[0] at: left edge (at -0.55, 0.00) by 0.88; bottom edge (at 0.00, -0.25) by 0.32 units."
+      },
+      {
+        "id": "text_overflow:mem_label|node_act[0]",
+        "type": "text_overflow",
+        "objects": [
+          "mem_label",
+          "node_act[0]"
+        ],
+        "extent": 0.8072949218750001,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.8072949218750001
+          }
+        ],
+        "description": "mem_label overflows parent node_act[0] at: right edge (at 0.55, 0.00) by 0.81 units."
+      },
+      {
+        "id": "text_overflow:mem_label|node_perceive[0]",
+        "type": "text_overflow",
+        "objects": [
+          "mem_label",
+          "node_perceive[0]"
+        ],
+        "extent": 0.984359618125,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.247
+            ],
+            "extent": 0.984359618125
+          }
+        ],
+        "description": "mem_label overflows parent node_perceive[0] at: bottom edge (at 0.00, -0.25) by 0.98 units."
+      },
+      {
+        "id": "text_overflow:mem_label|node_reason[0]",
+        "type": "text_overflow",
+        "objects": [
+          "mem_label",
+          "node_reason[0]"
+        ],
+        "extent": 0.8072949218750001,
+        "frame": 21,
+        "timestamp": 71.93333333333467,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.5525000000000002,
+              0.0
+            ],
+            "extent": 0.8072949218750001
+          }
+        ],
+        "description": "mem_label overflows parent node_reason[0] at: left edge (at -0.55, 0.00) by 0.81 units."
+      },
+      {
+        "id": "overlap:agent_status_tag|agent_status_tag[1]",
+        "type": "overlap",
+        "objects": [
+          "agent_status_tag",
+          "agent_status_tag[1]"
+        ],
+        "extent": 2.6000000000000005,
+        "frame": 22,
+        "timestamp": 72.73333333333463,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 2.6000000000000005
+        },
+        "description": "agent_status_tag overlaps with agent_status_tag[1]. agent_status_tag's bottom left is touching agent_status_tag[1]'s top right. Estimated overlap extent 2.60 units."
+      },
+      {
+        "id": "overlap:arrow_tool_in|tool_body_grp",
+        "type": "overlap",
+        "objects": [
+          "arrow_tool_in",
+          "tool_body_grp"
+        ],
+        "extent": 0.050000000000000155,
+        "frame": 24,
+        "timestamp": 74.66666666666785,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.050000000000000155
+        },
+        "description": "arrow_tool_in overlaps with tool_body_grp. arrow_tool_in's bottom right is touching tool_body_grp's top left. Estimated overlap extent 0.05 units."
+      },
+      {
+        "id": "overlap:Text[DirectCommand]|tool_status_tag",
+        "type": "overlap",
+        "objects": [
+          "tool_status_tag",
+          "Text[DirectCommand]"
+        ],
+        "extent": 0.2533300874999995,
+        "frame": 25,
+        "timestamp": 75.60000000000113,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.2533300874999995
+        },
+        "description": "tool_status_tag overlaps with Text[DirectCommand]. tool_status_tag's bottom left is touching Text[DirectCommand]'s top right. Estimated overlap extent 0.25 units."
+      },
+      {
+        "id": "overlap:Text[WaitsFor]|tool_status_tag",
+        "type": "overlap",
+        "objects": [
+          "tool_status_tag",
+          "Text[WaitsFor]"
+        ],
+        "extent": 0.2516699124999999,
+        "frame": 25,
+        "timestamp": 75.60000000000113,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.2516699124999999
+        },
+        "description": "tool_status_tag overlaps with Text[WaitsFor]. tool_status_tag's top left is touching Text[WaitsFor]'s bottom right. Estimated overlap extent 0.25 units."
+      },
+      {
+        "id": "overlap:arrow_tool_in|h_tool",
+        "type": "overlap",
+        "objects": [
+          "arrow_tool_in",
+          "h_tool"
+        ],
+        "extent": 0.050000000000000155,
+        "frame": 26,
+        "timestamp": 76.2000000000011,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.050000000000000155
+        },
+        "description": "arrow_tool_in overlaps with h_tool. arrow_tool_in's bottom right is touching h_tool's top left. Estimated overlap extent 0.05 units."
+      }
+    ],
+    "part_details": {
+      "agent_status_tag": {
+        "dimensions": [
+          "2.60 units wide by 0.42 units tall"
+        ],
+        "current_position": [
+          [
+            2.5,
+            -2.4
+          ]
+        ],
+        "constraints": [
+          "contained within agent_status_tag[0]"
+        ]
+      },
+      "h_tool": {
+        "dimensions": [
+          "1.40 units wide by 0.95 units tall"
+        ],
+        "current_position": [
+          [
+            -2.4,
+            -0.4
+          ]
+        ],
+        "constraints": [
+          "above tool_body_grp with edge distance 0.00 units",
+          "contained within tool_body_grp",
+          "contained within tool_body_rect"
+        ]
+      },
+      "link_label": {
+        "dimensions": [
+          "1.26 units wide by 0.13 units tall"
+        ],
+        "current_position": [
+          [
+            0.88,
+            -0.29
+          ]
+        ],
+        "constraints": [
+          "above arrow_r_to_a with edge distance 0.00 units",
+          "above loop_badge with edge distance 0.30 units",
+          "above mem_link with edge distance 0.04 units",
+          "below arrow_p_to_r with edge distance 0.00 units",
+          "below node_perceive with edge distance 0.65 units",
+          "contained within env_ring_outer",
+          "contained within env_ring_pulse",
+          "right of env_ring_outer with edge distance 0.00 units",
+          "right of mem_group with edge distance 0.00 units"
+        ]
+      },
+      "tool_body_grp": {
+        "dimensions": [
+          "1.40 units wide by 0.95 units tall"
+        ],
+        "current_position": [
+          [
+            -2.4,
+            -0.4
+          ]
+        ],
+        "constraints": [
+          "above h_tool with edge distance 0.00 units",
+          "contained within h_tool",
+          "contained within tool_body_rect"
+        ]
+      },
+      "tool_status_tag": {
+        "dimensions": [
+          "2.50 units wide by 0.55 units tall"
+        ],
+        "current_position": [
+          [
+            -2.5,
+            -2.4
+          ]
+        ],
+        "constraints": [
+          "contained within tool_status_tag[0]"
+        ]
+      }
+    }
+  }
+}

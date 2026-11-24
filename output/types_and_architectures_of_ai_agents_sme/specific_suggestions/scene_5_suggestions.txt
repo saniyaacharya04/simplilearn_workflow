@@ -1,0 +1,39 @@
+Presentation Step 1
+
+Issue: The scene title overlaps with the top-right presenter PiP window and is not centered as per the storyboard. Several objects within the scene, including the gauge elements, agent elements, and decision tree, exhibit overlaps. The human operator group is partially off-screen, and its label overflows its container. The perception arrow is hidden behind other Mobjects.
+
+Suggestions:
+
+*   Reposition `title_group` to `x=0` and shift its bottom edge to `y=2.8`.
+*   Increase the z_index of `perception_arrow` to be above `perception_pill` and `perception_text`.
+*   Shift `gauge_rim`, `gauge_safe`, `gauge_alert_band`, `thresh_line`, `thresh_tag`, `needle_pivot`, `needle`, `gauge_label`, `alert_badge`, `alert_text`, and `conduit_1` RIGHT by `1.0` unit.
+*   Shift `perception_pill` and `perception_text` RIGHT by `0.5` units.
+*   Shift `branches` and `branch_cards` RIGHT by `0.8` units.
+*   Shift `op_group` UP by `0.2` units.
+*   Increase the height of `op_console` to accommodate `op_label`.
+*   Shift `action_arrow` UP by `0.25` units.
+*   Shift `dispatched_pill` and `dispatched_txt` DOWN by `0.3` units.
+*   Shift `site_label` UP by `0.1` units.
+*   Shift `thresh_tag` UP by `0.1` units and RIGHT by `0.1` units.
+*   Shift `gauge_label` DOWN by `0.1` units.
+
+Presentation Step 2
+
+Issue: The scene title overlaps with the top-right presenter PiP window and is not centered as per the storyboard. Multiple objects (environment badge, agent badge, central focal group, PRA nodes) have overlaps or text overflow issues.
+
+Suggestions:
+
+*   Reposition `step2_title_group` to `x=0` and shift its bottom edge to `y=2.8`.
+*   Shift `site_group` LEFT by `0.5` units.
+*   Shift `agent_outer_ring`, `agent_inner_core`, `halo_lines`, `agent_title`, `agent_sub`, `pra_group`, and `pra_orbit` RIGHT by `0.5` units.
+*   Shift `center_focal_grp` (including `center_pill`, `center_title`, `center_sub`) LEFT by `0.1` unit.
+*   Adjust the start and end points of `top_arc` to connect the repositioned `site_group` and `agent_group`.
+*   Adjust the start and end points of `bottom_arc` to connect the repositioned `agent_group` and `site_group`.
+*   Shift `env_badge` and `env_text` DOWN by `0.2` units.
+*   Shift `agent_badge` and `agent_badge_text` DOWN by `0.2` units.
+*   Shift `agent_title` UP by `0.1` units relative to `agent_outer_ring`.
+*   Shift `agent_sub` UP by `0.1` units relative to `agent_title`.
+*   Increase the height of `top_tag` `RoundedRectangle` by `0.2` units to fit its text.
+*   Increase the height of `bottom_tag` `RoundedRectangle` by `0.2` units to fit its text.
+*   Increase the height of `env_badge` `RoundedRectangle` by `0.2` units to fit its text.
+*   Shift all `node_tag` objects within `pra_group` outward from `agent_target_pos` by `0.1` unit.

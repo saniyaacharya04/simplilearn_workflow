@@ -1,0 +1,22 @@
+Presentation Step 1, 2
+
+Issue: In both Presentation Steps 1 and 2, sub-components of main modules (perception sensor rings in Step 1 and reasoning engine elements in Step 2) default to `(0,0)` instead of being positioned at their respective center coordinates (`p_center` and `r_center`). In Step 1, this causes incoming data stream badges to collide with the sensor and header card. In Step 2, this causes the reasoning structure to overlap `compact_perception_group`, forcing `plan_arrow` to stretch across text slots (x = 1.17 to 5.03), while `plan_grp` overflows the right safe boundary (x = 6.42 > 6.4) and `plan_header` spills outside `plan_pill`. Additionally, headers generated via `create_header` at y = 3.15 breach the upper safe zone across both steps.
+
+Suggestions:
+* Explicitly position all module background and ring sub-components at their designated center coordinates (`p_center` / `r_center`) upon creation so that composite groups move as unified structures.
+* Adjust the header y-position in `create_header` from y = 3.15 to y = 2.95 to keep header elements safely below the upper safe-zone boundary (y <= 3.30).
+* [Presentation Step 1] Position all perception sensor concentric rings (`outer_ring`, `dashed_ring`, `inner_core`) at `p_center = np.array([0.90, -0.10, 0])`.
+* [Presentation Step 1] Shift the starting points (`start_pt`) for inflowing badges (`input_configs`) leftward to x = -3.20 (e.g., `np.array([-3.20, 1.45, 0])`) to eliminate collisions with the perception sensor and header backgrounds.
+* [Presentation Step 2] Position `r_core_bg`, `r_halo`, and `r_dashed` explicitly at `r_center = np.array([3.72, -0.05, 0])` when constructing `reasoning_engine_grp`.
+* [Presentation Step 2] Shift `plan_center` leftward from `[5.75, -0.05, 0]` to `[5.00, -0.05, 0]` so that `plan_grp` remains safely within the camera right margin (rightmost edge x <= 5.70).
+* [Presentation Step 2] Increase `plan_pill` width from 1.15 to 1.45 units and `plan_card` width to 1.55 units to properly enclose `plan_header` ("Selected Plan").
+
+Presentation Step 3
+
+Issue: The header text breaches the top safe zone, and the three main module nodes (Perception, Reasoning, Action) are crammed together, causing severe visual overlap. Specifically, the Action Output pills ("Call Tool", "Write Output", etc.) directly overlap the Action core circle and badge, while the Perception module overlaps the Reasoning node.
+
+Suggestions:
+* Shift `new_header_grp` down by dy = -0.20 units (target center y = 2.95) to ensure the top edge stays strictly within y <= 3.40.
+* Re-space the tripartite architecture across the available width: shift `target_p_pos` left to `[-2.20, 0.45, 0]`, shift `target_r_pos` left to `[1.00, 0.45, 0]`, and shift `target_a_pos` left to `[4.20, 0.45, 0]`.
+* Reposition the `action_outputs` pills to x = 5.60 (dy values unchanged: y = 1.40, 0.75, 0.10, -0.55) so they sit cleanly to the right of `a_core_bg` (right edge at x = 4.90) without overlapping the Action hub or breaking the x <= 6.40 camera boundary.
+* Update `feedback_curve` control points (`loop_start = [4.20, -0.90, 0]`, `loop_mid = [1.00, -2.00, 0]`, `loop_end = [-2.20, -0.75, 0]`) to correctly align with the updated module centers.

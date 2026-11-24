@@ -1,0 +1,13 @@
+Presentation Step 1, 2, 3
+
+Issue: Across Presentation Steps 1, 2, and 3, step titles (`title_step1`, `title_step2`, `title_step3`) breach the top safe-zone boundary (y > 3.40). Additionally, in Steps 2 and 3, `p_fill` (and `new_fill`) in `progress_bar` is anchored using `align_to(p_frame, LEFT)` without first aligning its center to `p_frame`, causing the fill bar to remain at y = 0.0 while `p_frame` sits at y = 2.15. This expands `progress_bar` vertically and creates severe visual overlaps with `node_reason`, `arr_r_to_a`, `arr_a_to_p`, and active elements. Step 1 also experiences right-margin spills for `curve_group` and `tradeoff_group` past x = 6.40 alongside table formatting defects, while Step 3 suffers from positioning collisions between `confidence_gauge`, `handoff_path`, and `handoff_pill`.
+
+Suggestions:
+* Generalized Fix (Step Titles): Shift titles (`title_step1`, `title_step2`, `title_step3`) downward by dy = -0.15 units to target center y = 2.92 – 3.10 so their top edges remain safely below the upper boundary (y <= 3.32).
+* Generalized Fix (Progress Bar Fill Alignment): Align `p_fill` and `new_fill` vertically inside `p_frame` by applying `p_fill.move_to(p_frame.get_center()).align_to(p_frame, LEFT).shift(RIGHT * 0.06)` (target center y = 2.15) to eliminate vertical bar expansion and associated overlaps across steps.
+* [Presentation Step 1]: Shift `curve_group` left by dx = -0.30 units to target center x = 5.10 (bringing its right edge to x = 6.25, safely within the x = 6.40 boundary).
+* [Presentation Step 1]: Shift `tradeoff_group` left by dx = -0.30 units to target center x = 5.10 (bringing its right edge to x = 6.30).
+* [Presentation Step 1]: Set font size = 10 for table text inside `row_groups` and disable width stretching on `cell_box` within `fit_into_box` to prevent cell deformation and text overflow.
+* [Presentation Step 3]: Reposition `confidence_gauge` to the upper right at x = 5.75, y = 0.50 (shift dx = +1.15, dy = +0.80) to completely clear `node_act`, `arr_r_to_a`, and `p_fill`.
+* [Presentation Step 3]: Adjust `handoff_path` arc parameters or start/end anchors so the arrow flows cleanly from `node_reason` down to `human_engineer_station` without intersecting the relocated `confidence_gauge`.
+* [Presentation Step 3]: Move `handoff_pill` to x = 4.20, y = -1.10 (shift dx = +0.80, dy = +0.40) to center it along the clear section of `handoff_path` without overlapping `node_act`.

@@ -1,0 +1,39 @@
+Issue:
+The slide title breaches the top and left safe zones, while the main orbital circle extends past the bottom screen safe-zone boundary. Furthermore, swapping out the entire main title mobject between steps violates the persistent slide title layout principle, and title strings exhibit incorrect Title Case capitalization for conjunctions and acronyms.
+
+Suggestions:
+* Adjust the position of `title_group` by setting `buff=0.60` in `to_corner(UL)` (shifting right by dx = 0.30 units and down by dy = -0.25 units to target top y = 3.33, left x = -6.39).
+* Reduce `orbit_radius` from 3.20 to 2.80 units and adjust `center_pos` to `np.array([0.0, -0.30, 0.0])` so `orbit_circle` stays within safe boundaries (y spanning from -3.10 to 2.50).
+* Keep the main title mobject static across steps instead of performing `FadeOut(title_group)` and `FadeIn(new_title)`; update only the subtitle text mobject below y = 2.20.
+* Format title strings to standard Title Case: update `"Types And Architectures Of Ai Agents"` to `"Types and Architectures of AI Agents"`.
+
+Issue:
+ centered header titles in `new_title` overflow both the left screen boundary (left edge at x = -6.69 < -6.40) and top safe zone (top edge at y = 3.58 > 3.40) due to insufficient corner buffering. Additionally, fading out and replacing the main title between steps violates the persistent main title guideline, while `orbit_circle` extends downward to y = -3.70, breaching the bottom caption safe zone.
+
+Suggestions:
+* Shift and constrain `new_title` by positioning its container at target center (-4.10, 3.10, 0) with `to_corner(UL, buff=0.75)` so its left edge sits at x = -6.35 and top edge sits at y = 3.35.
+* Maintain a persistent static main title across scene transitions instead of executing `FadeOut(title_group)` and `FadeIn(new_title)` concurrently; update section descriptions only in sub-containers positioned below y = 2.20.
+* Scale `orbit_circle` down to a radius of 2.90 units centered at (0.00, -0.30) so its bottom boundary sits at y = -3.20, fully clearing the bottom safe zone limit of y = -3.50.
+
+Issue: The main section title (`new_title` / `title_group`) overflows into the left margin (left boundary at x = -6.69) and breaches the top safe zone (y = 3.58). Additionally, `orbit_circle` extends down to y = -3.70, penetrating the bottom caption safe zone.
+
+Suggestions:
+* Shift `title_group` right by dx = 0.65 units (target center x = -4.25) and down by dy = -0.28 units (target top y = 3.30) to preserve standard margins and avoid safe-zone clipping.
+* Scale `orbit_circle` down by a factor of 0.88 (target radius = 2.8 units) so its bottom boundary stays clear above y = -3.30.
+
+Issue: There are severe visual collisions and container overlaps across the architectural layout. `docked_mem` ("Memory Dock") is placed directly on top of `sock_se` ("Memory Layer") at (2.26, -2.76), causing stacked illegible text. In addition, `die_box` ("LLM Reasoning Engine") overlaps horizontally with both `docked_perception` on the left and `sock_e` on the right.
+
+Suggestions:
+* Fade out or remove `sock_se` when `docked_mem` is instantiated, or set `docked_mem` fill opacity to 1.0 with zero transparency so the underlying "Memory Layer" text does not show through.
+* Reduce `die_box` width from 4.80 units to 3.80 units (target width = 3.80) to leave at least 0.35 units of clearance between `die_box`, `docked_perception` (right edge at x = -2.15), and `sock_e` (left edge at x = 2.10).
+* Reposition `docked_perception` leftward by dx = -0.40 units (target center x = -3.60) and `sock_e` rightward by dx = +0.40 units (target center x = 3.60) to provide clean spacing for connecting arrows like `arr_p`.
+
+Issue:
+1. The scene title (`new_title`) overflows the left screen boundary (left x = -6.69 < -6.40) and breaches the top safe zone (top y = 3.58 > 3.40).
+2. Text stacking occurs inside the docked cards (`docked_reason` and `docked_mem`), where legacy labels ("Reasoning Engine" and "Memory Layer") remain visible behind new labels ("Reasoning Dock" and "Memory Dock"), leaving trailing characters ("ine" and "er") protruding beyond the card boundaries.
+3. The background dashed orbit (`orbit_circle`) extends into the bottom safe zone (bottom y = -3.70 < -3.50).
+
+Suggestions:
+* Adjust `new_title` position by shifting right by dx = +0.55 units and down by dy = -0.35 units (target center x = -3.97, top y = 3.23) so it stays fully inside the screen bounds.
+* Explicitly fade out or remove `Text[ReasoningEngine]` and `Text[MemoryLayer]` before fading in `docked_reason` and `docked_mem` to prevent text stacking artifacts.
+* Scale `orbit_circle` down from radius = 3.20 to radius = 2.95 units (or shift up by dy = +0.25 to y = -0.25) so the bottom boundary clears y = -3.45.

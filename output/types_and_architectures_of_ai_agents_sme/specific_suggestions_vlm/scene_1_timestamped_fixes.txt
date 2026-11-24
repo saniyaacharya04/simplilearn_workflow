@@ -1,0 +1,1 @@
+0:00 Scene 1 uses the official Simplilearn template. Maintain existing layout and timing structure without modification.

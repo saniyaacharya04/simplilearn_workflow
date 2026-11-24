@@ -1,0 +1,16 @@
+Issue: The scene title (`step1_title` / `step2_title`) breaches the top safe zone (y = 3.47 > 3.40) and overflows past the right camera margin (x = 6.80 > 6.40). Additionally, the horizontal 5-stage pipeline is spaced too widely, pushing the 5th pipeline node (`node_grp`) beyond the right screen boundary (x = 6.69) while causing `connecting_arrows` to overlap with adjacent `flow_cards`.
+
+Suggestions:
+* Scale or clamp `step1_title` and `step2_title` to a maximum width of 6.2 units and position the title group anchor at center x = 2.4, top y = 3.30 so the rightmost text boundary remains strictly within x = 5.80.
+* Shift the horizontal positions of the 5 pipeline stages (`x_positions`) leftward to `[0.5, 1.7, 2.9, 4.1, 5.3]` (dx = -0.8 shift) so that the 5th node's right edge stays safely within x = 5.90.
+* Adjust `connecting_arrows` start and end points to `start = [cx + 0.30, cy + 0.30, 0]` and `end = [next_cx - 0.30, cy + 0.30, 0]` to remove bounding-box overlaps with `flow_cards`.
+* Reposition the Step 2 agent nodes to prevent right margin overflow and visual crowding: move `agent_nodes[0]` (Reactive Agent) to `[0.2, -1.0, 0]`, `agent_nodes[1]` (Deliberative Agent) down to `[2.7, 0.40, 0]`, and `agent_nodes[2]` (Utility Optimizer) left to `[5.2, -1.0, 0]` (target right edge x = 6.10).
+
+Issue:
+Previous scene elements (`flow_cards`, `solara_emblem`, `node_grp`) persist on canvas during Step 3, causing heavy background clutter, text collisions, and right-edge canvas overflow (x = 6.69 > 6.4). Furthermore, the transient row highlight pulse animation places accent markers (`packets[0]`, `packets[1]`, `packets[2]`) directly over `Text[Sequentialruntimedeliberation&]`, while `step3_title` breaches the top safe zone boundary (y = 3.47 > 3.4).
+
+Suggestions:
+* Fully fade out lingering Step 1 and Step 2 background groups (`flow_cards`, `solara_emblem`, `node_grp`, `connecting_arrows`) using `FadeOut` at the start of Step 3 to ensure a clear canvas for `outcome_cards`.
+* Shift `step3_title` downward by dy = -0.25 units (target center y = 2.82, top edge y <= 3.22) to adhere to top safe-zone margins.
+* Adjust the baseline pulse highlight line position down by dy = -0.15 units to `y_positions[i] - 0.51` (for item 3, line y = -1.41) so that highlight animation dots (`packets[0]`, `packets[1]`, `packets[2]`) clear the text bounds of `Text[Sequentialruntimedeliberation&]`.
+* Clamp `flow_cards` width to 5.2 units (target right edge x = 6.1) during its active display sequence to prevent right-edge screen overflow beyond x = 6.4.

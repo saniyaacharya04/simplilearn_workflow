@@ -1,0 +1,50 @@
+Presentation Step 1
+
+Issue: Critical teacher presenter overlap on the left side, and pipeline elements are enclosed in cards contrary to the storyboard.
+
+Suggestions:
+
+*   Shift `solara_emblem` (width 3.05, height 1.76) RIGHT by `5.95` units to ensure its left edge is at or beyond x = -0.8.
+*   Shift `flow_cards` (width 12.35, height 2.25) RIGHT by `8.925` units to position the first stage immediately to the right of the repositioned `solara_emblem` and clear the left presenter area.
+*   For each `node_grp` within `flow_cards`, remove `bg_rect`, `top_bar`, and `step_chip`.
+*   For each remaining stage element in `flow_cards`:
+    *   Arrange `step_num`, `badge`, `title_m`, and `sub_m` vertically, centered along their individual horizontal positions.
+    *   Reduce the horizontal spacing between adjacent stage elements within `flow_cards` to `0.6` units.
+
+Presentation Step 2
+
+Issue: Critical teacher presenter overlap on the left side, agent nodes are enclosed in cards contrary to the storyboard, storyboard elements (specific agent icons) are missing, and the Step 1 pipeline is faded out instead of attenuated.
+
+Suggestions:
+
+*   Change `self.play` call: Modify `FadeOut(solara_emblem)` to `solara_emblem.animate.set_opacity(0.3)`.
+*   Change `self.play` call: Modify `FadeOut(flow_cards)` to `flow_cards.animate.set_opacity(0.3)`.
+*   Change `self.play` call: Modify `FadeOut(connecting_arrows)` to `connecting_arrows.animate.set_opacity(0.3)`.
+*   For each `agent_m` within `agent_nodes`, remove `a_box` and `status_pill`.
+*   For `agent_nodes[0]` ("Reactive Agent"): Add an interlocking rotating gear vector icon, positioned above `a_title`.
+*   For `agent_nodes[1]` ("Deliberative Agent"): Add a four-point magnetic compass rose vector icon, positioned above `a_title`.
+*   For `agent_nodes[2]` ("Utility Optimizer"): Add an isometric faceted crystal prism vector icon, positioned above `a_title`.
+*   Shift the entire `step2_all` group (width 12.05, height 2.7) RIGHT by `5.225` units to ensure its leftmost element (`agent_nodes[0]`) is at or beyond x = -0.8.
+*   Shift `prob_desc` DOWN by `0.2` units to resolve overlap with `shift_ring`.
+*   Shift `a_sub` within each `agent_m` DOWN by `0.2` units to resolve overflow.
+*   Shift `a_title` within each `agent_m` DOWN by `0.1` units to resolve overflow.
+*   Shift `status_txt` within each `agent_m` DOWN by `0.05` units to resolve overflow.
+
+Presentation Step 3
+
+Issue: Critical teacher presenter overlap on the left side, Step 2 agent mechanism is faded out instead of transitioned, Step 1 pipeline is not maintained, learning outcome modules are enclosed in cards contrary to the storyboard, and storyboard elements (specific module icons) are missing.
+
+Suggestions:
+
+*   Ensure `solara_emblem`, `flow_cards`, and `connecting_arrows` (from Step 1) are visible and set their opacity to `0.3`.
+*   Change `self.play` call: Modify `FadeOut(step2_all)` to `step2_all.animate.scale(0.2).to_corner(DL, buff=0.2)`.
+*   For each `full_row` within `outcome_cards`: Remove `card_rect`, `index_disc`, and `check_disc`.
+*   For `outcome_cards[0]` ("Core Components of Agent Architecture"): Add a geometric triad of interlocking structural building blocks vector icon, positioned to the left of `head_lbl` and below `index_num`.
+*   For `outcome_cards[1]` ("Continuous Environment Interaction Loop"): Add a continuous counter-clockwise circular reflex loop vector icon, positioned to the left of `head_lbl` and below `index_num`.
+*   For `outcome_cards[2]` ("Perception-Reasoning-Action Cycle"): Add an undulating neural reasoning matrix vector icon, positioned to the left of `head_lbl` and below `index_num`.
+*   For `outcome_cards[3]` ("Three Core Architectural Archetypes"): Add a horizontal triad grouping of distinct geometric primitives (circle, triangle, square) vector icon, positioned to the left of `head_lbl` and below `index_num`.
+*   For `outcome_cards[4]` ("End-to-End Operational Workflow"): Add a continuous directional streamline carrying three traveling data packets vector icon, positioned to the left of `head_lbl` and below `index_num`.
+*   Shift the entire `outcome_cards` group (width 11.6, height 4.2) RIGHT by `5.0` units to ensure its leftmost element is at or beyond x = -0.8.
+*   For each `head_lbl` and `body_lbl` in `outcome_cards`: Insert explicit newline breaks as needed to wrap text across multiple lines, ensuring the text fits horizontally within the available space `x ∈ [2.8, 6.4]` (width 3.6 units) and does not overlap with adjacent icons or `index_num`.
+*   Reposition `head_lbl` and `body_lbl` to align them correctly relative to their associated icons and `index_num` within the available horizontal space.
+*   Reposition `Text[agentmodels]`, `Text[decisiongating]`, `Text[verifiedresult]`, and `Text[worldresponse]` to avoid overlaps with surrounding elements.

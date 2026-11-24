@@ -1,0 +1,13 @@
+Presentation Step 1, 2
+
+Issue:
+Slide title headers (`title_group` in Presentation Step 1 and `step2_title_group` in Presentation Step 2) breach the top-left safe zone boundaries (left overflow < -6.4, top breach > 3.4) due to improper buffing in the shared `create_title` helper function. Additionally:
+* In Step 1, the Performance Gauge and Monitoring Agent core are spaced too closely (`agent_center` at x = 1.4, gauge at x = -0.8), causing `perception_pill` to severely overlap both `gauge_rim` and `agent_outer_ring`, while `thresh_tag` collides with `agent_sub`.
+* In Step 2, `bottom_arc` (y ≈ -2.1) cuts directly through `agent_badge` and `agent_badge_text` due to tight vertical spacing.
+
+Suggestions:
+* Generalized Root Cause Fix: Adjust title header positioning inside the shared `create_title` helper to x = -5.8, y = 3.25 (or set `to_corner(UL, buff=0.55)`) to eliminate top-left safe-zone breaches across presentation steps.
+* [Presentation Step 1]: Shift `agent_center` rightward to target position x = 2.4, y = -0.5 (from x = 1.4) to expand the center gap to 3.2 units, allowing `perception_pill` (width 1.5) to sit cleanly between `gauge_rim` and `agent_outer_ring`.
+* [Presentation Step 1]: Shift `thresh_tag` to target position x = 0.25, y = 0.75 (buff = 0.08 from `thresh_pos`) to clear `agent_sub` (x = [0.70, 2.10]).
+* [Presentation Step 2]: Shift `agent_target_pos` rightward to x = 3.4, y = -0.5 (from x = 2.9) to balance horizontal spacing between the environment and agent visual anchors.
+* [Presentation Step 2]: Reposition `agent_badge` (and `agent_badge_text`) downward to y = -2.75 by increasing the vertical buff below `agent_outer_ring` to `buff=0.85` (or shift `bottom_arc` control points to curve at y = -1.65) so `bottom_arc` does not intersect `agent_badge`.

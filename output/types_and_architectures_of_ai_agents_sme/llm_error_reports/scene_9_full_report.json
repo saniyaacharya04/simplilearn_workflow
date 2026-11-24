@@ -1,0 +1,607 @@
+{
+  "1": {
+    "scene": "9",
+    "section": 1,
+    "issues": [
+      "CRITICAL TEACHER OVERLAP: 'step1_tracker' encroaches into left Teacher Presenter area (Layout 70%). Object left edge is at x = -11.00 (must be >= -1.0). Reposition rightwards to safe workspace.",
+      "Text[Fastlocalresponsestotriggers] overflows parent pulse_reactive at: left edge (at -1.05, 0.00) by 0.30; right edge (at 1.05, 0.00) by 0.30 units.",
+      "Text[Fastlocalresponsestotriggers] overlaps with Text[Plansactionpathstowardgoals]. Text[Fastlocalresponsestotriggers]'s bottom right is touching Text[Plansactionpathstowardgoals]'s top left. Estimated overlap extent 0.77 units.",
+      "Text[Fastlocalresponsestotriggers] overlaps with pulse_goal. Text[Fastlocalresponsestotriggers]'s top right is touching pulse_goal's bottom left. Estimated overlap extent 0.53 units.",
+      "Text[Fastlocalresponsestotriggers] overlaps with pulse_reactive. Text[Fastlocalresponsestotriggers]'s top left is touching pulse_reactive's bottom right. Estimated overlap extent 0.34 units.",
+      "Text[Goal-BasedAgent] overlaps with single_card. Text[Goal-BasedAgent]'s bottom right is touching single_card's top left. Estimated overlap extent 0.41 units.",
+      "Text[Memory] overlaps with arr. Text[Memory]'s top right is touching arr's bottom left. Estimated overlap extent 0.12 units.",
+      "Text[Outcome-Focused] overlaps with single_card. Text[Outcome-Focused]'s top right is touching single_card's bottom left. Estimated overlap extent 0.45 units.",
+      "Text[Plansactionpathstowardgoals] overflows parent pulse_goal at: left edge (at -1.05, 0.00) by 0.32; right edge (at 1.05, 0.00) by 0.32 units.",
+      "Text[Plansactionpathstowardgoals] overlaps with pulse_goal. Text[Plansactionpathstowardgoals]'s top left is touching pulse_goal's bottom right. Estimated overlap extent 0.34 units.",
+      "Text[Plansactionpathstowardgoals] overlaps with pulse_reactive. Text[Plansactionpathstowardgoals]'s top left is touching pulse_reactive's bottom right. Estimated overlap extent 0.54 units.",
+      "Text[Plansactionpathstowardgoals] overlaps with pulse_utility. Text[Plansactionpathstowardgoals]'s top right is touching pulse_utility's bottom left. Estimated overlap extent 0.54 units.",
+      "Text[Plansactionpathstowardgoals] overlaps with single_card. Text[Plansactionpathstowardgoals]'s top right is touching single_card's bottom left. Estimated overlap extent 0.94 units.",
+      "Text[Plansactionpathstowardgoals] overlaps with sub_desc. Text[Plansactionpathstowardgoals]'s bottom right is touching sub_desc's top left. Estimated overlap extent 0.88 units.",
+      "lbl_s1 overflows parent state_node_2 at: top edge (at 0.00, 0.21) by 0.68 units.",
+      "lbl_s1 overflows parent state_node_3 at: top edge (at 0.00, 0.21) by 1.48 units.",
+      "lbl_s2 overflows parent state_node_1 at: bottom edge (at 0.00, -0.21) by 0.68 units.",
+      "lbl_s2 overflows parent state_node_3 at: top edge (at 0.00, 0.21) by 0.68 units.",
+      "lbl_s3 overflows parent state_node_1 at: bottom edge (at 0.00, -0.21) by 1.48 units.",
+      "lbl_s3 overflows parent state_node_2 at: bottom edge (at 0.00, -0.21) by 0.68 units.",
+      "loop_angle is off screen on: right by 11.85 units.",
+      "loop_angle is off screen on: right by 18.13 units.",
+      "loop_angle is off screen on: right by 30.70 units.",
+      "loop_angle is off screen on: right by 5.57 units.",
+      "loop_circle overlaps with Text[Decide]. loop_circle's bottom right is touching Text[Decide]'s top left. Estimated overlap extent 0.60 units.",
+      "loop_circle overlaps with Text[Observe]. loop_circle's top left is touching Text[Observe]'s bottom right. Estimated overlap extent 0.12 units.",
+      "loop_circle overlaps with loop_dot. loop_circle's bottom right is touching loop_dot's top left. Estimated overlap extent 0.08 units.",
+      "loop_circle overlaps with pill. loop_circle's bottom left is touching pill's top right. Estimated overlap extent 0.86 units.",
+      "loop_circle overlaps with txt. loop_circle's bottom left is touching txt's top right. Estimated overlap extent 0.45 units.",
+      "new_title_group overlaps with Text[Handoff,Summary&What'sNext]. new_title_group's top left is touching Text[Handoff,Summary&What'sNext]'s bottom right. Estimated overlap extent 0.35 units.",
+      "new_title_group overlaps with Text[Hands-OnDemo]. new_title_group's bottom left is touching Text[Hands-OnDemo]'s top right. Estimated overlap extent 2.11 units.",
+      "new_title_group overlaps with Text[What'sNext:Interactive]. new_title_group's bottom left is touching Text[What'sNext:Interactive]'s top right. Estimated overlap extent 2.55 units.",
+      "panel_tag overlaps with panel_tag_lbl. panel_tag's bottom left is touching panel_tag_lbl's top right. Estimated overlap extent 2.20 units.",
+      "play_label overflows parent live_tag at: left edge (at -0.60, 0.00) by 0.39; right edge (at 0.60, 0.00) by 0.39; top edge (at 0.00, 0.15) by 0.26 units.",
+      "sec1_header overlaps with Text[Perception]. sec1_header's top right is touching Text[Perception]'s bottom left. Estimated overlap extent 1.36 units.",
+      "sec2_header overlaps with Text[Observe]. sec2_header's top left is touching Text[Observe]'s bottom right. Estimated overlap extent 0.16 units.",
+      "sec2_header overlaps with loop_circle. sec2_header's bottom left is touching loop_circle's top right. Estimated overlap extent 0.15 units.",
+      "single_card overlaps with pulse_goal. single_card's bottom left is touching pulse_goal's top right. Estimated overlap extent 0.56 units.",
+      "step1_tracker is off screen on: left by 4.00 units.",
+      "step2_header overlaps with Text[Summary&What'sNext]. step2_header's top left is touching Text[Summary&What'sNext]'s bottom right. Estimated overlap extent 0.35 units.",
+      "step2_header overlaps with Text[What'sNext:Hands-OnDemo]. step2_header's bottom left is touching Text[What'sNext:Hands-OnDemo]'s top right. Estimated overlap extent 2.93 units.",
+      "sub_desc overflows parent badge_pill at: left edge (at -0.85, 0.00) by 0.61; right edge (at 0.85, 0.00) by 0.61; bottom edge (at 0.00, -0.15) by 0.28 units.",
+      "sub_desc overflows parent card_box at: left edge (at -1.05, 0.00) by 0.41; right edge (at 1.05, 0.00) by 0.41 units.",
+      "sub_desc overflows parent pulse_utility at: left edge (at -1.05, 0.00) by 0.41; right edge (at 1.05, 0.00) by 0.41 units.",
+      "sub_desc overlaps with pulse_goal. sub_desc's top left is touching pulse_goal's bottom right. Estimated overlap extent 0.63 units.",
+      "sub_desc overlaps with pulse_utility. sub_desc's top left is touching pulse_utility's bottom right. Estimated overlap extent 0.32 units.",
+      "title_group overlaps with Text[Architecture&Interaction]. title_group's bottom left is touching Text[Architecture&Interaction]'s top right. Estimated overlap extent 2.68 units.",
+      "title_group overlaps with Text[Handoff,Summary&What'sNext]. title_group's top left is touching Text[Handoff,Summary&What'sNext]'s bottom right. Estimated overlap extent 0.35 units.",
+      "title_group overlaps with Text[KeyTakeaways:Agent]. title_group's bottom left is touching Text[KeyTakeaways:Agent]'s top right. Estimated overlap extent 2.60 units.",
+      "type_lbl overflows parent badge_pill at: left edge (at -0.85, 0.00) by 0.04; right edge (at 0.85, 0.00) by 0.04; top edge (at 0.00, 0.15) by 0.28 units."
+    ],
+    "issue_timestamps": [
+      74.73333333333325,
+      17.73333333333329,
+      15.733333333333297,
+      24.066666666666602,
+      17.73333333333329,
+      16.933333333333294,
+      5.799999999999999,
+      16.933333333333294,
+      24.066666666666602,
+      24.066666666666602,
+      17.73333333333329,
+      30.399999999999913,
+      16.933333333333294,
+      16.933333333333294,
+      51.73333333333422,
+      51.73333333333422,
+      51.73333333333422,
+      51.73333333333422,
+      51.73333333333422,
+      51.73333333333422,
+      29.066666666666585,
+      36.40000000000013,
+      47.000000000000654,
+      22.733333333333274,
+      8.799999999999988,
+      8.799999999999988,
+      8.799999999999988,
+      8.799999999999988,
+      8.799999999999988,
+      48.40000000000072,
+      48.40000000000072,
+      48.40000000000072,
+      2.2,
+      51.73333333333422,
+      5.799999999999999,
+      8.799999999999988,
+      6.999999999999995,
+      24.066666666666602,
+      74.73333333333325,
+      74.73333333333325,
+      74.73333333333325,
+      16.933333333333294,
+      16.933333333333294,
+      30.399999999999913,
+      24.066666666666602,
+      30.399999999999913,
+      0.9999999999999999,
+      0.9999999999999999,
+      0.9999999999999999,
+      16.933333333333294
+    ],
+    "part_details": {
+      "Text[Decide]": {
+        "dimensions": [
+          "0.63 units wide by 0.14 units tall"
+        ],
+        "current_position": [
+          [
+            5.26,
+            0.26
+          ]
+        ],
+        "constraints": [
+          "below Text[Observe] with edge distance 0.87 units",
+          "below loop_dot with edge distance 0.11 units",
+          "below sec2_header with edge distance 0.54 units",
+          "contained within summary_panel",
+          "right of loop_circle with edge distance 0.00 units",
+          "right of pill with edge distance 0.67 units"
+        ]
+      },
+      "Text[Fastlocalresponsestotriggers]": {
+        "dimensions": [
+          "2.70 units wide by 0.18 units tall"
+        ],
+        "current_position": [
+          [
+            0.85,
+            -2.68
+          ]
+        ],
+        "constraints": [
+          "below Text[ReactiveAgent] with edge distance 0.52 units",
+          "below Text[Rule-Driven] with edge distance 0.20 units",
+          "below center_circ with edge distance 0.81 units",
+          "below pulse_reactive with edge distance 0.00 units",
+          "below sec3_header with edge distance 0.47 units",
+          "below spokes with edge distance 0.71 units",
+          "contained within summary_panel",
+          "left of Text[Goal-BasedAgent] with edge distance 0.00 units",
+          "left of Text[Outcome-Focused] with edge distance 0.00 units",
+          "left of Text[Plansactionpathstowardgoals] with edge distance 0.00 units",
+          "left of pulse_goal with edge distance 0.00 units",
+          "left of r1 with edge distance 0.69 units",
+          "left of r2 with edge distance 0.83 units",
+          "left of r3 with edge distance 0.92 units"
+        ]
+      },
+      "Text[Goal-BasedAgent]": {
+        "dimensions": [
+          "1.70 units wide by 0.19 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -1.98
+          ]
+        ],
+        "constraints": [
+          "above Text[Outcome-Focused] with edge distance 0.17 units",
+          "above Text[Plansactionpathstowardgoals] with edge distance 0.52 units",
+          "above pulse_goal with edge distance 0.00 units",
+          "below r1 with edge distance 0.05 units",
+          "below r2 with edge distance 0.15 units",
+          "below r3 with edge distance 0.22 units",
+          "contained within pulse_goal",
+          "contained within summary_panel",
+          "left of pulse_utility with edge distance 0.00 units",
+          "left of single_card with edge distance 0.00 units",
+          "right of Text[Fastlocalresponsestotriggers] with edge distance 0.00 units",
+          "right of Text[ReactiveAgent] with edge distance 0.40 units",
+          "right of Text[Rule-Driven] with edge distance 0.59 units",
+          "right of center_circ with edge distance 0.94 units",
+          "right of pulse_reactive with edge distance 0.00 units",
+          "right of sec3_header with edge distance 0.00 units",
+          "right of spokes with edge distance 0.83 units"
+        ]
+      },
+      "Text[Memory]": {
+        "dimensions": [
+          "0.74 units wide by 0.18 units tall"
+        ],
+        "current_position": [
+          [
+            0.28,
+            0.6
+          ]
+        ],
+        "constraints": [
+          "above Text[Action] with edge distance 0.57 units",
+          "above sec3_header with edge distance 0.79 units",
+          "below panel_tag with edge distance 0.41 units",
+          "below panel_tag_lbl with edge distance 0.56 units",
+          "below sec1_header with edge distance 0.02 units",
+          "contained within summary_panel",
+          "left of Text[Perception] with edge distance 0.42 units",
+          "left of Text[Reasoning] with edge distance 0.77 units",
+          "left of arr with edge distance 0.00 units"
+        ]
+      },
+      "Text[Observe]": {
+        "dimensions": [
+          "0.78 units wide by 0.15 units tall"
+        ],
+        "current_position": [
+          [
+            4.5,
+            1.41
+          ]
+        ],
+        "constraints": [
+          "above Text[Decide] with edge distance 0.87 units",
+          "above loop_circle with edge distance 0.00 units",
+          "above pill with edge distance 0.65 units",
+          "above sec2_header with edge distance 0.00 units",
+          "above txt with edge distance 0.96 units",
+          "contained within summary_panel",
+          "left of loop_dot with edge distance 0.73 units"
+        ]
+      },
+      "Text[Outcome-Focused]": {
+        "dimensions": [
+          "1.73 units wide by 0.15 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -2.32
+          ]
+        ],
+        "constraints": [
+          "above Text[Plansactionpathstowardgoals] with edge distance 0.19 units",
+          "below Text[Goal-BasedAgent] with edge distance 0.17 units",
+          "below pulse_goal with edge distance 0.00 units",
+          "below r1 with edge distance 0.41 units",
+          "below r2 with edge distance 0.51 units",
+          "below r3 with edge distance 0.58 units",
+          "below sec3_header with edge distance 0.00 units",
+          "contained within pulse_goal",
+          "contained within summary_panel",
+          "left of pulse_utility with edge distance 0.00 units",
+          "left of single_card with edge distance 0.00 units",
+          "right of Text[Fastlocalresponsestotriggers] with edge distance 0.00 units",
+          "right of Text[ReactiveAgent] with edge distance 0.40 units",
+          "right of Text[Rule-Driven] with edge distance 0.55 units",
+          "right of pulse_reactive with edge distance 0.00 units",
+          "right of spokes with edge distance 0.90 units"
+        ]
+      },
+      "Text[Perception]": {
+        "dimensions": [
+          "0.99 units wide by 0.18 units tall"
+        ],
+        "current_position": [
+          [
+            1.1,
+            1.42
+          ]
+        ],
+        "constraints": [
+          "above arr with edge distance 0.00 units",
+          "contained within summary_panel",
+          "left of Text[Reasoning] with edge distance 0.33 units",
+          "right of Text[Memory] with edge distance 0.42 units",
+          "right of panel_tag with edge distance 0.00 units",
+          "right of panel_tag_lbl with edge distance 0.00 units",
+          "right of sec1_header with edge distance 0.00 units"
+        ]
+      },
+      "Text[Plansactionpathstowardgoals]": {
+        "dimensions": [
+          "2.74 units wide by 0.18 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -2.68
+          ]
+        ],
+        "constraints": [
+          "below Text[Goal-BasedAgent] with edge distance 0.52 units",
+          "below Text[Outcome-Focused] with edge distance 0.19 units",
+          "below pulse_goal with edge distance 0.00 units",
+          "below r1 with edge distance 0.75 units",
+          "below r2 with edge distance 0.85 units",
+          "below r3 with edge distance 0.92 units",
+          "below sec3_header with edge distance 0.16 units",
+          "contained within summary_panel",
+          "left of pulse_utility with edge distance 0.00 units",
+          "left of single_card with edge distance 0.00 units",
+          "right of Text[Fastlocalresponsestotriggers] with edge distance 0.00 units",
+          "right of Text[ReactiveAgent] with edge distance 0.06 units",
+          "right of Text[Rule-Driven] with edge distance 0.08 units",
+          "right of center_circ with edge distance 0.76 units",
+          "right of pulse_reactive with edge distance 0.00 units",
+          "right of spokes with edge distance 0.62 units"
+        ]
+      },
+      "arr": {
+        "dimensions": [
+          "0.53 units wide by 0.57 units tall"
+        ],
+        "current_position": [
+          [
+            0.83,
+            0.88
+          ]
+        ],
+        "constraints": [
+          "above Text[Action] with edge distance 0.66 units",
+          "below Text[Perception] with edge distance 0.00 units",
+          "below panel_tag with edge distance 0.16 units",
+          "below panel_tag_lbl with edge distance 0.29 units",
+          "below sec1_header with edge distance 0.00 units",
+          "contained within summary_panel",
+          "left of Text[Reasoning] with edge distance 0.29 units",
+          "right of Text[Memory] with edge distance 0.00 units"
+        ]
+      },
+      "loop_circle": {
+        "dimensions": [
+          "1.70 units wide by 1.70 units tall"
+        ],
+        "current_position": [
+          [
+            4.5,
+            0.6
+          ]
+        ],
+        "constraints": [
+          "above pulse_goal with edge distance 0.76 units",
+          "above pulse_utility with edge distance 0.87 units",
+          "above single_card with edge distance 0.83 units",
+          "below Text[Observe] with edge distance 0.00 units",
+          "below sec2_header with edge distance 0.00 units",
+          "contained within summary_panel",
+          "left of Text[Decide] with edge distance 0.00 units",
+          "left of loop_dot with edge distance 0.00 units",
+          "right of pill with edge distance 0.00 units",
+          "right of sec3_header with edge distance 0.86 units",
+          "right of txt with edge distance 0.00 units"
+        ]
+      },
+      "loop_dot": {
+        "dimensions": [
+          "0.16 units wide by 0.16 units tall"
+        ],
+        "current_position": [
+          [
+            5.35,
+            0.6
+          ]
+        ],
+        "constraints": [
+          "above Text[Decide] with edge distance 0.11 units",
+          "contained within summary_panel",
+          "right of Text[Observe] with edge distance 0.73 units",
+          "right of loop_circle with edge distance 0.00 units",
+          "right of pill with edge distance 0.98 units",
+          "right of sec2_header with edge distance 0.31 units"
+        ]
+      },
+      "panel_tag": {
+        "dimensions": [
+          "2.20 units wide by 0.40 units tall"
+        ],
+        "current_position": [
+          [
+            0.7,
+            1.73
+          ]
+        ],
+        "constraints": [
+          "above Text[Memory] with edge distance 0.41 units",
+          "above arr with edge distance 0.16 units",
+          "above panel_tag_lbl with edge distance 0.00 units",
+          "above sec1_header with edge distance 0.00 units",
+          "contained within summary_panel",
+          "left of Text[Perception] with edge distance 0.00 units",
+          "left of Text[Reasoning] with edge distance 0.29 units"
+        ]
+      },
+      "panel_tag_lbl": {
+        "dimensions": [
+          "1.96 units wide by 0.17 units tall"
+        ],
+        "current_position": [
+          [
+            0.7,
+            1.73
+          ]
+        ],
+        "constraints": [
+          "above Text[Memory] with edge distance 0.56 units",
+          "above arr with edge distance 0.29 units",
+          "above panel_tag with edge distance 0.00 units",
+          "above sec1_header with edge distance 0.00 units",
+          "contained within summary_panel",
+          "left of Text[Perception] with edge distance 0.00 units",
+          "left of Text[Reasoning] with edge distance 0.46 units"
+        ]
+      },
+      "pill": {
+        "dimensions": [
+          "1.10 units wide by 0.36 units tall"
+        ],
+        "current_position": [
+          [
+            3.73,
+            0.26
+          ]
+        ],
+        "constraints": [
+          "above single_card with edge distance 0.85 units",
+          "above txt with edge distance 0.00 units",
+          "below Text[Observe] with edge distance 0.65 units",
+          "below sec2_header with edge distance 0.32 units",
+          "contained within summary_panel",
+          "left of Text[Decide] with edge distance 0.67 units",
+          "left of loop_circle with edge distance 0.00 units",
+          "left of loop_dot with edge distance 0.98 units",
+          "right of Text[Reasoning] with edge distance 0.77 units",
+          "right of sec3_header with edge distance 0.64 units"
+        ]
+      },
+      "pulse_goal": {
+        "dimensions": [
+          "2.10 units wide by 1.65 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -2.1
+          ]
+        ],
+        "constraints": [
+          "above Text[Outcome-Focused] with edge distance 0.00 units",
+          "above Text[Plansactionpathstowardgoals] with edge distance 0.00 units",
+          "below Text[Action] with edge distance 0.97 units",
+          "below Text[Goal-BasedAgent] with edge distance 0.00 units",
+          "below loop_circle with edge distance 0.76 units",
+          "below r1 with edge distance 0.00 units",
+          "below r2 with edge distance 0.00 units",
+          "below r3 with edge distance 0.00 units",
+          "contained within summary_panel",
+          "left of single_card with edge distance 0.00 units",
+          "right of Text[Fastlocalresponsestotriggers] with edge distance 0.00 units",
+          "right of Text[ReactiveAgent] with edge distance 0.15 units",
+          "right of Text[Rule-Driven] with edge distance 0.29 units",
+          "right of center_circ with edge distance 0.60 units",
+          "right of sec3_header with edge distance 0.00 units",
+          "right of spokes with edge distance 0.48 units"
+        ]
+      },
+      "pulse_reactive": {
+        "dimensions": [
+          "2.10 units wide by 1.65 units tall"
+        ],
+        "current_position": [
+          [
+            0.85,
+            -2.1
+          ]
+        ],
+        "constraints": [
+          "above Text[Fastlocalresponsestotriggers] with edge distance 0.00 units",
+          "above Text[Rule-Driven] with edge distance 0.00 units",
+          "below Text[Action] with edge distance 0.83 units",
+          "below Text[ReactiveAgent] with edge distance 0.00 units",
+          "below center_circ with edge distance 0.00 units",
+          "below sec3_header with edge distance 0.00 units",
+          "below spokes with edge distance 0.00 units",
+          "contained within summary_panel",
+          "left of Text[Goal-BasedAgent] with edge distance 0.00 units",
+          "left of Text[Outcome-Focused] with edge distance 0.00 units",
+          "left of Text[Plansactionpathstowardgoals] with edge distance 0.00 units",
+          "left of r1 with edge distance 0.53 units",
+          "left of r2 with edge distance 0.65 units",
+          "left of r3 with edge distance 0.73 units"
+        ]
+      },
+      "pulse_utility": {
+        "dimensions": [
+          "2.10 units wide by 1.65 units tall"
+        ],
+        "current_position": [
+          [
+            4.75,
+            -2.1
+          ]
+        ],
+        "constraints": [
+          "above single_card with edge distance 0.00 units",
+          "below loop_circle with edge distance 0.87 units",
+          "contained within card_box",
+          "contained within single_card",
+          "contained within summary_panel",
+          "right of Text[Goal-BasedAgent] with edge distance 0.00 units",
+          "right of Text[Outcome-Focused] with edge distance 0.00 units",
+          "right of Text[Plansactionpathstowardgoals] with edge distance 0.00 units",
+          "right of r1 with edge distance 0.53 units",
+          "right of r2 with edge distance 0.65 units",
+          "right of r3 with edge distance 0.73 units",
+          "right of sec3_header with edge distance 0.66 units"
+        ]
+      },
+      "sec1_header": {
+        "dimensions": [
+          "2.01 units wide by 0.20 units tall"
+        ],
+        "current_position": [
+          [
+            0.95,
+            1.4
+          ]
+        ],
+        "constraints": [
+          "above Text[Memory] with edge distance 0.02 units",
+          "above arr with edge distance 0.00 units",
+          "below panel_tag with edge distance 0.00 units",
+          "below panel_tag_lbl with edge distance 0.00 units",
+          "contained within summary_panel",
+          "left of Text[Perception] with edge distance 0.00 units",
+          "left of Text[Reasoning] with edge distance 0.00 units"
+        ]
+      },
+      "sec2_header": {
+        "dimensions": [
+          "1.85 units wide by 0.19 units tall"
+        ],
+        "current_position": [
+          [
+            4.5,
+            1.4
+          ]
+        ],
+        "constraints": [
+          "above Text[Decide] with edge distance 0.54 units",
+          "above loop_circle with edge distance 0.00 units",
+          "above pill with edge distance 0.32 units",
+          "above txt with edge distance 0.63 units",
+          "below Text[Observe] with edge distance 0.00 units",
+          "contained within summary_panel",
+          "left of loop_dot with edge distance 0.31 units"
+        ]
+      },
+      "single_card": {
+        "dimensions": [
+          "2.93 units wide by 1.65 units tall"
+        ],
+        "current_position": [
+          [
+            4.75,
+            -2.1
+          ]
+        ],
+        "constraints": [
+          "above pulse_utility with edge distance 0.00 units",
+          "below loop_circle with edge distance 0.83 units",
+          "below pill with edge distance 0.85 units",
+          "contained within summary_panel",
+          "right of Text[Goal-BasedAgent] with edge distance 0.00 units",
+          "right of Text[Outcome-Focused] with edge distance 0.00 units",
+          "right of Text[Plansactionpathstowardgoals] with edge distance 0.00 units",
+          "right of pulse_goal with edge distance 0.00 units",
+          "right of r1 with edge distance 0.12 units",
+          "right of r2 with edge distance 0.25 units",
+          "right of r3 with edge distance 0.33 units",
+          "right of sec3_header with edge distance 0.26 units"
+        ]
+      },
+      "txt": {
+        "dimensions": [
+          "0.31 units wide by 0.14 units tall"
+        ],
+        "current_position": [
+          [
+            3.73,
+            0.26
+          ]
+        ],
+        "constraints": [
+          "above pill with edge distance 0.00 units",
+          "below Text[Observe] with edge distance 0.96 units",
+          "below sec2_header with edge distance 0.63 units",
+          "contained within pill",
+          "contained within summary_panel",
+          "left of loop_circle with edge distance 0.00 units"
+        ]
+      }
+    }
+  },
+  "2": {
+    "scene": "9",
+    "section": 2,
+    "issues": [],
+    "issue_timestamps": [],
+    "part_details": {}
+  }
+}

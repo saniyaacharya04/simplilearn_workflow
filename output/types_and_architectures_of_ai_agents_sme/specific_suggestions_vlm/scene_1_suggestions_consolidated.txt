@@ -1,0 +1,10 @@
+Presentation Step 1
+Issue: 
+A severe title collision occurs at the top of the canvas where `title_group` ("Environment") directly overlays `header_grp` ("Agent: Beyond Response"), causing unreadable text that breaches the top safe-zone boundary (y > 3.4). Furthermore, `cross_v` extends downwards directly through `agent_label`, while `env_mid_ring` collides with both `perceive_badge` and `action_badge`.
+
+Suggestions:
+* Replace the separate `header_grp` and `title_group` objects with a single persistent header using `create_title("Agent: Beyond Response", "Environment")`, positioning it at target center `[-0.80, 3.20, 0.0]` to clear top safe-zone breaches (y <= 3.4).
+* Shorten `cross_v` vertical length from 4.40 units to 3.00 units (y range `[-1.40, 1.60]`) so it does not cross into `agent_label` at y = -1.75.
+* Shift `perceive_badge` UP by dy = +0.40 units to target position `[0.70, 2.10, 0.0]` to clear `env_mid_ring`.
+* Shift `action_badge` DOWN by dy = -0.40 units to target position `[4.90, -2.50, 0.0]` to prevent overlap with `env_mid_ring`.
+* Waive the brief overlaps on `in_dot1`, `in_dot2`, and `out_dot1` as standard linear motion along Bezier conduit paths.

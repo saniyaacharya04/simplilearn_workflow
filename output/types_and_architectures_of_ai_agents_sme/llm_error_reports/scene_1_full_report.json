@@ -1,0 +1,995 @@
+{
+  "1": {
+    "scene": "1",
+    "section": 1,
+    "issues": [
+      "Text[Environment] overlaps with header_grp. Text[Environment]'s bottom right is touching header_grp's top left. Estimated overlap extent 2.20 units.",
+      "Text[Environment] overlaps with title_text. Text[Environment]'s bottom right is touching title_text's top left. Estimated overlap extent 2.18 units.",
+      "core_backdrop overlaps with in_dot1. core_backdrop's top left is touching in_dot1's bottom right. Estimated overlap extent 0.29 units.",
+      "core_backdrop overlaps with in_dot2. core_backdrop's top left is touching in_dot2's bottom right. Estimated overlap extent 0.28 units.",
+      "core_backdrop overlaps with in_loop. core_backdrop's top left is touching in_loop's bottom right. Estimated overlap extent 0.29 units.",
+      "core_backdrop overlaps with inflow_curve. core_backdrop's top left is touching inflow_curve's bottom right. Estimated overlap extent 0.31 units.",
+      "core_backdrop overlaps with lattice_grp. core_backdrop's bottom left is touching lattice_grp's top right. Estimated overlap extent 1.30 units.",
+      "core_backdrop overlaps with lattice_grp. core_backdrop's bottom left is touching lattice_grp's top right. Estimated overlap extent 1.32 units.",
+      "core_backdrop overlaps with lattice_grp. core_backdrop's bottom left is touching lattice_grp's top right. Estimated overlap extent 1.36 units.",
+      "core_backdrop overlaps with lattice_grp. core_backdrop's bottom left is touching lattice_grp's top right. Estimated overlap extent 1.47 units.",
+      "core_backdrop overlaps with lattice_grp. core_backdrop's top left is touching lattice_grp's bottom right. Estimated overlap extent 1.28 units.",
+      "core_backdrop overlaps with lattice_grp. core_backdrop's top left is touching lattice_grp's bottom right. Estimated overlap extent 1.31 units.",
+      "core_backdrop overlaps with lattice_grp. core_backdrop's top left is touching lattice_grp's bottom right. Estimated overlap extent 1.44 units.",
+      "core_backdrop overlaps with lattice_grp. core_backdrop's top left is touching lattice_grp's bottom right. Estimated overlap extent 1.68 units.",
+      "core_backdrop overlaps with outflow_curve. core_backdrop's bottom right is touching outflow_curve's top left. Estimated overlap extent 0.30 units.",
+      "core_badge overlaps with outflow_curve. core_badge's top right is touching outflow_curve's bottom left. Estimated overlap extent 0.26 units.",
+      "cross_h overlaps with core_backdrop. cross_h's bottom right is touching core_backdrop's top left. Estimated overlap extent 5.00 units.",
+      "cross_h overlaps with core_glow_ring. cross_h's bottom right is touching core_glow_ring's top left. Estimated overlap extent 5.00 units.",
+      "cross_h overlaps with core_nucleus. cross_h's bottom right is touching core_nucleus's top left. Estimated overlap extent 5.00 units.",
+      "cross_h overlaps with core_nucleus_glow. cross_h's bottom right is touching core_nucleus_glow's top left. Estimated overlap extent 5.00 units.",
+      "cross_h overlaps with cross_v. cross_h's bottom right is touching cross_v's top left. Estimated overlap extent 5.00 units.",
+      "cross_h overlaps with halo_inner. cross_h's bottom right is touching halo_inner's top left. Estimated overlap extent 5.00 units.",
+      "cross_h overlaps with halo_outer. cross_h's bottom right is touching halo_outer's top left. Estimated overlap extent 5.00 units.",
+      "cross_h overlaps with lattice_grp. cross_h's bottom left is touching lattice_grp's top right. Estimated overlap extent 0.53 units.",
+      "cross_h overlaps with lattice_grp. cross_h's bottom left is touching lattice_grp's top right. Estimated overlap extent 0.64 units.",
+      "cross_h overlaps with lattice_grp. cross_h's bottom left is touching lattice_grp's top right. Estimated overlap extent 3.04 units.",
+      "cross_h overlaps with lattice_grp. cross_h's bottom right is touching lattice_grp's top left. Estimated overlap extent 0.58 units.",
+      "cross_h overlaps with lattice_grp. cross_h's bottom right is touching lattice_grp's top left. Estimated overlap extent 0.60 units.",
+      "cross_h overlaps with lattice_grp. cross_h's bottom right is touching lattice_grp's top left. Estimated overlap extent 0.75 units.",
+      "cross_h overlaps with lattice_grp. cross_h's bottom right is touching lattice_grp's top left. Estimated overlap extent 5.00 units.",
+      "cross_h overlaps with lattice_grp. cross_h's top left is touching lattice_grp's bottom right. Estimated overlap extent 0.56 units.",
+      "cross_h overlaps with lattice_grp. cross_h's top left is touching lattice_grp's bottom right. Estimated overlap extent 0.72 units.",
+      "cross_h overlaps with lattice_grp. cross_h's top left is touching lattice_grp's bottom right. Estimated overlap extent 1.64 units.",
+      "cross_h overlaps with lattice_grp. cross_h's top right is touching lattice_grp's bottom left. Estimated overlap extent 0.59 units.",
+      "cross_h overlaps with lattice_grp. cross_h's top right is touching lattice_grp's bottom left. Estimated overlap extent 1.24 units.",
+      "cross_h overlaps with lattice_grp. cross_h's top right is touching lattice_grp's bottom left. Estimated overlap extent 1.31 units.",
+      "cross_v overlaps with agent_pulse. cross_v's bottom left is touching agent_pulse's top right. Estimated overlap extent 1.13 units.",
+      "cross_v overlaps with core_backdrop. cross_v's bottom left is touching core_backdrop's top right. Estimated overlap extent 4.40 units.",
+      "cross_v overlaps with core_badge. cross_v's bottom left is touching core_badge's top right. Estimated overlap extent 1.13 units.",
+      "cross_v overlaps with core_badge_txt. cross_v's bottom left is touching core_badge_txt's top right. Estimated overlap extent 0.99 units.",
+      "cross_v overlaps with core_glow_ring. cross_v's bottom left is touching core_glow_ring's top right. Estimated overlap extent 4.40 units.",
+      "cross_v overlaps with core_nucleus. cross_v's bottom left is touching core_nucleus's top right. Estimated overlap extent 4.40 units.",
+      "cross_v overlaps with core_nucleus_glow. cross_v's bottom left is touching core_nucleus_glow's top right. Estimated overlap extent 4.40 units.",
+      "cross_v overlaps with core_sub_txt. cross_v's bottom left is touching core_sub_txt's top right. Estimated overlap extent 0.58 units.",
+      "cross_v overlaps with halo_inner. cross_v's bottom left is touching halo_inner's top right. Estimated overlap extent 4.40 units.",
+      "cross_v overlaps with halo_outer. cross_v's bottom left is touching halo_outer's top right. Estimated overlap extent 4.40 units.",
+      "cross_v overlaps with lattice_grp. cross_v's bottom left is touching lattice_grp's top right. Estimated overlap extent 0.54 units.",
+      "cross_v overlaps with lattice_grp. cross_v's bottom left is touching lattice_grp's top right. Estimated overlap extent 2.73 units.",
+      "cross_v overlaps with lattice_grp. cross_v's bottom left is touching lattice_grp's top right. Estimated overlap extent 2.78 units.",
+      "cross_v overlaps with lattice_grp. cross_v's bottom left is touching lattice_grp's top right. Estimated overlap extent 2.80 units.",
+      "cross_v overlaps with lattice_grp. cross_v's bottom left is touching lattice_grp's top right. Estimated overlap extent 2.84 units.",
+      "cross_v overlaps with lattice_grp. cross_v's bottom left is touching lattice_grp's top right. Estimated overlap extent 2.95 units.",
+      "cross_v overlaps with lattice_grp. cross_v's bottom left is touching lattice_grp's top right. Estimated overlap extent 4.40 units.",
+      "cross_v overlaps with lattice_grp. cross_v's top left is touching lattice_grp's bottom right. Estimated overlap extent 2.76 units.",
+      "cross_v overlaps with lattice_grp. cross_v's top left is touching lattice_grp's bottom right. Estimated overlap extent 2.79 units.",
+      "cross_v overlaps with lattice_grp. cross_v's top left is touching lattice_grp's bottom right. Estimated overlap extent 2.80 units.",
+      "cross_v overlaps with lattice_grp. cross_v's top left is touching lattice_grp's bottom right. Estimated overlap extent 2.92 units.",
+      "cross_v overlaps with lattice_grp. cross_v's top right is touching lattice_grp's bottom left. Estimated overlap extent 2.84 units.",
+      "cross_v overlaps with lattice_grp. cross_v's top right is touching lattice_grp's bottom left. Estimated overlap extent 2.90 units.",
+      "env_mid_ring overlaps with action_badge. env_mid_ring's bottom right is touching action_badge's top left. Estimated overlap extent 0.92 units.",
+      "env_mid_ring overlaps with action_badge_lbl. env_mid_ring's bottom right is touching action_badge_lbl's top left. Estimated overlap extent 0.63 units.",
+      "env_mid_ring overlaps with cross_h. env_mid_ring's bottom left is touching cross_h's top right. Estimated overlap extent 3.70 units.",
+      "env_mid_ring overlaps with cross_v. env_mid_ring's bottom left is touching cross_v's top right. Estimated overlap extent 3.70 units.",
+      "env_mid_ring overlaps with env_badge. env_mid_ring's top right is touching env_badge's bottom left. Estimated overlap extent 0.70 units.",
+      "env_mid_ring overlaps with inflow_curve. env_mid_ring's top left is touching inflow_curve's bottom right. Estimated overlap extent 1.78 units.",
+      "env_mid_ring overlaps with outflow_curve. env_mid_ring's bottom right is touching outflow_curve's top left. Estimated overlap extent 1.76 units.",
+      "env_mid_ring overlaps with perceive_badge. env_mid_ring's top left is touching perceive_badge's bottom right. Estimated overlap extent 0.89 units.",
+      "env_mid_ring overlaps with perceive_badge_lbl. env_mid_ring's top left is touching perceive_badge_lbl's bottom right. Estimated overlap extent 0.58 units.",
+      "env_outer_ring overlaps with action_badge. env_outer_ring's bottom right is touching action_badge's top left. Estimated overlap extent 1.96 units.",
+      "env_outer_ring overlaps with action_badge_lbl. env_outer_ring's bottom right is touching action_badge_lbl's top left. Estimated overlap extent 1.68 units.",
+      "env_outer_ring overlaps with perceive_badge. env_outer_ring's top left is touching perceive_badge's bottom right. Estimated overlap extent 1.93 units.",
+      "env_outer_ring overlaps with perceive_badge. env_outer_ring's top left is touching perceive_badge's bottom right. Estimated overlap extent 1.94 units.",
+      "env_outer_ring overlaps with perceive_badge_lbl. env_outer_ring's top left is touching perceive_badge_lbl's bottom right. Estimated overlap extent 1.62 units.",
+      "halo_inner overlaps with inflow_curve. halo_inner's top left is touching inflow_curve's bottom right. Estimated overlap extent 0.48 units.",
+      "halo_inner overlaps with outflow_curve. halo_inner's bottom right is touching outflow_curve's top left. Estimated overlap extent 0.46 units.",
+      "halo_outer overlaps with inflow_curve. halo_outer's top left is touching inflow_curve's bottom right. Estimated overlap extent 0.81 units.",
+      "halo_outer overlaps with outflow_curve. halo_outer's bottom right is touching outflow_curve's top left. Estimated overlap extent 0.79 units.",
+      "header_grp overlaps with subtitle_text. header_grp's bottom left is touching subtitle_text's top right. Estimated overlap extent 2.82 units.",
+      "header_grp overlaps with title_text. header_grp's top left is touching title_text's bottom right. Estimated overlap extent 0.34 units.",
+      "inflow_curve overlaps with core_glow_ring. inflow_curve's bottom right is touching core_glow_ring's top left. Estimated overlap extent 0.61 units.",
+      "inflow_curve overlaps with in_dot1. inflow_curve's bottom right is touching in_dot1's top left. Estimated overlap extent 0.14 units.",
+      "inflow_curve overlaps with in_dot2. inflow_curve's bottom right is touching in_dot2's top left. Estimated overlap extent 0.13 units.",
+      "inflow_curve overlaps with in_loop. inflow_curve's bottom right is touching in_loop's top left. Estimated overlap extent 0.14 units.",
+      "lattice_grp overlaps with in_dot1. lattice_grp's top left is touching in_dot1's bottom right. Estimated overlap extent 0.12 units.",
+      "outflow_curve overlaps with agent_pulse. outflow_curve's bottom left is touching agent_pulse's top right. Estimated overlap extent 0.26 units.",
+      "outflow_curve overlaps with core_glow_ring. outflow_curve's top left is touching core_glow_ring's bottom right. Estimated overlap extent 0.59 units.",
+      "outflow_curve overlaps with out_dot1. outflow_curve's bottom right is touching out_dot1's top left. Estimated overlap extent 0.15 units.",
+      "outflow_curve overlaps with out_dot2. outflow_curve's bottom right is touching out_dot2's top left. Estimated overlap extent 0.13 units.",
+      "outflow_curve overlaps with out_loop. outflow_curve's bottom right is touching out_loop's top left. Estimated overlap extent 0.15 units.",
+      "title_group overlaps with Text[Environment]. title_group's top left is touching Text[Environment]'s bottom right. Estimated overlap extent 2.16 units.",
+      "title_group overlaps with header_grp. title_group's bottom right is touching header_grp's top left. Estimated overlap extent 2.52 units. Additionally, the following named child objects overlap: 'Text[Environment]' and 'title_text' (extent: 2.18).",
+      "title_group overlaps with title_text. title_group's top right is touching title_text's bottom left. Estimated overlap extent 2.51 units."
+    ],
+    "issue_timestamps": [
+      1.9999999999999998,
+      1.9999999999999998,
+      19.466666666666622,
+      21.266666666666616,
+      31.133333333333248,
+      17.66666666666663,
+      22.799999999999944,
+      21.266666666666616,
+      27.93333333333326,
+      16.1333333333333,
+      24.33333333333327,
+      17.66666666666663,
+      33.33333333333331,
+      26.133333333333265,
+      24.33333333333327,
+      24.33333333333327,
+      10.599999999999985,
+      31.133333333333248,
+      12.599999999999978,
+      12.599999999999978,
+      6.333333333333325,
+      10.599999999999985,
+      10.599999999999985,
+      29.133333333333255,
+      27.93333333333326,
+      31.133333333333248,
+      22.799999999999944,
+      21.266666666666616,
+      16.1333333333333,
+      12.599999999999978,
+      24.33333333333327,
+      33.33333333333331,
+      26.133333333333265,
+      17.66666666666663,
+      19.466666666666622,
+      35.86666666666677,
+      31.133333333333248,
+      10.599999999999985,
+      12.599999999999978,
+      12.599999999999978,
+      31.133333333333248,
+      12.599999999999978,
+      12.599999999999978,
+      12.599999999999978,
+      10.599999999999985,
+      10.599999999999985,
+      31.133333333333248,
+      29.133333333333255,
+      22.799999999999944,
+      21.266666666666616,
+      27.93333333333326,
+      16.1333333333333,
+      12.599999999999978,
+      24.33333333333327,
+      17.66666666666663,
+      26.133333333333265,
+      33.33333333333331,
+      19.466666666666622,
+      35.86666666666677,
+      24.33333333333327,
+      24.33333333333327,
+      6.333333333333325,
+      6.333333333333325,
+      6.333333333333325,
+      17.66666666666663,
+      24.33333333333327,
+      17.66666666666663,
+      17.66666666666663,
+      24.33333333333327,
+      24.33333333333327,
+      21.266666666666616,
+      17.66666666666663,
+      17.66666666666663,
+      17.66666666666663,
+      24.33333333333327,
+      17.66666666666663,
+      24.33333333333327,
+      1.9999999999999998,
+      1.9999999999999998,
+      31.133333333333248,
+      19.466666666666622,
+      21.266666666666616,
+      31.133333333333248,
+      19.466666666666622,
+      31.133333333333248,
+      31.133333333333248,
+      26.133333333333265,
+      27.93333333333326,
+      33.33333333333331,
+      0.7999999999999999,
+      1.9999999999999998,
+      1.9999999999999998
+    ],
+    "part_details": {
+      "action_badge": {
+        "dimensions": [
+          "1.90 units wide by 0.40 units tall"
+        ],
+        "current_position": [
+          [
+            4.9,
+            -1.95
+          ]
+        ],
+        "constraints": [
+          "contained within action_badge_bg"
+        ]
+      },
+      "agent_pulse": {
+        "dimensions": [
+          "1.85 units wide by 0.45 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -1.8
+          ]
+        ],
+        "constraints": [
+          "above core_badge with edge distance 0.00 units",
+          "above core_sub_txt with edge distance 0.10 units",
+          "below core_backdrop with edge distance 0.35 units",
+          "below core_glow_ring with edge distance 0.12 units",
+          "below core_nucleus with edge distance 0.89 units",
+          "below core_nucleus_glow with edge distance 0.77 units",
+          "below cross_v with edge distance 0.00 units",
+          "below env_mid_ring with edge distance 0.00 units",
+          "below halo_inner with edge distance 0.22 units",
+          "below halo_outer with edge distance 0.00 units",
+          "below in_loop with edge distance 0.90 units",
+          "below inflow_curve with edge distance 0.73 units",
+          "below lattice_grp with edge distance 0.47 units",
+          "contained within core_badge",
+          "contained within core_badge_bg",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "left of outflow_curve with edge distance 0.00 units"
+        ]
+      },
+      "core_backdrop": {
+        "dimensions": [
+          "1.44 units wide by 1.44 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -0.5
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.35 units",
+          "above core_badge with edge distance 0.35 units",
+          "above core_glow_ring with edge distance 0.00 units",
+          "above core_nucleus with edge distance 0.00 units",
+          "above core_nucleus_glow with edge distance 0.00 units",
+          "above core_sub_txt with edge distance 0.91 units",
+          "above cross_v with edge distance 0.00 units",
+          "above env_mid_ring with edge distance 0.00 units",
+          "above halo_inner with edge distance 0.00 units",
+          "above halo_outer with edge distance 0.00 units",
+          "above lattice_grp with edge distance 0.00 units",
+          "below env_badge with edge distance 0.89 units",
+          "below lattice_grp with edge distance 0.00 units",
+          "contained within core_glow_ring",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "contained within halo_inner",
+          "contained within halo_outer",
+          "left of outflow_curve with edge distance 0.00 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of in_dot1 with edge distance 0.00 units",
+          "right of in_dot2 with edge distance 0.00 units",
+          "right of in_loop with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "core_badge": {
+        "dimensions": [
+          "1.85 units wide by 0.45 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -1.8
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.00 units",
+          "above core_sub_txt with edge distance 0.10 units",
+          "below core_backdrop with edge distance 0.35 units",
+          "below core_glow_ring with edge distance 0.12 units",
+          "below core_nucleus with edge distance 0.89 units",
+          "below core_nucleus_glow with edge distance 0.77 units",
+          "below cross_v with edge distance 0.00 units",
+          "below env_mid_ring with edge distance 0.00 units",
+          "below halo_inner with edge distance 0.22 units",
+          "below halo_outer with edge distance 0.00 units",
+          "below in_dot1 with edge distance 0.90 units",
+          "below in_dot2 with edge distance 0.91 units",
+          "below in_loop with edge distance 0.90 units",
+          "below inflow_curve with edge distance 0.73 units",
+          "below lattice_grp with edge distance 0.32 units",
+          "below lattice_grp with edge distance 0.33 units",
+          "below lattice_grp with edge distance 0.35 units",
+          "below lattice_grp with edge distance 0.36 units",
+          "below lattice_grp with edge distance 0.42 units",
+          "below lattice_grp with edge distance 0.44 units",
+          "below lattice_grp with edge distance 0.47 units",
+          "below lattice_grp with edge distance 0.49 units",
+          "below lattice_grp with edge distance 0.51 units",
+          "below lattice_grp with edge distance 0.56 units",
+          "contained within agent_pulse",
+          "contained within core_badge_bg",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "left of outflow_curve with edge distance 0.00 units"
+        ]
+      },
+      "core_glow_ring": {
+        "dimensions": [
+          "1.90 units wide by 1.90 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -0.5
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.12 units",
+          "above core_backdrop with edge distance 0.00 units",
+          "above core_badge with edge distance 0.12 units",
+          "above core_nucleus with edge distance 0.00 units",
+          "above core_nucleus_glow with edge distance 0.00 units",
+          "above core_sub_txt with edge distance 0.68 units",
+          "above cross_v with edge distance 0.00 units",
+          "above env_mid_ring with edge distance 0.00 units",
+          "above halo_inner with edge distance 0.00 units",
+          "above halo_outer with edge distance 0.00 units",
+          "below env_badge with edge distance 0.57 units",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "contained within halo_outer",
+          "left of outflow_curve with edge distance 0.00 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of in_loop with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "core_nucleus": {
+        "dimensions": [
+          "0.36 units wide by 0.36 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -0.5
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.89 units",
+          "above core_backdrop with edge distance 0.00 units",
+          "above core_badge with edge distance 0.89 units",
+          "above core_glow_ring with edge distance 0.00 units",
+          "above core_nucleus_glow with edge distance 0.00 units",
+          "above cross_v with edge distance 0.00 units",
+          "above env_mid_ring with edge distance 0.00 units",
+          "above halo_inner with edge distance 0.00 units",
+          "above halo_outer with edge distance 0.00 units",
+          "above lattice_grp with edge distance 0.00 units",
+          "below lattice_grp with edge distance 0.00 units",
+          "contained within core_backdrop",
+          "contained within core_glow_ring",
+          "contained within core_nucleus_glow",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "contained within halo_inner",
+          "contained within halo_outer",
+          "contained within lattice_grp",
+          "contained within poly_hex",
+          "contained within poly_tri1",
+          "contained within poly_tri2",
+          "left of outflow_curve with edge distance 0.41 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of in_dot1 with edge distance 0.36 units",
+          "right of in_dot2 with edge distance 0.37 units",
+          "right of in_loop with edge distance 0.36 units",
+          "right of inflow_curve with edge distance 0.40 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "core_nucleus_glow": {
+        "dimensions": [
+          "0.60 units wide by 0.60 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -0.5
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.77 units",
+          "above core_backdrop with edge distance 0.00 units",
+          "above core_badge with edge distance 0.77 units",
+          "above core_glow_ring with edge distance 0.00 units",
+          "above core_nucleus with edge distance 0.00 units",
+          "above cross_v with edge distance 0.00 units",
+          "above env_mid_ring with edge distance 0.00 units",
+          "above halo_inner with edge distance 0.00 units",
+          "above halo_outer with edge distance 0.00 units",
+          "above lattice_grp with edge distance 0.00 units",
+          "below lattice_grp with edge distance 0.00 units",
+          "contained within core_backdrop",
+          "contained within core_glow_ring",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "contained within halo_inner",
+          "contained within halo_outer",
+          "contained within lattice_grp",
+          "contained within poly_hex",
+          "contained within poly_tri1",
+          "contained within poly_tri2",
+          "left of outflow_curve with edge distance 0.25 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of in_dot1 with edge distance 0.21 units",
+          "right of in_dot2 with edge distance 0.22 units",
+          "right of in_loop with edge distance 0.21 units",
+          "right of inflow_curve with edge distance 0.24 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "core_sub_txt": {
+        "dimensions": [
+          "1.80 units wide by 0.18 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -2.22
+          ]
+        ],
+        "constraints": [
+          "below agent_pulse with edge distance 0.10 units",
+          "below core_backdrop with edge distance 0.91 units",
+          "below core_badge with edge distance 0.10 units",
+          "below core_glow_ring with edge distance 0.68 units",
+          "below cross_v with edge distance 0.00 units",
+          "below env_mid_ring with edge distance 0.00 units",
+          "below halo_inner with edge distance 0.77 units",
+          "below halo_outer with edge distance 0.52 units",
+          "below lattice_grp with edge distance 0.87 units",
+          "below lattice_grp with edge distance 0.88 units",
+          "below lattice_grp with edge distance 0.90 units",
+          "below lattice_grp with edge distance 0.91 units",
+          "below lattice_grp with edge distance 0.97 units",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "left of outflow_curve with edge distance 0.11 units"
+        ]
+      },
+      "cross_h": {
+        "dimensions": [
+          "5.00 units wide by 0.00 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -0.5
+          ]
+        ],
+        "constraints": [
+          "above lattice_grp with edge distance 0.00 units",
+          "below env_badge with edge distance 0.34 units",
+          "below lattice_grp with edge distance 0.00 units",
+          "contained within env_outer_ring",
+          "left of core_backdrop with edge distance 0.00 units",
+          "left of core_glow_ring with edge distance 0.00 units",
+          "left of core_nucleus with edge distance 0.00 units",
+          "left of core_nucleus_glow with edge distance 0.00 units",
+          "left of cross_v with edge distance 0.00 units",
+          "left of env_mid_ring with edge distance 0.00 units",
+          "left of halo_inner with edge distance 0.00 units",
+          "left of halo_outer with edge distance 0.00 units",
+          "left of lattice_grp with edge distance 0.00 units",
+          "left of out_dot1 with edge distance 0.17 units",
+          "left of out_dot2 with edge distance 0.19 units",
+          "left of out_loop with edge distance 0.17 units",
+          "left of outflow_curve with edge distance 0.00 units",
+          "right of in_dot1 with edge distance 0.00 units",
+          "right of in_dot2 with edge distance 0.00 units",
+          "right of in_loop with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "cross_v": {
+        "dimensions": [
+          "0.00 units wide by 4.40 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -0.5
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.00 units",
+          "above core_backdrop with edge distance 0.00 units",
+          "above core_badge with edge distance 0.00 units",
+          "above core_glow_ring with edge distance 0.00 units",
+          "above core_nucleus with edge distance 0.00 units",
+          "above core_nucleus_glow with edge distance 0.00 units",
+          "above core_sub_txt with edge distance 0.00 units",
+          "above env_mid_ring with edge distance 0.00 units",
+          "above halo_inner with edge distance 0.00 units",
+          "above halo_outer with edge distance 0.00 units",
+          "above lattice_grp with edge distance 0.00 units",
+          "below env_badge with edge distance 0.19 units",
+          "below lattice_grp with edge distance 0.00 units",
+          "contained within env_outer_ring",
+          "left of outflow_curve with edge distance 0.00 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of in_dot1 with edge distance 0.08 units",
+          "right of in_dot2 with edge distance 0.09 units",
+          "right of in_loop with edge distance 0.08 units",
+          "right of inflow_curve with edge distance 0.00 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "env_badge": {
+        "dimensions": [
+          "1.80 units wide by 0.42 units tall"
+        ],
+        "current_position": [
+          [
+            4.45,
+            1.55
+          ]
+        ],
+        "constraints": [
+          "above core_backdrop with edge distance 0.89 units",
+          "above core_glow_ring with edge distance 0.57 units",
+          "above cross_h with edge distance 0.34 units",
+          "above cross_v with edge distance 0.19 units",
+          "above env_mid_ring with edge distance 0.00 units",
+          "above halo_inner with edge distance 0.71 units",
+          "above halo_outer with edge distance 0.36 units",
+          "above lattice_grp with edge distance 0.93 units",
+          "above lattice_grp with edge distance 0.96 units",
+          "above lattice_grp with edge distance 0.97 units",
+          "above lattice_grp with edge distance 0.99 units",
+          "contained within env_badge_bg",
+          "contained within env_outer_ring"
+        ]
+      },
+      "env_mid_ring": {
+        "dimensions": [
+          "3.70 units wide by 3.70 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -0.5
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.00 units",
+          "above core_backdrop with edge distance 0.00 units",
+          "above core_badge with edge distance 0.00 units",
+          "above core_glow_ring with edge distance 0.00 units",
+          "above core_nucleus with edge distance 0.00 units",
+          "above core_nucleus_glow with edge distance 0.00 units",
+          "above core_sub_txt with edge distance 0.00 units",
+          "above cross_v with edge distance 0.00 units",
+          "above halo_inner with edge distance 0.00 units",
+          "above halo_outer with edge distance 0.00 units",
+          "above lattice_grp with edge distance 0.00 units",
+          "below env_badge with edge distance 0.00 units",
+          "below lattice_grp with edge distance 0.00 units",
+          "contained within env_outer_ring",
+          "left of out_dot1 with edge distance 0.01 units",
+          "left of out_dot2 with edge distance 0.02 units",
+          "left of out_loop with edge distance 0.01 units",
+          "left of outflow_curve with edge distance 0.00 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of in_dot1 with edge distance 0.00 units",
+          "right of in_dot2 with edge distance 0.00 units",
+          "right of in_loop with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "halo_inner": {
+        "dimensions": [
+          "1.70 units wide by 1.70 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -0.5
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.22 units",
+          "above core_backdrop with edge distance 0.00 units",
+          "above core_badge with edge distance 0.22 units",
+          "above core_glow_ring with edge distance 0.00 units",
+          "above core_nucleus with edge distance 0.00 units",
+          "above core_nucleus_glow with edge distance 0.00 units",
+          "above core_sub_txt with edge distance 0.77 units",
+          "above cross_v with edge distance 0.00 units",
+          "above env_mid_ring with edge distance 0.00 units",
+          "above halo_outer with edge distance 0.00 units",
+          "above lattice_grp with edge distance 0.00 units",
+          "below env_badge with edge distance 0.71 units",
+          "below lattice_grp with edge distance 0.00 units",
+          "contained within core_glow_ring",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "contained within halo_outer",
+          "left of outflow_curve with edge distance 0.00 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of in_dot1 with edge distance 0.00 units",
+          "right of in_dot2 with edge distance 0.00 units",
+          "right of in_loop with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "halo_outer": {
+        "dimensions": [
+          "2.20 units wide by 2.20 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -0.5
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.00 units",
+          "above core_backdrop with edge distance 0.00 units",
+          "above core_badge with edge distance 0.00 units",
+          "above core_glow_ring with edge distance 0.00 units",
+          "above core_nucleus with edge distance 0.00 units",
+          "above core_nucleus_glow with edge distance 0.00 units",
+          "above core_sub_txt with edge distance 0.52 units",
+          "above cross_v with edge distance 0.00 units",
+          "above env_mid_ring with edge distance 0.00 units",
+          "above halo_inner with edge distance 0.00 units",
+          "above lattice_grp with edge distance 0.00 units",
+          "below env_badge with edge distance 0.36 units",
+          "below lattice_grp with edge distance 0.00 units",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "left of outflow_curve with edge distance 0.00 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of in_dot1 with edge distance 0.00 units",
+          "right of in_dot2 with edge distance 0.00 units",
+          "right of in_loop with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "in_dot1": {
+        "dimensions": [
+          "0.16 units wide by 0.16 units tall"
+        ],
+        "current_position": [
+          [
+            2.15,
+            -0.35
+          ]
+        ],
+        "constraints": [
+          "above core_badge with edge distance 0.90 units",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "contained within halo_inner",
+          "contained within halo_outer",
+          "left of core_backdrop with edge distance 0.00 units",
+          "left of core_nucleus with edge distance 0.36 units",
+          "left of core_nucleus_glow with edge distance 0.21 units",
+          "left of cross_h with edge distance 0.00 units",
+          "left of cross_v with edge distance 0.08 units",
+          "left of env_mid_ring with edge distance 0.00 units",
+          "left of halo_inner with edge distance 0.00 units",
+          "left of halo_outer with edge distance 0.00 units",
+          "left of lattice_grp with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units"
+        ]
+      },
+      "in_dot2": {
+        "dimensions": [
+          "0.14 units wide by 0.14 units tall"
+        ],
+        "current_position": [
+          [
+            2.15,
+            -0.35
+          ]
+        ],
+        "constraints": [
+          "above core_badge with edge distance 0.91 units",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "contained within halo_inner",
+          "contained within halo_outer",
+          "left of core_backdrop with edge distance 0.00 units",
+          "left of core_nucleus with edge distance 0.37 units",
+          "left of core_nucleus_glow with edge distance 0.22 units",
+          "left of cross_h with edge distance 0.00 units",
+          "left of cross_v with edge distance 0.09 units",
+          "left of env_mid_ring with edge distance 0.00 units",
+          "left of halo_inner with edge distance 0.00 units",
+          "left of halo_outer with edge distance 0.00 units",
+          "left of lattice_grp with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units"
+        ]
+      },
+      "in_loop": {
+        "dimensions": [
+          "0.16 units wide by 0.16 units tall"
+        ],
+        "current_position": [
+          [
+            2.15,
+            -0.35
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.90 units",
+          "above core_badge with edge distance 0.90 units",
+          "contained within core_glow_ring",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "contained within halo_inner",
+          "contained within halo_outer",
+          "left of core_backdrop with edge distance 0.00 units",
+          "left of core_glow_ring with edge distance 0.00 units",
+          "left of core_nucleus with edge distance 0.36 units",
+          "left of core_nucleus_glow with edge distance 0.21 units",
+          "left of cross_h with edge distance 0.00 units",
+          "left of cross_v with edge distance 0.08 units",
+          "left of env_mid_ring with edge distance 0.00 units",
+          "left of halo_inner with edge distance 0.00 units",
+          "left of halo_outer with edge distance 0.00 units",
+          "left of lattice_grp with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units"
+        ]
+      },
+      "inflow_curve": {
+        "dimensions": [
+          "1.75 units wide by 1.10 units tall"
+        ],
+        "current_position": [
+          [
+            1.27,
+            0.13
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.73 units",
+          "above core_badge with edge distance 0.73 units",
+          "contained within env_outer_ring",
+          "left of core_backdrop with edge distance 0.00 units",
+          "left of core_glow_ring with edge distance 0.00 units",
+          "left of core_nucleus with edge distance 0.40 units",
+          "left of core_nucleus_glow with edge distance 0.24 units",
+          "left of cross_h with edge distance 0.00 units",
+          "left of cross_v with edge distance 0.00 units",
+          "left of env_mid_ring with edge distance 0.00 units",
+          "left of halo_inner with edge distance 0.00 units",
+          "left of halo_outer with edge distance 0.00 units",
+          "left of in_dot1 with edge distance 0.00 units",
+          "left of in_dot2 with edge distance 0.00 units",
+          "left of in_loop with edge distance 0.00 units",
+          "left of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "lattice_grp": {
+        "dimensions": [
+          "1.10 units wide by 1.34 units tall",
+          "1.10 units wide by 1.36 units tall",
+          "1.11 units wide by 1.19 units tall",
+          "1.13 units wide by 1.50 units tall",
+          "1.16 units wide by 1.19 units tall",
+          "1.16 units wide by 1.35 units tall",
+          "1.18 units wide by 1.28 units tall",
+          "1.18 units wide by 1.40 units tall",
+          "1.18 units wide by 1.45 units tall",
+          "1.19 units wide by 1.31 units tall",
+          "1.20 units wide by 1.04 units tall",
+          "1.20 units wide by 1.25 units tall",
+          "1.20 units wide by 1.33 units tall"
+        ],
+        "current_position": [
+          [
+            2.77,
+            -0.42
+          ],
+          [
+            2.79,
+            -0.5
+          ],
+          [
+            2.8,
+            -0.59
+          ],
+          [
+            2.8,
+            -0.57
+          ],
+          [
+            2.8,
+            -0.56
+          ],
+          [
+            2.8,
+            -0.5
+          ],
+          [
+            2.8,
+            -0.49
+          ],
+          [
+            2.8,
+            -0.42
+          ],
+          [
+            2.81,
+            -0.47
+          ]
+        ],
+        "constraints": [
+          "above agent_pulse with edge distance 0.47 units",
+          "above core_backdrop with edge distance 0.00 units",
+          "above core_badge with edge distance 0.32 units",
+          "above core_badge with edge distance 0.33 units",
+          "above core_badge with edge distance 0.35 units",
+          "above core_badge with edge distance 0.36 units",
+          "above core_badge with edge distance 0.42 units",
+          "above core_badge with edge distance 0.44 units",
+          "above core_badge with edge distance 0.47 units",
+          "above core_badge with edge distance 0.49 units",
+          "above core_badge with edge distance 0.51 units",
+          "above core_badge with edge distance 0.56 units",
+          "above core_nucleus with edge distance 0.00 units",
+          "above core_nucleus_glow with edge distance 0.00 units",
+          "above core_sub_txt with edge distance 0.87 units",
+          "above core_sub_txt with edge distance 0.88 units",
+          "above core_sub_txt with edge distance 0.90 units",
+          "above core_sub_txt with edge distance 0.91 units",
+          "above core_sub_txt with edge distance 0.97 units",
+          "above cross_h with edge distance 0.00 units",
+          "above cross_v with edge distance 0.00 units",
+          "above env_mid_ring with edge distance 0.00 units",
+          "above halo_inner with edge distance 0.00 units",
+          "above halo_outer with edge distance 0.00 units",
+          "below core_backdrop with edge distance 0.00 units",
+          "below core_nucleus with edge distance 0.00 units",
+          "below core_nucleus_glow with edge distance 0.00 units",
+          "below cross_h with edge distance 0.00 units",
+          "below cross_v with edge distance 0.00 units",
+          "below env_badge with edge distance 0.93 units",
+          "below env_badge with edge distance 0.96 units",
+          "below env_badge with edge distance 0.97 units",
+          "below env_badge with edge distance 0.99 units",
+          "below env_mid_ring with edge distance 0.00 units",
+          "below halo_inner with edge distance 0.00 units",
+          "below halo_outer with edge distance 0.00 units",
+          "contained within core_backdrop",
+          "contained within core_glow_ring",
+          "contained within env_mid_ring",
+          "contained within env_outer_ring",
+          "contained within halo_inner",
+          "contained within halo_outer",
+          "contained within poly_hex",
+          "left of core_backdrop with edge distance 0.00 units",
+          "left of core_glow_ring with edge distance 0.00 units",
+          "left of core_nucleus with edge distance 0.00 units",
+          "left of core_nucleus_glow with edge distance 0.00 units",
+          "left of cross_h with edge distance 0.00 units",
+          "left of cross_v with edge distance 0.00 units",
+          "left of env_mid_ring with edge distance 0.00 units",
+          "left of halo_inner with edge distance 0.00 units",
+          "left of halo_outer with edge distance 0.00 units",
+          "left of outflow_curve with edge distance 0.00 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of in_dot1 with edge distance 0.00 units",
+          "right of in_dot2 with edge distance 0.00 units",
+          "right of in_loop with edge distance 0.00 units",
+          "right of inflow_curve with edge distance 0.00 units"
+        ]
+      },
+      "out_dot1": {
+        "dimensions": [
+          "0.18 units wide by 0.18 units tall"
+        ],
+        "current_position": [
+          [
+            5.15,
+            -1.55
+          ]
+        ],
+        "constraints": [
+          "contained within env_outer_ring",
+          "right of cross_h with edge distance 0.17 units",
+          "right of env_mid_ring with edge distance 0.01 units",
+          "right of outflow_curve with edge distance 0.00 units"
+        ]
+      },
+      "out_dot2": {
+        "dimensions": [
+          "0.16 units wide by 0.16 units tall"
+        ],
+        "current_position": [
+          [
+            5.15,
+            -1.55
+          ]
+        ],
+        "constraints": [
+          "contained within env_outer_ring",
+          "right of cross_h with edge distance 0.19 units",
+          "right of env_mid_ring with edge distance 0.02 units",
+          "right of outflow_curve with edge distance 0.00 units"
+        ]
+      },
+      "out_loop": {
+        "dimensions": [
+          "0.18 units wide by 0.18 units tall"
+        ],
+        "current_position": [
+          [
+            5.15,
+            -1.55
+          ]
+        ],
+        "constraints": [
+          "contained within env_outer_ring",
+          "right of cross_h with edge distance 0.17 units",
+          "right of env_mid_ring with edge distance 0.01 units",
+          "right of outflow_curve with edge distance 0.00 units"
+        ]
+      },
+      "outflow_curve": {
+        "dimensions": [
+          "1.70 units wide by 1.00 units tall"
+        ],
+        "current_position": [
+          [
+            4.3,
+            -1.1
+          ]
+        ],
+        "constraints": [
+          "contained within env_outer_ring",
+          "left of out_dot1 with edge distance 0.00 units",
+          "left of out_dot2 with edge distance 0.00 units",
+          "left of out_loop with edge distance 0.00 units",
+          "right of agent_pulse with edge distance 0.00 units",
+          "right of core_backdrop with edge distance 0.00 units",
+          "right of core_badge with edge distance 0.00 units",
+          "right of core_glow_ring with edge distance 0.00 units",
+          "right of core_nucleus with edge distance 0.41 units",
+          "right of core_nucleus_glow with edge distance 0.25 units",
+          "right of core_sub_txt with edge distance 0.11 units",
+          "right of cross_h with edge distance 0.00 units",
+          "right of cross_v with edge distance 0.00 units",
+          "right of env_mid_ring with edge distance 0.00 units",
+          "right of halo_inner with edge distance 0.00 units",
+          "right of halo_outer with edge distance 0.00 units",
+          "right of lattice_grp with edge distance 0.00 units"
+        ]
+      },
+      "perceive_badge": {
+        "dimensions": [
+          "1.90 units wide by 0.40 units tall"
+        ],
+        "current_position": [
+          [
+            0.7,
+            1.0
+          ]
+        ],
+        "constraints": [
+          "contained within perceive_badge_bg"
+        ]
+      }
+    }
+  }
+}

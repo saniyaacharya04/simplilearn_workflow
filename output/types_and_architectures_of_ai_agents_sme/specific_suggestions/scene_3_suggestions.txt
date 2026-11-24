@@ -1,0 +1,86 @@
+Presentation Step 1
+
+Issue: Sockets overlap with the central Agent Core, their labels overflow their containers or are hidden, and the Memory socket is positioned incorrectly.
+
+Suggestions:
+
+*   Increase the `orbit_radius` value in the scene setup to 3.5 units to provide more clearance between `agent_core` and the `sockets_grp`.
+*   Adjust the Y-coordinate calculation for `pos_south` and `pos_north` to use the full `orbit_radius` instead of `orbit_radius * 0.88` to maintain consistent radial spacing.
+*   Reposition `sock_s` from its current South position to the South-East. Shift `sock_s` RIGHT by `orbit_radius * 0.707` units and DOWN by `orbit_radius * 0.707` units (relative to `center_pos`), ensuring it remains on the adjusted orbital circumference.
+*   Increase the width of the `RoundedRectangle` background for `sock_n` (Reasoning Engine) to accommodate its text label with a minimum of 0.25 units padding on each side.
+*   Increase the width of the `RoundedRectangle` background for `sock_s` (Memory Layer) to accommodate its text label with a minimum of 0.25 units padding on each side.
+*   Ensure that the `txt` (text label) within each socket (e.g., `sock_n`, `sock_s`, `sock_e`, `sock_w`) is rendered above its `bg` (RoundedRectangle background) by setting a higher z_index for the text or its containing `content` VGroup within the `make_socket` function.
+
+Presentation Step 2
+
+Issue: The radar mechanism does not match the storyboard's dynamic sweep description, the solar panel group's label overflows, and the Agent Core does not pulse upon data arrival.
+
+Suggestions:
+
+*   Replace `radar_assembly` (VGroup of `Arc`, `Dot`, `Line`, `VGroup` of `Arc`s) with an instance of the `DynamicRadarSweep` Mobject, centered at `pos_west`.
+*   Increase the height of `solar_card` to accommodate `solar_content` (VGroup of `solar_title`, `telemetry_chip`) with at least 0.25 units of vertical padding.
+*   Add a brief pulse animation to `agent_core` or its `core_outer` component at the end of the `MoveAlongPath(pulse_p1, conduit_west)` animation.
+
+Presentation Step 3
+
+Issue: Input channel sources are displayed with container boxes instead of floating text labels and glyphs, conduits are straight instead of curved, and the perception cluster's transition to a docked node is not a smooth compression.
+
+Suggestions:
+
+*   Remove the `solar_card` (RoundedRectangle background) from `solar_panel_grp`, `query_card` from `query_grp`, and `trigger_card` from `trigger_grp`, leaving only their text labels and existing dot/icon elements visible.
+*   Replace `conduit_q` with a `CurvedArrow` to match the "curves dynamically" description.
+*   Replace `conduit_t` with a `CurvedArrow` to match the "curves dynamically" description.
+*   Replace `FadeOut(perception_cluster)` and `FadeIn(docked_perception, scale=0.9)` with `Transform(perception_cluster, docked_perception)` to animate a smooth compression and consolidation.
+
+Presentation Step 4
+
+Issue: The memory architecture overlaps the central Agent Core, a metric tag is missing, and a text label is incorrect.
+
+Suggestions:
+
+*   FadeOut `agent_core` and `orbit_circle` completely before `FadeIn` of `cbuf_grp` and `vdb_grp` to ensure the memory structures take center stage without overlap.
+*   Create a `CrispText` Mobject with the content "Context: 8K" and position it appropriately next to `slots_lbl` or below `cbuf_title`.
+*   Change the text content of `vdb_title` from "Long-Term Vector Storage" to "Long-Term Substrate".
+*   Increase the `buff` (buffer) value for `sync_arrow` to ensure it does not overlap with `cbuf_box` or `vdb_box`.
+
+Presentation Step 5
+
+Issue: The step-tracker breadcrumb trail is missing a dynamic marker, the vector database pulse is not radial, and the memory assembly transition is not smooth.
+
+Suggestions:
+
+*   Create a `Circle` Mobject named `current_state_marker` with a text label "Current State". Animate `current_state_marker` moving along `trail_line`, starting from `wp1`, pausing at `wp2` with a highlight, and continuing to `wp3`.
+*   Replace `vdb_box.animate.set_stroke(...)` with an animation that uses a `PulsingShockwaves` Mobject centered on `vdb_box` to simulate a "horizontal radial planar pulse".
+*   Replace `FadeOut(VGroup(cbuf_grp, vdb_grp, sync_arrow, sync_lbl, breadcrumb_grp))` and `FadeIn(docked_mem, scale=0.9)` with `Transform(VGroup(cbuf_grp, vdb_grp, sync_arrow, sync_lbl, breadcrumb_grp), docked_mem)` to smoothly transition the memory structures into the `docked_mem` Mobject.
+
+Presentation Step 6
+
+Issue: Incoming data conduits are missing, tool output glyphs are rendered as cards, a confidence readout is missing, and surrounding elements overlap the central LLM Neural Die.
+
+Suggestions:
+
+*   Create an `Arrow` Mobject from the right edge of `docked_perception` to the left edge of `die_box`.
+*   Create an `Arrow` Mobject from the top edge of `docked_mem` to the left edge of `die_box`.
+*   Remove the `RoundedRectangle` backgrounds from `grp_tq`, `grp_tapi`, and `grp_tfile`, leaving only their text labels visible.
+*   Create a `CrispText` Mobject with the content "Confidence: 0.94" and position it near `grp_tapi`.
+*   Before `FadeIn(die_box)`, `FadeOut` `docked_perception`, `docked_mem`, `docked_reason`, `sock_e`, and `orbit_circle` to ensure `die_box` takes center stage without overlaps.
+
+Presentation Step 7
+
+Issue: The initial state of the status pill is incorrect, and the dial rotation and status change animations are missing.
+
+Suggestions:
+
+*   Change the initial text content of `status_pill_txt` from "State: Active" to "State: Idle".
+*   After `cmd_packet` reaches its destination, animate `dial_needle` rotating 45 degrees within `actuator_dial`.
+*   Concurrently, animate `status_pill_txt` changing its text content to "State: Active" and its background color to indicate activation.
+
+Presentation Step 8
+
+Issue: The four primary pillars do not scale to equal proportions, the Agent Core's pulse is not a full radial expansion, and the telemetry counter is missing.
+
+Suggestions:
+
+*   After `FadeIn(docked_act)`, ensure `docked_perception`, `docked_mem`, `docked_reason`, and `docked_act` are all scaled to the same width and height to represent "equal visual proportions".
+*   Replace the stroke color animation for `agent_core[0]` with an animation that uses a `PulsingShockwaves` Mobject centered on `agent_core` or a `ScaleInPlace` animation on `agent_core` to simulate a "full radial expansion pulse".
+*   Create a `CrispText` Mobject named `loop_counter` initialized to "Loop 1". Position it next to `cycle_grp`. Animate `Transform(loop_counter, CrispText("Loop 2"))` and subsequently `Transform(loop_counter, CrispText("Loop 3"))` after each full cycle of the `loop_pulse`.

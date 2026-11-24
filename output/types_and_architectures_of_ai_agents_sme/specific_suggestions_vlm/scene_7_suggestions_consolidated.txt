@@ -1,0 +1,15 @@
+Presentation Step 1, 2
+
+Issue:
+Dual title headers (the main `title_group` colliding with step titles `title_step1` / `title_step2`) are rendered simultaneously in the upper-left region, resulting in text/line collisions and breaching top (y = 3.58 > 3.4) and left (x < -6.4) safe zone limits. Additionally, left-column elements in the Reactive Model bay (including `rx_chain`, `sensor_grp`, `cond_badge`, and `action_lbl`) push past the left camera frame edge (x = -6.57 < -6.4) and experience internal badge/label overlaps.
+
+Suggestions:
+* Generalized Fix: Maintain a single persistent main title header created via `create_title("Autonomous Decision Models")` positioned safely within boundaries (y = 3.3, left edge at x = -6.0 / center at x = -3.49). Position step-specific section titles cleanly below the main line at y = 2.60 (or update the subtitle parameter of `title_group`) to eliminate upper-left header collisions. Shift left-column groups rightward (dx = +0.50 to +0.60) to keep all elements inside the safe frame margins (x >= -6.09).
+* Presentation Step 1:
+  - Re-center the three internal workflow nodes (`sensor_box`, `rule_box`, `dispatch_box`) inside Bay 1 to x = -5.2, x = -4.2, and x = -3.2 at y = -0.4 to maintain symmetrical spacing within bay bounds (x from -6.0 to -2.4).
+  - Format text inside `cond_badge` to `"Output\nBelow 8%"` and `action_lbl` to `"Send Dispatch\nAlert"` using explicit newlines (`\n`), setting target pill container widths to 1.35 units (height = 0.5 units) so they do not overlap `rule_lbl`.
+  - Align `rule_lbl` centered at x = -4.2, y = -1.15 with `font_size = 10` to maintain clean vertical rhythm with adjacent badges.
+* Presentation Step 2:
+  - Position step section title `title_step2` below the main header line at y = 2.60 (or update `title_group` using its subtitle parameter) instead of y = 3.20.
+  - Shift `title_group` right by dx = 0.60 units to x = -3.49 so its left edge sits inside the safe boundary at x = -6.09.
+  - Shift the left-column group (`rx_chain`, `sensor_grp`, `cond_badge`) right by dx = 0.50 units to center it at x = -3.70 (left edge x = -6.07) to eliminate left-margin truncation.

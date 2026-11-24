@@ -1042,17 +1042,7 @@ class PresentationExperiencePlanner:
             json.dump(experience_dict, f, indent=4, ensure_ascii=False)
         print(f"  Authoritative experience plan saved -> {experience_file}")
 
-        # Mirror to alternative filenames inside meta_dir
-        for alt_name in ["experience_plan_gemini-3.6-flash.json", "experience_plan_gemini-2.5-flash.json"]:
-            alt_path = meta_dir / alt_name
-            if alt_path != experience_file:
-                try:
-                    if alt_path.is_symlink():
-                        alt_path.unlink()
-                    with open(alt_path, "w", encoding="utf-8") as f:
-                        json.dump(experience_dict, f, indent=4, ensure_ascii=False)
-                except Exception:
-                    pass
+        # Authoritative experience plan saved inside meta_dir
 
         print(f"  Experience plan saved -> {output_path}")
         return str(out)

@@ -1,0 +1,2205 @@
+{
+  "1": {
+    "scene": "2",
+    "section": 1,
+    "window": [
+      0.8,
+      24.8667
+    ],
+    "frame_range": [
+      0,
+      27
+    ],
+    "issues": [
+      {
+        "id": "overlap:Text[DiverseArchitectures&LearningObjectives]|step1_title",
+        "type": "overlap",
+        "objects": [
+          "step1_title",
+          "Text[DiverseArchitectures&LearningObjectives]"
+        ],
+        "extent": 0.3464843750000002,
+        "frame": 0,
+        "timestamp": 0.7999999999999999,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.3464843750000002
+        },
+        "description": "step1_title overlaps with Text[DiverseArchitectures&LearningObjectives]. step1_title's top left is touching Text[DiverseArchitectures&LearningObjectives]'s bottom right. Estimated overlap extent 0.35 units."
+      },
+      {
+        "id": "overlap:step1_title|step1_title[1]",
+        "type": "overlap",
+        "objects": [
+          "step1_title",
+          "step1_title[1]"
+        ],
+        "extent": 5.338347744590343,
+        "frame": 0,
+        "timestamp": 0.7999999999999999,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 5.338347744590343
+        },
+        "description": "step1_title overlaps with step1_title[1]. step1_title's bottom left is touching step1_title[1]'s top right. Estimated overlap extent 5.34 units."
+      },
+      {
+        "id": "overlap:Text[Goal:Monitor]|brand_txt",
+        "type": "overlap",
+        "objects": [
+          "brand_txt",
+          "Text[Goal:Monitor]"
+        ],
+        "extent": 0.23306337777394404,
+        "frame": 2,
+        "timestamp": 3.0000000000000027,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.23306337777394404
+        },
+        "description": "brand_txt overlaps with Text[Goal:Monitor]. brand_txt's bottom right is touching Text[Goal:Monitor]'s top left. Estimated overlap extent 0.23 units."
+      },
+      {
+        "id": "overlap:brand_name|flow_cards[0]",
+        "type": "overlap",
+        "objects": [
+          "brand_name",
+          "flow_cards[0]"
+        ],
+        "extent": 0.30400025590813484,
+        "frame": 2,
+        "timestamp": 3.0000000000000027,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.30400025590813484
+        },
+        "description": "brand_name overlaps with flow_cards[0]. brand_name's top right is touching flow_cards[0]'s bottom left. Estimated overlap extent 0.30 units."
+      },
+      {
+        "id": "overlap:brand_txt|flow_cards[0]",
+        "type": "overlap",
+        "objects": [
+          "brand_txt",
+          "flow_cards[0]"
+        ],
+        "extent": 0.35556224343977616,
+        "frame": 2,
+        "timestamp": 3.0000000000000027,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.35556224343977616
+        },
+        "description": "brand_txt overlaps with flow_cards[0]. brand_txt's top right is touching flow_cards[0]'s bottom left. Estimated overlap extent 0.36 units."
+      },
+      {
+        "id": "overlap:badge_glow|brand_name",
+        "type": "overlap",
+        "objects": [
+          "brand_name",
+          "badge_glow"
+        ],
+        "extent": 0.08351515069307736,
+        "frame": 3,
+        "timestamp": 3.400000000000004,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.08351515069307736
+        },
+        "description": "brand_name overlaps with badge_glow. brand_name's top right is touching badge_glow's bottom left. Estimated overlap extent 0.08 units."
+      },
+      {
+        "id": "overlap:badge_glow|brand_txt",
+        "type": "overlap",
+        "objects": [
+          "brand_txt",
+          "badge_glow"
+        ],
+        "extent": 0.09942380959686958,
+        "frame": 3,
+        "timestamp": 3.400000000000004,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.09942380959686958
+        },
+        "description": "brand_txt overlaps with badge_glow. brand_txt's top right is touching badge_glow's bottom left. Estimated overlap extent 0.10 units."
+      },
+      {
+        "id": "overlap:connecting_arrows[0]|flow_cards[0]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[0]",
+          "connecting_arrows[0]"
+        ],
+        "extent": 0.15546319048900148,
+        "frame": 7,
+        "timestamp": 7.133333333333335,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.15546319048900148
+        },
+        "description": "flow_cards[0] overlaps with connecting_arrows[0]. flow_cards[0]'s top right is touching connecting_arrows[0]'s bottom left. Estimated overlap extent 0.16 units."
+      },
+      {
+        "id": "overlap:connecting_arrows[0]|flow_cards[1]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[1]",
+          "connecting_arrows[0]"
+        ],
+        "extent": 0.16790244594813852,
+        "frame": 7,
+        "timestamp": 7.133333333333335,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.16790244594813852
+        },
+        "description": "flow_cards[1] overlaps with connecting_arrows[0]. flow_cards[1]'s top left is touching connecting_arrows[0]'s bottom right. Estimated overlap extent 0.17 units."
+      },
+      {
+        "id": "overlap:connecting_arrows[1]|flow_cards[1]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[1]",
+          "connecting_arrows[1]"
+        ],
+        "extent": 0.16790244594813863,
+        "frame": 12,
+        "timestamp": 11.266666666666662,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.16790244594813863
+        },
+        "description": "flow_cards[1] overlaps with connecting_arrows[1]. flow_cards[1]'s top right is touching connecting_arrows[1]'s bottom left. Estimated overlap extent 0.17 units."
+      },
+      {
+        "id": "overlap:connecting_arrows[1]|flow_cards[2]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[2]",
+          "connecting_arrows[1]"
+        ],
+        "extent": 0.13184843181867678,
+        "frame": 12,
+        "timestamp": 11.266666666666662,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.13184843181867678
+        },
+        "description": "flow_cards[2] overlaps with connecting_arrows[1]. flow_cards[2]'s top left is touching connecting_arrows[1]'s bottom right. Estimated overlap extent 0.13 units."
+      },
+      {
+        "id": "overlap:connecting_arrows[2]|flow_cards[2]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[2]",
+          "connecting_arrows[2]"
+        ],
+        "extent": 0.13184843181867634,
+        "frame": 17,
+        "timestamp": 15.39999999999999,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.13184843181867634
+        },
+        "description": "flow_cards[2] overlaps with connecting_arrows[2]. flow_cards[2]'s top right is touching connecting_arrows[2]'s bottom left. Estimated overlap extent 0.13 units."
+      },
+      {
+        "id": "overlap:connecting_arrows[2]|flow_cards[3]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[3]",
+          "connecting_arrows[2]"
+        ],
+        "extent": 0.2095319372866442,
+        "frame": 17,
+        "timestamp": 15.39999999999999,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.2095319372866442
+        },
+        "description": "flow_cards[3] overlaps with connecting_arrows[2]. flow_cards[3]'s top left is touching connecting_arrows[2]'s bottom right. Estimated overlap extent 0.21 units."
+      },
+      {
+        "id": "overlap:arrow|flow_cards[3]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[3]",
+          "arrow"
+        ],
+        "extent": 0.2095319372866442,
+        "frame": 22,
+        "timestamp": 19.533333333333317,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.2095319372866442
+        },
+        "description": "flow_cards[3] overlaps with arrow. flow_cards[3]'s top right is touching arrow's bottom left. Estimated overlap extent 0.21 units."
+      },
+      {
+        "id": "overlap:arrow|node_grp",
+        "type": "overlap",
+        "objects": [
+          "node_grp",
+          "arrow"
+        ],
+        "extent": 0.25837895308546943,
+        "frame": 22,
+        "timestamp": 19.533333333333317,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.25837895308546943
+        },
+        "description": "node_grp overlaps with arrow. node_grp's top left is touching arrow's bottom right. Estimated overlap extent 0.26 units."
+      },
+      {
+        "id": "text_overflow:icon_vg[0]|step_num",
+        "type": "text_overflow",
+        "objects": [
+          "step_num",
+          "icon_vg[0]"
+        ],
+        "extent": 0.2706249999999999,
+        "frame": 22,
+        "timestamp": 19.533333333333317,
+        "details": [
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.18999999999999995
+            ],
+            "extent": 0.2706249999999999
+          }
+        ],
+        "description": "step_num overflows parent icon_vg[0] at: top edge (at 0.00, 0.19) by 0.27 units."
+      },
+      {
+        "id": "text_overflow:icon_vg[0]|sub_m",
+        "type": "text_overflow",
+        "objects": [
+          "sub_m",
+          "icon_vg[0]"
+        ],
+        "extent": 0.5194482437499999,
+        "frame": 22,
+        "timestamp": 19.533333333333317,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 0.4505761687500005
+          },
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.13999999999999968,
+              0.0
+            ],
+            "extent": 0.4505761687500005
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.5194482437499999
+          }
+        ],
+        "description": "sub_m overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 0.45; right edge (at 0.14, 0.00) by 0.45; bottom edge (at 0.00, -0.19) by 0.52 units."
+      },
+      {
+        "id": "text_overflow:icon_vg[0]|title_m",
+        "type": "text_overflow",
+        "objects": [
+          "title_m",
+          "icon_vg[0]"
+        ],
+        "extent": 0.30097168125000007,
+        "frame": 22,
+        "timestamp": 19.533333333333317,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 0.13724609374999996
+          },
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.13999999999999968,
+              0.0
+            ],
+            "extent": 0.13724609374999996
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.30097168125000007
+          }
+        ],
+        "description": "title_m overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 0.14; right edge (at 0.14, 0.00) by 0.14; bottom edge (at 0.00, -0.19) by 0.30 units."
+      },
+      {
+        "id": "text_overflow:step_chip|sub_m",
+        "type": "text_overflow",
+        "objects": [
+          "sub_m",
+          "step_chip"
+        ],
+        "extent": 1.03944824375,
+        "frame": 22,
+        "timestamp": 19.533333333333317,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 0.4005761687500007
+          },
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.1900000000000004,
+              0.0
+            ],
+            "extent": 0.4005761687499998
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 1.03944824375
+          }
+        ],
+        "description": "sub_m overflows parent step_chip at: left edge (at -0.19, 0.00) by 0.40; right edge (at 0.19, 0.00) by 0.40; bottom edge (at 0.00, -0.09) by 1.04 units."
+      },
+      {
+        "id": "text_overflow:step_chip|title_m",
+        "type": "text_overflow",
+        "objects": [
+          "title_m",
+          "step_chip"
+        ],
+        "extent": 0.8209716812500001,
+        "frame": 22,
+        "timestamp": 19.533333333333317,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 0.08724609375000014
+          },
+          {
+            "edge": "right",
+            "parent_relative_coord": [
+              0.1900000000000004,
+              0.0
+            ],
+            "extent": 0.08724609374999925
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 0.8209716812500001
+          }
+        ],
+        "description": "title_m overflows parent step_chip at: left edge (at -0.19, 0.00) by 0.09; right edge (at 0.19, 0.00) by 0.09; bottom edge (at 0.00, -0.09) by 0.82 units."
+      },
+      {
+        "id": "overlap:arrow|trail_dots[3]",
+        "type": "overlap",
+        "objects": [
+          "arrow",
+          "trail_dots[3]"
+        ],
+        "extent": 0.139200000000002,
+        "frame": 27,
+        "timestamp": 24.86666666666664,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.139200000000002
+        },
+        "description": "arrow overlaps with trail_dots[3]. arrow's bottom right is touching trail_dots[3]'s top left. Estimated overlap extent 0.14 units."
+      },
+      {
+        "id": "overlap:connecting_arrows[0]|trail_dots[0]",
+        "type": "overlap",
+        "objects": [
+          "connecting_arrows[0]",
+          "trail_dots[0]"
+        ],
+        "extent": 0.13919999999999977,
+        "frame": 27,
+        "timestamp": 24.86666666666664,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.13919999999999977
+        },
+        "description": "connecting_arrows[0] overlaps with trail_dots[0]. connecting_arrows[0]'s bottom right is touching trail_dots[0]'s top left. Estimated overlap extent 0.14 units."
+      },
+      {
+        "id": "overlap:connecting_arrows[1]|trail_dots[1]",
+        "type": "overlap",
+        "objects": [
+          "connecting_arrows[1]",
+          "trail_dots[1]"
+        ],
+        "extent": 0.1392000000000002,
+        "frame": 27,
+        "timestamp": 24.86666666666664,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.1392000000000002
+        },
+        "description": "connecting_arrows[1] overlaps with trail_dots[1]. connecting_arrows[1]'s bottom right is touching trail_dots[1]'s top left. Estimated overlap extent 0.14 units."
+      },
+      {
+        "id": "overlap:connecting_arrows[2]|trail_dots[2]",
+        "type": "overlap",
+        "objects": [
+          "connecting_arrows[2]",
+          "trail_dots[2]"
+        ],
+        "extent": 0.1392000000000002,
+        "frame": 27,
+        "timestamp": 24.86666666666664,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.1392000000000002
+        },
+        "description": "connecting_arrows[2] overlaps with trail_dots[2]. connecting_arrows[2]'s bottom right is touching trail_dots[2]'s top left. Estimated overlap extent 0.14 units."
+      },
+      {
+        "id": "overlap:flow_cards[1]|trail_dots[0]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[1]",
+          "trail_dots[0]"
+        ],
+        "extent": 0.17004127685253267,
+        "frame": 27,
+        "timestamp": 24.86666666666664,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.17004127685253267
+        },
+        "description": "flow_cards[1] overlaps with trail_dots[0]. flow_cards[1]'s top left is touching trail_dots[0]'s bottom right. Estimated overlap extent 0.17 units."
+      },
+      {
+        "id": "overlap:flow_cards[2]|trail_dots[1]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[2]",
+          "trail_dots[1]"
+        ],
+        "extent": 0.13295986357010736,
+        "frame": 27,
+        "timestamp": 24.86666666666664,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.13295986357010736
+        },
+        "description": "flow_cards[2] overlaps with trail_dots[1]. flow_cards[2]'s top left is touching trail_dots[1]'s bottom right. Estimated overlap extent 0.13 units."
+      },
+      {
+        "id": "overlap:flow_cards[3]|trail_dots[2]",
+        "type": "overlap",
+        "objects": [
+          "flow_cards[3]",
+          "trail_dots[2]"
+        ],
+        "extent": 0.21024043482506505,
+        "frame": 27,
+        "timestamp": 24.86666666666664,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.21024043482506505
+        },
+        "description": "flow_cards[3] overlaps with trail_dots[2]. flow_cards[3]'s top left is touching trail_dots[2]'s bottom right. Estimated overlap extent 0.21 units."
+      }
+    ],
+    "part_details": {
+      "badge_glow": {
+        "dimensions": [
+          "0.60 units wide by 0.60 units tall"
+        ],
+        "current_position": [
+          [
+            1.3,
+            2.1
+          ],
+          [
+            2.5,
+            2.1
+          ],
+          [
+            3.7,
+            2.1
+          ],
+          [
+            4.9,
+            2.1
+          ],
+          [
+            6.1,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "contained within badge",
+          "contained within badge[0]",
+          "contained within flow_cards[0]",
+          "contained within flow_cards[1]",
+          "contained within flow_cards[2]",
+          "contained within flow_cards[3]",
+          "contained within node_grp"
+        ]
+      },
+      "connecting_arrows[1]": {
+        "dimensions": [
+          "0.36 units wide by 0.08 units tall"
+        ],
+        "current_position": [
+          [
+            3.1,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "left of connecting_arrows[2] with edge distance 0.84 units",
+          "left of trail_dots[1] with edge distance 0.00 units",
+          "right of trail_dots[0] with edge distance 0.86 units"
+        ]
+      },
+      "connecting_arrows[2]": {
+        "dimensions": [
+          "0.36 units wide by 0.08 units tall"
+        ],
+        "current_position": [
+          [
+            4.3,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "left of trail_dots[2] with edge distance 0.00 units",
+          "right of connecting_arrows[1] with edge distance 0.84 units",
+          "right of trail_dots[1] with edge distance 0.86 units"
+        ]
+      },
+      "trail_dots[0]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            2.0,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "left of connecting_arrows[1] with edge distance 0.86 units"
+        ]
+      },
+      "trail_dots[1]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            3.2,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "left of connecting_arrows[2] with edge distance 0.86 units",
+          "right of connecting_arrows[1] with edge distance 0.00 units"
+        ]
+      },
+      "trail_dots[2]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            4.4,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "right of connecting_arrows[2] with edge distance 0.00 units"
+        ]
+      },
+      "trail_dots[3]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            5.6,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "contained within node_grp"
+        ]
+      }
+    }
+  },
+  "2": {
+    "scene": "2",
+    "section": 2,
+    "window": [
+      26.8,
+      36.7333
+    ],
+    "frame_range": [
+      28,
+      38
+    ],
+    "issues": [
+      {
+        "id": "overlap:Text[AgentDiversity&Architectures]|step2_title",
+        "type": "overlap",
+        "objects": [
+          "step2_title",
+          "Text[AgentDiversity&Architectures]"
+        ],
+        "extent": 0.3401367249999998,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.3401367249999998
+        },
+        "description": "step2_title overlaps with Text[AgentDiversity&Architectures]. step2_title's top left is touching Text[AgentDiversity&Architectures]'s bottom right. Estimated overlap extent 0.34 units."
+      },
+      {
+        "id": "overlap:Text[Goal:Monitor]|solara_emblem",
+        "type": "overlap",
+        "objects": [
+          "solara_emblem",
+          "Text[Goal:Monitor]"
+        ],
+        "extent": 0.25738063331211203,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.25738063331211203
+        },
+        "description": "solara_emblem overlaps with Text[Goal:Monitor]. solara_emblem's bottom right is touching Text[Goal:Monitor]'s top left. Estimated overlap extent 0.26 units."
+      },
+      {
+        "id": "overlap:Text[SitePerformance]|solara_emblem",
+        "type": "overlap",
+        "objects": [
+          "solara_emblem",
+          "Text[SitePerformance]"
+        ],
+        "extent": 0.2869782005278343,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.2869782005278343
+        },
+        "description": "solara_emblem overlaps with Text[SitePerformance]. solara_emblem's bottom right is touching Text[SitePerformance]'s top left. Estimated overlap extent 0.29 units."
+      },
+      {
+        "id": "overlap:brand_name|flow_cards",
+        "type": "overlap",
+        "objects": [
+          "brand_name",
+          "flow_cards"
+        ],
+        "extent": 0.2537085589307062,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.2537085589307062
+        },
+        "description": "brand_name overlaps with flow_cards. brand_name's top right is touching flow_cards's bottom left. Estimated overlap extent 0.25 units."
+      },
+      {
+        "id": "overlap:connecting_arrows|trail_dots[0]",
+        "type": "overlap",
+        "objects": [
+          "trail_dots[0]",
+          "connecting_arrows"
+        ],
+        "extent": 0.34080000000000066,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.34080000000000066
+        },
+        "description": "trail_dots[0] overlaps with connecting_arrows. trail_dots[0]'s bottom right is touching connecting_arrows's top left. Estimated overlap extent 0.34 units."
+      },
+      {
+        "id": "overlap:connecting_arrows|trail_dots[1]",
+        "type": "overlap",
+        "objects": [
+          "trail_dots[1]",
+          "connecting_arrows"
+        ],
+        "extent": 1.5408000000000004,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 1.5408000000000004
+        },
+        "description": "trail_dots[1] overlaps with connecting_arrows. trail_dots[1]'s bottom right is touching connecting_arrows's top left. Estimated overlap extent 1.54 units."
+      },
+      {
+        "id": "overlap:connecting_arrows|trail_dots[2]",
+        "type": "overlap",
+        "objects": [
+          "trail_dots[2]",
+          "connecting_arrows"
+        ],
+        "extent": 1.339199999999999,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 1.339199999999999
+        },
+        "description": "trail_dots[2] overlaps with connecting_arrows. trail_dots[2]'s bottom left is touching connecting_arrows's top right. Estimated overlap extent 1.34 units."
+      },
+      {
+        "id": "overlap:connecting_arrows|trail_dots[3]",
+        "type": "overlap",
+        "objects": [
+          "trail_dots[3]",
+          "connecting_arrows"
+        ],
+        "extent": 0.13920000000000154,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.13920000000000154
+        },
+        "description": "trail_dots[3] overlaps with connecting_arrows. trail_dots[3]'s bottom left is touching connecting_arrows's top right. Estimated overlap extent 0.14 units."
+      },
+      {
+        "id": "overlap:flow_cards|solara_emblem",
+        "type": "overlap",
+        "objects": [
+          "solara_emblem",
+          "flow_cards"
+        ],
+        "extent": 0.2834534767148513,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "top_right",
+          "b_orientation": "bottom_left",
+          "overlap_extent": 0.2834534767148513,
+          "child_overlaps": [
+            {
+              "child_a_name": "brand_txt",
+              "child_b_name": "flow_cards[0]",
+              "overlap_extent": 0.35556224343977616
+            },
+            {
+              "child_a_name": "brand_txt",
+              "child_b_name": "Text[Goal:Monitor]",
+              "overlap_extent": 0.23306337777394404
+            },
+            {
+              "child_a_name": "brand_name",
+              "child_b_name": "flow_cards[0]",
+              "overlap_extent": 0.30400025590813484
+            }
+          ]
+        },
+        "description": "solara_emblem overlaps with flow_cards. solara_emblem's top right is touching flow_cards's bottom left. Estimated overlap extent 0.28 units. Additionally, the following named child objects overlap: 'brand_txt' and 'flow_cards[0]' (extent: 0.36); 'brand_txt' and 'Text[Goal:Monitor]' (extent: 0.23); 'brand_name' and 'flow_cards[0]' (extent: 0.30)."
+      },
+      {
+        "id": "overlap:step2_title|step2_title[1]",
+        "type": "overlap",
+        "objects": [
+          "step2_title",
+          "step2_title[1]"
+        ],
+        "extent": 3.906567442103885,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 3.906567442103885
+        },
+        "description": "step2_title overlaps with step2_title[1]. step2_title's bottom left is touching step2_title[1]'s top right. Estimated overlap extent 3.91 units."
+      },
+      {
+        "id": "text_overflow:Text[01]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[01]",
+          "icon_vg[0]"
+        ],
+        "extent": 4.710537106249999,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 4.710537106249999
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.18999999999999995
+            ],
+            "extent": 0.270576175
+          }
+        ],
+        "description": "Text[01] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 4.71; top edge (at 0.00, 0.19) by 0.27 units."
+      },
+      {
+        "id": "text_overflow:Text[01]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[01]",
+          "step_chip"
+        ],
+        "extent": 4.6605371062500005,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 4.6605371062500005
+          }
+        ],
+        "description": "Text[01] overflows parent step_chip at: left edge (at -0.19, 0.00) by 4.66 units."
+      },
+      {
+        "id": "text_overflow:Text[02]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[02]",
+          "icon_vg[0]"
+        ],
+        "extent": 3.518203125,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 3.518203125
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.18999999999999995
+            ],
+            "extent": 0.270576175
+          }
+        ],
+        "description": "Text[02] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 3.52; top edge (at 0.00, 0.19) by 0.27 units."
+      },
+      {
+        "id": "text_overflow:Text[02]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[02]",
+          "step_chip"
+        ],
+        "extent": 3.468203125,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 3.468203125
+          }
+        ],
+        "description": "Text[02] overflows parent step_chip at: left edge (at -0.19, 0.00) by 3.47 units."
+      },
+      {
+        "id": "text_overflow:Text[03]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[03]",
+          "icon_vg[0]"
+        ],
+        "extent": 2.3182031249999997,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 2.3182031249999997
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.18999999999999995
+            ],
+            "extent": 0.270576175
+          }
+        ],
+        "description": "Text[03] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 2.32; top edge (at 0.00, 0.19) by 0.27 units."
+      },
+      {
+        "id": "text_overflow:Text[03]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[03]",
+          "step_chip"
+        ],
+        "extent": 2.268203125,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 2.268203125
+          }
+        ],
+        "description": "Text[03] overflows parent step_chip at: left edge (at -0.19, 0.00) by 2.27 units."
+      },
+      {
+        "id": "text_overflow:Text[04]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[04]",
+          "icon_vg[0]"
+        ],
+        "extent": 1.1185693374999994,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 1.1185693374999994
+          },
+          {
+            "edge": "top",
+            "parent_relative_coord": [
+              0.0,
+              0.18999999999999995
+            ],
+            "extent": 0.270576175
+          }
+        ],
+        "description": "Text[04] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 1.12; top edge (at 0.00, 0.19) by 0.27 units."
+      },
+      {
+        "id": "text_overflow:Text[04]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[04]",
+          "step_chip"
+        ],
+        "extent": 1.0685693374999996,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 1.0685693374999996
+          }
+        ],
+        "description": "Text[04] overflows parent step_chip at: left edge (at -0.19, 0.00) by 1.07 units."
+      },
+      {
+        "id": "text_overflow:Text[Compare]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Compare]",
+          "icon_vg[0]"
+        ],
+        "extent": 2.58434081875,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 2.58434081875
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.3020214875
+          }
+        ],
+        "description": "Text[Compare] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 2.58; bottom edge (at 0.00, -0.19) by 0.30 units."
+      },
+      {
+        "id": "text_overflow:Text[Compare]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Compare]",
+          "step_chip"
+        ],
+        "extent": 2.53434081875,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 2.53434081875
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 0.8220214875
+          }
+        ],
+        "description": "Text[Compare] overflows parent step_chip at: left edge (at -0.19, 0.00) by 2.53; bottom edge (at 0.00, -0.09) by 0.82 units."
+      },
+      {
+        "id": "text_overflow:Text[FlagAlerts]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[FlagAlerts]",
+          "icon_vg[0]"
+        ],
+        "extent": 1.4375146437499993,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 1.4375146437499993
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.3016064437499999
+          }
+        ],
+        "description": "Text[FlagAlerts] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 1.44; bottom edge (at 0.00, -0.19) by 0.30 units."
+      },
+      {
+        "id": "text_overflow:Text[FlagAlerts]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[FlagAlerts]",
+          "step_chip"
+        ],
+        "extent": 1.3875146437499994,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 1.3875146437499994
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 0.8216064437499999
+          }
+        ],
+        "description": "Text[FlagAlerts] overflows parent step_chip at: left edge (at -0.19, 0.00) by 1.39; bottom edge (at 0.00, -0.09) by 0.82 units."
+      },
+      {
+        "id": "text_overflow:Text[Goal:Monitor]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Goal:Monitor]",
+          "icon_vg[0]"
+        ],
+        "extent": 5.135292975,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 5.135292975
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.28786133125
+          }
+        ],
+        "description": "Text[Goal:Monitor] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 5.14; bottom edge (at 0.00, -0.19) by 0.29 units."
+      },
+      {
+        "id": "text_overflow:Text[Goal:Monitor]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[Goal:Monitor]",
+          "step_chip"
+        ],
+        "extent": 5.085292975,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 5.085292975
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 0.80786133125
+          }
+        ],
+        "description": "Text[Goal:Monitor] overflows parent step_chip at: left edge (at -0.19, 0.00) by 5.09; bottom edge (at 0.00, -0.09) by 0.81 units."
+      },
+      {
+        "id": "text_overflow:Text[InverterTelemetry]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[InverterTelemetry]",
+          "icon_vg[0]"
+        ],
+        "extent": 3.95938964375,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 3.95938964375
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.5182275375000001
+          }
+        ],
+        "description": "Text[InverterTelemetry] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 3.96; bottom edge (at 0.00, -0.19) by 0.52 units."
+      },
+      {
+        "id": "text_overflow:Text[InverterTelemetry]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[InverterTelemetry]",
+          "step_chip"
+        ],
+        "extent": 3.90938964375,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 3.90938964375
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 1.0382275375
+          }
+        ],
+        "description": "Text[InverterTelemetry] overflows parent step_chip at: left edge (at -0.19, 0.00) by 3.91; bottom edge (at 0.00, -0.09) by 1.04 units."
+      },
+      {
+        "id": "text_overflow:Text[ModelBaselines]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[ModelBaselines]",
+          "icon_vg[0]"
+        ],
+        "extent": 2.7281396499999997,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 2.7281396499999997
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.5062158187499999
+          }
+        ],
+        "description": "Text[ModelBaselines] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 2.73; bottom edge (at 0.00, -0.19) by 0.51 units."
+      },
+      {
+        "id": "text_overflow:Text[ModelBaselines]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[ModelBaselines]",
+          "step_chip"
+        ],
+        "extent": 2.67813965,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 2.67813965
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 1.02621581875
+          }
+        ],
+        "description": "Text[ModelBaselines] overflows parent step_chip at: left edge (at -0.19, 0.00) by 2.68; bottom edge (at 0.00, -0.09) by 1.03 units."
+      },
+      {
+        "id": "text_overflow:Text[QueryData]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[QueryData]",
+          "icon_vg[0]"
+        ],
+        "extent": 3.8652734375,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 3.8652734375
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.30312011250000004
+          }
+        ],
+        "description": "Text[QueryData] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 3.87; bottom edge (at 0.00, -0.19) by 0.30 units."
+      },
+      {
+        "id": "text_overflow:Text[QueryData]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[QueryData]",
+          "step_chip"
+        ],
+        "extent": 3.8152734375,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 3.8152734375
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 0.8231201125000001
+          }
+        ],
+        "description": "Text[QueryData] overflows parent step_chip at: left edge (at -0.19, 0.00) by 3.82; bottom edge (at 0.00, -0.09) by 0.82 units."
+      },
+      {
+        "id": "text_overflow:Text[SitePerformance]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[SitePerformance]",
+          "icon_vg[0]"
+        ],
+        "extent": 5.151503906249999,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 5.151503906249999
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.507265625
+          }
+        ],
+        "description": "Text[SitePerformance] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 5.15; bottom edge (at 0.00, -0.19) by 0.51 units."
+      },
+      {
+        "id": "text_overflow:Text[SitePerformance]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[SitePerformance]",
+          "step_chip"
+        ],
+        "extent": 5.1015039062500005,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 5.1015039062500005
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 1.027265625
+          }
+        ],
+        "description": "Text[SitePerformance] overflows parent step_chip at: left edge (at -0.19, 0.00) by 5.10; bottom edge (at 0.00, -0.09) by 1.03 units."
+      },
+      {
+        "id": "text_overflow:Text[ThermalDeviations]|icon_vg[0]",
+        "type": "text_overflow",
+        "objects": [
+          "Text[ThermalDeviations]",
+          "icon_vg[0]"
+        ],
+        "extent": 1.60675293125,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.13999999999999968,
+              0.0
+            ],
+            "extent": 1.60675293125
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.18999999999999995
+            ],
+            "extent": 0.5062158187499999
+          }
+        ],
+        "description": "Text[ThermalDeviations] overflows parent icon_vg[0] at: left edge (at -0.14, 0.00) by 1.61; bottom edge (at 0.00, -0.19) by 0.51 units."
+      },
+      {
+        "id": "text_overflow:Text[ThermalDeviations]|step_chip",
+        "type": "text_overflow",
+        "objects": [
+          "Text[ThermalDeviations]",
+          "step_chip"
+        ],
+        "extent": 1.5567529312500001,
+        "frame": 30,
+        "timestamp": 27.79999999999997,
+        "details": [
+          {
+            "edge": "left",
+            "parent_relative_coord": [
+              -0.1899999999999995,
+              0.0
+            ],
+            "extent": 1.5567529312500001
+          },
+          {
+            "edge": "bottom",
+            "parent_relative_coord": [
+              0.0,
+              -0.08999999999999986
+            ],
+            "extent": 1.02621581875
+          }
+        ],
+        "description": "Text[ThermalDeviations] overflows parent step_chip at: left edge (at -0.19, 0.00) by 1.56; bottom edge (at 0.00, -0.09) by 1.03 units."
+      },
+      {
+        "id": "overlap:Text[FixedCondition-ActionRules]|problem_sphere",
+        "type": "overlap",
+        "objects": [
+          "problem_sphere",
+          "Text[FixedCondition-ActionRules]"
+        ],
+        "extent": 0.22300195127360345,
+        "frame": 32,
+        "timestamp": 29.933333333333294,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.22300195127360345
+        },
+        "description": "problem_sphere overlaps with Text[FixedCondition-ActionRules]. problem_sphere's bottom left is touching Text[FixedCondition-ActionRules]'s top right. Estimated overlap extent 0.22 units."
+      },
+      {
+        "id": "overlap:agent_nodes[0]|problem_sphere",
+        "type": "overlap",
+        "objects": [
+          "problem_sphere",
+          "agent_nodes[0]"
+        ],
+        "extent": 0.2285198907540371,
+        "frame": 32,
+        "timestamp": 29.933333333333294,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.2285198907540371,
+          "child_overlaps": [
+            {
+              "child_a_name": "problem_outer",
+              "child_b_name": "Text[FixedCondition-ActionRules]",
+              "overlap_extent": 0.2585722586661161
+            }
+          ]
+        },
+        "description": "problem_sphere overlaps with agent_nodes[0]. problem_sphere's bottom left is touching agent_nodes[0]'s top right. Estimated overlap extent 0.23 units. Additionally, the following named child objects overlap: 'problem_outer' and 'Text[FixedCondition-ActionRules]' (extent: 0.26)."
+      },
+      {
+        "id": "overlap:Text[DeliberativeAgent]|connecting_conduits[1]",
+        "type": "overlap",
+        "objects": [
+          "Text[DeliberativeAgent]",
+          "connecting_conduits[1]"
+        ],
+        "extent": 0.2437318503237849,
+        "frame": 33,
+        "timestamp": 30.866666666666625,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.2437318503237849
+        },
+        "description": "Text[DeliberativeAgent] overlaps with connecting_conduits[1]. Text[DeliberativeAgent]'s bottom left is touching connecting_conduits[1]'s top right. Estimated overlap extent 0.24 units."
+      },
+      {
+        "id": "overlap:Text[InternalWorldModel&Planning]|connecting_conduits[1]",
+        "type": "overlap",
+        "objects": [
+          "Text[InternalWorldModel&Planning]",
+          "connecting_conduits[1]"
+        ],
+        "extent": 0.9618883996601286,
+        "frame": 33,
+        "timestamp": 30.866666666666625,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.9618883996601286
+        },
+        "description": "Text[InternalWorldModel&Planning] overlaps with connecting_conduits[1]. Text[InternalWorldModel&Planning]'s bottom left is touching connecting_conduits[1]'s top right. Estimated overlap extent 0.96 units."
+      },
+      {
+        "id": "overlap:agent_nodes[1]|connecting_conduits[1]",
+        "type": "overlap",
+        "objects": [
+          "agent_nodes[1]",
+          "connecting_conduits[1]"
+        ],
+        "extent": 0.3731080014383038,
+        "frame": 33,
+        "timestamp": 30.866666666666625,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.3731080014383038
+        },
+        "description": "agent_nodes[1] overlaps with connecting_conduits[1]. agent_nodes[1]'s bottom left is touching connecting_conduits[1]'s top right. Estimated overlap extent 0.37 units."
+      },
+      {
+        "id": "overlap:agent_nodes[1]|problem_sphere",
+        "type": "overlap",
+        "objects": [
+          "problem_sphere",
+          "agent_nodes[1]"
+        ],
+        "extent": 0.22680664062500044,
+        "frame": 33,
+        "timestamp": 30.866666666666625,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.22680664062500044,
+          "child_overlaps": [
+            {
+              "child_a_name": "problem_outer",
+              "child_b_name": "Text[DeliberativeAgent]",
+              "overlap_extent": 0.4722025304735953
+            },
+            {
+              "child_a_name": "problem_outer",
+              "child_b_name": "Text[InternalWorldModel&Planning]",
+              "overlap_extent": 0.7815780470092284
+            },
+            {
+              "child_a_name": "problem_dashed",
+              "child_b_name": "Text[InternalWorldModel&Planning]",
+              "overlap_extent": 0.5289835117116513
+            }
+          ]
+        },
+        "description": "problem_sphere overlaps with agent_nodes[1]. problem_sphere's top left is touching agent_nodes[1]'s bottom right. Estimated overlap extent 0.23 units. Additionally, the following named child objects overlap: 'problem_outer' and 'Text[DeliberativeAgent]' (extent: 0.47); 'problem_outer' and 'Text[InternalWorldModel&Planning]' (extent: 0.78); 'problem_dashed' and 'Text[InternalWorldModel&Planning]' (extent: 0.53)."
+      },
+      {
+        "id": "overlap:connecting_conduits[1]|problem_sphere",
+        "type": "overlap",
+        "objects": [
+          "problem_sphere",
+          "connecting_conduits[1]"
+        ],
+        "extent": 0.559124889878199,
+        "frame": 33,
+        "timestamp": 30.866666666666625,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.559124889878199
+        },
+        "description": "problem_sphere overlaps with connecting_conduits[1]. problem_sphere's top left is touching connecting_conduits[1]'s bottom right. Estimated overlap extent 0.56 units."
+      },
+      {
+        "id": "overlap:a_sub|problem_sphere",
+        "type": "overlap",
+        "objects": [
+          "problem_sphere",
+          "a_sub"
+        ],
+        "extent": 0.31518476652627747,
+        "frame": 34,
+        "timestamp": 31.799999999999955,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.31518476652627747
+        },
+        "description": "problem_sphere overlaps with a_sub. problem_sphere's bottom right is touching a_sub's top left. Estimated overlap extent 0.32 units."
+      },
+      {
+        "id": "overlap:agent_m|conduit",
+        "type": "overlap",
+        "objects": [
+          "agent_m",
+          "conduit"
+        ],
+        "extent": 0.1647679341869579,
+        "frame": 34,
+        "timestamp": 31.799999999999955,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.1647679341869579
+        },
+        "description": "agent_m overlaps with conduit. agent_m's top left is touching conduit's bottom right. Estimated overlap extent 0.16 units."
+      },
+      {
+        "id": "overlap:agent_m|problem_sphere",
+        "type": "overlap",
+        "objects": [
+          "problem_sphere",
+          "agent_m"
+        ],
+        "extent": 0.32477483358391224,
+        "frame": 34,
+        "timestamp": 31.799999999999955,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.32477483358391224,
+          "child_overlaps": [
+            {
+              "child_a_name": "prob_tag",
+              "child_b_name": "a_sub",
+              "overlap_extent": 0.009599487392440986
+            }
+          ]
+        },
+        "description": "problem_sphere overlaps with agent_m. problem_sphere's bottom right is touching agent_m's top left. Estimated overlap extent 0.32 units. Additionally, the following named child objects overlap: 'prob_tag' and 'a_sub' (extent: 0.01)."
+      },
+      {
+        "id": "overlap:connecting_conduits[1]|shift_ring",
+        "type": "overlap",
+        "objects": [
+          "connecting_conduits[1]",
+          "shift_ring"
+        ],
+        "extent": 0.18223174811726295,
+        "frame": 35,
+        "timestamp": 33.0,
+        "details": {
+          "a_orientation": "bottom_right",
+          "b_orientation": "top_left",
+          "overlap_extent": 0.18223174811726295
+        },
+        "description": "connecting_conduits[1] overlaps with shift_ring. connecting_conduits[1]'s bottom right is touching shift_ring's top left. Estimated overlap extent 0.18 units."
+      },
+      {
+        "id": "overlap:agent_m|match_pulse",
+        "type": "overlap",
+        "objects": [
+          "agent_m",
+          "match_pulse"
+        ],
+        "extent": 0.1647679341869579,
+        "frame": 37,
+        "timestamp": 34.53333333333341,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.1647679341869579
+        },
+        "description": "agent_m overlaps with match_pulse. agent_m's top left is touching match_pulse's bottom right. Estimated overlap extent 0.16 units."
+      },
+      {
+        "id": "overlap:agent_m|matched_conduit",
+        "type": "overlap",
+        "objects": [
+          "agent_m",
+          "matched_conduit"
+        ],
+        "extent": 0.1647679341869579,
+        "frame": 37,
+        "timestamp": 34.53333333333341,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.1647679341869579
+        },
+        "description": "agent_m overlaps with matched_conduit. agent_m's top left is touching matched_conduit's bottom right. Estimated overlap extent 0.16 units."
+      }
+    ],
+    "part_details": {
+      "conduit": {
+        "dimensions": [
+          "1.02 units wide by 0.35 units tall"
+        ],
+        "current_position": [
+          [
+            4.45,
+            -0.97
+          ]
+        ],
+        "constraints": [
+          "contained within problem_sphere",
+          "right of shift_ring with edge distance 0.32 units"
+        ]
+      },
+      "connecting_arrows": {
+        "dimensions": [
+          "3.96 units wide by 0.08 units tall"
+        ],
+        "current_position": [
+          [
+            3.7,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "contained within flow_cards",
+          "left of trail_dots[2] with edge distance 0.00 units",
+          "left of trail_dots[3] with edge distance 0.00 units",
+          "right of trail_dots[0] with edge distance 0.00 units",
+          "right of trail_dots[1] with edge distance 0.00 units"
+        ]
+      },
+      "match_pulse": {
+        "dimensions": [
+          "1.02 units wide by 0.35 units tall"
+        ],
+        "current_position": [
+          [
+            4.45,
+            -0.97
+          ]
+        ],
+        "constraints": [
+          "above matched_conduit with edge distance 0.00 units",
+          "contained within matched_conduit",
+          "contained within problem_sphere",
+          "right of packets[0] with edge distance 0.00 units",
+          "right of packets[1] with edge distance 0.00 units",
+          "right of packets[2] with edge distance 0.00 units"
+        ]
+      },
+      "matched_conduit": {
+        "dimensions": [
+          "1.02 units wide by 0.35 units tall"
+        ],
+        "current_position": [
+          [
+            4.45,
+            -0.97
+          ]
+        ],
+        "constraints": [
+          "above match_pulse with edge distance 0.00 units",
+          "contained within match_pulse",
+          "contained within problem_sphere",
+          "right of packets[0] with edge distance 0.00 units",
+          "right of packets[1] with edge distance 0.00 units",
+          "right of packets[2] with edge distance 0.00 units"
+        ]
+      },
+      "shift_ring": {
+        "dimensions": [
+          "1.60 units wide by 1.60 units tall"
+        ],
+        "current_position": [
+          [
+            2.8,
+            -1.0
+          ]
+        ],
+        "constraints": [
+          "contained within problem_sphere",
+          "left of conduit with edge distance 0.32 units",
+          "right of connecting_conduits[0] with edge distance 0.32 units"
+        ]
+      },
+      "trail_dots[0]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            2.0,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "contained within flow_cards",
+          "left of connecting_arrows with edge distance 0.00 units",
+          "left of connecting_arrows[1] with edge distance 0.86 units"
+        ]
+      },
+      "trail_dots[1]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            3.2,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "contained within flow_cards",
+          "left of connecting_arrows with edge distance 0.00 units",
+          "left of connecting_arrows[2] with edge distance 0.86 units",
+          "right of connecting_arrows[1] with edge distance 0.00 units"
+        ]
+      },
+      "trail_dots[2]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            4.4,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "contained within flow_cards",
+          "right of connecting_arrows with edge distance 0.00 units",
+          "right of connecting_arrows[2] with edge distance 0.00 units"
+        ]
+      },
+      "trail_dots[3]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            5.6,
+            2.1
+          ]
+        ],
+        "constraints": [
+          "contained within flow_cards",
+          "contained within node_grp",
+          "right of connecting_arrows with edge distance 0.00 units"
+        ]
+      }
+    }
+  },
+  "3": {
+    "scene": "2",
+    "section": 3,
+    "window": [
+      48.1333,
+      87.5333
+    ],
+    "frame_range": [
+      39,
+      68
+    ],
+    "issues": [
+      {
+        "id": "overlap:Text[LearningOutcomes]|step3_title",
+        "type": "overlap",
+        "objects": [
+          "step3_title",
+          "Text[LearningOutcomes]"
+        ],
+        "extent": 3.383976559676596,
+        "frame": 41,
+        "timestamp": 49.13333333333357,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 3.383976559676596
+        },
+        "description": "step3_title overlaps with Text[LearningOutcomes]. step3_title's top left is touching Text[LearningOutcomes]'s bottom right. Estimated overlap extent 3.38 units."
+      },
+      {
+        "id": "overlap:step3_title|step3_title[1]",
+        "type": "overlap",
+        "objects": [
+          "step3_title",
+          "step3_title[1]"
+        ],
+        "extent": 0.21254882499999983,
+        "frame": 41,
+        "timestamp": 49.13333333333357,
+        "details": {
+          "a_orientation": "bottom_left",
+          "b_orientation": "top_right",
+          "overlap_extent": 0.21254882499999983
+        },
+        "description": "step3_title overlaps with step3_title[1]. step3_title's bottom left is touching step3_title[1]'s top right. Estimated overlap extent 0.21 units."
+      },
+      {
+        "id": "overlap:Text[Sequentialruntimedeliberation&]|packets[0]",
+        "type": "overlap",
+        "objects": [
+          "packets[0]",
+          "Text[Sequentialruntimedeliberation&]"
+        ],
+        "extent": 0.13130527784431156,
+        "frame": 52,
+        "timestamp": 64.80000000000038,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.13130527784431156
+        },
+        "description": "packets[0] overlaps with Text[Sequentialruntimedeliberation&]. packets[0]'s top left is touching Text[Sequentialruntimedeliberation&]'s bottom right. Estimated overlap extent 0.13 units."
+      },
+      {
+        "id": "overlap:Text[Sequentialruntimedeliberation&]|packets[1]",
+        "type": "overlap",
+        "objects": [
+          "packets[1]",
+          "Text[Sequentialruntimedeliberation&]"
+        ],
+        "extent": 0.13130527784431156,
+        "frame": 52,
+        "timestamp": 64.80000000000038,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.13130527784431156
+        },
+        "description": "packets[1] overlaps with Text[Sequentialruntimedeliberation&]. packets[1]'s top left is touching Text[Sequentialruntimedeliberation&]'s bottom right. Estimated overlap extent 0.13 units."
+      },
+      {
+        "id": "overlap:Text[Sequentialruntimedeliberation&]|packets[2]",
+        "type": "overlap",
+        "objects": [
+          "packets[2]",
+          "Text[Sequentialruntimedeliberation&]"
+        ],
+        "extent": 0.13130527784431156,
+        "frame": 52,
+        "timestamp": 64.80000000000038,
+        "details": {
+          "a_orientation": "top_left",
+          "b_orientation": "bottom_right",
+          "overlap_extent": 0.13130527784431156
+        },
+        "description": "packets[2] overlaps with Text[Sequentialruntimedeliberation&]. packets[2]'s top left is touching Text[Sequentialruntimedeliberation&]'s bottom right. Estimated overlap extent 0.13 units."
+      }
+    ],
+    "part_details": {
+      "packets[0]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            4.29,
+            -0.97
+          ]
+        ],
+        "constraints": [
+          "above card with edge distance 0.00 units",
+          "above outcome_cards[3] with edge distance 0.00 units",
+          "above packets[1] with edge distance 0.00 units",
+          "above packets[2] with edge distance 0.00 units",
+          "above pulse_line with edge distance 0.44 units",
+          "below card with edge distance 0.00 units",
+          "below card with edge distance 0.91 units",
+          "below outcome_cards[0] with edge distance 0.91 units",
+          "below outcome_cards[1] with edge distance 0.00 units",
+          "below pulse_line with edge distance 0.00 units",
+          "below pulse_line with edge distance 0.83 units",
+          "contained within agent_nodes",
+          "contained within card",
+          "contained within card[2]",
+          "contained within connecting_conduits",
+          "contained within match_pulse",
+          "contained within matched_conduit",
+          "contained within outcome_cards[2]",
+          "contained within packets[1]",
+          "contained within packets[2]",
+          "contained within problem_sphere",
+          "contained within step2_all",
+          "left of match_pulse with edge distance 0.00 units",
+          "left of matched_conduit with edge distance 0.00 units",
+          "right of card with edge distance 0.00 units",
+          "right of outcome_cards[2] with edge distance 0.00 units",
+          "right of pulse_line with edge distance 0.00 units"
+        ]
+      },
+      "packets[1]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            4.29,
+            -0.97
+          ]
+        ],
+        "constraints": [
+          "above card with edge distance 0.00 units",
+          "above outcome_cards[3] with edge distance 0.00 units",
+          "above packets[0] with edge distance 0.00 units",
+          "above packets[2] with edge distance 0.00 units",
+          "above pulse_line with edge distance 0.44 units",
+          "below card with edge distance 0.00 units",
+          "below card with edge distance 0.91 units",
+          "below outcome_cards[0] with edge distance 0.91 units",
+          "below outcome_cards[1] with edge distance 0.00 units",
+          "below pulse_line with edge distance 0.00 units",
+          "below pulse_line with edge distance 0.83 units",
+          "contained within agent_nodes",
+          "contained within card",
+          "contained within card[2]",
+          "contained within connecting_conduits",
+          "contained within match_pulse",
+          "contained within matched_conduit",
+          "contained within outcome_cards[2]",
+          "contained within packets[0]",
+          "contained within packets[2]",
+          "contained within problem_sphere",
+          "contained within step2_all",
+          "left of match_pulse with edge distance 0.00 units",
+          "left of matched_conduit with edge distance 0.00 units",
+          "right of card with edge distance 0.00 units",
+          "right of outcome_cards[2] with edge distance 0.00 units",
+          "right of pulse_line with edge distance 0.00 units"
+        ]
+      },
+      "packets[2]": {
+        "dimensions": [
+          "0.12 units wide by 0.12 units tall"
+        ],
+        "current_position": [
+          [
+            4.29,
+            -0.97
+          ]
+        ],
+        "constraints": [
+          "above card with edge distance 0.00 units",
+          "above outcome_cards[3] with edge distance 0.00 units",
+          "above packets[0] with edge distance 0.00 units",
+          "above packets[1] with edge distance 0.00 units",
+          "above pulse_line with edge distance 0.44 units",
+          "below card with edge distance 0.00 units",
+          "below card with edge distance 0.91 units",
+          "below outcome_cards[0] with edge distance 0.91 units",
+          "below outcome_cards[1] with edge distance 0.00 units",
+          "below pulse_line with edge distance 0.00 units",
+          "below pulse_line with edge distance 0.83 units",
+          "contained within agent_nodes",
+          "contained within card",
+          "contained within card[2]",
+          "contained within connecting_conduits",
+          "contained within match_pulse",
+          "contained within matched_conduit",
+          "contained within outcome_cards[2]",
+          "contained within problem_sphere",
+          "contained within step2_all",
+          "left of match_pulse with edge distance 0.00 units",
+          "left of matched_conduit with edge distance 0.00 units",
+          "right of card with edge distance 0.00 units",
+          "right of outcome_cards[2] with edge distance 0.00 units",
+          "right of pulse_line with edge distance 0.00 units"
+        ]
+      }
+    }
+  }
+}
