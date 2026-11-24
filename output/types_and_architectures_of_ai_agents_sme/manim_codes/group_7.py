@@ -68,6 +68,7 @@ for _scene_cls in (Scene, MovingCameraScene):
         pass
 _orig_anim_safe_defined = True
 
+
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
         pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -207,6 +208,8 @@ for _k in dir(_rf):
 
 
 
+
+
 def CrispText(text, size=24, font="Open Sans", **kwargs):
     if "font_size" in kwargs:
         size = kwargs.pop("font_size")
@@ -319,7 +322,6 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-
 class PulsingShockwaves(VGroup):
     def __init__(self, center, color="#E6A157", max_radius=1.1, num_rings=3, **kwargs):
         super().__init__(**kwargs)
@@ -456,7 +458,7 @@ class BalanceScale(VGroup):
 
 from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
-import math
+# import math # Replaced with PI from manim
 
 class FinalScene(InstrumentedScene, MovingCameraScene):
     def construct(self):
@@ -781,6 +783,24 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
 
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         # Color Palette Tokens (Simplilearn OSL 3.0 Compliance)
         C_DARK = "#1E293B"       # Primary Title Slate
@@ -839,9 +859,9 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
         # Ambient Operator Presence (Asset Integration)
         img_path = "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_7_engineer_operator.png"
-        operator_img = ImageMobject(img_path)
+        operator_img = safe_image(img_path) # safe_image now returns a Group
         operator_img.scale_to_fit_height(1.85)
-        operator_grp = Group(operator_img).move_to(np.array([2.80, -2.25, 0]))
+        operator_grp = operator_img.move_to(np.array([2.80, -2.25, 0])) # operator_img is already a Group
         
         # Staggered entry of the 3 architecture slots
         self.play(
@@ -914,10 +934,10 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         gear_outer = Circle(radius=0.15, stroke_color=C_AMBER, stroke_width=2.5, fill_opacity=0).move_to(engine_box.get_right() + LEFT * 0.3)
         gear_center = Dot(gear_outer.get_center(), radius=0.04, color=C_AMBER)
         gear_teeth = VGroup(*[
-            Line(gear_outer.get_center() + 0.13 * np.array([math.cos(a), math.sin(a), 0]),
-                 gear_outer.get_center() + 0.19 * np.array([math.cos(a), math.sin(a), 0]),
+            Line(gear_outer.get_center() + 0.13 * np.array([np.cos(a), np.sin(a), 0]), # Changed math.cos to np.cos
+                 gear_outer.get_center() + 0.19 * np.array([np.cos(a), np.sin(a), 0]), # Changed math.sin to np.sin
                  stroke_color=C_AMBER, stroke_width=2)
-            for a in np.linspace(0, 2*math.pi, 8, endpoint=False)
+            for a in np.linspace(0, 2*PI, 8, endpoint=False) # Changed math.pi to PI
         ])
         gear_mechanism = VGroup(gear_outer, gear_center, gear_teeth)
         engine_grp = VGroup(engine_box, engine_title, engine_rule, gear_mechanism)
@@ -941,14 +961,14 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         
         # Kinetic Pulse Particles traveling down the deterministic condition-action pipeline
         p1 = Dot(radius=0.06, color=C_HIGHLIGHT).move_to(sensor_box.get_bottom())
-        self.play(MoveAlongPath(p1, arrow_1), rate_func=smooth, run_time=0.6)
+        self.play(MoveAlongPath(p1, arrow_1), rate_func=ease_out_cubic, run_time=0.6) # Changed rate_func
         self.remove(p1)
         
         # Gear rotation kinetic animation
-        self.play(Rotate(gear_mechanism, angle=2*math.pi, run_time=0.8, rate_func=linear))
+        self.play(Rotate(gear_mechanism, angle=2*PI, run_time=0.8, rate_func=linear)) # Changed math.pi to PI
         
         p2 = Dot(radius=0.06, color=C_HIGHLIGHT).move_to(engine_box.get_bottom())
-        self.play(MoveAlongPath(p2, arrow_2), rate_func=smooth, run_time=0.6)
+        self.play(MoveAlongPath(p2, arrow_2), rate_func=ease_out_cubic, run_time=0.6) # Changed rate_func
         self.remove(p2)
         
         # Evaluation Tag Pills: "Fast & Predictable" vs "Limited Context"
@@ -1050,7 +1070,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         
         # Dynamic Evaluation Particle traveling selected optimal route
         eval_dot = Dot(radius=0.08, color=C_HIGHLIGHT).move_to(agent_badge.get_bottom())
-        self.play(MoveAlongPath(eval_dot, path_m), run_time=0.7, rate_func=smooth)
+        self.play(MoveAlongPath(eval_dot, path_m), run_time=0.7, rate_func=ease_out_cubic) # Changed rate_func
         
         # Score Pill / Adjustment Tag
         score_pill = RoundedRectangle(width=1.6, height=0.3, corner_radius=0.06, fill_color="#FEF3C7", fill_opacity=0.95, stroke_color=C_AMBER, stroke_width=1.2)
@@ -1059,7 +1079,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         score_txt.move_to(score_pill.get_center())
         
         self.play(FadeIn(score_grp, shift=UP*0.1), run_time=0.6)
-        self.play(MoveAlongPath(eval_dot, path_final), run_time=0.7, rate_func=smooth)
+        self.play(MoveAlongPath(eval_dot, path_final), run_time=0.7, rate_func=ease_out_cubic) # Changed rate_func
         self.remove(eval_dot)
         
         # Goal Convergence Spotlight
