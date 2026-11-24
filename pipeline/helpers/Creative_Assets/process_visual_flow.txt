@@ -1,0 +1,32 @@
+# Process Showcase with Dynamic Visual Flows & Path Selection
+# Reference extracted from Pilot Standard Video (0:40 - 1:20)
+# Pilot Reference: simplilearn_output_standard/scene_1_2 (1).py & scene_5_6.py
+
+A procedural visual process flow framework designed to showcase multi-stage execution, candidate option evaluation, and optimal path selection in Manim. The framework eliminates static boxy slide layouts in favor of an active, kinetic state-transition model where learners observe the decision process unfold in real-time.
+
+## 1. Architectural Components
+- **Origin / Ingress State Node:**
+  A distinct initial state container (`Start State` or `Input Ingress`) anchored on the left (`x ≈ -3.8, y ≈ -0.4`). Circular or rounded pill form (`width=1.5, height=0.65`) with clean border and descriptive pictogram icon disc.
+- **Candidate Path Bifurcation:**
+  Branching conduits emerge from the origin node and diverge into two or three parallel candidate paths:
+  * **Candidate Path A (Sub-optimal / Ruled Out):**
+    Initially styled identically with neutral styling. As evaluation concludes, its container fill shifts to light gray (`#F1F5F9`), border dims to `#94A3B8`, connection line transforms to `DashedLine`, and a distinct status badge appears: `✕ Ruled out: High latency / Cost`.
+  * **Candidate Path B (Selected Optimal):**
+    Upon selection, activates with an energetic Brand Cobalt or Blue stroke (`#1D4ED8`, width=2.8), elevated drop shadow, and a prominent focus badge: `★ Selected optimal`.
+- **Target Goal Node:**
+  Converging target state container anchored on the right (`x ≈ +3.8, y ≈ -0.4`), representing the defined outcome or completed action.
+- **Traveling Signal Evaluation Pulses:**
+  Small energetic circular signal particles (`Dot(radius=0.07, color=COLOR_BLUE)`) that physically travel along the candidate vector paths from Start toward Candidate nodes during deliberation, visually conveying data processing and computational evaluation.
+
+## 2. Progressive Reveal & Micro-Interactions
+- **Expanding Pulse Rings on Step Activation:**
+  When a new process step or pillar activates, an expanding concentric ring (`pulse_ring = Circle(radius=0.25, stroke_color=accent_color).animate.scale(2.2).set_opacity(0)`) draws focus directly to the active node.
+- **Word-Level Audio Synchronization:**
+  Visual highlights are synchronized to the exact word-level timestamp of the narration. When the speaker says "plans and evaluates", evaluation pulses travel across candidate lines; when the speaker says "optimal path", the chosen path transitions to full vibrant illumination.
+- **Persistent Scaffolding (Zero Dead Space):**
+  Inactive stages remain visible in dimmed states (`opacity=0.35` to `0.45`) rather than disappearing completely, allowing learners to retain the complete end-to-end mental model throughout the entire video.
+
+## 3. Simplilearn OSL 3.0 Styling Constraints
+- Geometry strictly adheres to corner radius $r = 10\text{px}$ ($0.074$ Manim units).
+- Text elements are rendered via `CrispText` supersampling with Chicago Title Casing on titles and sentence casing on explanatory annotations.
+- Colors derive strictly from the Simplilearn Brand Palette: Navy `#0A2540`, Brand Blue `#007ACC`, Cobalt `#1D4ED8`, Cyan `#0284C7`, Teal `#10B981`, Slate Gray `#64748B`.

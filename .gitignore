@@ -22,6 +22,14 @@ output/
 temp_*/
 **/temp_*/
 *.log
+scratch/
+media/
+logs/
+input/
+ppt_trackers/
+simplilearn_output_standard/
+pipeline.zip
+updated files/
 
 # OS & IDE files
 .DS_Store

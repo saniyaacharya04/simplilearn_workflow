@@ -19,10 +19,28 @@ class SceneSnapshotManager:
     def __init__(self, output_dir="scene_snapshots"):
         self.output_dir = output_dir
         self.frame_counter = 0
-        self.config_file_path = (
-            Path.cwd().parent
-            / "ex_config.json"
-        )
+
+        config_env = os.environ.get("EX_CONFIG_PATH")
+        if config_env and os.path.exists(config_env):
+            self.config_file_path = Path(config_env)
+        else:
+            out_p = Path(output_dir).resolve()
+            found_cfg = None
+            curr = out_p
+            while curr != curr.parent:
+                if (curr / "ex_config.json").exists():
+                    found_cfg = curr / "ex_config.json"
+                    break
+                curr = curr.parent
+
+            if found_cfg:
+                self.config_file_path = found_cfg
+            elif (Path.cwd().parent / "ex_config.json").exists():
+                self.config_file_path = Path.cwd().parent / "ex_config.json"
+            elif (Path.cwd() / "ex_config.json").exists():
+                self.config_file_path = Path.cwd() / "ex_config.json"
+            else:
+                self.config_file_path = Path.cwd() / "ex_config.json"
         if not os.path.exists(self.config_file_path):
             print("Did not find the config file")
             self.theme = "non_promo"
@@ -551,11 +569,18 @@ class SceneSnapshotManager:
                 shape_ancestor_chain = self._get_ancestor_chain(shape_obj["id"], obj_map)
 
                 # Check if they share a common ancestor (including direct parent-child relationships)
-                # This covers cases where shape_obj is an ancestor of text_obj, or they are siblings under a common ancestor.
-                if not set(text_ancestor_chain).isdisjoint(set(shape_ancestor_chain)) or text_obj["parent_id"] == shape_obj["id"]:
+                # or if the text center lies inside the shape's bounding box (catches ungrouped text inside containers)
+                text_center = text_obj["center"]
+                center_inside_shape = (
+                    shape_obj["bbox"][0][0] <= text_center[0] <= shape_obj["bbox"][1][0] and
+                    shape_obj["bbox"][0][1] <= text_center[1] <= shape_obj["bbox"][1][1]
+                )
+                if (not set(text_ancestor_chain).isdisjoint(set(shape_ancestor_chain)) or 
+                    text_obj["parent_id"] == shape_obj["id"] or 
+                    center_inside_shape):
 
-                    # If text_obj is not contained within shape_obj, it's an overflow
-                    if not self.is_contained(text_obj, shape_obj):
+                    # If text_obj is not strictly contained within shape_obj, it's an overflow
+                    if not self.is_contained(text_obj, shape_obj, strict=True):
                         overflow_details = self._get_overflow_details(text_obj, shape_obj)
                         if overflow_details: # Only add if there's actual overflow
                             issues.append({
@@ -683,26 +708,32 @@ class SceneSnapshotManager:
 
         return min_x < -limit_x or max_x > limit_x or min_y < -limit_y or max_y > limit_y
 
-    def is_contained(self, inner, outer):
-        """Returns True if inner is entirely within outer, or >75% overlap for Text."""
-        # If both inner and outer are Text, they are not considered "contained" in this context
-        if inner["type"] == "Text" and outer["type"] == "Text":
+    def is_contained(self, inner, outer, strict=False):
+        """Returns True if inner is entirely within outer, or strictly within outer."""
+        def _is_text_or_title(obj):
+            if obj.get("type") in ["Text", "MathTex"]:
+                return True
+            n = obj.get("name", "").lower()
+            return any(k in n for k in ["title", "header", "kicker", "label", "caption", "tag"])
+
+        # If both inner and outer are text/title objects, they are colliding, not contained
+        if _is_text_or_title(inner) and _is_text_or_title(outer):
             return False
         
         i_bbox = inner["bbox"]
         o_bbox = outer["bbox"]
 
         # Strict geometric containment
-        strict = (
+        is_strictly_inside = (
             i_bbox[0][0] >= o_bbox[0][0] and
             i_bbox[0][1] >= o_bbox[0][1] and
             i_bbox[1][0] <= o_bbox[1][0] and
             i_bbox[1][1] <= o_bbox[1][1]
         )
-        if strict:
-            return True
+        if strict or is_strictly_inside:
+            return is_strictly_inside
 
-        # Lenient containment for Text/MathTex (reduces false positive overlap errors)
+        # Lenient containment for Text/MathTex (for general background overlap suppression only)
         if inner["type"] in ["Text", "MathTex"]:
             inter_min_x = max(i_bbox[0][0], o_bbox[0][0])
             inter_min_y = max(i_bbox[0][1], o_bbox[0][1])
@@ -714,7 +745,7 @@ class SceneSnapshotManager:
             inter_area = inter_w * inter_h
             inner_area = inner["width"] * inner["height"]
 
-            if inner_area > 0 and (inter_area / inner_area) > 0.75:
+            if inner_area > 0 and (inter_area / inner_area) >= 0.95:
                 return True
 
         return False

@@ -1,0 +1,30 @@
+# Action-Oriented Flowchart with Icons & Particle Streams
+# Reference extracted from Pilot Standard Video (1:54 - 2:10)
+# Pilot Reference: simplilearn_output_standard/scene_1_2 (1).py & scene_5_6.py
+
+A modular action-oriented flowchart and decision-routing framework constructed from layered vector geometry, directional conduits, and dynamic particle streams suitable for procedural Manim animation. The composition emphasizes minimal text, focal clarity, and action-driven state transitions rather than static rectangular text cards.
+
+## 1. Architectural Hierarchy
+- **Central Decision Core / Ingress Node:**
+  A prominent elevated rounded container or hexagonal hub (`width=1.80, height=0.62, corner_radius=0.14`) styled with Deep Navy fill (`#0A2540`) and a vibrant brand stroke (`#007ACC` or `#6366F1`, width=2.0). Centered label is rendered in high-contrast bold typography (`CrispText("LLM Core" or "Orchestrator", size=16, color="#FFFFFF")`).
+- **Directional Decision Branches (Action Nodes):**
+  Three or four compact action endpoints arranged horizontally or radially below the central hub (`width=1.20, height=0.56, gap=0.25`). Each node features a distinct semantic accent color:
+  * Node 1 (Sensory Analysis / Analysis): Cobalt Blue border (`#1D4ED8`)
+  * Node 2 (Plan & Goal Evaluation): Vibrant Sky Blue border (`#0284C7`)
+  * Node 3 (Tool & Action Execution): Sensory Teal border (`#10B981`)
+  Labels are strictly limited to two concise lines of 8-12 characters each, centered with clean line spacing.
+- **Dynamic Conduit Streams:**
+  Connecting paths between the core hub and peripheral action nodes are constructed as multi-segment `Line` or `CubicBezier` vectors. Each conduit carries an animated `FlowingStream` (2-3 glowing particle dots of radius 0.07 traveling along the vector at speed 0.5), visually communicating data dispatch and token propagation.
+
+## 2. Dynamic Animation & Morphing Logic
+- **Step-by-Step Staged Entrance:**
+  The central hub introduces first with a subtle scale pop (`FadeIn(core, scale=0.9, run_time=0.6)`). As narration describes dispatch, the conduit vectors draw outward via `Create(lines)` while action nodes slide in with upward momentum (`FadeIn(node, shift=UP*0.1)`).
+- **Word-Level Spoken Emphasis:**
+  When voiceover names specific options (e.g., "efficiently", "lowest cost", "highest confidence"), corresponding action badges or factor pills dynamically scale and illuminate via `Indicate(badge, color=accent_color, scale_factor=1.12)` or stroke width amplification (`node.animate.set_stroke(accent_color, width=2.8)`).
+- **Smooth Morphing Exit / Anchor Transformation:**
+  Upon completion of the explanation, the entire multi-node group does NOT abruptly vanish. Instead, the assembly smoothly scales down to 20% size and translates into a persistent architectural macro-card (`assembly.animate.scale(0.20).move_to(anchor_card.get_center()).set_opacity(0.35), rate_func=smooth`), while the anchor card highlights with a 3.2px accent stroke to establish continuous spatial memory.
+
+## 3. Minimalist Presentation Rules
+- Maximum of 3 to 4 focal objects active on screen simultaneously.
+- Zero essay-style paragraphs or descriptive bullet cards; explanations are conveyed purely through iconography, status badges, and numeric parameters.
+- Background uses subtle undulating grid waves or clean white canvas (`#FFFFFF`) with neutral soft borders (`#CBD5E1`).
