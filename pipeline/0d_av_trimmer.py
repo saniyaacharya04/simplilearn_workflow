@@ -200,6 +200,7 @@ def export_keep_clips(
     """
     Exports each keep interval with 100% frame-accurate seeking and PTS synchronization.
     Forces constant 30fps and 48kHz stereo to ensure zero audio/video drift.
+    Applies 12ms anti-click micro-fades at boundaries to prevent zero-crossing pops.
     """
     Path(temp_dir).mkdir(parents=True, exist_ok=True)
     clip_paths = []
@@ -209,12 +210,21 @@ def export_keep_clips(
         clip_file = Path(temp_dir) / f"clip_{idx:04d}.mp4"
         clip_paths.append(str(clip_file))
 
-        if clip_file.exists() and clip_file.stat().st_size > 10000:
-            continue
-
         st = float(seg["start"])
         et = float(seg["end"])
         dur = max(0.1, et - st)
+
+        # Micro-fade calculation (12ms anti-click crossfade boundary on speech cuts)
+        # For the final clip, apply a broadcast-standard 250ms tail fade
+        is_last = (idx == len(keep_segments) - 1)
+        tail_fade_dur = 0.25 if is_last else 0.012
+        fade_out_st = max(0.0, dur - tail_fade_dur)
+        af_filter = (
+            f"aresample={AUDIO_SAMPLE_RATE}:async=1000:first_pts=0,"
+            f"asetpts=PTS-STARTPTS,"
+            f"afade=t=in:ss=0:d=0.012,"
+            f"afade=t=out:st={fade_out_st:.3f}:d={tail_fade_dur:.3f}"
+        )
 
         cmd = [
             "ffmpeg", "-y",
@@ -230,7 +240,7 @@ def export_keep_clips(
             "-c:a", "aac",
             "-b:a", AUDIO_BITRATE,
             "-ar", str(AUDIO_SAMPLE_RATE),
-            "-af", f"aresample={AUDIO_SAMPLE_RATE}:async=1000:first_pts=0,asetpts=PTS-STARTPTS",
+            "-af", af_filter,
             "-avoid_negative_ts", "make_zero",
             str(clip_file)
         ]
@@ -261,7 +271,10 @@ def concat_clips_synchronous(clip_paths: List[str], output_video: str, work_dir:
         filter_v.append(f"[{i}:v:0]")
         filter_a.append(f"[{i}:a:0]")
 
-    filter_complex = f"{''.join(filter_v)}{''.join(filter_a)}concat=n={len(clip_paths)}:v=1:a=1[v][a]"
+    filter_complex = (
+        f"{''.join(filter_v)}{''.join(filter_a)}concat=n={len(clip_paths)}:v=1:a=1[v][a_raw];"
+        f"[a_raw]aresample={AUDIO_SAMPLE_RATE}:async=1000:first_pts=0[a]"
+    )
 
     cmd = [
         "ffmpeg", "-y",
@@ -277,7 +290,6 @@ def concat_clips_synchronous(clip_paths: List[str], output_video: str, work_dir:
         "-c:a", "aac",
         "-b:a", AUDIO_BITRATE,
         "-ar", str(AUDIO_SAMPLE_RATE),
-        "-af", f"aresample={AUDIO_SAMPLE_RATE}:async=1000:first_pts=0",
         str(output_video)
     ]
 
@@ -319,7 +331,8 @@ def trim_av_sync(
     decisions_json: str,
     output_video: str,
     cleanup_temp: bool = True,
-    api_provider: str = "auto"
+    api_provider: str = "auto",
+    force: bool = False
 ) -> str:
     """Runs synchronous audio & video trimming workflow verified with LLM prompt calls."""
     print(f"\n==================================================================")
@@ -343,9 +356,12 @@ def trim_av_sync(
     print(f"   * Status: {verification.get('approval_status')} (Score: {verification.get('pacing_score', 9.5)}/10)")
     print(f"   * Notes: {verification.get('continuity_notes')}")
 
-    if Path(output_video).exists() and Path(output_video).stat().st_size > 1000000:
-        print(f"✓ AV Trimming Complete: Verified trimmed video already exists -> {output_video}\n")
-        return output_video
+    if Path(output_video).exists() and Path(output_video).stat().st_size > 1000000 and not force:
+        if not Path(decisions_json).exists() or Path(output_video).stat().st_mtime > Path(decisions_json).stat().st_mtime:
+            print(f"✓ AV Trimming Complete: Verified trimmed video already exists -> {output_video}\n")
+            return output_video
+        else:
+            print(f"[*] Re-generating {output_video} to reflect updated decisions...")
 
     temp_dir = Path(output_video).parent / "temp_trim_clips"
     clip_paths = export_keep_clips(video_path, keep_segments, str(temp_dir))
@@ -378,6 +394,7 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--decisions", required=True, help="Input cut decisions JSON file")
     parser.add_argument("-o", "--output", required=True, help="Output trimmed video file")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM provider")
+    parser.add_argument("-f", "--force", action="store_true", help="Force overwrite of existing trimmed output")
     args = parser.parse_args()
 
-    trim_av_sync(args.input, args.decisions, args.output, api_provider=args.provider)
+    trim_av_sync(args.input, args.decisions, args.output, api_provider=args.provider, force=args.force)

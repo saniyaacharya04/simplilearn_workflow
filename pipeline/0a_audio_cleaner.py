@@ -169,7 +169,9 @@ Respond ONLY with a valid JSON object matching this schema:
   "audio_filters": [
     "highpass=f=80",
     "lowpass=f=14000",
+    "adeclick",
     "afftdn=nr=18:nf=-40:tn=1",
+    "agate=range=0.25:threshold=0.03:ratio=2:attack=20:release=250",
     "acompressor=threshold=-18dB:ratio=3:attack=10:release=100:makeup=2dB",
     "loudnorm=I=-16:TP=-1.0:LRA=11:print_format=summary",
     "aresample=48000:async=1:first_pts=0"
@@ -248,12 +250,14 @@ Respond ONLY with a valid JSON object matching this schema:
         "audio_filters": [
             f"highpass=f={HIGHPASS_FREQ}",
             "lowpass=f=14000",
+            "adeclick",
             "afftdn=nr=18:nf=-40:tn=1",
+            "agate=range=0.25:threshold=0.03:ratio=2:attack=20:release=250",
             "acompressor=threshold=-18dB:ratio=3:attack=10:release=100:makeup=2dB",
             f"loudnorm=I={TARGET_I_LUFS}:TP={TARGET_TP_DB}:LRA={TARGET_LRA}:print_format=summary",
             f"aresample={AUDIO_SAMPLE_RATE}:async=1:first_pts=0"
         ],
-        "acoustic_analysis": "Default Simplilearn OSL 3.0 broadcast mastering profile (-16 LUFS, 80Hz rumble cut, 18dB de-noise)."
+        "acoustic_analysis": "Default Simplilearn OSL 3.0 broadcast mastering profile (-16 LUFS, 80Hz rumble cut, declick, breath gate, 18dB de-noise)."
     }
 
 
@@ -274,7 +278,9 @@ def clean_voice_audio(
     else:
         filter_str = (
             f"highpass=f={HIGHPASS_FREQ},lowpass=f=14000,"
+            f"adeclick,"
             f"afftdn=nr=18:nf=-40:tn=1,"
+            f"agate=range=0.25:threshold=0.03:ratio=2:attack=20:release=250,"
             f"acompressor=threshold=-18dB:ratio=3:attack=10:release=100:makeup=2dB,"
             f"loudnorm=I={TARGET_I_LUFS}:TP={TARGET_TP_DB}:LRA={TARGET_LRA}:print_format=summary,"
             f"aresample={AUDIO_SAMPLE_RATE}:async=1:first_pts=0"

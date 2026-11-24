@@ -63,6 +63,19 @@ import subprocess
 from pathlib import Path
 from typing import List, Dict, Any
 
+# Add project root to sys.path and load environment variables
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv(PROJECT_ROOT / ".env")
+    load_dotenv()
+except ImportError:
+    pass
+
 
 def extract_audio_16k(media_path: str, output_wav: str) -> str:
     """Extracts 16kHz mono audio optimized for Whisper models."""
@@ -85,7 +98,15 @@ def transcribe_local_whisper(
     model_size: str = "base"
 ) -> List[Dict[str, Any]]:
     """Transcribes audio locally using faster-whisper with word timestamps."""
-    from faster_whisper import WhisperModel
+    try:
+        from faster_whisper import WhisperModel
+    except ImportError:
+        raise ImportError(
+            "Local Whisper dependency 'faster-whisper' is not installed.\n"
+            "Options to resolve:\n"
+            "  1. Install faster-whisper:  py -3.10 -m pip install faster-whisper\n"
+            "  2. Or use Groq Whisper (free & fast): ensure GROQ_API_KEY is defined in .env"
+        )
 
     print(f"[Transcription] Loading local faster-whisper model '{model_size}'...")
     model = WhisperModel(model_size, device="cpu", compute_type="int8")
@@ -93,6 +114,7 @@ def transcribe_local_whisper(
     segments, info = model.transcribe(
         audio_path,
         beam_size=5,
+        temperature=0.2,
         word_timestamps=True,
         vad_filter=True,
         vad_parameters=dict(min_silence_duration_ms=500)
@@ -106,11 +128,16 @@ def transcribe_local_whisper(
         words_data = []
         if seg.words:
             for w in seg.words:
+                w_str = w.word.strip()
+                w_dur = round(w.end - w.start, 3)
+                is_elongated = (w_dur >= 1.0) or (w_dur >= 0.85 and len(w_str) <= 4)
                 words_data.append({
-                    "word": w.word.strip(),
+                    "word": w_str,
                     "start": round(w.start, 3),
                     "end": round(w.end, 3),
-                    "probability": round(w.probability, 3)
+                    "duration": w_dur,
+                    "probability": round(w.probability, 3),
+                    "elongated": is_elongated
                 })
 
         clean_text = seg.text.strip()
@@ -144,7 +171,7 @@ def transcribe_groq_whisper(audio_path: str, api_key: str = None) -> List[Dict[s
         transcription = client.audio.transcriptions.create(
             file=(Path(audio_path).name, f.read()),
             model="whisper-large-v3",
-            temperature=0,
+            temperature=0.2,
             response_format="verbose_json",
             timestamp_granularities=["word", "segment"]
         )
@@ -175,11 +202,16 @@ def transcribe_groq_whisper(audio_path: str, api_key: str = None) -> List[Dict[s
             w_start = round(float(w_dict.get("start", 0.0)), 3)
             w_end = round(float(w_dict.get("end", 0.0)), 3)
             if w_start <= s_end or w_end <= s_end + 0.15:
+                w_str = str(w_dict.get("word", "")).strip()
+                w_dur = round(w_end - w_start, 3)
+                is_elongated = (w_dur >= 1.0) or (w_dur >= 0.85 and len(w_str) <= 4)
                 seg_words.append({
-                    "word": str(w_dict.get("word", "")).strip(),
+                    "word": w_str,
                     "start": w_start,
                     "end": w_end,
-                    "probability": round(float(w_dict.get("probability", 1.0)), 3) if "probability" in w_dict else 1.0
+                    "duration": w_dur,
+                    "probability": round(float(w_dict.get("probability", 1.0)), 3) if "probability" in w_dict else 1.0,
+                    "elongated": is_elongated
                 })
                 w_idx += 1
             else:
