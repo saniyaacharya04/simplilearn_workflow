@@ -1,0 +1,126 @@
+{
+  "topic": "Types And Architectures Of Ai Agents Sme",
+  "color_governance": "Simplilearn 10-Color Infographic Palette (#FFFFFF Background)",
+  "prompts": [
+    {
+      "prompt_id": "s01_img_01",
+      "scene_id": 1,
+      "step_index": 1,
+      "suggestion_source": "A sleek, futuristic AI agent robot representing an active autonomous software system. A flat image is ideal here as the visual identity depends on polished aesthetic styling, smooth surface textures, and glowing accent details rather than modular, reconfigurable geometry. The character is depicted from head to toe, facing straight forward toward the viewer with a balanced, upright stance. It features a streamlined humanoid chassis crafted from matte white and polished silver materials, with glowing cyan light elements integrated into its central core and face visor, visually signaling active real-time processing and execution capability.",
+      "diffusion_prompt": "A sleek futuristic AI agent robot standing in a full-body, upright, symmetrical pose facing directly forward, rendered in a modern 2D educational vector illustration style. The robot features a rounded head shell with a wide horizontal visor displaying a soft gradient of Accent Brand Blue (#2C81FE) and Sky Blue (#62B7E4), a sculpted chest chassis built from overlapping armor plates in Steel Blue (#7EA2C8) and Slate Gray (#5F6368), and a glowing circular power core highlighted in Sky Blue (#62B7E4) and Mint Seafoam (#8ECDB7) at the center of its torso. Its articulated arms and legs consist of segmented paneling with soft Lavender Periwinkle (#9B99C7) accent fills and Dark Charcoal (#404040) seam details. The character is constructed with readable geometric volume, layered depth, and smooth vector gradients without photorealism, 3D renders, drop shadows, or thick black outlines. Perfectly centered visual composition on a solid isolated Pure White (#FFFFFF) background, 8K ultra HD, ultra sharp vector clarity, no text, no labels.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s02_img_02",
+      "scene_id": 2,
+      "step_index": 1,
+      "suggestion_source": "A full-body depiction of a professional female tech presenter in her mid-30s representing Solara Energy. She has warm hazel eyes, an engaging and friendly smile, and neatly styled dark shoulder-length hair. She is wearing smart business-casual attire consisting of a navy blue tailored blazer over a clean white top and fitted dark trousers. She stands facing straight forward toward the viewer with an open, welcoming posture, visible completely from head to toe.",
+      "diffusion_prompt": "A full-body 2D modern educational vector illustration of a professional female tech presenter in her mid-30s standing upright, centered and directly facing forward with an open, welcoming posture. The character has an Indian skin tone rendered in warm tan tones, expressive hazel eyes, a friendly confident smile, and neatly styled dark charcoal shoulder-length hair with soft geometric volume. She wears a structured single-breasted blazer in vibrant accent blue with soft steel-blue gradient shading across the lapels and sleeves, styled over a crisp pure white inner top, paired with fitted slate-gray tailored trousers and simple dark charcoal flat shoes. Her arms are held symmetrically, slightly open with hands extended outward toward the viewer. Constructed with clear structural shapes, distinct layered vector panels, soft surface gradients for depth, clean isolated edges, and no outer outlines or drop shadows. Centered complete head-to-toe view on a solid pure white background, fully clothed, no text, no labels, 8K ultra HD, ultra sharp vector clarity.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s03_img_03",
+      "scene_id": 3,
+      "step_index": 1,
+      "suggestion_source": "An architectural pillar illustration representing one of the foundational structural components of the system architecture. A flat image is sufficient because it serves as a visual metaphor where internal geometric decomposition provides no functional control value. It features a sleek, modern minimalist column design with a distinct solid base, straight vertical shaft, and flat top capital, rendered in a polished vector style with clean slate-blue tones and fine edge highlights.",
+      "diffusion_prompt": "Centered modern 2D vector illustration of a minimalist architectural column representing a foundational system architecture pillar, isolated on a solid pure white background. The pillar is constructed with a wide stepped rectangular base made of stacked slate gray and dark charcoal geometric blocks, rising into a tall vertical shaft composed of clean, parallel longitudinal facets. The facets display subtle vector linear gradients transitioning between steel blue, lavender periwinkle, and accent brand blue to create clean visual depth and smooth surface separation. The top capital features a flared rectangular slab capped with a flat sky blue top plate. Fine edge highlights in soft border gray and sky blue define the outer structural contours. The pillar stands perfectly upright and balanced, filling the majority of the frame, rendered in a clean corporate tech visual style with sharp edges, smooth color transitions, no drop shadows, no black outlines, 8K ultra HD, ultra sharp vector clarity, no text, no labels.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s03_img_04",
+      "scene_id": 3,
+      "step_index": 1,
+      "suggestion_source": "A central AI core processing unit illustration representing the main intelligence hub of the system architecture. A flat visual is ideal as its design relies on complex graphic styling and lighting effects rather than reusable mechanical subcomponents. It visually presents a futuristic isometric central sphere enveloped by subtle concentric circuit rings, finished with glossy translucent surfaces, glowing cyan accents, and rich dark blue color gradients.",
+      "diffusion_prompt": "A centered 2D isometric AI core processing unit illustration depicting a modern intelligence architecture hub for enterprise technical systems. The central subject is a multi-layered isometric core sphere composed of smooth curved geometric shield segments surrounding an illuminated inner nucleus. Orbiting the central sphere are three flat, concentric circuit rings set at an isometric angle, featuring precise geometric cutouts and integrated circular connector nodes. The sphere surfaces use soft vector gradients blending Accent Brand Blue (#2C81FE), Steel Blue (#7EA2C8), and Sky Blue (#62B7E4), complemented by translucent highlight curves in Lavender Periwinkle (#9B99C7). The surrounding circuit rings are rendered in Mint Seafoam (#8ECDB7) and Steel Blue (#7EA2C8) with fine structural accent lines in Dark Charcoal (#404040), connected to small Mustard Gold (#DDB945) data nodes along radial signal paths. The composition is tightly centered, filling most of the canvas with soft vector depth and clear material separation, completely isolated on a solid pure white background (#FFFFFF). 8K ultra HD, ultra sharp vector clarity, no text, no labels.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s04_img_05",
+      "scene_id": 4,
+      "step_index": 1,
+      "suggestion_source": "A modern visual graphic representing an autonomous AI agent entity. It features a sleek, minimalist android head and upper torso with luminous teal accents along its features and glowing eye ports, set against a clean dark slate background. The surface finish is matte chrome with subtle embedded circuit pathways. The character is facing straight forward with a calm, composed, and analytical demeanor, fully visible from head to chest, conveying cognitive processing and autonomy suitable for an enterprise technical context.",
+      "diffusion_prompt": "A modern 2D vector educational illustration of an autonomous AI agent entity, depicted as a sleek, stylized android bust centered against a solid Dark Charcoal (#404040) background. The head structure features smooth, geometric skull paneling in Steel Blue (#7EA2C8) with soft gradient shading in Lavender Periwinkle (#9B99C7), a refined symmetrical jawline, and a narrow horizontal optical band housing twin glowing eye slots illuminated in vibrant Mint Seafoam (#8ECDB7) and Sky Blue (#62B7E4). The multi-segmented neck and broad upper torso are constructed from layered matte plates in Steel Blue (#7EA2C8) and Slate Gray (#5F6368), separated by fine seam lines in Dark Charcoal (#404040). Crisp, geometric circuit trace pathways in luminous Mint Seafoam (#8ECDB7) run symmetrically across the chest and temples, illustrating cognitive architecture and signal routing. The character faces directly forward with a calm, analytical posture, fully clothed in clean structural paneling, isolated with sharp vector edges, balanced composition occupying most of the frame, soft 2D depth transitions, no text, no labels, 8K ultra HD, ultra sharp vector clarity.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s04_img_06",
+      "scene_id": 4,
+      "step_index": 1,
+      "suggestion_source": "A high-tech digital ecosystem illustration representing an external operational environment. The image depicts a structured isometric network grid featuring server stacks, database icons, cloud nodes, and API pipeline gateways rendered with glowing cyan lines and translucent glass-like surfaces on a dark backdrop. Distinctive visual characteristics include illuminated data flow lines connecting nodes and polished metallic finish cues on infrastructure components, visually depicting a dynamic software system environment.",
+      "diffusion_prompt": "A centered, structured isometric network grid illustration depicting a digital software environment ecosystem on a solid pure white background. The central structure features layered multi-tier server rack towers constructed from rounded rectangular modules, paired with cylindrical database storage units with segmented horizontal rings, smooth rounded cloud nodes, and geometric rectangular API gateway frames. Interconnecting data pipeline tracks with smooth directional flow lines extend horizontally and diagonally across the grid, linking the server stacks, database cylinders, and gateway arches. Circular junction nodes mark key intersection points across the isometric layout. The visual construction relies on clean flat 2D vector shapes with soft linear gradients for visual depth and material separation, featuring no 3D renders or drop shadows. Server towers and base grid lines are colored in Lavender Periwinkle and Steel Blue. Database cylinders and cloud nodes are styled in Sky Blue and Mint Seafoam. API pipeline conduits and primary connection paths shine in Accent Brand Blue, with Warm Amber and Mustard Gold accenting key gateway nodes and data indicators. Outlines and subtle structural edges are rendered in crisp Dark Charcoal and Slate Gray. 8K ultra HD, ultra sharp vector clarity, no text, no labels.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s05_img_07",
+      "scene_id": 5,
+      "step_index": 1,
+      "suggestion_source": "A professional human operator depicted standing straight and facing forward, visible from head to toe. The individual is a technical architect around 30 to 35 years old with short neatly styled dark hair, a calm and focused expression, wearing a dark navy smart-casual blazer over a light grey shirt, tailored dark trousers, and clean minimalist shoes.",
+      "diffusion_prompt": "A full-body 2D flat vector illustration of an Indian male technical architect, approximately 30 to 35 years old, standing upright facing directly forward with arms resting naturally at his sides. The character is styled with medium-warm brown skin in Warm Tan (#B88968), short neatly groomed hair in Dark Charcoal (#404040), and a calm, focused professional facial expression. He wears a structured smart-casual blazer rendered in vibrant Accent Brand Blue (#2C81FE) with subtle volume shading in Steel Blue (#7EA2C8), layered over a collared dress shirt in light Slate Gray (#5F6368) and Soft Border gray (#DADCE0). Tailored straight-fit dark trousers in Dark Charcoal (#404040) extend down to minimalist dark shoes accented with small Sky Blue (#62B7E4) soles. The subject occupies the center of the frame with balanced visual proportions, smooth material volume gradients, clean isolated edges, and modern educational motion-graphics aesthetics, presented on a solid pure white background (#FFFFFF), fully clothed, no text, no labels, 8K ultra HD, ultra sharp vector clarity.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s05_img_08",
+      "scene_id": 5,
+      "step_index": 1,
+      "suggestion_source": "A detailed flat illustration of a modern solar energy farm featuring rows of photovoltaic solar panels set against a clean outdoor landscape background. The solar panels exhibit reflective dark blue surface grid textures with glossy metallic frames under a bright clear sky, serving as a clean visual representation of the energy generation environment.",
+      "diffusion_prompt": "A modern photovoltaic solar panel farm array rendered as a clean 2D vector visual construction, centered and isolated on a solid pure white background (#FFFFFF). The primary subject consists of three staggered parallel rows of wide rectangular solar modules tilted at an upward thirty-degree angle. Each module is built with an outer metallic rim frame in Steel Blue (#7EA2C8) and Lavender Periwinkle (#9B99C7), framing a glossy solar glass surface divided into an array of square silicon cells. The cells feature smooth vertical gradients shifting from Accent Brand Blue (#2C81FE) to Sky Blue (#62B7E4), detailed with a grid of fine Slate Gray (#5F6368) collector lines. Supporting each row are dual tubular metal posts and mounting brackets in Dark Charcoal (#404040) anchored onto flat geometric base pads in Mint Seafoam (#8ECDB7) and Warm Tan (#B88968). At the upper right, a stylized circular sun vector in Mustard Gold (#DDB945) with a subtle Warm Amber (#E6A157) gradient ring casts soft directional light shapes across the glossy panel faces, highlighting material separation and structural depth through layered overlapping shapes. Modern educational editorial illustration, soft visual depth, clean silhouette, no text, no labels, 8K ultra HD, ultra sharp vector clarity.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s07_img_09",
+      "scene_id": 7,
+      "step_index": 1,
+      "suggestion_source": "A visual illustration of a solar energy facility representing Solara's energy monitoring site. The image displays structured rows of photovoltaic solar panels tilted uniformly on ground-mounted frames. The design features clean vector lines, glossy blue silicon panel surfaces with metallic silver support structures, and a crisp, modern technological aesthetic suitable for enterprise system architecture diagrams.",
+      "diffusion_prompt": "Centered 2D vector graphic illustration of a modular solar energy monitoring site, featuring three parallel, uniformly aligned rows of ground-mounted photovoltaic panel arrays tilted diagonally at a matching angle. Each panel array is constructed from a grid of individual rectangular silicon solar cells rendered with soft smooth vector gradients transitioning between Sky Blue (#62B7E4) and Accent Brand Blue (#2C81FE), encased within a slim Slate Gray (#5F6368) metallic frame. The panels rest atop sturdy angled support frames and vertical mounting posts built from clean geometric structural bars in Steel Blue (#7EA2C8) and Dark Charcoal (#404040). Adjacent to the panel rows sits a small, sleek rectangular monitoring junction cabinet in Steel Blue (#7EA2C8) featuring simplified rectangular indicator lights in Mint Seafoam (#8ECDB7) and Warm Amber (#E6A157). The composition is arranged in a crisp three-quarter isometric perspective, using distinct visual layering where foreground panel frames cleanly overlap background elements to create soft volumetric depth. Flat vector construction with selective subtle gradients for surface reflection, no drop shadows, no text, no labels, completely isolated on a solid Pure White (#FFFFFF) background, 8K ultra HD, ultra sharp vector clarity.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s07_img_10",
+      "scene_id": 7,
+      "step_index": 1,
+      "suggestion_source": "A full-body visual representation of a digital AI agent character. The character is a modern, stylized humanoid robot standing completely upright and facing straight forward, clearly visible from head to toe. It features a polished white and slate-grey composite body, subtle glowing blue LED light strips along the joints and torso, and a dark glass head visor displaying a friendly, focused blue digital face interface.",
+      "diffusion_prompt": "Centered full-body 2D flat vector illustration of a modern stylized humanoid AI agent standing completely upright and facing straight forward against a solid pure white (#FFFFFF) background. The head is constructed from a smooth, rounded casing in Slate Gray (#5F6368) featuring a large, curved Dark Charcoal (#404040) front visor panel, housing a friendly digital face interface rendered with two glowing Sky Blue (#62B7E4) circular eyes and a thin Accent Brand Blue (#2C81FE) smiling curved line. The torso is built from layered structural plates in Soft Border gray (#DADCE0) and Steel Blue (#7EA2C8), accented with subtle Sky Blue (#62B7E4) linear joint strips along the chest and waist seams. Symmetrical upper and lower limbs are attached via circular pivot joints in Dark Charcoal (#404040), with forearm and leg armor panels styled in soft Lavender Periwinkle (#9B99C7) and Mint Seafoam (#8ECDB7) vector gradients that provide clean visual depth. The hands and streamlined feet are rendered in Slate Gray (#5F6368) with smooth, rounded geometric geometry. Styled in a modern educational vector motion-graphic aesthetic with crisp outlines, balanced symmetry, soft subtle gradients for material separation, complete visual clarity, isolated frame visual presentation, 8K ultra HD, ultra sharp vector clarity, no text, no labels.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s08_img_11",
+      "scene_id": 8,
+      "step_index": 1,
+      "suggestion_source": "A full-body illustration representing a human engineer who receives escalations at the workflow handoff point. A flat image is sufficient because the character provides human context and visual identity without requiring composite structural decomposition. The image integrates into the visual at the terminal handoff node of the execution workflow, symbolizing responsible human-in-the-loop architecture. The character is a technical specialist in their mid-30s with short neatly styled hair, wearing a professional blue work shirt, dark cargo trousers, and a high-visibility technical safety vest while holding a diagnostic tablet. The character stands completely upright, facing directly forward towards the camera, fully visible from head to toe with a calm and focused facial expression.",
+      "diffusion_prompt": "Centered full-body 2D flat vector illustration of a male technical engineer in his mid-30s with an Indian subcontinent skin tone, standing fully upright and facing directly forward in a calm, focused posture. The character features neat short dark charcoal (#404040) hair, subtle facial contouring using warm tan (#B88968) and coral terracotta (#E58F6D) tones, and almond-shaped eyes. He is fully clothed in a vibrant accent brand blue (#2C81FE) long-sleeved technical work shirt layered beneath a structured high-visibility utility vest rendered in mustard gold (#DDB945) with horizontal slate gray (#5F6368) safety panels across the torso. Both hands hold a sleek diagnostic tablet positioned flat at waist height, constructed with a solid slate gray (#5F6368) frame and a bright sky blue (#62B7E4) screen surface. He wears straight dark charcoal (#404040) cargo trousers with visible utility pockets and steel blue (#7EA2C8) protective boots. The figure is fully visible from head to toe, perfectly centered within the frame with minimal margins. The artwork uses clean vector shape language, soft tonal gradients for subtle material depth, crisp outer edges, and zero drop shadows. Isolated entirely against a solid pure white (#FFFFFF) background, no text, no labels, 8K ultra HD, ultra sharp vector clarity.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    },
+    {
+      "prompt_id": "s09_img_12",
+      "scene_id": 9,
+      "step_index": 1,
+      "suggestion_source": "A male software architect in his early 30s with short neatly combed dark brown hair, light facial stubble, and a warm, engaging expression. He is wearing a dark navy casual button-up shirt over a heather grey t-shirt, tailored charcoal trousers, and clean dark sneakers. He stands facing straight forward, fully visible from head to toe, with an inviting stance suitable for leading an enterprise technical presentation.",
+      "diffusion_prompt": "A full-body 2D vector educational illustration of a male software architect in his early 30s standing in a welcoming, centered stance against a solid pure white background (#FFFFFF). The character has an Indian subcontinent skin tone (#B88968), short neatly combed dark brown hair, subtle facial stubble along the jawline, and an engaging, friendly expression with a warm smile. He wears a dark charcoal (#404040) unbuttoned casual collared shirt over a fitted steel blue (#7EA2C8) crewneck t-shirt, paired with slate gray (#5F6368) tailored trousers with neat hem lines, and flat dark charcoal (#404040) sneakers with soft white soles. His posture is upright and open, with arms slightly gestured outward as if delivering a presentation to enterprise learners. The illustration features clean shape language, soft gradient shading for depth on fabric folds, defined structural overlap, clear silhouette isolation, fully clothed, no text, no labels, 8K ultra HD, ultra sharp vector clarity.",
+      "negative_prompt": "photorealistic, 3D render, glossy, drop shadows, dark background, texture-heavy, text, watermark, labels, distorted anatomy",
+      "aspect_ratio": "16:9",
+      "background_color": "#FFFFFF"
+    }
+  ]
+}

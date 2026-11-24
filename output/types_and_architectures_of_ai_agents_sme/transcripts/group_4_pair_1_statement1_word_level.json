@@ -1,0 +1,776 @@
+{
+  "audio_file": "group_4_pair_1_statement1.wav",
+  "duration": 69.72,
+  "segments": [
+    {
+      "id": 0,
+      "start": 0.0,
+      "end": 7.52,
+      "duration": 7.52,
+      "text": "The agent perceives, reasons, acts, then perceives again based on the result of that action."
+    },
+    {
+      "id": 1,
+      "start": 8.72,
+      "end": 13.36,
+      "duration": 4.64,
+      "text": "That loop is what we call agent-environment interaction."
+    },
+    {
+      "id": 2,
+      "start": 14.14,
+      "end": 20.1,
+      "duration": 5.96,
+      "text": "And it's worth understanding because it's what separates an agent from a static tool."
+    },
+    {
+      "id": 3,
+      "start": 21.0,
+      "end": 23.34,
+      "duration": 2.34,
+      "text": "A static tool waits to be asked."
+    },
+    {
+      "id": 4,
+      "start": 24.02,
+      "end": 26.18,
+      "duration": 2.16,
+      "text": "An agent operates within an environment."
+    },
+    {
+      "id": 5,
+      "start": 26.18,
+      "end": 31.68,
+      "duration": 5.5,
+      "text": "It observes what's happening, decides what action is appropriate, and executes."
+    },
+    {
+      "id": 6,
+      "start": 32.12,
+      "end": 35.56,
+      "duration": 3.44,
+      "text": "Then it checks the result and decides what comes next."
+    },
+    {
+      "id": 7,
+      "start": 37.48,
+      "end": 43.78,
+      "duration": 6.3,
+      "text": "At Solara, an agent monitoring grid performance isn't just waiting for someone to run a report."
+    },
+    {
+      "id": 8,
+      "start": 44.3,
+      "end": 45.14,
+      "duration": 0.84,
+      "text": "It's watching."
+    },
+    {
+      "id": 9,
+      "start": 45.78,
+      "end": 53.8,
+      "duration": 8.02,
+      "text": "When output at a site drops below threshold, it observes the deviation, decides the appropriate"
+    },
+    {
+      "id": 10,
+      "start": 53.8,
+      "end": 59.88,
+      "duration": 6.08,
+      "text": "response, which might be querying historical data, cross-referencing weather records, or"
+    },
+    {
+      "id": 11,
+      "start": 59.88,
+      "end": 63.48,
+      "duration": 3.6,
+      "text": "escalating to a human operator, and takes that action."
+    },
+    {
+      "id": 12,
+      "start": 64.34,
+      "end": 66.78,
+      "duration": 2.44,
+      "text": "The environment shapes the agent."
+    },
+    {
+      "id": 13,
+      "start": 66.78,
+      "end": 69.24,
+      "duration": 2.46,
+      "text": "The agent shapes the environment."
+    }
+  ],
+  "words": [
+    {
+      "word": "The",
+      "start": 0.68,
+      "end": 0.82
+    },
+    {
+      "word": "agent",
+      "start": 0.82,
+      "end": 1.22
+    },
+    {
+      "word": "perceives,",
+      "start": 1.22,
+      "end": 2.46
+    },
+    {
+      "word": "reasons,",
+      "start": 2.46,
+      "end": 3.34
+    },
+    {
+      "word": "acts,",
+      "start": 3.34,
+      "end": 4.18
+    },
+    {
+      "word": "then",
+      "start": 4.18,
+      "end": 4.26
+    },
+    {
+      "word": "perceives",
+      "start": 4.26,
+      "end": 4.76
+    },
+    {
+      "word": "again",
+      "start": 4.76,
+      "end": 5.24
+    },
+    {
+      "word": "based",
+      "start": 5.24,
+      "end": 5.96
+    },
+    {
+      "word": "on",
+      "start": 5.96,
+      "end": 6.2
+    },
+    {
+      "word": "the",
+      "start": 6.2,
+      "end": 6.32
+    },
+    {
+      "word": "result",
+      "start": 6.32,
+      "end": 6.64
+    },
+    {
+      "word": "of",
+      "start": 6.64,
+      "end": 6.86
+    },
+    {
+      "word": "that",
+      "start": 6.86,
+      "end": 7.04
+    },
+    {
+      "word": "action.",
+      "start": 7.04,
+      "end": 7.48
+    },
+    {
+      "word": "That",
+      "start": 8.94,
+      "end": 9.2
+    },
+    {
+      "word": "loop",
+      "start": 9.2,
+      "end": 9.7
+    },
+    {
+      "word": "is",
+      "start": 9.7,
+      "end": 10.22
+    },
+    {
+      "word": "what",
+      "start": 10.22,
+      "end": 10.38
+    },
+    {
+      "word": "we",
+      "start": 10.38,
+      "end": 10.54
+    },
+    {
+      "word": "call",
+      "start": 10.54,
+      "end": 11.04
+    },
+    {
+      "word": "agent-environment",
+      "start": 11.04,
+      "end": 12.66
+    },
+    {
+      "word": "interaction.",
+      "start": 12.66,
+      "end": 13.3
+    },
+    {
+      "word": "And",
+      "start": 14.28,
+      "end": 14.52
+    },
+    {
+      "word": "it's",
+      "start": 14.52,
+      "end": 14.78
+    },
+    {
+      "word": "worth",
+      "start": 14.78,
+      "end": 15.24
+    },
+    {
+      "word": "understanding",
+      "start": 15.24,
+      "end": 16.08
+    },
+    {
+      "word": "because",
+      "start": 16.08,
+      "end": 17.02
+    },
+    {
+      "word": "it's",
+      "start": 17.02,
+      "end": 17.44
+    },
+    {
+      "word": "what",
+      "start": 17.44,
+      "end": 17.58
+    },
+    {
+      "word": "separates",
+      "start": 17.58,
+      "end": 18.04
+    },
+    {
+      "word": "an",
+      "start": 18.04,
+      "end": 18.28
+    },
+    {
+      "word": "agent",
+      "start": 18.28,
+      "end": 18.78
+    },
+    {
+      "word": "from",
+      "start": 18.78,
+      "end": 19.42
+    },
+    {
+      "word": "a",
+      "start": 19.42,
+      "end": 19.6
+    },
+    {
+      "word": "static",
+      "start": 19.6,
+      "end": 19.82
+    },
+    {
+      "word": "tool.",
+      "start": 19.82,
+      "end": 20.58
+    },
+    {
+      "word": "A",
+      "start": 21.22,
+      "end": 21.44
+    },
+    {
+      "word": "static",
+      "start": 21.44,
+      "end": 21.76
+    },
+    {
+      "word": "tool",
+      "start": 21.76,
+      "end": 22.1
+    },
+    {
+      "word": "waits",
+      "start": 22.1,
+      "end": 22.52
+    },
+    {
+      "word": "to",
+      "start": 22.52,
+      "end": 22.88
+    },
+    {
+      "word": "be",
+      "start": 22.88,
+      "end": 23.0
+    },
+    {
+      "word": "asked.",
+      "start": 23.0,
+      "end": 23.82
+    },
+    {
+      "word": "An",
+      "start": 24.04,
+      "end": 24.16
+    },
+    {
+      "word": "agent",
+      "start": 24.16,
+      "end": 24.62
+    },
+    {
+      "word": "operates",
+      "start": 24.62,
+      "end": 25.2
+    },
+    {
+      "word": "within",
+      "start": 25.2,
+      "end": 25.54
+    },
+    {
+      "word": "an",
+      "start": 25.54,
+      "end": 25.7
+    },
+    {
+      "word": "environment.",
+      "start": 25.7,
+      "end": 26.66
+    },
+    {
+      "word": "It",
+      "start": 26.18,
+      "end": 26.88
+    },
+    {
+      "word": "observes",
+      "start": 26.88,
+      "end": 27.3
+    },
+    {
+      "word": "what's",
+      "start": 27.3,
+      "end": 27.62
+    },
+    {
+      "word": "happening,",
+      "start": 27.62,
+      "end": 28.66
+    },
+    {
+      "word": "decides",
+      "start": 28.66,
+      "end": 28.8
+    },
+    {
+      "word": "what",
+      "start": 28.8,
+      "end": 29.22
+    },
+    {
+      "word": "action",
+      "start": 29.22,
+      "end": 29.58
+    },
+    {
+      "word": "is",
+      "start": 29.58,
+      "end": 29.78
+    },
+    {
+      "word": "appropriate,",
+      "start": 29.78,
+      "end": 30.86
+    },
+    {
+      "word": "and",
+      "start": 30.86,
+      "end": 30.96
+    },
+    {
+      "word": "executes.",
+      "start": 30.96,
+      "end": 31.6
+    },
+    {
+      "word": "Then",
+      "start": 32.34,
+      "end": 32.54
+    },
+    {
+      "word": "it",
+      "start": 32.54,
+      "end": 32.66
+    },
+    {
+      "word": "checks",
+      "start": 32.66,
+      "end": 32.94
+    },
+    {
+      "word": "the",
+      "start": 32.94,
+      "end": 33.1
+    },
+    {
+      "word": "result",
+      "start": 33.1,
+      "end": 33.56
+    },
+    {
+      "word": "and",
+      "start": 33.56,
+      "end": 33.84
+    },
+    {
+      "word": "decides",
+      "start": 33.84,
+      "end": 34.32
+    },
+    {
+      "word": "what",
+      "start": 34.32,
+      "end": 34.56
+    },
+    {
+      "word": "comes",
+      "start": 34.56,
+      "end": 34.94
+    },
+    {
+      "word": "next.",
+      "start": 34.94,
+      "end": 35.48
+    },
+    {
+      "word": "At",
+      "start": 37.82,
+      "end": 38.06
+    },
+    {
+      "word": "Solara,",
+      "start": 38.06,
+      "end": 39.0
+    },
+    {
+      "word": "an",
+      "start": 39.0,
+      "end": 39.14
+    },
+    {
+      "word": "agent",
+      "start": 39.14,
+      "end": 39.66
+    },
+    {
+      "word": "monitoring",
+      "start": 39.66,
+      "end": 40.38
+    },
+    {
+      "word": "grid",
+      "start": 40.38,
+      "end": 40.68
+    },
+    {
+      "word": "performance",
+      "start": 40.68,
+      "end": 41.2
+    },
+    {
+      "word": "isn't",
+      "start": 41.2,
+      "end": 41.96
+    },
+    {
+      "word": "just",
+      "start": 41.96,
+      "end": 42.2
+    },
+    {
+      "word": "waiting",
+      "start": 42.2,
+      "end": 42.4
+    },
+    {
+      "word": "for",
+      "start": 42.4,
+      "end": 42.6
+    },
+    {
+      "word": "someone",
+      "start": 42.6,
+      "end": 42.92
+    },
+    {
+      "word": "to",
+      "start": 42.92,
+      "end": 43.1
+    },
+    {
+      "word": "run",
+      "start": 43.1,
+      "end": 43.3
+    },
+    {
+      "word": "a",
+      "start": 43.3,
+      "end": 43.38
+    },
+    {
+      "word": "report.",
+      "start": 43.38,
+      "end": 43.74
+    },
+    {
+      "word": "It's",
+      "start": 44.34,
+      "end": 44.58
+    },
+    {
+      "word": "watching.",
+      "start": 44.58,
+      "end": 45.06
+    },
+    {
+      "word": "When",
+      "start": 45.76,
+      "end": 45.88
+    },
+    {
+      "word": "output",
+      "start": 45.88,
+      "end": 46.26
+    },
+    {
+      "word": "at",
+      "start": 46.26,
+      "end": 48.4
+    },
+    {
+      "word": "a",
+      "start": 48.4,
+      "end": 48.5
+    },
+    {
+      "word": "site",
+      "start": 48.5,
+      "end": 48.76
+    },
+    {
+      "word": "drops",
+      "start": 48.76,
+      "end": 49.04
+    },
+    {
+      "word": "below",
+      "start": 49.04,
+      "end": 49.34
+    },
+    {
+      "word": "threshold,",
+      "start": 49.34,
+      "end": 50.5
+    },
+    {
+      "word": "it",
+      "start": 50.5,
+      "end": 50.58
+    },
+    {
+      "word": "observes",
+      "start": 50.58,
+      "end": 51.02
+    },
+    {
+      "word": "the",
+      "start": 51.02,
+      "end": 51.36
+    },
+    {
+      "word": "deviation,",
+      "start": 51.36,
+      "end": 52.88
+    },
+    {
+      "word": "decides",
+      "start": 52.88,
+      "end": 52.98
+    },
+    {
+      "word": "the",
+      "start": 52.98,
+      "end": 53.34
+    },
+    {
+      "word": "appropriate",
+      "start": 53.34,
+      "end": 53.76
+    },
+    {
+      "word": "response,",
+      "start": 53.3,
+      "end": 54.64
+    },
+    {
+      "word": "which",
+      "start": 54.64,
+      "end": 54.72
+    },
+    {
+      "word": "might",
+      "start": 54.72,
+      "end": 55.0
+    },
+    {
+      "word": "be",
+      "start": 55.0,
+      "end": 55.28
+    },
+    {
+      "word": "querying",
+      "start": 55.28,
+      "end": 55.82
+    },
+    {
+      "word": "historical",
+      "start": 55.82,
+      "end": 56.42
+    },
+    {
+      "word": "data,",
+      "start": 56.42,
+      "end": 57.6
+    },
+    {
+      "word": "cross-referencing",
+      "start": 57.6,
+      "end": 58.48
+    },
+    {
+      "word": "weather",
+      "start": 58.48,
+      "end": 58.86
+    },
+    {
+      "word": "records,",
+      "start": 58.86,
+      "end": 59.7
+    },
+    {
+      "word": "or",
+      "start": 59.7,
+      "end": 59.84
+    },
+    {
+      "word": "escalating",
+      "start": 59.38,
+      "end": 60.46
+    },
+    {
+      "word": "to",
+      "start": 60.46,
+      "end": 60.66
+    },
+    {
+      "word": "a",
+      "start": 60.66,
+      "end": 60.84
+    },
+    {
+      "word": "human",
+      "start": 60.84,
+      "end": 61.1
+    },
+    {
+      "word": "operator,",
+      "start": 61.1,
+      "end": 62.26
+    },
+    {
+      "word": "and",
+      "start": 62.26,
+      "end": 62.46
+    },
+    {
+      "word": "takes",
+      "start": 62.46,
+      "end": 62.82
+    },
+    {
+      "word": "that",
+      "start": 62.82,
+      "end": 63.06
+    },
+    {
+      "word": "action.",
+      "start": 63.06,
+      "end": 63.46
+    },
+    {
+      "word": "The",
+      "start": 64.54,
+      "end": 64.7
+    },
+    {
+      "word": "environment",
+      "start": 64.7,
+      "end": 65.48
+    },
+    {
+      "word": "shapes",
+      "start": 65.48,
+      "end": 66.1
+    },
+    {
+      "word": "the",
+      "start": 66.1,
+      "end": 66.28
+    },
+    {
+      "word": "agent.",
+      "start": 66.28,
+      "end": 66.68
+    },
+    {
+      "word": "The",
+      "start": 67.42,
+      "end": 67.5
+    },
+    {
+      "word": "agent",
+      "start": 67.5,
+      "end": 68.0
+    },
+    {
+      "word": "shapes",
+      "start": 68.0,
+      "end": 68.54
+    },
+    {
+      "word": "the",
+      "start": 68.54,
+      "end": 68.74
+    },
+    {
+      "word": "environment.",
+      "start": 68.74,
+      "end": 69.72
+    }
+  ]
+}

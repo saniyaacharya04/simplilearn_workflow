@@ -1,0 +1,138 @@
+{
+  "model": "claude-sonnet-5-5",
+  "thinking_effort": "medium",
+  "thinking_chars": 0,
+  "scene_storyboard": {
+    "scene_id": 3,
+    "scene_title": "Four Pillars of AI Agent Architecture",
+    "scene_type": "architecture_breakdown",
+    "duration": 84.5,
+    "sme_layout": "20",
+    "presentation_steps": [
+      {
+        "step_number": 1,
+        "title": "One Core, Four Pillars",
+        "narration": "Every AI agent, regardless of type, is built from the same fundamental components. There's the perception layer.",
+        "duration": 8.5,
+        "dominant_visual_concept": "A softly pulsing Agent Core orb at center canvas. Four dormant quadrant sockets sit on an orbital ring around it, like an unlit engine blueprint.",
+        "visual_description": "The 1920x1080 canvas is steady with no camera movement. The SME PiP (384x216 at 1496,40) is held clear. The title lead-in ends at x<=1440 and all diagrams sit below y=270px. A thin ring draws itself around the Agent Core, centered near (960,640) and about 1200px wide. Four faint socket nodes appear at W, N, E and S, with pictogram silhouettes only. At the end of the narration, the west socket brightens with a cyan sweep to cue 'perception layer'. The other three stay dim but visible, so the screen is never empty.",
+        "on_screen_elements": [
+          "Agent Core",
+          "4 Components",
+          "Perception (cyan tag)",
+          "Orbital Ring"
+        ],
+        "transition_to_next": "The west socket's cyan glow expands. The ring dims slightly and the Agent Core shrinks to 60% as the radar dish unfolds from the west socket."
+      },
+      {
+        "step_number": 2,
+        "title": "Perception: Sensing the World",
+        "narration": "This is how the agent receives information from the world around it. At Solara, that might mean reading an incoming data feed",
+        "duration": 11.5,
+        "dominant_visual_concept": "A Radar Sweep Dish. Sensory ingestion beams funnel inbound data particles toward the Agent Core.",
+        "visual_description": "The west socket morphs into a large radar dish with a rotating sweep wedge. Small data particles drift in from the left edge, and directed arrows with traveling pulses carry them into the core. As 'data feed' is spoken, the Solar Telemetry Icon (panel grid with a signal wave) slides in as the first input source. A live metric chip ticks beside it. The title tag sits top-left and ends before x=1440. The PiP area stays clear.",
+        "on_screen_elements": [
+          "Perception",
+          "Solar Telemetry Icon",
+          "Data Feed",
+          "Live: 1,248 pts/s"
+        ],
+        "transition_to_next": "The telemetry icon shifts down-left to make room. The beam stays lit, and two more input icons are spawned from the same beam."
+      },
+      {
+        "step_number": 3,
+        "title": "Three Input Channels",
+        "narration": "from a solar installation, receiving a user query, or picking up a trigger from a monitoring system. There's the memory layer.",
+        "duration": 10.5,
+        "dominant_visual_concept": "The radar dish stays as the anchor. Three ingestion beams converge on it from three source icons: Solar Installation, User Query bubble, Monitor Trigger bell.",
+        "visual_description": "The three icons light up one by one as each is spoken. Telemetry glows first, then a chat-bubble 'User Query' icon, then an alarm-bell 'Trigger' icon. Each sends a pulse down its own beam into the core. After the last pulse, the whole perception assembly slides to a compact west dock and shrinks to 45%. The remaining three pillar sockets remain visible. The south-east socket then lights violet to cue 'memory layer'.",
+        "on_screen_elements": [
+          "Solar Feed",
+          "User Query",
+          "Trigger",
+          "3 Sources"
+        ],
+        "transition_to_next": "The perception cluster docks west. The violet socket expands into the dual-tier memory stack."
+      },
+      {
+        "step_number": 4,
+        "title": "Memory: Two Tiers",
+        "narration": "As we covered earlier, agents hold short-term context within a task and can access long-term memory from external storage.",
+        "duration": 10.5,
+        "dominant_visual_concept": "A dual-tier Memory Stack. An ephemeral Context Buffer Register sits above a persistent holographic Vector Database Cylinder.",
+        "visual_description": "Centerstage, a glowing Context Buffer Register with slot cells appears at upper center. It fills with small context tokens that fade after a task cycle, and a badge reads 'Short-term'. Below it, a translucent Vector Database Cylinder with ring layers rises from the floor, tagged 'Long-term' and 'External'. A bidirectional pulse arrow between the tiers shows retrieval and write-back. A small metric chip shows 'Context: 8K'. All content stays under y>=270px and clear of the PiP.",
+        "on_screen_elements": [
+          "Short-term",
+          "Long-term",
+          "Context Buffer",
+          "Vector DB",
+          "8K tokens"
+        ],
+        "transition_to_next": "A chain of glowing context nodes extends from the register and traces a path across the stack, setting up multi-step continuity."
+      },
+      {
+        "step_number": 5,
+        "title": "Memory Keeps Track",
+        "narration": "This is what allows an agent to reason across multiple steps without losing track of where it is.",
+        "duration": 10.0,
+        "dominant_visual_concept": "A Step-Tracker Breadcrumb Trail. A glowing path of numbered waypoints runs through the memory stack.",
+        "visual_description": "Over the Memory Stack, a dotted path draws across three waypoints (Step 1, Step 2, Step 3). A bright 'You Are Here' marker moves along it and stays lit at the current step, with the earlier waypoints remaining visible to show nothing is lost. The Vector Cylinder pulses gently each time the marker advances to show a memory read. At the end, the stack shrinks and docks at the south-east of the ring next to the perception cluster. The north socket lights amber to cue the reasoning engine.",
+        "on_screen_elements": [
+          "Step 1→2→3",
+          "You Are Here",
+          "Context Retained",
+          "Memory"
+        ],
+        "transition_to_next": "The memory stack docks. The amber north socket swells into the neural die as the Agent Core slides toward center."
+      },
+      {
+        "step_number": 6,
+        "title": "Reasoning: The LLM Engine",
+        "narration": "Then there's the reasoning engine, the LLM, which interprets what the agent has perceived, decides what to do next, and determines which tools to use.",
+        "duration": 13.0,
+        "dominant_visual_concept": "An LLM Neural Die, a glowing processor lattice at center. It runs a three-stage deliberation flow: Interpret, Decide, Select Tool.",
+        "visual_description": "A large chip-like neural die with a pulsing lattice of nodes forms centerstage at about 1100px wide. Inbound pulses from the docked Perception and Memory clusters feed into its left edge. A three-stage pipeline lights up in sequence along the die as each phrase is spoken: 'Interpret', 'Decide', then 'Select Tool'. At the last stage, three small tool icons (Query, API, File) fan out from the die's right edge and one is highlighted. A badge shows 'Confidence: 0.94'. All elements stay below y=270px and the PiP is clear.",
+        "on_screen_elements": [
+          "LLM",
+          "Interpret",
+          "Decide",
+          "Select Tool",
+          "Confidence: 0.94"
+        ],
+        "transition_to_next": "The highlighted tool beam extends east and the die docks north. The east socket lights orange and opens into the action hub."
+      },
+      {
+        "step_number": 7,
+        "title": "Action: Doing Something",
+        "narration": "And there's the action layer. This is where the agent does something in the world:",
+        "duration": 8.0,
+        "dominant_visual_concept": "An API Dispatch Hub, a mechanical actuator with dials and levers. The selected command from the LLM Die arrives as a glowing packet.",
+        "visual_description": "The east socket expands into a mechanical hub with a central dial and three lever arms. The command packet from the reasoning die slides in and the dial clicks to 'Execute'. A small status pill switches from [Idle] to [Active]. The three lever arms stay poised for the next step. The Reasoning die, Memory stack and Perception dish remain visible as small docked pictograms around the ring.",
+        "on_screen_elements": [
+          "Action",
+          "API Dispatch Hub",
+          "Execute",
+          "[Active]"
+        ],
+        "transition_to_next": "The three levers pull in sequence. Their output beams become the final four-pillar loop."
+      },
+      {
+        "step_number": 8,
+        "title": "The Continuous Loop",
+        "narration": "runs a query, calls an API, writes a file, or sends an alert. These four components work together in a continuous loop.",
+        "duration": 12.5,
+        "dominant_visual_concept": "An Orbital Loop Ribbon. A glowing ribbon connects all four pillars in a closed circuit around the Agent Core: Perceive → Remember → Reason → Act.",
+        "visual_description": "Each lever fires in turn as spoken, with a small icon popping out each time: Query (database magnifier), API (plug), File (document), Alert (bell). Then the four docked pillars scale up to equal size on the orbital ring. A directional ribbon draws itself through them in order: Perception → Memory → Reasoning → Action, and a pulse loops back to Perception. The Agent Core pulses once per lap, with a cycle counter ticking 'Loop 1, 2, 3'. The final frame holds the complete four-pillar loop at about 1200px wide below y=270px. The PiP is clear.",
+        "on_screen_elements": [
+          "Perceive",
+          "Remember",
+          "Reason",
+          "Act",
+          "Orbital Loop Ribbon",
+          "Loop ∞"
+        ],
+        "transition_to_next": "The loop keeps spinning and holds as the persistent anchor into Scene 4."
+      }
+    ]
+  }
+}

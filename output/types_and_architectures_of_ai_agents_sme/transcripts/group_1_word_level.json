@@ -1,0 +1,622 @@
+{
+  "audio_file": "group_1_pair_1_statement1.wav",
+  "duration": 48.8,
+  "segments": [
+    {
+      "id": 0,
+      "start": 0.0,
+      "end": 7.94,
+      "duration": 7.94,
+      "text": "In the last topic, we established what an AI agent is, a system that doesn't just respond, but acts."
+    },
+    {
+      "id": 1,
+      "start": 8.34,
+      "end": 17.76,
+      "duration": 9.42,
+      "text": "We introduced Solara Energy and looked at how agents can take a goal like monitoring site performance and turn it into a sequence of real actions,"
+    },
+    {
+      "id": 2,
+      "start": 18.38,
+      "end": 23.32,
+      "duration": 4.94,
+      "text": "querying data, comparing outputs, flagging anomalies, and generating reports."
+    },
+    {
+      "id": 3,
+      "start": 23.82,
+      "end": 26.54,
+      "duration": 2.72,
+      "text": "But not all agents work the same way."
+    },
+    {
+      "id": 4,
+      "start": 26.54,
+      "end": 34.1,
+      "duration": 7.56,
+      "text": "There are different types built on different architectures designed for different kinds of problems."
+    },
+    {
+      "id": 5,
+      "start": 36.14,
+      "end": 42.32,
+      "duration": 6.18,
+      "text": "And understanding those differences is what allows you to match the right agent to the right job."
+    },
+    {
+      "id": 6,
+      "start": 42.88,
+      "end": 48.58,
+      "duration": 5.7,
+      "text": "By the end of this topic, you will be able to describe the core components that make up an AI"
+    }
+  ],
+  "words": [
+    {
+      "word": "In",
+      "start": 0.0,
+      "end": 1.32
+    },
+    {
+      "word": "the",
+      "start": 1.32,
+      "end": 1.46
+    },
+    {
+      "word": "last",
+      "start": 1.46,
+      "end": 1.68
+    },
+    {
+      "word": "topic,",
+      "start": 1.68,
+      "end": 2.36
+    },
+    {
+      "word": "we",
+      "start": 2.36,
+      "end": 2.38
+    },
+    {
+      "word": "established",
+      "start": 2.38,
+      "end": 2.92
+    },
+    {
+      "word": "what",
+      "start": 2.92,
+      "end": 3.56
+    },
+    {
+      "word": "an",
+      "start": 3.56,
+      "end": 3.72
+    },
+    {
+      "word": "AI",
+      "start": 3.72,
+      "end": 4.06
+    },
+    {
+      "word": "agent",
+      "start": 4.06,
+      "end": 4.4
+    },
+    {
+      "word": "is,",
+      "start": 4.4,
+      "end": 4.84
+    },
+    {
+      "word": "a",
+      "start": 4.84,
+      "end": 5.38
+    },
+    {
+      "word": "system",
+      "start": 5.38,
+      "end": 5.78
+    },
+    {
+      "word": "that",
+      "start": 5.78,
+      "end": 6.04
+    },
+    {
+      "word": "doesn't",
+      "start": 6.04,
+      "end": 6.26
+    },
+    {
+      "word": "just",
+      "start": 6.26,
+      "end": 6.52
+    },
+    {
+      "word": "respond,",
+      "start": 6.52,
+      "end": 7.42
+    },
+    {
+      "word": "but",
+      "start": 7.42,
+      "end": 7.44
+    },
+    {
+      "word": "acts.",
+      "start": 7.44,
+      "end": 8.42
+    },
+    {
+      "word": "We",
+      "start": 8.58,
+      "end": 8.72
+    },
+    {
+      "word": "introduced",
+      "start": 8.72,
+      "end": 9.36
+    },
+    {
+      "word": "Solara",
+      "start": 9.36,
+      "end": 9.86
+    },
+    {
+      "word": "Energy",
+      "start": 9.86,
+      "end": 10.22
+    },
+    {
+      "word": "and",
+      "start": 10.22,
+      "end": 10.5
+    },
+    {
+      "word": "looked",
+      "start": 10.5,
+      "end": 10.78
+    },
+    {
+      "word": "at",
+      "start": 10.78,
+      "end": 10.94
+    },
+    {
+      "word": "how",
+      "start": 10.94,
+      "end": 11.1
+    },
+    {
+      "word": "agents",
+      "start": 11.1,
+      "end": 11.5
+    },
+    {
+      "word": "can",
+      "start": 11.5,
+      "end": 11.72
+    },
+    {
+      "word": "take",
+      "start": 11.72,
+      "end": 11.92
+    },
+    {
+      "word": "a",
+      "start": 11.92,
+      "end": 12.08
+    },
+    {
+      "word": "goal",
+      "start": 12.08,
+      "end": 12.42
+    },
+    {
+      "word": "like",
+      "start": 12.42,
+      "end": 12.96
+    },
+    {
+      "word": "monitoring",
+      "start": 12.96,
+      "end": 13.62
+    },
+    {
+      "word": "site",
+      "start": 13.62,
+      "end": 13.94
+    },
+    {
+      "word": "performance",
+      "start": 13.94,
+      "end": 14.4
+    },
+    {
+      "word": "and",
+      "start": 14.4,
+      "end": 15.22
+    },
+    {
+      "word": "turn",
+      "start": 15.22,
+      "end": 15.6
+    },
+    {
+      "word": "it",
+      "start": 15.6,
+      "end": 15.78
+    },
+    {
+      "word": "into",
+      "start": 15.78,
+      "end": 16.02
+    },
+    {
+      "word": "a",
+      "start": 16.02,
+      "end": 16.16
+    },
+    {
+      "word": "sequence",
+      "start": 16.16,
+      "end": 16.46
+    },
+    {
+      "word": "of",
+      "start": 16.46,
+      "end": 16.74
+    },
+    {
+      "word": "real",
+      "start": 16.74,
+      "end": 17.12
+    },
+    {
+      "word": "actions,",
+      "start": 17.12,
+      "end": 18.24
+    },
+    {
+      "word": "querying",
+      "start": 18.5,
+      "end": 18.78
+    },
+    {
+      "word": "data,",
+      "start": 18.78,
+      "end": 19.74
+    },
+    {
+      "word": "comparing",
+      "start": 19.74,
+      "end": 20.04
+    },
+    {
+      "word": "outputs,",
+      "start": 20.04,
+      "end": 21.08
+    },
+    {
+      "word": "flagging",
+      "start": 21.08,
+      "end": 21.4
+    },
+    {
+      "word": "anomalies,",
+      "start": 21.4,
+      "end": 22.26
+    },
+    {
+      "word": "and",
+      "start": 22.26,
+      "end": 22.32
+    },
+    {
+      "word": "generating",
+      "start": 22.32,
+      "end": 22.78
+    },
+    {
+      "word": "reports.",
+      "start": 22.78,
+      "end": 23.22
+    },
+    {
+      "word": "But",
+      "start": 24.06,
+      "end": 24.22
+    },
+    {
+      "word": "not",
+      "start": 24.22,
+      "end": 24.5
+    },
+    {
+      "word": "all",
+      "start": 24.5,
+      "end": 24.88
+    },
+    {
+      "word": "agents",
+      "start": 24.88,
+      "end": 25.5
+    },
+    {
+      "word": "work",
+      "start": 25.5,
+      "end": 25.84
+    },
+    {
+      "word": "the",
+      "start": 25.84,
+      "end": 26.0
+    },
+    {
+      "word": "same",
+      "start": 26.0,
+      "end": 26.22
+    },
+    {
+      "word": "way.",
+      "start": 26.22,
+      "end": 26.48
+    },
+    {
+      "word": "There",
+      "start": 27.14,
+      "end": 27.18
+    },
+    {
+      "word": "are",
+      "start": 27.18,
+      "end": 27.44
+    },
+    {
+      "word": "different",
+      "start": 27.44,
+      "end": 27.82
+    },
+    {
+      "word": "types",
+      "start": 27.82,
+      "end": 28.3
+    },
+    {
+      "word": "built",
+      "start": 28.3,
+      "end": 29.26
+    },
+    {
+      "word": "on",
+      "start": 29.26,
+      "end": 29.52
+    },
+    {
+      "word": "different",
+      "start": 29.52,
+      "end": 29.86
+    },
+    {
+      "word": "architectures",
+      "start": 29.86,
+      "end": 30.72
+    },
+    {
+      "word": "designed",
+      "start": 30.72,
+      "end": 31.56
+    },
+    {
+      "word": "for",
+      "start": 31.56,
+      "end": 32.26
+    },
+    {
+      "word": "different",
+      "start": 32.26,
+      "end": 32.82
+    },
+    {
+      "word": "kinds",
+      "start": 32.82,
+      "end": 33.44
+    },
+    {
+      "word": "of",
+      "start": 33.44,
+      "end": 33.56
+    },
+    {
+      "word": "problems.",
+      "start": 33.56,
+      "end": 34.04
+    },
+    {
+      "word": "And",
+      "start": 36.62,
+      "end": 36.8
+    },
+    {
+      "word": "understanding",
+      "start": 36.8,
+      "end": 37.3
+    },
+    {
+      "word": "those",
+      "start": 37.3,
+      "end": 37.56
+    },
+    {
+      "word": "differences",
+      "start": 37.56,
+      "end": 37.98
+    },
+    {
+      "word": "is",
+      "start": 37.98,
+      "end": 38.58
+    },
+    {
+      "word": "what",
+      "start": 38.58,
+      "end": 38.76
+    },
+    {
+      "word": "allows",
+      "start": 38.76,
+      "end": 39.12
+    },
+    {
+      "word": "you",
+      "start": 39.12,
+      "end": 39.28
+    },
+    {
+      "word": "to",
+      "start": 39.28,
+      "end": 39.48
+    },
+    {
+      "word": "match",
+      "start": 39.48,
+      "end": 39.8
+    },
+    {
+      "word": "the",
+      "start": 39.8,
+      "end": 39.96
+    },
+    {
+      "word": "right",
+      "start": 39.96,
+      "end": 40.22
+    },
+    {
+      "word": "agent",
+      "start": 40.22,
+      "end": 40.7
+    },
+    {
+      "word": "to",
+      "start": 40.7,
+      "end": 41.38
+    },
+    {
+      "word": "the",
+      "start": 41.38,
+      "end": 41.68
+    },
+    {
+      "word": "right",
+      "start": 41.68,
+      "end": 41.9
+    },
+    {
+      "word": "job.",
+      "start": 41.9,
+      "end": 42.8
+    },
+    {
+      "word": "By",
+      "start": 43.0,
+      "end": 43.1
+    },
+    {
+      "word": "the",
+      "start": 43.1,
+      "end": 43.28
+    },
+    {
+      "word": "end",
+      "start": 43.28,
+      "end": 43.44
+    },
+    {
+      "word": "of",
+      "start": 43.44,
+      "end": 43.54
+    },
+    {
+      "word": "this",
+      "start": 43.54,
+      "end": 43.7
+    },
+    {
+      "word": "topic,",
+      "start": 43.7,
+      "end": 44.06
+    },
+    {
+      "word": "you",
+      "start": 44.06,
+      "end": 44.6
+    },
+    {
+      "word": "will",
+      "start": 44.6,
+      "end": 44.76
+    },
+    {
+      "word": "be",
+      "start": 44.76,
+      "end": 44.88
+    },
+    {
+      "word": "able",
+      "start": 44.88,
+      "end": 45.08
+    },
+    {
+      "word": "to",
+      "start": 45.08,
+      "end": 45.36
+    },
+    {
+      "word": "describe",
+      "start": 45.36,
+      "end": 46.0
+    },
+    {
+      "word": "the",
+      "start": 46.0,
+      "end": 46.34
+    },
+    {
+      "word": "core",
+      "start": 46.34,
+      "end": 46.58
+    },
+    {
+      "word": "components",
+      "start": 46.58,
+      "end": 47.12
+    },
+    {
+      "word": "that",
+      "start": 47.12,
+      "end": 47.64
+    },
+    {
+      "word": "make",
+      "start": 47.64,
+      "end": 47.94
+    },
+    {
+      "word": "up",
+      "start": 47.94,
+      "end": 48.12
+    },
+    {
+      "word": "an",
+      "start": 48.12,
+      "end": 48.36
+    },
+    {
+      "word": "AI",
+      "start": 48.36,
+      "end": 48.8
+    }
+  ]
+}

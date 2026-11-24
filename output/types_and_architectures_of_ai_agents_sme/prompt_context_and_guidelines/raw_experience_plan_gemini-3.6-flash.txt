@@ -1,0 +1,51 @@
+Scene 1:
+Instruction:
+Reveal visual architecture for How Autonomous Ai Agents Transition From
+
+Scene 2:
+Instruction:
+Reveal visual architecture for The Concrete Learning Objectives For Understanding
+
+Scene 3:
+Instruction:
+Reveal visual architecture for Perception, Memory, Reasoning Engine, And Action Layer.
+
+Scene 4:
+Instruction:
+Reveal visual architecture for The Continuous Agent-Environment Interaction Loop That
+
+Scene 5:
+Instruction:
+Reveal visual architecture for Walk Step-By-Step Through The Micro-Phases Of
+
+Scene 6:
+Instruction:
+Reveal visual architecture for Reactive Agents, Their Rule-Driven Architecture, And
+
+Scene 7:
+Instruction:
+Reveal visual architecture for Goal-Based Agents With Utility-Based Agents Using
+
+Scene 8:
+Instruction:
+Reveal visual architecture for Complete End-To-End Agent Workflows And Detail
+
+Scene 9:
+Instruction:
+Reveal visual architecture for Key Takeaway Concepts And Preview The
+Scene 3:
+
+Scene 3:
+
+Instruction:
+
+First, the scene title "The Perception Layer: Ingesting Signals" enters centered at the top of the canvas and settles into a fixed position. Immediately below, the primary instructional workspace initializes, centered around the Perception Layer hub positioned at the center-right region, occupying approximately one-third of the canvas width and one-quarter of the canvas height. This central hub is constructed as a rounded rectangular container with a crisp blue border using accent color `#2C81FE`, displaying the primary text "Perception Layer: Sensory Ingress" and sublabel "Protocol Decoupling & Normalization". Directly above this hub, an architectural layer pill labeled "Pillar 1: Sensory Ingress" settles. Below the hub, the processing metric badge "Ingestion Latency: $1.8\text{ ms}$" appears, and to the right of the hub, the normalization tag "Unstructured $\rightarrow$ Machine Context" settles into place. Next, three converging influx vectors enter sequentially from the left side of the workspace toward the central hub. First, in the upper-left region, the `sensor feed cable` visual asset enters, anchoring the vector labeled "Telemetry Stream" with sub-tag "Solara 48 kHz Solar Feed" displaying value "Output: $420\text{ kW}$". An arrow callout reading "Raw numeric data" attaches to this upper vector. Second, in the middle-left region, the `user speech bubble` asset enters, anchoring the vector labeled "User Queries" with sub-tag "Natural Language Prompts" displaying value "Audit Site 47". An arrow callout reading "Unstructured text tokenization" attaches to this middle vector. Third, in the lower-left region, the `system webhook lightning icon` asset enters, anchoring the vector labeled "System Events" with sub-tag "Automated Webhook Triggers" displaying value "Threshold Warning". An arrow callout reading "Asynchronous event signal" attaches to this lower vector. Once all three vectors settle, animated directional flow paths begin moving along the vectors into the central Perception Layer ingestion node, supported visually by `image_3`. Safe margins of approximately 1.5 units of clear space remain reserved at the bottom of the frame throughout.
+
+Instruction:
+
+First, the scene title transitions smoothly to "The Memory Layer: Short-Term and Long-Term Storage" centered at the top of the canvas. Simultaneously, the entire Perception Layer visual assembly established in the previous step—including its central hub, layer pill, metrics, tags, incoming vectors, icons, and annotations—scales down to 60 percent of its original footprint and smoothly repositions to the left-center area of the workspace, retaining its `#2C81FE` blue border while yielding central instructional prominence. Immediately adjacent to the right, occupying the center-right region of the workspace, the new Memory Layer component enters. This component is constructed as a large partitioned container with 10px rounded corners, clean stroke `#DADCE0`, and white fill `#FFFFFF`. Above the container, an architectural layer pill labeled "Pillar 2: Memory Layer" settles into position. The Memory Layer container is divided horizontally into two distinct tiers. In the upper tier, labeled "Working Context Window" (occupying one-third of the container height), the `context window stack container` visual asset enters on the left edge. Next, sub-labels "Task State Buffer" and "Active Tool History" settle on the left side of the tier, while capability indicators "Capacity: 32K Token Context" and "Volatility: Ephemeral" settle on the right side. Centered within this upper tier, the annotation text "Maintains multi-step execution state" appears. In the lower tier, labeled "Long-Term Vector Database" (occupying one-third of the container height), the `vector database cylinder asset` enters on the left edge. Sub-labels "Historical Baselines" and "Solara Weather Archives" settle on the left side, while descriptors "Index: Cosine Similarity Vector Space" and "Volatility: Durable" settle on the right. Centered within this lower tier, the annotation text "Retrieves historical baselines for anomaly matching" appears. Below the Memory Layer container, two adjacent tags settle: "Short-Term Ephemeral" on the left and "Long-Term Vector Search" on the right. Between the scaled Perception Layer and the Memory Layer, the central badge "Bi-directional Context Bridge" enters. High-speed bi-directional data exchange vectors with animated particle flow draw horizontally, connecting the Perception Layer central ingestion hub to the Working Memory tier. Finally, dotted semantic query vectors draw vertically from the Working Context Window downward to the Long-Term Vector Database cylinder asset. Safe margins of 1.5 units at the bottom are strictly preserved.
+
+Instruction:
+
+First, the scene title transforms to "Reasoning Engine and Action Layer Execution" centered at the top of the canvas, and a system blueprint header badge reading "Complete 4-Pillar AI Agent Architecture" enters directly beneath it. The workspace converts into an end-to-end 4-pillar horizontal system schematic across the central region. Pillar 1 ("Perception") on the far left and Pillar 2 ("Memory") in the left-center region both scale down smoothly to approximately 50 percent of their original footprints, preserving their complete structural components, sublabels, and dual-tier layouts in compact context. Next, Pillar 3, labeled "Reasoning Engine", enters in the center-right region of the workspace as a rounded rectangular container with 10px rounded corners, clean stroke `#DADCE0`, white fill `#FFFFFF`, highlighted with a primary accent border stroke of `#2C81FE`. Above Pillar 3, the layer pill "Pillar 3: LLM Reasoning Core" settles. The `microchip LLM processor icon` visual asset enters to the left of the container. Inside Pillar 3, three functional components are constructed top-to-bottom: "Core LLM Planner", followed by "Goal Evaluator", followed by "Tool Candidate Selector". Immediately following, Pillar 4, labeled "Action Layer", enters in the far right region of the workspace under the layer pill "Pillar 4: Tool Execution". To the left of Pillar 4, the `action tool wrench and gears symbol` asset settles, and to its right, the `external world environment target icon` asset settles. Inside Pillar 4, three vertical execution nodes enter top-to-bottom: "External Tool Dispatch: REST APIs", "External Tool Dispatch: DB Mutators", and "External Tool Dispatch: System Notification Services". Dispatch badges reading "Tool: API Call" and "Tool: DB Write" attach adjacent to the execution nodes. Once all four pillars are established, directional connector arrows draw sequentially from left to right: first, an arrow extending from Perception to Memory labeled "Information Retrieval"; second, an arrow extending from Memory to Reasoning Engine labeled "Context & Historical Embeddings"; third, an arrow extending from Reasoning Engine to Action Layer labeled "Selected Tool Call $T_k$". Finally, an output arrow extends rightward from the Action Layer toward the external world target icon, labeled "Modifies World State". Safe margins of 1.5 units remain at the bottom of the canvas.
+

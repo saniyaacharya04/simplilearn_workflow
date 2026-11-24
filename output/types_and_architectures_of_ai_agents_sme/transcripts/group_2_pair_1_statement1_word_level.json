@@ -1,0 +1,311 @@
+{
+  "audio_file": "group_2_pair_1_statement1.wav",
+  "duration": 26.66,
+  "segments": [
+    {
+      "id": 0,
+      "start": 0.0,
+      "end": 7.28,
+      "duration": 7.28,
+      "text": "agents' architecture, explain how agents interact with their environment through a continuous loop,"
+    },
+    {
+      "id": 1,
+      "start": 8.0,
+      "end": 13.4,
+      "duration": 5.4,
+      "text": "walk through the perception-reasoning action cycle that drives agent decision-making,"
+    },
+    {
+      "id": 2,
+      "start": 13.9,
+      "end": 20.56,
+      "duration": 6.66,
+      "text": "and identify the three main types of agents and when each is appropriate, as well as visualize"
+    },
+    {
+      "id": 3,
+      "start": 20.56,
+      "end": 26.66,
+      "duration": 6.1,
+      "text": "how a complete agent workflow flows from input to outcome. Let's start with what's inside."
+    }
+  ],
+  "words": [
+    {
+      "word": "agents'",
+      "start": 0.0,
+      "end": 0.68
+    },
+    {
+      "word": "architecture,",
+      "start": 0.68,
+      "end": 2.18
+    },
+    {
+      "word": "explain",
+      "start": 2.18,
+      "end": 2.62
+    },
+    {
+      "word": "how",
+      "start": 2.62,
+      "end": 3.14
+    },
+    {
+      "word": "agents",
+      "start": 3.14,
+      "end": 3.54
+    },
+    {
+      "word": "interact",
+      "start": 3.54,
+      "end": 4.12
+    },
+    {
+      "word": "with",
+      "start": 4.12,
+      "end": 4.42
+    },
+    {
+      "word": "their",
+      "start": 4.42,
+      "end": 4.6
+    },
+    {
+      "word": "environment",
+      "start": 4.6,
+      "end": 5.16
+    },
+    {
+      "word": "through",
+      "start": 5.16,
+      "end": 6.02
+    },
+    {
+      "word": "a",
+      "start": 6.02,
+      "end": 6.38
+    },
+    {
+      "word": "continuous",
+      "start": 6.38,
+      "end": 6.84
+    },
+    {
+      "word": "loop,",
+      "start": 6.84,
+      "end": 7.24
+    },
+    {
+      "word": "walk",
+      "start": 8.16,
+      "end": 8.44
+    },
+    {
+      "word": "through",
+      "start": 8.44,
+      "end": 8.74
+    },
+    {
+      "word": "the",
+      "start": 8.74,
+      "end": 8.96
+    },
+    {
+      "word": "perception-reasoning",
+      "start": 8.96,
+      "end": 10.06
+    },
+    {
+      "word": "action",
+      "start": 10.06,
+      "end": 10.5
+    },
+    {
+      "word": "cycle",
+      "start": 10.5,
+      "end": 10.86
+    },
+    {
+      "word": "that",
+      "start": 10.86,
+      "end": 11.1
+    },
+    {
+      "word": "drives",
+      "start": 11.1,
+      "end": 11.6
+    },
+    {
+      "word": "agent",
+      "start": 11.6,
+      "end": 12.48
+    },
+    {
+      "word": "decision-making,",
+      "start": 12.48,
+      "end": 13.34
+    },
+    {
+      "word": "and",
+      "start": 14.08,
+      "end": 14.32
+    },
+    {
+      "word": "identify",
+      "start": 14.32,
+      "end": 14.92
+    },
+    {
+      "word": "the",
+      "start": 14.92,
+      "end": 15.12
+    },
+    {
+      "word": "three",
+      "start": 15.12,
+      "end": 15.38
+    },
+    {
+      "word": "main",
+      "start": 15.38,
+      "end": 15.64
+    },
+    {
+      "word": "types",
+      "start": 15.64,
+      "end": 15.98
+    },
+    {
+      "word": "of",
+      "start": 15.98,
+      "end": 16.18
+    },
+    {
+      "word": "agents",
+      "start": 16.18,
+      "end": 16.58
+    },
+    {
+      "word": "and",
+      "start": 16.58,
+      "end": 16.78
+    },
+    {
+      "word": "when",
+      "start": 16.78,
+      "end": 17.0
+    },
+    {
+      "word": "each",
+      "start": 17.0,
+      "end": 17.32
+    },
+    {
+      "word": "is",
+      "start": 17.32,
+      "end": 17.5
+    },
+    {
+      "word": "appropriate,",
+      "start": 17.5,
+      "end": 17.9
+    },
+    {
+      "word": "as",
+      "start": 17.9,
+      "end": 19.1
+    },
+    {
+      "word": "well",
+      "start": 19.1,
+      "end": 19.34
+    },
+    {
+      "word": "as",
+      "start": 19.34,
+      "end": 19.76
+    },
+    {
+      "word": "visualize",
+      "start": 19.76,
+      "end": 20.34
+    },
+    {
+      "word": "how",
+      "start": 20.06,
+      "end": 21.16
+    },
+    {
+      "word": "a",
+      "start": 21.16,
+      "end": 21.36
+    },
+    {
+      "word": "complete",
+      "start": 21.36,
+      "end": 21.66
+    },
+    {
+      "word": "agent",
+      "start": 21.66,
+      "end": 21.98
+    },
+    {
+      "word": "workflow",
+      "start": 21.98,
+      "end": 22.46
+    },
+    {
+      "word": "flows",
+      "start": 22.46,
+      "end": 23.22
+    },
+    {
+      "word": "from",
+      "start": 23.22,
+      "end": 23.64
+    },
+    {
+      "word": "input",
+      "start": 23.64,
+      "end": 24.16
+    },
+    {
+      "word": "to",
+      "start": 24.16,
+      "end": 24.52
+    },
+    {
+      "word": "outcome.",
+      "start": 24.52,
+      "end": 24.88
+    },
+    {
+      "word": "Let's",
+      "start": 24.88,
+      "end": 25.72
+    },
+    {
+      "word": "start",
+      "start": 25.72,
+      "end": 25.94
+    },
+    {
+      "word": "with",
+      "start": 25.94,
+      "end": 26.14
+    },
+    {
+      "word": "what's",
+      "start": 26.14,
+      "end": 26.34
+    },
+    {
+      "word": "inside.",
+      "start": 26.34,
+      "end": 26.66
+    }
+  ]
+}

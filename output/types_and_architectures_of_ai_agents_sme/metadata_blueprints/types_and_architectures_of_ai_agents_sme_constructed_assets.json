@@ -1,0 +1,49 @@
+{
+  "topic": "Types And Architectures Of Ai Agents Sme",
+  "constructed_catalog": {
+    "asset_1": {
+      "asset_name": "asset_1",
+      "scene_id": 5,
+      "layout_context": "70",
+      "asset_suggestion": "A solar grid monitoring dashboard application interface representing a specialized software control panel. It features a top header bar with system status indicators, a left-hand navigation sidebar, a main telemetry display panel for grid output monitoring, a secondary decision-log side panel, and an interaction footer area. The modular subcomponents, including header metrics, navigation items, diagnostic cards, and control buttons, can be independently manipulated or updated to demonstrate different operational states of the AI agent within the environment.",
+      "construction_paragraph": "The `SolarGridDashboard` visual asset is designed as an industrial-grade, dark-mode software control panel interface for monitoring real-time energy grid performance, telemetry metrics, and automated system decision logs. The foundation layer establishes the structural canvas with a deep slate-gray background `RoundedRectangle` backed by a dark, semi-transparent drop-shadow `RoundedRectangle` offset downward and to the right, enclosed by a thin dual-stroke outer rim to simulate a high-resolution display monitor bezel. The primary structure divides this outer frame into five semantic workspace zones: a top horizontal header bar, a left-hand navigation sidebar, a central telemetry display panel, a right-hand decision-log side panel, and a bottom horizontal interaction footer area. In the secondary structure, the top header anchors the software identifier text \"SOLAR-OS v4.2\" aligned to the left, paired with a right-aligned live status pill capsule constructed from a `RoundedRectangle` housing a bright emerald `Dot` indicator LED next to crisp numerical readouts for \"NET OUTPUT: 14.8 MW\" and \"GRID FREQ: 60.02 Hz\". The left navigation sidebar contains a vertically stacked column of rectangular tab button containers arranged using `.arrange(DOWN, buff=0.12)`, featuring highlighted active state borders around bold menu labels for \"OVERVIEW\", \"TELEMETRY\", \"INVERTERS\", and \"DIAGNOSTICS\". The central telemetry panel serves as the primary visual focus, subdivided into a top row of three diagnostic metric cards—\"SOLAR YIELD: 94%\", \"BATTERY SOC: 88%\", and \"GRID LOAD: 7.2 MW\"—positioned above a telemetry chart assembly complete with labeled coordinate axis lines, subtle grid ticks, a translucent filled background polygon, and a vibrant cyan continuous curve plot representing power output over time. Positioned directly to the right of the telemetry view, the secondary decision-log side panel features a section header titled \"AUTOMATED DECISION LOG\" positioned above a vertical list of three individual log entry cards, each rendered with a dark card frame, a gray timestamp badge like \"14:22:05\", and explicit operational action text such as \"ARRAY B3 PHASE REALIGNED\" or \"INVERTER 04 SYNC COMPLETE\". The bottom interaction footer area organizes an operational command strip housing three distinct control buttons labeled \"AUTO-BALANCING: ACTIVE\", \"MANUAL OVERRIDE\", and \"EXPORT LOGS\", positioned alongside a right-aligned diagnostic latency marker reading \"LATENCY: 12ms\". The detail layer introduces layered visual depth through soft drop-shadow `RoundedRectangle` shapes shifted behind each metric card and log entry, crisp high-resolution text scaling, subtle horizontal dividing lines separating structural panels, and color-coded status indicator dots denoting system alerts and operational health. The entire architecture is organized into a nested `VGroup` hierarchy comprising semantic sub-groups for `header`, `sidebar`, `telemetry_panel`, `decision_log`, and `footer`, locked",
+      "manim_geometry_bounds": {
+        "x_min": -1.48,
+        "x_max": 6.8,
+        "y_min": -3.2,
+        "y_max": 2.2,
+        "anchor": "RIGHT"
+      },
+      "sme_clearance_note": "Strict clearance: x >= 760px (x >= -1.48 Manim). Right-side content canvas.",
+      "osl_design_tokens": {
+        "corner_radius_px": 10,
+        "manim_corner_radius": 0.074,
+        "stroke_color": "#CBD5E1",
+        "stroke_width": 2,
+        "accent_color": "#62B7E4"
+      }
+    },
+    "asset_2": {
+      "asset_name": "asset_2",
+      "scene_id": 9,
+      "layout_context": "70",
+      "asset_suggestion": "An interactive software demo dashboard interface window representing the runtime environment for the upcoming hands-on AI agent simulation. The asset features a structured UI layout composed of a top application header bar with window controls, a left navigation sidebar containing agent component modules, a central code workspace displaying execution loops, and a bottom terminal console panel for streaming output. The individual panels, status tags, and control buttons serve as modular subcomponents that provide structural value for showing interactive agent states and real-time decision workflow visualisations.",
+      "construction_paragraph": "The `AgentDashboardWindow` asset is designed as a modular, high-fidelity developer dashboard interface window representing a real-time autonomous AI agent execution environment, built as a unified `VGroup` subclass. Foundationally, the asset rests upon a soft drop-shadow layer composed of a semi-transparent black `RoundedRectangle` offset slightly downward and to the right, supporting a primary dark slate window chassis (`RoundedRectangle` with a deep navy-gray fill `#1E1E2E`, smooth corners, and a thin, crisp cyan-gray stroke `#313244`). The primary structural layout is partitioned into an upper header bar and a main window body; the main body is horizontally split into a left module navigation sidebar and a right content stack, which is further vertically divided into an upper central code workspace and a lower terminal console panel. In the secondary structure, the header bar features a left-aligned window control assembly with three colored circular dots (`Dot` primitives in red `#FF5F56`, yellow `#FFBD2E`, and green `#27C93F`), a centered application title string (`\"AgentRuntime OS v2.4 — Autonomous Simulation Framework\"` rendered via crisp high-resolution typography scaled to fit), and right-aligned performance telemetry badges (`\"FPS: 60\"`, `\"RAM: 1.2GB\"`). The left sidebar organizes agent modules vertically, housing individual module cards (`\"Perception Engine\"`, `\"LLM Planner\"`, `\"Vector Memory\"`, `\"Action Executor\"`) inside subtle container boxes (`RoundedRectangle` with translucent fills). The central code workspace comprises a tab bar (`\"agent_loop.py\"`, `\"config.json\"`), a line-number gutter column on the left containing sequential numeric text (`\"01\"`, `\"02\"`, `\"03\"`), and a dark editor canvas. The lower terminal console panel is separated by a horizontal stroke line (`Line`) and capped by standard console tab indicators (`\"STDOUT\"`, `\"LLM TRACE\"`, `\"METRICS\"`). Detail-layer features introduce rich semantic context: the central editor displays syntax-colored code text lines (`\"def step(environment_state):\"`, `\"  perception = perception_engine.parse(environment_state)\"`, `\"  action_plan = planner.generate_plan(perception, memory)\"`, `\"  return executor.execute(action_plan)\"`), overlaid by a translucent teal execution highlight bar (`Rectangle` with low fill opacity) spanning the currently active instruction line. Sidebar module cards feature glowing status pill badges (`\"ACTIVE\"` in bright emerald green `#A6E3A1`, `\"IDLE\"` in muted slate `#6C7086`). The terminal console displays authentic log stream entries (`\"> agent_loop.py --mode=autonomous\"`, `\"[INFO] Memory index synchronized (1,024 nodes)\"`, `\"[EXECUTE] Step 42 completed in 28ms\"`) aligned relative to a fixed terminal prompt icon (`\">\"`), complemented by a thin vertical scrollbar track (`Line` with a rounded thumb block). Mechanically, all components maintain strict relative alignment using directional positioning vectors (`next_to`, `align_to`, `arrange`), organizing internal elements into a structured hierarchy of sub-groups (`header_group`, `sidebar_group`, `code_editor_group`, `terminal_group`). The asset exposes a clean public contract providing direct access to key subcomponents (`header`, `sidebar_modules`, `editor_canvas`, `terminal_panel`, `active_line_highlight`) and internal state modification methods (`set_active_code_line()`, `update_module_status()`, `append_terminal_line()`) that recalculate relative positioning procedurally, ensuring full interactive versatility for downstream scene compositions.",
+      "manim_geometry_bounds": {
+        "x_min": -1.48,
+        "x_max": 6.8,
+        "y_min": -3.2,
+        "y_max": 2.2,
+        "anchor": "RIGHT"
+      },
+      "sme_clearance_note": "Strict clearance: x >= 760px (x >= -1.48 Manim). Right-side content canvas.",
+      "osl_design_tokens": {
+        "corner_radius_px": 10,
+        "manim_corner_radius": 0.074,
+        "stroke_color": "#CBD5E1",
+        "stroke_width": 2,
+        "accent_color": "#62B7E4"
+      }
+    }
+  }
+}

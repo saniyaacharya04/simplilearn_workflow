@@ -1,0 +1,62 @@
+Scene 1:
+    Guidelines:
+        Asset Suggestion:
+            - suggestion_01: Vector schematic modeling The Four Core Architectural Layers Of.
+        Image Suggestion:
+            - suggestion_01: Infographic illustrating The Four Core Architectural Layers Of.
+
+Scene 2:
+    Guidelines:
+        Asset Suggestion:
+            - suggestion_01: Vector schematic modeling The Continuous Agent-Environment Feedback Loop.
+        Image Suggestion:
+            - suggestion_01: Infographic illustrating The Continuous Agent-Environment Feedback Loop.
+
+Scene 3:
+    Guidelines:
+        Asset Suggestion:
+            - suggestion_01: Vector schematic modeling Four Pillars Of Ai Agent Architecture.
+        Image Suggestion:
+            - suggestion_01: Infographic illustrating Four Pillars Of Ai Agent Architecture.
+
+Scene 4:
+    Guidelines:
+        Asset Suggestion:
+            - suggestion_01: Vector schematic modeling Architecture Type 1.
+        Image Suggestion:
+            - suggestion_01: Infographic illustrating Architecture Type 1.
+
+Scene 5:
+    Guidelines:
+        Asset Suggestion:
+            - suggestion_01: Vector schematic modeling Architecture Type 2.
+        Image Suggestion:
+            - suggestion_01: Infographic illustrating Architecture Type 2.
+
+Scene 6:
+    Guidelines:
+        Asset Suggestion:
+            - suggestion_01: Vector schematic modeling Architecture Type 3.
+        Image Suggestion:
+            - suggestion_01: Infographic illustrating Architecture Type 3.
+
+Scene 7:
+    Guidelines:
+        Asset Suggestion:
+            - suggestion_01: Vector schematic modeling End-To-End Agent Workflow & Human Handoff Mechanics.
+        Image Suggestion:
+            - suggestion_01: Infographic illustrating End-To-End Agent Workflow & Human Handoff Mechanics.
+
+Scene 8:
+    Guidelines:
+        Asset Suggestion:
+            - suggestion_01: Vector schematic modeling Architectural Synthesis & Strategic Agent Selection.
+        Image Suggestion:
+            - suggestion_01: Infographic illustrating Architectural Synthesis & Strategic Agent Selection.
+
+Scene 9:
+    Guidelines:
+        Asset Suggestion:
+            - suggestion_01: Vector schematic modeling What Is Next.
+        Image Suggestion:
+            - suggestion_01: Infographic illustrating What Is Next.

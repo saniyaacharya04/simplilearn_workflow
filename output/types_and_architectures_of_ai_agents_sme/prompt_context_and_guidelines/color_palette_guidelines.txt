@@ -1,0 +1,34 @@
+# Simplilearn OSL 3.0 Brand, Layout & Color Guidelines
+Derived Strictly from guidelines.md & Simplilearn Guide (OSL 3.0 Section 6.4 & 8)
+
+## 1. Official 10-Color Infographic Palette (guidelines.md Section 6.4)
+Use these 10 approved light/pastel tones for diagrams, nodes, category pills, and infographics:
+1. Mint / Seafoam:         #8ECDB7  (Category / node accent, verification)
+2. Sky Blue:               #62B7E4  (Primary topic cards, hero concept anchors)
+3. Steel Blue:             #7EA2C8  (Structured workflow paths, secondary containers)
+4. Lavender / Periwinkle:  #9B99C7  (Category groups, architectural submodules)
+5. Mustard Gold:           #DDB945  (Analytical indicators, key conceptual callouts)
+6. Warm Amber:             #E6A157  (Interactive elements, secondary callouts)
+7. Coral / Terracotta:     #E58F6D  (Implementation steps, tool highlights)
+8. Warm Tan:               #B88968  (Contextual notes, foundational principles)
+9. Dusty Rose:             #D98CA1  (Case studies, business impact summaries)
+10. Soft Lilac:            #C1A5C6  (Theoretical definitions, conceptual pillars)
+
+## 2. System UI & Accent Colors (guidelines.md Section 6.4 & 8.1)
+- Focus Highlight Stroke:  #F78908  (3 px stroke / stroke_width=3, 1.0 s animated draw time)
+- Primary Content Text:    #404040  (Dark charcoal inside all light cards/canvas)
+- Splash Text & Outro:     #FFFFFF  (Course title & 0.5s white dissolve outro)
+- 70% Layout Left Band:    #2C81FE  (Library blue accent band asset)
+- Banner & Table Accent:   #2C81FE  (Brand Blue) or #7EA2C8 (Steel Blue)
+- Slide Background:        #F0F4F8  (Soft modern slate canvas) or #FFFFFF (Pure white)
+- Card Containers:         #FFFFFF  (Pure white with soft border #CBD5E1, corner radius 10 px / 0.074 units)
+
+## 3. Strict Prohibitions & Client Mandates (guidelines.md Section 4 & 6)
+- NAVY BLUE PROHIBITION: Navy Blue (#0B3C5D, #06152B, #0A2540, #1D3557, NAVY) is strictly PROHIBITED and is NOT part of the Simplilearn palette! Do NOT use dark navy containers, headers, or backgrounds.
+- NO ALL CAPS (CASING MANDATE): ALL CAPS is NEVER permitted anywhere on screen! Titles and headers must strictly use Title Case (Chicago Manual of Style). Body and bullets use Sentence Case. Short technical acronyms only (AI, RAM, DB, API, LLM, CPU, GPU, UI, ML) may be uppercase.
+- Minimal Green: NEVER use green for major containers, cards, backgrounds, or headers. Confine green strictly to tiny micro-icons (e.g. checkmark).
+- DO NOT use 3D images, 3D renderings, or 3D models.
+- DO NOT use dotted lines, silhouette or black-and-white images, thick outlines, or drop shadows.
+- All illustrative visual assets must be clean 2D flat vector educational graphics with smooth geometric shapes and soft pastel tones.
+- Minimal Green: NEVER use green for major containers, cards, backgrounds, or headers. Confine green strictly to tiny micro-icons (e.g. checkmark).
+- One Highlight at a Time: Highlight only when SME emphasizes a specific point; mute/dim other elements.

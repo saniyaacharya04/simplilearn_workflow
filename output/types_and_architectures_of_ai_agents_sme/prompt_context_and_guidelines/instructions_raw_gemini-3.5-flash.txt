@@ -1,0 +1,104 @@
+Scene 1:
+Scene Objective: Establish lecture identity with official Title Splash and align learner expectations with the 4-milestone Learning Roadmap.
+Presentation Step 1: Topic Splash Screen
+Narration: Welcome to Types and Architectures of AI Agents. In this module, we explore how autonomous systems perceive, reason, and act within dynamic enterprise environments like Solara Energy.
+Visual Description: Course Title Splash screen with animated disc badge and capsule banner.
+Presentation Step 2: Objective 1: Core Architectural Pillars
+Narration: First, you will learn the four fundamental architectural layers that underpin all AI agents: Perception, Memory, Reasoning, and Action.
+Visual Description: Roadmap Card: Milestone 1 with vibrant blue checkmark badge.
+Presentation Step 3: Objective 2: Continuous Feedback Loop
+Narration: Second, we will examine the continuous agent-environment feedback loop and how it separates proactive agents from passive tools.
+Visual Description: Roadmap Card: Milestone 2 with vibrant blue checkmark badge.
+Presentation Step 4: Objective 3: Three Agent Architectures
+Narration: Third, we will compare Reactive, Goal-Based, and Utility-Based architectures across memory, deliberation, and trade-offs.
+Visual Description: Roadmap Card: Milestone 3 with vibrant blue checkmark badge.
+Presentation Step 5: Objective 4: Workflow & Human Handoff
+Narration: Finally, we will evaluate end-to-end industrial workflows and human-in-the-loop safety handoffs before launching into our hands-on implementation.
+Visual Description: Roadmap Card: Milestone 4 with golden focus accent ring.
+
+Scene 2:
+Scene Objective: Introduce the foundational paradigm of an awakened agent core breaking free of static software constraints.
+Presentation Step 1: The Agentic Spark
+Narration: Every AI agent, regardless of type, is built from the exact same fundamental components. Unlike static code, an agent continuously acts upon its world.
+Visual Description: Central glowing core with concentric rings shattering the static shell.
+Presentation Step 2: Unified Four-Pillar Chassis
+Narration: These four foundational pillars—Perception, Memory, Reasoning, and Action—form the universal chassis of every autonomous system.
+Visual Description: Expansion into 4 cardinal socket ports: West, North, East, and South.
+
+Scene 3:
+Scene Objective: Deep-dive into Perception, Memory, Reasoning, and Action layers with real-time industrial telemetry.
+Presentation Step 1: Perception Layer
+Narration: There's the perception layer. This is how the agent receives information from the world around it.
+Visual Description: Sensory ingestion array with solar panel telemetry.
+Presentation Step 2: Memory Layer
+Narration: There's the memory layer. Agents hold short-term context within a task and access long-term memory.
+Visual Description: Dual-tier RAM and Vector DB memory column.
+Presentation Step 3: Reasoning Core
+Narration: There's the reasoning engine, the LLM, which interprets perception, decides what to do next, and determines tools.
+Visual Description: Neural LLM brain core with active thought pulses.
+Presentation Step 4: Action Hub
+Narration: And there's the action layer: running queries, calling APIs, writing files, and sending alerts.
+Visual Description: Kinetic tool cards lighting up in sequence.
+
+Scene 4:
+Scene Objective: Illustrate perpetual cyclic agent-environment feedback with live Solara grid monitoring.
+Presentation Step 1: Perpetual Feedback Loop
+Narration: These four components work together in a continuous loop: perceive, reason, act, perceive again. That unbroken loop is agent-environment interaction.
+Visual Description: Infinity racetrack with orbiting light packets.
+Presentation Step 2: Solara Grid Monitoring
+Narration: At Solara, an agent monitoring grid performance isn't just waiting for a report; it actively patrols live sensor streams 24/7.
+Visual Description: Live telemetry waveform with sinusoidal baseline.
+Presentation Step 3: Deviation Detection & Remediation
+Narration: When output drops, it observes the deviation, decides an appropriate response, and dispatches an automated correction.
+Visual Description: Sinusoidal curve dropping below 80% threshold and triggering remediation pulse.
+
+Scene 5:
+Scene Objective: Demonstrate the instantaneous reflex mechanics and stateless limitations of reactive architectures.
+Presentation Step 1: The Reflex Arc Paradigm
+Narration: Now let's talk about the three main types of agents. The first type is the reactive agent, responding to inputs using predefined rules.
+Visual Description: Optical reflex rail with high-speed input-to-output beam.
+Presentation Step 2: Condition-Action Lookups
+Narration: A reactive agent has no internal state and no ability to plan ahead. It simply executes IF-THEN rules instantaneously.
+Visual Description: Bank of crystalline logic relays closing with electric sparks.
+Presentation Step 3: Solara Site 12 Alert Trigger
+Narration: Think of a simple alert agent at Solara. If output drops below 80%, it fires an alert. Fast, predictable, but blind to root cause.
+Visual Description: Condition: IF [Output < 80%] -> THEN [Dispatch Alert].
+
+Scene 6:
+Scene Objective: Explain outcome-oriented deliberation anchored by target goal states and lookahead trajectory evaluation.
+Presentation Step 1: Outcome-Oriented Deliberation
+Narration: The second type is the goal-based agent. Instead of reacting to current conditions, it chooses actions based on their contribution to desired future outcomes.
+Visual Description: Radiant Goal Beacon casting conical illumination.
+Presentation Step 2: Lookahead Search & Trajectory Planning
+Narration: At Solara, a goal-based agent evaluates multiple battery dispatch strategies to determine which sequence maintains grid stability.
+Visual Description: Multi-path decision tree branching from current state to target goal.
+
+Scene 7:
+Scene Objective: Distinguish binary goal achievement from nuanced utility optimization across competing constraints.
+Presentation Step 1: Qualitative Excellence & Trade-Offs
+Narration: The third type is the utility-based agent. Reaching a goal isn't enough; the agent must evaluate how well the goal is achieved.
+Visual Description: Golden scale weighing competing candidate paths.
+Presentation Step 2: Multi-Objective Scoring
+Narration: In our solar grid, it balances power output against equipment wear and operating cost using an objective utility function.
+Visual Description: Utility formula: U(s) = Max(Power) - Wear - Cost, highlighting Plan B (0.94).
+
+Scene 8:
+Scene Objective: Present comprehensive end-to-end workflow architecture in an expansive swimlane with human-in-the-loop safety handoffs.
+Presentation Step 1: Autonomous Pipeline Conduit
+Narration: Let's put this together into a real-world workflow. The agent monitors the grid, diagnoses anomalies, and calculates mitigations.
+Visual Description: 5-chamber swimlane conduit lighting up in operational readiness.
+Presentation Step 2: Confidence Threshold Gate
+Narration: When confidence is high, it acts autonomously. But when confidence drops below safety thresholds, it escalates to human operators.
+Visual Description: Confidence meter dropping to 72% < 85% threshold, triggering handoff gate.
+Presentation Step 3: Operator Signoff Stamp
+Narration: The field engineer reviews the recommendation and signs off, ensuring safety while maximizing operational efficiency.
+Visual Description: Engineer review portal and green stamp of approval.
+
+Scene 9:
+Scene Objective: Synthesize the 3 agent tiers into a comparison matrix and transition seamlessly into the hands-on coding lab.
+Presentation Step 1: Comparison Synthesis
+Narration: To summarize: Reactive agents provide fast deterministic reflexes; Goal-based agents plan future paths; Utility-based agents optimize trade-offs.
+Visual Description: 3x3 Architectural Comparison Matrix across deliberation, memory, and use cases.
+Presentation Step 2: Hands-On Demo Launchpad
+Narration: Now let's move into our hands-on demo where you will build and configure these agent types in live code.
+Visual Description: Silicon microprocessor locking into workstation with terminal windows opening.

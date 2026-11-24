@@ -1,0 +1,1211 @@
+{
+  "lesson_title": "Types And Architectures Of Ai Agents Sme",
+  "total_scenes": 9,
+  "scenes": [
+    {
+      "scene_id": 1,
+      "scene_title": "AI Agent: The Active System",
+      "scene_type": "introduction",
+      "duration": 8.0,
+      "sme_layout": "100",
+      "presentation_steps": [
+        {
+          "step_number": 1,
+          "title": "Agent: Beyond Response",
+          "narration": "In the last topic, we established what an AI agent is. A system that doesn't just respond, but acts.",
+          "duration": 11.0,
+          "dominant_visual_concept": "A central, pulsing AI agent core interacting with a dynamic environment.",
+          "visual_description": "A glowing, multifaceted 'AI Core' sphere (x=0, y=0) at center, pulsing gently. Around it, a subtle, kinetic background grid representing the 'Environment'. Small, abstract data packets (glowing particles) flow towards the core from the environment, and small action signals flow outwards. The AI Core has a faint 'Agent' label beneath it. The overall composition is dynamic, suggesting continuous activity. SME full screen, no overlays.",
+          "on_screen_elements": [
+            "AI Core",
+            "Agent",
+            "Environment"
+          ],
+          "transition_to_next": "AI Core shrinks to a small, persistent icon as SME frame appears; environment grid transforms into abstract background for objectives.",
+          "run_time": 11.0,
+          "start_time": 0.0,
+          "end_time": 11.0,
+          "step_title": "Agent: Beyond Response",
+          "on_screen_text": [
+            "AI Core",
+            "Agent",
+            "Environment"
+          ],
+          "matching_section": "Purpose: A glowing, multifaceted 'AI Core' sphere (x=0, y=0) at center, pulsing gently. Around it, a subtle, kinetic background grid representing the 'Environment'. Small, abstract data packets (glowing particles) flow towards the core from the environment, and small action signals flow outwards. The AI Core has a faint 'Agent' label beneath it. The overall composition is dynamic, suggesting continuous activity. SME full screen, no overlays.\nPresentation Components:\n\u2022 Step Title: Agent: Beyond Response\n\u2022 Screen Context: AI Agent: The Active System (Step 1)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Agent: Beyond Response.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Agent: Beyond Response.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        }
+      ],
+      "scene_index": 1,
+      "title": "AI Agent: The Active System",
+      "voiceover_narration": "In the last topic, we established what an AI agent is. A system that doesn't just respond, but acts.",
+      "dynamic_selection_reason": "Assigned explicit layout 100% from pedagogical curriculum plan.",
+      "sme_positioning": {
+        "layout_type": "100_full_screen",
+        "manim_geometry": {
+          "cx": 0.0,
+          "cy": 0.0,
+          "w": 14.222,
+          "h": 8.0
+        },
+        "bounding_box": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "corner_radius": 0,
+        "blue_band": null,
+        "description": "Full screen trainer video (guidelines.md 8.3 & OSL 3.0 Page 16, <= 20s max range)."
+      },
+      "presentation_safe_zone": {
+        "allowed": false,
+        "notes": "Minimal overlay text only; teacher occupies full canvas."
+      },
+      "start_time": 0.0,
+      "end_time": 8.0,
+      "manim_video": "output/types_and_architectures_of_ai_agents_sme/manim_time_synced_videos/group_1.mp4"
+    },
+    {
+      "scene_id": 2,
+      "scene_title": "Solara & Lesson Objectives",
+      "scene_type": "objectives",
+      "duration": 68.0,
+      "sme_layout": "70",
+      "presentation_steps": [
+        {
+          "step_number": 1,
+          "title": "Solara: Goal-Driven Actions",
+          "narration": "We introduced Solara Energy and looked at how agents can take a goal like monitoring site performance and turn it into a sequence of real actions, querying data, comparing outputs, flagging anomalies and generating reports.",
+          "duration": 19.058,
+          "dominant_visual_concept": "Solara Energy's operational flow, illustrating agent actions.",
+          "visual_description": "Top-right PIP (Layout 20%) active. Main canvas: A stylized 'Solara Energy' logo emerges center-left. To its right, a horizontal flow diagram appears: [Goal: Site Performance] -> [Query Data] -> [Compare Outputs] -> [Flag Anomalies] -> [Generate Reports]. Each step in the flow diagram is a distinct, animated icon (e.g., magnifying glass for query, balance scale for compare, flag for anomalies, document for reports). Arrows connecting steps illuminate sequentially as narration progresses. The 'Goal' node pulses steadily. All elements remain below y=1.6.",
+          "on_screen_elements": [
+            "Solara Energy",
+            "Goal: Site Performance",
+            "Query Data",
+            "Compare Outputs",
+            "Flag Anomalies",
+            "Generate Reports"
+          ],
+          "transition_to_next": "Solara flow recedes slightly, making space for learning objectives to appear below it.",
+          "run_time": 19.058,
+          "start_time": 0.0,
+          "end_time": 19.058,
+          "step_title": "Solara: Goal-Driven Actions",
+          "on_screen_text": [
+            "Solara Energy",
+            "Goal: Site Performance",
+            "Query Data",
+            "Compare Outputs",
+            "Flag Anomalies",
+            "Generate Reports"
+          ],
+          "matching_section": "Purpose: Top-right PIP (Layout 20%) active. Main canvas: A stylized 'Solara Energy' logo emerges center-left. To its right, a horizontal flow diagram appears: [Goal: Site Performance] -> [Query Data] -> [Compare Outputs] -> [Flag Anomalies] -> [Generate Reports]. Each step in the flow diagram is a distinct, animated icon (e.g., magnifying glass for query, balance scale for compare, flag for anomalies, document for reports). Arrows connecting steps illuminate sequentially as narration progresses. The 'Goal' node pulses steadily. All elements remain below y=1.6.\nPresentation Components:\n\u2022 Step Title: Solara: Goal-Driven Actions\n\u2022 Screen Context: Solara & Lesson Objectives (Step 1)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Solara: Goal-Driven Actions.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Solara: Goal-Driven Actions.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 2,
+          "title": "Agent Diversity & Architectures",
+          "narration": "But not all agents work the same way. There are different types built on different architectures designed for different kinds of problems. And understanding those differences is what allows you to match the right agent to the right job.",
+          "duration": 21.236,
+          "dominant_visual_concept": "Visual metaphor for agent diversity and problem matching.",
+          "visual_description": "Below the Solara flow, a dynamic visual appears: Three distinct, stylized 'Agent' icons (e.g., a simple gear, a compass, a multi-faceted diamond) orbit a central 'Problem Sphere'. Each agent icon is labeled [Type 1], [Type 2], [Type 3]. Animated lines connect each agent to the Problem Sphere, with the line to the 'right' agent for the problem glowing, suggesting 'matching'. Problem Sphere pulses, changing internal patterns to represent 'different problems'.",
+          "on_screen_elements": [
+            "Types",
+            "Architectures",
+            "Problems",
+            "Match"
+          ],
+          "transition_to_next": "Problem Sphere and orbiting agents fade out smoothly. Objectives list begins to appear.",
+          "run_time": 21.236,
+          "start_time": 19.058,
+          "end_time": 40.294,
+          "step_title": "Agent Diversity & Architectures",
+          "on_screen_text": [
+            "Types",
+            "Architectures",
+            "Problems",
+            "Match"
+          ],
+          "matching_section": "Purpose: Below the Solara flow, a dynamic visual appears: Three distinct, stylized 'Agent' icons (e.g., a simple gear, a compass, a multi-faceted diamond) orbit a central 'Problem Sphere'. Each agent icon is labeled [Type 1], [Type 2], [Type 3]. Animated lines connect each agent to the Problem Sphere, with the line to the 'right' agent for the problem glowing, suggesting 'matching'. Problem Sphere pulses, changing internal patterns to represent 'different problems'.\nPresentation Components:\n\u2022 Step Title: Agent Diversity & Architectures\n\u2022 Screen Context: Solara & Lesson Objectives (Step 2)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Agent Diversity & Architectures.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Agent Diversity & Architectures.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 3,
+          "title": "Learning Outcomes",
+          "narration": "By the end of this topic, you will be able to describe the core components that make up an AI agent's architecture. Explain how agents interact with their environment through a continuous loop. Walk through the perception reasoning action cycle that drives agent decision making and identify the three main types of agents and one each as appropriate, as well as visualize how a complete agent workflow flows from input to outcome.",
+          "duration": 39.206,
+          "dominant_visual_concept": "Progressive reveal of learning objectives as key bullet points.",
+          "visual_description": "A series of concise objective statements animate onto the screen sequentially, each accompanied by a small, relevant icon (e.g., building blocks for 'components', a circular arrow for 'loop', a brain for 'cycle', three distinct shapes for 'types', a flowing arrow for 'workflow'). Each objective appears slightly below the previous one. Titles remain concise. All elements below y=1.6.",
+          "on_screen_elements": [
+            "Core Components",
+            "Agent Loop",
+            "P-R-A Cycle",
+            "Agent Types",
+            "Workflow"
+          ],
+          "transition_to_next": "Objectives fade out, preparing for the next scene's dominant visual.",
+          "run_time": 39.206,
+          "start_time": 40.294,
+          "end_time": 79.5,
+          "step_title": "Learning Outcomes",
+          "on_screen_text": [
+            "Core Components",
+            "Agent Loop",
+            "P-R-A Cycle",
+            "Agent Types",
+            "Workflow"
+          ],
+          "matching_section": "Purpose: A series of concise objective statements animate onto the screen sequentially, each accompanied by a small, relevant icon (e.g., building blocks for 'components', a circular arrow for 'loop', a brain for 'cycle', three distinct shapes for 'types', a flowing arrow for 'workflow'). Each objective appears slightly below the previous one. Titles remain concise. All elements below y=1.6.\nPresentation Components:\n\u2022 Step Title: Learning Outcomes\n\u2022 Screen Context: Solara & Lesson Objectives (Step 3)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Learning Outcomes.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Learning Outcomes.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        }
+      ],
+      "scene_index": 2,
+      "title": "Solara & Lesson Objectives",
+      "voiceover_narration": "We introduced Solara Energy and looked at how agents can take a goal like monitoring site performance and turn it into a sequence of real actions, querying data, comparing outputs, flagging anomalies and generating reports. But not all agents work the same way. There are different types built on different architectures designed for different kinds of problems. And understanding those differences is what allows you to match the right agent to the right job. By the end of this topic, you will be able to describe the core components that make up an AI agent's architecture. Explain how agents interact with their environment through a continuous loop. Walk through the perception reasoning action cycle that drives agent decision making and identify the three main types of agents and one each as appropriate, as well as visualize how a complete agent workflow flows from input to outcome.",
+      "dynamic_selection_reason": "Assigned explicit layout 20% from pedagogical curriculum plan.",
+      "sme_positioning": {
+        "layout_type": "20_top_right_pip",
+        "manim_geometry": {
+          "cx": 5.689,
+          "cy": 3.2,
+          "w": 2.844,
+          "h": 1.6,
+          "corner_radius": 0.074
+        },
+        "bounding_box": {
+          "x": 1496,
+          "y": 40,
+          "w": 384,
+          "h": 216,
+          "corner_radius": 8
+        },
+        "corner_radius": 8,
+        "blue_band": null,
+        "description": "Trainer scaled to 20% FHD in top-right corner at (1496, 40) (guidelines.md 8.4 & OSL 3.0 Page 27)."
+      },
+      "presentation_safe_zone": {
+        "allowed": true,
+        "bounding_box": {
+          "x_min": 80,
+          "x_max": 1840,
+          "y_min": 80,
+          "y_max": 1000
+        },
+        "collision_constraints": {
+          "lead_in_max_x": 1440,
+          "title_max_x": 1440,
+          "diagram_y_min": 270,
+          "notes": "Lead-in line and title must terminate <= 1440px to ensure zero collision with SME at (1496, 40). Content below y=270px."
+        }
+      },
+      "start_time": 8.0,
+      "end_time": 76.0,
+      "manim_video": "output/types_and_architectures_of_ai_agents_sme/manim_time_synced_videos/group_2.mp4"
+    },
+    {
+      "scene_id": 3,
+      "scene_title": "Four Pillars of AI Agent Architecture",
+      "scene_type": "architecture_breakdown",
+      "duration": 67.0,
+      "sme_layout": "20",
+      "presentation_steps": [
+        {
+          "step_number": 1,
+          "title": "One Core, Four Pillars",
+          "narration": "Every AI agent, regardless of type, is built from the same fundamental components. There's the perception layer.",
+          "duration": 8.5,
+          "dominant_visual_concept": "A softly pulsing Agent Core orb at center canvas. Four dormant quadrant sockets sit on an orbital ring around it, like an unlit engine blueprint.",
+          "visual_description": "The 1920x1080 canvas is steady with no camera movement. The SME PiP (384x216 at 1496,40) is held clear. The title lead-in ends at x<=1440 and all diagrams sit below y=270px. A thin ring draws itself around the Agent Core, centered near (960,640) and about 1200px wide. Four faint socket nodes appear at W, N, E and S, with pictogram silhouettes only. At the end of the narration, the west socket brightens with a cyan sweep to cue 'perception layer'. The other three stay dim but visible, so the screen is never empty.",
+          "on_screen_elements": [
+            "Agent Core",
+            "4 Components",
+            "Perception (cyan tag)",
+            "Orbital Ring"
+          ],
+          "transition_to_next": "The west socket's cyan glow expands. The ring dims slightly and the Agent Core shrinks to 60% as the radar dish unfolds from the west socket.",
+          "matching_section": "Purpose: The 1920x1080 canvas is steady with no camera movement. The SME PiP (384x216 at 1496,40) is held clear. The title lead-in ends at x<=1440 and all diagrams sit below y=270px. A thin ring draws itself around the Agent Core, centered near (960,640) and about 1200px wide. Four faint socket nodes appear at W, N, E and S, with pictogram silhouettes only. At the end of the narration, the west socket brightens with a cyan sweep to cue 'perception layer'. The other three stay dim but visible, so the screen is never empty.\nPresentation Components:\n\u2022 Step Title: One Core, Four Pillars\n\u2022 Screen Context: Scene 3 (Step 1)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing One Core, Four Pillars.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for One Core, Four Pillars.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.",
+          "on_screen_text": [
+            "Agent Core",
+            "4 Components",
+            "Perception (cyan tag)",
+            "Orbital Ring"
+          ]
+        },
+        {
+          "step_number": 2,
+          "title": "Perception: Sensing the World",
+          "narration": "This is how the agent receives information from the world around it. At Solara, that might mean reading an incoming data feed",
+          "duration": 11.5,
+          "dominant_visual_concept": "A Radar Sweep Dish. Sensory ingestion beams funnel inbound data particles toward the Agent Core.",
+          "visual_description": "The west socket morphs into a large radar dish with a rotating sweep wedge. Small data particles drift in from the left edge, and directed arrows with traveling pulses carry them into the core. As 'data feed' is spoken, the Solar Telemetry Icon (panel grid with a signal wave) slides in as the first input source. A live metric chip ticks beside it. The title tag sits top-left and ends before x=1440. The PiP area stays clear.",
+          "on_screen_elements": [
+            "Perception",
+            "Solar Telemetry Icon",
+            "Data Feed",
+            "Live: 1,248 pts/s"
+          ],
+          "transition_to_next": "The telemetry icon shifts down-left to make room. The beam stays lit, and two more input icons are spawned from the same beam.",
+          "matching_section": "Purpose: The west socket morphs into a large radar dish with a rotating sweep wedge. Small data particles drift in from the left edge, and directed arrows with traveling pulses carry them into the core. As 'data feed' is spoken, the Solar Telemetry Icon (panel grid with a signal wave) slides in as the first input source. A live metric chip ticks beside it. The title tag sits top-left and ends before x=1440. The PiP area stays clear.\nPresentation Components:\n\u2022 Step Title: Perception: Sensing the World\n\u2022 Screen Context: Scene 3 (Step 2)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Perception: Sensing the World.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Perception: Sensing the World.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.",
+          "on_screen_text": [
+            "Perception",
+            "Solar Telemetry Icon",
+            "Data Feed",
+            "Live: 1,248 pts/s"
+          ]
+        },
+        {
+          "step_number": 3,
+          "title": "Three Input Channels",
+          "narration": "from a solar installation, receiving a user query, or picking up a trigger from a monitoring system. There's the memory layer.",
+          "duration": 10.5,
+          "dominant_visual_concept": "The radar dish stays as the anchor. Three ingestion beams converge on it from three source icons: Solar Installation, User Query bubble, Monitor Trigger bell.",
+          "visual_description": "The three icons light up one by one as each is spoken. Telemetry glows first, then a chat-bubble 'User Query' icon, then an alarm-bell 'Trigger' icon. Each sends a pulse down its own beam into the core. After the last pulse, the whole perception assembly slides to a compact west dock and shrinks to 45%. The remaining three pillar sockets remain visible. The south-east socket then lights violet to cue 'memory layer'.",
+          "on_screen_elements": [
+            "Solar Feed",
+            "User Query",
+            "Trigger",
+            "3 Sources"
+          ],
+          "transition_to_next": "The perception cluster docks west. The violet socket expands into the dual-tier memory stack.",
+          "matching_section": "Purpose: The three icons light up one by one as each is spoken. Telemetry glows first, then a chat-bubble 'User Query' icon, then an alarm-bell 'Trigger' icon. Each sends a pulse down its own beam into the core. After the last pulse, the whole perception assembly slides to a compact west dock and shrinks to 45%. The remaining three pillar sockets remain visible. The south-east socket then lights violet to cue 'memory layer'.\nPresentation Components:\n\u2022 Step Title: Three Input Channels\n\u2022 Screen Context: Scene 3 (Step 3)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Three Input Channels.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Three Input Channels.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.",
+          "on_screen_text": [
+            "Solar Feed",
+            "User Query",
+            "Trigger",
+            "3 Sources"
+          ]
+        },
+        {
+          "step_number": 4,
+          "title": "Memory: Two Tiers",
+          "narration": "As we covered earlier, agents hold short-term context within a task and can access long-term memory from external storage.",
+          "duration": 10.5,
+          "dominant_visual_concept": "A dual-tier Memory Stack. An ephemeral Context Buffer Register sits above a persistent holographic Vector Database Cylinder.",
+          "visual_description": "Centerstage, a glowing Context Buffer Register with slot cells appears at upper center. It fills with small context tokens that fade after a task cycle, and a badge reads 'Short-term'. Below it, a translucent Vector Database Cylinder with ring layers rises from the floor, tagged 'Long-term' and 'External'. A bidirectional pulse arrow between the tiers shows retrieval and write-back. A small metric chip shows 'Context: 8K'. All content stays under y>=270px and clear of the PiP.",
+          "on_screen_elements": [
+            "Short-term",
+            "Long-term",
+            "Context Buffer",
+            "Vector DB",
+            "8K tokens"
+          ],
+          "transition_to_next": "A chain of glowing context nodes extends from the register and traces a path across the stack, setting up multi-step continuity.",
+          "matching_section": "Purpose: Centerstage, a glowing Context Buffer Register with slot cells appears at upper center. It fills with small context tokens that fade after a task cycle, and a badge reads 'Short-term'. Below it, a translucent Vector Database Cylinder with ring layers rises from the floor, tagged 'Long-term' and 'External'. A bidirectional pulse arrow between the tiers shows retrieval and write-back. A small metric chip shows 'Context: 8K'. All content stays under y>=270px and clear of the PiP.\nPresentation Components:\n\u2022 Step Title: Memory: Two Tiers\n\u2022 Screen Context: Scene 3 (Step 4)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Memory: Two Tiers.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Memory: Two Tiers.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.",
+          "on_screen_text": [
+            "Short-term",
+            "Long-term",
+            "Context Buffer",
+            "Vector DB",
+            "8K tokens"
+          ]
+        },
+        {
+          "step_number": 5,
+          "title": "Memory Keeps Track",
+          "narration": "This is what allows an agent to reason across multiple steps without losing track of where it is.",
+          "duration": 10.0,
+          "dominant_visual_concept": "A Step-Tracker Breadcrumb Trail. A glowing path of numbered waypoints runs through the memory stack.",
+          "visual_description": "Over the Memory Stack, a dotted path draws across three waypoints (Step 1, Step 2, Step 3). A bright 'You Are Here' marker moves along it and stays lit at the current step, with the earlier waypoints remaining visible to show nothing is lost. The Vector Cylinder pulses gently each time the marker advances to show a memory read. At the end, the stack shrinks and docks at the south-east of the ring next to the perception cluster. The north socket lights amber to cue the reasoning engine.",
+          "on_screen_elements": [
+            "Step 1\u21922\u21923",
+            "You Are Here",
+            "Context Retained",
+            "Memory"
+          ],
+          "transition_to_next": "The memory stack docks. The amber north socket swells into the neural die as the Agent Core slides toward center.",
+          "matching_section": "Purpose: Over the Memory Stack, a dotted path draws across three waypoints (Step 1, Step 2, Step 3). A bright 'You Are Here' marker moves along it and stays lit at the current step, with the earlier waypoints remaining visible to show nothing is lost. The Vector Cylinder pulses gently each time the marker advances to show a memory read. At the end, the stack shrinks and docks at the south-east of the ring next to the perception cluster. The north socket lights amber to cue the reasoning engine.\nPresentation Components:\n\u2022 Step Title: Memory Keeps Track\n\u2022 Screen Context: Scene 3 (Step 5)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Memory Keeps Track.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Memory Keeps Track.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.",
+          "on_screen_text": [
+            "Step 1\u21922\u21923",
+            "You Are Here",
+            "Context Retained",
+            "Memory"
+          ]
+        },
+        {
+          "step_number": 6,
+          "title": "Reasoning: The LLM Engine",
+          "narration": "Then there's the reasoning engine, the LLM, which interprets what the agent has perceived, decides what to do next, and determines which tools to use.",
+          "duration": 13.0,
+          "dominant_visual_concept": "An LLM Neural Die, a glowing processor lattice at center. It runs a three-stage deliberation flow: Interpret, Decide, Select Tool.",
+          "visual_description": "A large chip-like neural die with a pulsing lattice of nodes forms centerstage at about 1100px wide. Inbound pulses from the docked Perception and Memory clusters feed into its left edge. A three-stage pipeline lights up in sequence along the die as each phrase is spoken: 'Interpret', 'Decide', then 'Select Tool'. At the last stage, three small tool icons (Query, API, File) fan out from the die's right edge and one is highlighted. A badge shows 'Confidence: 0.94'. All elements stay below y=270px and the PiP is clear.",
+          "on_screen_elements": [
+            "LLM",
+            "Interpret",
+            "Decide",
+            "Select Tool",
+            "Confidence: 0.94"
+          ],
+          "transition_to_next": "The highlighted tool beam extends east and the die docks north. The east socket lights orange and opens into the action hub.",
+          "matching_section": "Purpose: A large chip-like neural die with a pulsing lattice of nodes forms centerstage at about 1100px wide. Inbound pulses from the docked Perception and Memory clusters feed into its left edge. A three-stage pipeline lights up in sequence along the die as each phrase is spoken: 'Interpret', 'Decide', then 'Select Tool'. At the last stage, three small tool icons (Query, API, File) fan out from the die's right edge and one is highlighted. A badge shows 'Confidence: 0.94'. All elements stay below y=270px and the PiP is clear.\nPresentation Components:\n\u2022 Step Title: Reasoning: The LLM Engine\n\u2022 Screen Context: Scene 3 (Step 6)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Reasoning: The LLM Engine.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Reasoning: The LLM Engine.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.",
+          "on_screen_text": [
+            "LLM",
+            "Interpret",
+            "Decide",
+            "Select Tool",
+            "Confidence: 0.94"
+          ]
+        },
+        {
+          "step_number": 7,
+          "title": "Action: Doing Something",
+          "narration": "And there's the action layer. This is where the agent does something in the world:",
+          "duration": 8.0,
+          "dominant_visual_concept": "An API Dispatch Hub, a mechanical actuator with dials and levers. The selected command from the LLM Die arrives as a glowing packet.",
+          "visual_description": "The east socket expands into a mechanical hub with a central dial and three lever arms. The command packet from the reasoning die slides in and the dial clicks to 'Execute'. A small status pill switches from [Idle] to [Active]. The three lever arms stay poised for the next step. The Reasoning die, Memory stack and Perception dish remain visible as small docked pictograms around the ring.",
+          "on_screen_elements": [
+            "Action",
+            "API Dispatch Hub",
+            "Execute",
+            "[Active]"
+          ],
+          "transition_to_next": "The three levers pull in sequence. Their output beams become the final four-pillar loop.",
+          "matching_section": "Purpose: The east socket expands into a mechanical hub with a central dial and three lever arms. The command packet from the reasoning die slides in and the dial clicks to 'Execute'. A small status pill switches from [Idle] to [Active]. The three lever arms stay poised for the next step. The Reasoning die, Memory stack and Perception dish remain visible as small docked pictograms around the ring.\nPresentation Components:\n\u2022 Step Title: Action: Doing Something\n\u2022 Screen Context: Scene 3 (Step 7)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Action: Doing Something.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Action: Doing Something.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.",
+          "on_screen_text": [
+            "Action",
+            "API Dispatch Hub",
+            "Execute",
+            "[Active]"
+          ]
+        },
+        {
+          "step_number": 8,
+          "title": "The Continuous Loop",
+          "narration": "runs a query, calls an API, writes a file, or sends an alert. These four components work together in a continuous loop.",
+          "duration": 12.5,
+          "dominant_visual_concept": "An Orbital Loop Ribbon. A glowing ribbon connects all four pillars in a closed circuit around the Agent Core: Perceive \u2192 Remember \u2192 Reason \u2192 Act.",
+          "visual_description": "Each lever fires in turn as spoken, with a small icon popping out each time: Query (database magnifier), API (plug), File (document), Alert (bell). Then the four docked pillars scale up to equal size on the orbital ring. A directional ribbon draws itself through them in order: Perception \u2192 Memory \u2192 Reasoning \u2192 Action, and a pulse loops back to Perception. The Agent Core pulses once per lap, with a cycle counter ticking 'Loop 1, 2, 3'. The final frame holds the complete four-pillar loop at about 1200px wide below y=270px. The PiP is clear.",
+          "on_screen_elements": [
+            "Perceive",
+            "Remember",
+            "Reason",
+            "Act",
+            "Orbital Loop Ribbon",
+            "Loop \u221e"
+          ],
+          "transition_to_next": "The loop keeps spinning and holds as the persistent anchor into Scene 4.",
+          "matching_section": "Purpose: Each lever fires in turn as spoken, with a small icon popping out each time: Query (database magnifier), API (plug), File (document), Alert (bell). Then the four docked pillars scale up to equal size on the orbital ring. A directional ribbon draws itself through them in order: Perception \u2192 Memory \u2192 Reasoning \u2192 Action, and a pulse loops back to Perception. The Agent Core pulses once per lap, with a cycle counter ticking 'Loop 1, 2, 3'. The final frame holds the complete four-pillar loop at about 1200px wide below y=270px. The PiP is clear.\nPresentation Components:\n\u2022 Step Title: The Continuous Loop\n\u2022 Screen Context: Scene 3 (Step 8)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing The Continuous Loop.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for The Continuous Loop.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.",
+          "on_screen_text": [
+            "Perceive",
+            "Remember",
+            "Reason",
+            "Act",
+            "Orbital Loop Ribbon",
+            "Loop \u221e"
+          ]
+        }
+      ],
+      "dynamic_selection_reason": "Preserved perfected Scene 3 blueprint",
+      "title": "One Core, Four Pillars: Core Architecture",
+      "start_time": 76.0,
+      "end_time": 143.0,
+      "manim_video": "output/types_and_architectures_of_ai_agents_sme/manim_time_synced_videos/group_3.mp4"
+    },
+    {
+      "scene_id": 4,
+      "scene_title": "Agent-Environment Interaction Loop",
+      "scene_type": "concept_explanation",
+      "duration": 40.5,
+      "sme_layout": "70",
+      "presentation_steps": [
+        {
+          "step_number": 1,
+          "title": "Continuous Loop",
+          "narration": "These four components work together in a continuous loop. The agent perceives, reasons, acts, then perceives again based on the result of that action.",
+          "duration": 14.133,
+          "dominant_visual_concept": "Animated circular flow diagram of Perception-Reasoning-Action.",
+          "visual_description": "The four component modules (Perception, Memory, Reasoning, Action) from the previous scene re-arrange into a clean circular flow. Animated, pulsing arrows connect them: Perception -> Reasoning -> Action -> (back to) Perception. Memory sits centrally, connected to Reasoning. A central label 'Agent Loop' appears. The 'Environment' ring pulses, indicating continuous input/output.",
+          "on_screen_elements": [
+            "Perception",
+            "Reasoning",
+            "Action",
+            "Memory",
+            "Agent Loop",
+            "Environment"
+          ],
+          "transition_to_next": "Loop continues pulsing, preparing for comparison with static tools.",
+          "run_time": 14.133,
+          "start_time": 0.0,
+          "end_time": 14.133,
+          "step_title": "Continuous Loop",
+          "on_screen_text": [
+            "Perception",
+            "Reasoning",
+            "Action",
+            "Memory",
+            "Agent Loop",
+            "Environment"
+          ],
+          "matching_section": "Purpose: The four component modules (Perception, Memory, Reasoning, Action) from the previous scene re-arrange into a clean circular flow. Animated, pulsing arrows connect them: Perception -> Reasoning -> Action -> (back to) Perception. Memory sits centrally, connected to Reasoning. A central label 'Agent Loop' appears. The 'Environment' ring pulses, indicating continuous input/output.\nPresentation Components:\n\u2022 Step Title: Continuous Loop\n\u2022 Screen Context: Agent-Environment Interaction Loop (Step 1)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Continuous Loop.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Continuous Loop.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 2,
+          "title": "Agent vs. Static Tool",
+          "narration": "That loop is what we call agent environment interaction. And it's worth understanding because it's what separates an agent from a static tool. A static tool waits to be asked. An agent operates within an environment. It observes what's happening, decides what action is appropriate, and executes. Then it checks the result, and decides what comes next.",
+          "duration": 33.567,
+          "dominant_visual_concept": "Side-by-side comparison of a passive static tool and an active, looping agent.",
+          "visual_description": "The 'Agent Loop' shrinks slightly and moves to the right (x=2.5). A new visual appears on the left (x=-2.5): a dormant, gray 'Static Tool' icon (e.g., a wrench or a simple calculator) with a 'waiting' animation (e.g., an idle blinking cursor), labeled 'Static Tool'. An arrow points from a 'User Input' icon towards the Static Tool, which then emits a 'Result' (fades out). The Agent Loop on the right, labeled 'AI Agent', continues its active P-R-A cycle, with arrows flowing to and from the 'Environment' ring. A comparison label 'Agent vs. Tool' appears at the top center. The 'Agent Environment Interaction' label appears near the Agent Loop.",
+          "on_screen_elements": [
+            "Agent vs. Tool",
+            "Static Tool",
+            "AI Agent",
+            "User Input",
+            "Result",
+            "Environment",
+            "Agent Environment Interaction"
+          ],
+          "transition_to_next": "Static Tool fades out, Agent Loop becomes primary focus for the next scene.",
+          "run_time": 33.567,
+          "start_time": 14.133,
+          "end_time": 47.7,
+          "step_title": "Agent vs. Static Tool",
+          "on_screen_text": [
+            "Agent vs. Tool",
+            "Static Tool",
+            "AI Agent",
+            "User Input",
+            "Result",
+            "Environment",
+            "Agent Environment Interaction"
+          ],
+          "matching_section": "Purpose: The 'Agent Loop' shrinks slightly and moves to the right (x=2.5). A new visual appears on the left (x=-2.5): a dormant, gray 'Static Tool' icon (e.g., a wrench or a simple calculator) with a 'waiting' animation (e.g., an idle blinking cursor), labeled 'Static Tool'. An arrow points from a 'User Input' icon towards the Static Tool, which then emits a 'Result' (fades out). The Agent Loop on the right, labeled 'AI Agent', continues its active P-R-A cycle, with arrows flowing to and from the 'Environment' ring. A comparison label 'Agent vs. Tool' appears at the top center. The 'Agent Environment Interaction' label appears near the Agent Loop.\nPresentation Components:\n\u2022 Step Title: Agent vs. Static Tool\n\u2022 Screen Context: Agent-Environment Interaction Loop (Step 2)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Agent vs. Static Tool.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Agent vs. Static Tool.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        }
+      ],
+      "scene_index": 4,
+      "title": "Agent-Environment Interaction Loop",
+      "voiceover_narration": "These four components work together in a continuous loop. The agent perceives, reasons, acts, then perceives again based on the result of that action. That loop is what we call agent environment interaction. And it's worth understanding because it's what separates an agent from a static tool. A static tool waits to be asked. An agent operates within an environment. It observes what's happening, decides what action is appropriate, and executes. Then it checks the result, and decides what comes next.",
+      "dynamic_selection_reason": "Assigned explicit layout 70% from pedagogical curriculum plan.",
+      "sme_positioning": {
+        "layout_type": "70_left_rounded_rect",
+        "manim_geometry": {
+          "cx": -3.687,
+          "cy": -0.023,
+          "w": 4.937,
+          "h": 5.349,
+          "corner_radius": 0.074
+        },
+        "bounding_box": {
+          "x": 80,
+          "y": 80,
+          "w": 640,
+          "h": 920,
+          "corner_radius": 10
+        },
+        "corner_radius": 10,
+        "blue_band": {
+          "color": "#2C81FE",
+          "width": 180,
+          "height": 1080
+        },
+        "description": "Left rounded rectangle (radius 10px) with blue accent band (guidelines.md 8.5 & OSL 3.0 Pages 6, 16, 17)."
+      },
+      "presentation_safe_zone": {
+        "allowed": true,
+        "bounding_box": {
+          "x_min": 760,
+          "x_max": 1840,
+          "y_min": 80,
+          "y_max": 1000
+        },
+        "collision_constraints": {
+          "content_min_x": 760
+        },
+        "notes": "Right side 1080px workspace for content cards."
+      },
+      "start_time": 143.0,
+      "end_time": 183.5,
+      "manim_video": "output/types_and_architectures_of_ai_agents_sme/manim_time_synced_videos/group_4.mp4"
+    },
+    {
+      "scene_id": 5,
+      "scene_title": "Dynamic Interaction Example",
+      "scene_type": "worked_example",
+      "duration": 41.0,
+      "sme_layout": "70",
+      "presentation_steps": [
+        {
+          "step_number": 1,
+          "title": "Monitoring Grid Performance",
+          "narration": "At Solara, an agent monitoring grid performance isn't just waiting for someone to run a report. It's watching. When output at a site drops below threshold, it observes the deviation, decides the appropriate response, which might be querying historical data, cross-referencing weather records, or escalating to a human operator, and takes that action.",
+          "duration": 58.855,
+          "dominant_visual_concept": "Solara agent actively observing and reacting to a critical event.",
+          "visual_description": "A simplified 'Solara Site' icon (e.g., a solar panel array) is at the center-left. A 'Performance Gauge' (e.g., a dial with a needle) connected to the site shows output. The needle drops below a [Threshold] line, triggering a red pulse. A 'Monitoring Agent' icon (smaller version of our AI Core) appears, sending a 'Perception' signal to itself. From the agent, a 'Decision Tree' sprouts, highlighting branches for [Query Data], [Cross-Ref Weather], [Escalate Human]. The 'Escalate Human' branch glows red, and an arrow points to a 'Human Operator' icon. The agent then performs the chosen 'Action'.",
+          "on_screen_elements": [
+            "Solara Site",
+            "Performance Gauge",
+            "Threshold",
+            "Monitoring Agent",
+            "Perception",
+            "Decision Tree",
+            "Query Data",
+            "Cross-Ref Weather",
+            "Escalate Human",
+            "Human Operator",
+            "Action"
+          ],
+          "transition_to_next": "Decision Tree collapses, agent's action becomes a clear output affecting the environment.",
+          "run_time": 58.855,
+          "start_time": 0.0,
+          "end_time": 58.855,
+          "step_title": "Monitoring Grid Performance",
+          "on_screen_text": [
+            "Solara Site",
+            "Performance Gauge",
+            "Threshold",
+            "Monitoring Agent",
+            "Perception",
+            "Decision Tree",
+            "Query Data",
+            "Cross-Ref Weather",
+            "Escalate Human",
+            "Human Operator",
+            "Action"
+          ],
+          "matching_section": "Purpose: A simplified 'Solara Site' icon (e.g., a solar panel array) is at the center-left. A 'Performance Gauge' (e.g., a dial with a needle) connected to the site shows output. The needle drops below a [Threshold] line, triggering a red pulse. A 'Monitoring Agent' icon (smaller version of our AI Core) appears, sending a 'Perception' signal to itself. From the agent, a 'Decision Tree' sprouts, highlighting branches for [Query Data], [Cross-Ref Weather], [Escalate Human]. The 'Escalate Human' branch glows red, and an arrow points to a 'Human Operator' icon. The agent then performs the chosen 'Action'.\nPresentation Components:\n\u2022 Step Title: Monitoring Grid Performance\n\u2022 Screen Context: Dynamic Interaction Example (Step 1)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Monitoring Grid Performance.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Monitoring Grid Performance.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 2,
+          "title": "Bi-Directional Relationship",
+          "narration": "The environment shapes the agent. The agent shapes the environment. That bi-directional relationship is what makes agents useful in dynamic real-world data contexts. Let's slow that loop down and look at each stage.",
+          "duration": 36.645,
+          "dominant_visual_concept": "Animated arrows showing reciprocal influence between agent and environment.",
+          "visual_description": "The Monitoring Agent and Solara Site persist. A large, circular, animated arrow emerges, flowing from 'Environment' (represented by the Solara Site and its data) towards the 'Agent'. Simultaneously, another large, circular animated arrow flows from the 'Agent' back towards the 'Environment'. These arrows pulse in sync, labeled 'Shapes Agent' and 'Shapes Environment'. A central label 'Bi-Directional' appears. The P-R-A loop from the previous scene subtly re-emerges around the agent, ready to be 'slowed down'.",
+          "on_screen_elements": [
+            "Environment",
+            "Agent",
+            "Shapes Agent",
+            "Shapes Environment",
+            "Bi-Directional"
+          ],
+          "transition_to_next": "The bi-directional arrows fade, and the P-R-A loop expands to fill the screen, focusing on individual stages.",
+          "run_time": 36.645,
+          "start_time": 58.855,
+          "end_time": 95.5,
+          "step_title": "Bi-Directional Relationship",
+          "on_screen_text": [
+            "Environment",
+            "Agent",
+            "Shapes Agent",
+            "Shapes Environment",
+            "Bi-Directional"
+          ],
+          "matching_section": "Purpose: The Monitoring Agent and Solara Site persist. A large, circular, animated arrow emerges, flowing from 'Environment' (represented by the Solara Site and its data) towards the 'Agent'. Simultaneously, another large, circular animated arrow flows from the 'Agent' back towards the 'Environment'. These arrows pulse in sync, labeled 'Shapes Agent' and 'Shapes Environment'. A central label 'Bi-Directional' appears. The P-R-A loop from the previous scene subtly re-emerges around the agent, ready to be 'slowed down'.\nPresentation Components:\n\u2022 Step Title: Bi-Directional Relationship\n\u2022 Screen Context: Dynamic Interaction Example (Step 2)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Bi-Directional Relationship.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Bi-Directional Relationship.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        }
+      ],
+      "scene_index": 5,
+      "title": "Dynamic Interaction Example",
+      "voiceover_narration": "At Solara, an agent monitoring grid performance isn't just waiting for someone to run a report. It's watching. When output at a site drops below threshold, it observes the deviation, decides the appropriate response, which might be querying historical data, cross-referencing weather records, or escalating to a human operator, and takes that action. The environment shapes the agent. The agent shapes the environment. That bi-directional relationship is what makes agents useful in dynamic real-world data contexts. Let's slow that loop down and look at each stage.",
+      "dynamic_selection_reason": "Assigned explicit layout 70% from pedagogical curriculum plan.",
+      "sme_positioning": {
+        "layout_type": "70_left_rounded_rect",
+        "manim_geometry": {
+          "cx": -3.687,
+          "cy": -0.023,
+          "w": 4.937,
+          "h": 5.349,
+          "corner_radius": 0.074
+        },
+        "bounding_box": {
+          "x": 80,
+          "y": 80,
+          "w": 640,
+          "h": 920,
+          "corner_radius": 10
+        },
+        "corner_radius": 10,
+        "blue_band": {
+          "color": "#2C81FE",
+          "width": 180,
+          "height": 1080
+        },
+        "description": "Left rounded rectangle (radius 10px) with blue accent band (guidelines.md 8.5 & OSL 3.0 Pages 6, 16, 17)."
+      },
+      "presentation_safe_zone": {
+        "allowed": true,
+        "bounding_box": {
+          "x_min": 760,
+          "x_max": 1840,
+          "y_min": 80,
+          "y_max": 1000
+        },
+        "collision_constraints": {
+          "content_min_x": 760
+        },
+        "notes": "Right side 1080px workspace for content cards."
+      },
+      "start_time": 183.5,
+      "end_time": 224.5,
+      "manim_video": "output/types_and_architectures_of_ai_agents_sme/manim_time_synced_videos/group_5.mp4"
+    },
+    {
+      "scene_id": 6,
+      "scene_title": "Perception-Reasoning-Action Cycle Deep Dive",
+      "scene_type": "mechanism_explanation",
+      "duration": 77.3,
+      "sme_layout": "20",
+      "presentation_steps": [
+        {
+          "step_number": 1,
+          "title": "Perception: Input Intake",
+          "narration": "Perception is input. The agent receives information, a data reading, a user request, a tool result, and error message. It takes that in and adds it to its working context.",
+          "duration": 15.884,
+          "dominant_visual_concept": "Inflowing data streams filling the Perception module and populating context.",
+          "visual_description": "Top-right PIP active. Main canvas: A large, central 'Perception Module' icon (e.g., an eye or sensor) glows. Multiple animated data streams flow into it, labeled [Data Reading], [User Request], [Tool Result], [Error Message]. As they enter, a 'Working Context' panel (e.g., a stack of cards) adjacent to the Perception Module fills up with these inputs. The Perception Module pulses as it processes input.",
+          "on_screen_elements": [
+            "Perception",
+            "Input",
+            "Data Reading",
+            "User Request",
+            "Tool Result",
+            "Error Message",
+            "Working Context"
+          ],
+          "transition_to_next": "Perception module passes its content to the Reasoning module.",
+          "run_time": 15.884,
+          "start_time": 0.0,
+          "end_time": 15.884,
+          "step_title": "Perception: Input Intake",
+          "on_screen_text": [
+            "Perception",
+            "Input",
+            "Data Reading",
+            "User Request",
+            "Tool Result",
+            "Error Message",
+            "Working Context"
+          ],
+          "matching_section": "Purpose: Top-right PIP active. Main canvas: A large, central 'Perception Module' icon (e.g., an eye or sensor) glows. Multiple animated data streams flow into it, labeled [Data Reading], [User Request], [Tool Result], [Error Message]. As they enter, a 'Working Context' panel (e.g., a stack of cards) adjacent to the Perception Module fills up with these inputs. The Perception Module pulses as it processes input.\nPresentation Components:\n\u2022 Step Title: Perception: Input Intake\n\u2022 Screen Context: Perception-Reasoning-Action Cycle Deep Dive (Step 1)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Perception: Input Intake.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Perception: Input Intake.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 2,
+          "title": "Reasoning: Interpretation & Plan",
+          "narration": "Reasoning is interpretation and planning. The agent's LLM process is what it's received, considers its goal, reviews what it's already done, and decides what action to take next. This is where the intelligence lives.",
+          "duration": 18.001,
+          "dominant_visual_concept": "LLM core processing inputs, evaluating goal, and formulating a plan.",
+          "visual_description": "The 'Perception Module' shrinks and moves to the left. A large, central 'Reasoning Engine' (LLM icon, e.g., a stylized brain with neural pathways) appears and glows. Arrows flow from the 'Working Context' (from previous step, now smaller) into the Reasoning Engine. Inside, small icons representing [Goal], [Past Actions] appear and are referenced. The LLM pulses with internal thought bubbles and connections, culminating in a 'Plan' output (e.g., a small flowchart icon).",
+          "on_screen_elements": [
+            "Reasoning",
+            "Interpretation",
+            "Planning",
+            "LLM",
+            "Goal",
+            "Past Actions",
+            "Plan"
+          ],
+          "transition_to_next": "Reasoning Engine passes its 'Plan' to the Action module.",
+          "run_time": 18.001,
+          "start_time": 15.884,
+          "end_time": 33.885,
+          "step_title": "Reasoning: Interpretation & Plan",
+          "on_screen_text": [
+            "Reasoning",
+            "Interpretation",
+            "Planning",
+            "LLM",
+            "Goal",
+            "Past Actions",
+            "Plan"
+          ],
+          "matching_section": "Purpose: The 'Perception Module' shrinks and moves to the left. A large, central 'Reasoning Engine' (LLM icon, e.g., a stylized brain with neural pathways) appears and glows. Arrows flow from the 'Working Context' (from previous step, now smaller) into the Reasoning Engine. Inside, small icons representing [Goal], [Past Actions] appear and are referenced. The LLM pulses with internal thought bubbles and connections, culminating in a 'Plan' output (e.g., a small flowchart icon).\nPresentation Components:\n\u2022 Step Title: Reasoning: Interpretation & Plan\n\u2022 Screen Context: Perception-Reasoning-Action Cycle Deep Dive (Step 2)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Reasoning: Interpretation & Plan.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Reasoning: Interpretation & Plan.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 3,
+          "title": "Action: Execution & Cycle Restart",
+          "narration": "Action is execution. The agent calls a tool, writes an output, sends a message, or updates a record. Something changes in the world as a result. Then the cycle begins again. The result of the action becomes new perception. The agent reasons about what that result means. For Solaira's Equipment Help Monitoring Agent, this cycle might run dozens of times in a single task. Quarrying data, evaluating results, deciding what to check next, generating a finding, before it produces a final output.",
+          "duration": 43.415,
+          "dominant_visual_concept": "Execution of actions, showing impact on environment and feedback loop.",
+          "visual_description": "The 'Reasoning Engine' shrinks and moves to the left. A large, central 'Action Layer' (robotic arm/network icon) appears. The 'Plan' from Reasoning flows into Action. From Action, outward-flowing animated signals appear: [Call Tool], [Write Output], [Send Message], [Update Record]. These signals impact a subtle, dynamic 'Environment' background. A circular arrow then animates from the 'Environment' back to where 'Perception' would be, labeled 'New Perception'. The entire P-R-A loop (Perception-Reasoning-Action) then quickly cycles multiple times, illustrating the 'dozens of times' for the Solara agent, with small labels like [Querying Data], [Evaluating Results], [Generating Finding] appearing and disappearing rapidly during the cycles. Finally, a single 'Final Output' document icon emerges.",
+          "on_screen_elements": [
+            "Action",
+            "Execution",
+            "Call Tool",
+            "Write Output",
+            "Send Message",
+            "Update Record",
+            "Environment",
+            "New Perception",
+            "Final Output"
+          ],
+          "transition_to_next": "The P-R-A cycle animation fades, preparing to introduce agent types.",
+          "run_time": 43.415,
+          "start_time": 33.885,
+          "end_time": 77.3,
+          "step_title": "Action: Execution & Cycle Restart",
+          "on_screen_text": [
+            "Action",
+            "Execution",
+            "Call Tool",
+            "Write Output",
+            "Send Message",
+            "Update Record",
+            "Environment",
+            "New Perception",
+            "Final Output"
+          ],
+          "matching_section": "Purpose: The 'Reasoning Engine' shrinks and moves to the left. A large, central 'Action Layer' (robotic arm/network icon) appears. The 'Plan' from Reasoning flows into Action. From Action, outward-flowing animated signals appear: [Call Tool], [Write Output], [Send Message], [Update Record]. These signals impact a subtle, dynamic 'Environment' background. A circular arrow then animates from the 'Environment' back to where 'Perception' would be, labeled 'New Perception'. The entire P-R-A loop (Perception-Reasoning-Action) then quickly cycles multiple times, illustrating the 'dozens of times' for the Solara agent, with small labels like [Querying Data], [Evaluating Results], [Generating Finding] appearing and disappearing rapidly during the cycles. Finally, a single 'Final Output' document icon emerges.\nPresentation Components:\n\u2022 Step Title: Action: Execution & Cycle Restart\n\u2022 Screen Context: Perception-Reasoning-Action Cycle Deep Dive (Step 3)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Action: Execution & Cycle Restart.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Action: Execution & Cycle Restart.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        }
+      ],
+      "scene_index": 6,
+      "title": "Perception-Reasoning-Action Cycle Deep Dive",
+      "voiceover_narration": "Perception is input. The agent receives information, a data reading, a user request, a tool result, and error message. It takes that in and adds it to its working context. Reasoning is interpretation and planning. The agent's LLM process is what it's received, considers its goal, reviews what it's already done, and decides what action to take next. This is where the intelligence lives. Action is execution. The agent calls a tool, writes an output, sends a message, or updates a record. Something changes in the world as a result. Then the cycle begins again. The result of the action becomes new perception. The agent reasons about what that result means. For Solaira's Equipment Help Monitoring Agent, this cycle might run dozens of times in a single task. Quarrying data, evaluating results, deciding what to check next, generating a finding, before it produces a final output.",
+      "dynamic_selection_reason": "Assigned explicit layout 20% from pedagogical curriculum plan.",
+      "sme_positioning": {
+        "layout_type": "20_top_right_pip",
+        "manim_geometry": {
+          "cx": 5.689,
+          "cy": 3.2,
+          "w": 2.844,
+          "h": 1.6,
+          "corner_radius": 0.074
+        },
+        "bounding_box": {
+          "x": 1496,
+          "y": 40,
+          "w": 384,
+          "h": 216,
+          "corner_radius": 8
+        },
+        "corner_radius": 8,
+        "blue_band": null,
+        "description": "Trainer scaled to 20% FHD in top-right corner at (1496, 40) (guidelines.md 8.4 & OSL 3.0 Page 27)."
+      },
+      "presentation_safe_zone": {
+        "allowed": true,
+        "bounding_box": {
+          "x_min": 80,
+          "x_max": 1840,
+          "y_min": 80,
+          "y_max": 1000
+        },
+        "collision_constraints": {
+          "lead_in_max_x": 1440,
+          "title_max_x": 1440,
+          "diagram_y_min": 270,
+          "notes": "Lead-in line and title must terminate <= 1440px to ensure zero collision with SME at (1496, 40). Content below y=270px."
+        }
+      },
+      "start_time": 224.5,
+      "end_time": 301.8,
+      "manim_video": "output/types_and_architectures_of_ai_agents_sme/manim_time_synced_videos/group_6.mp4"
+    },
+    {
+      "scene_id": 7,
+      "scene_title": "Reactive & Goal-Based Agents",
+      "scene_type": "concept_comparison",
+      "duration": 80.0,
+      "sme_layout": "70",
+      "presentation_steps": [
+        {
+          "step_number": 1,
+          "title": "Types of Agents",
+          "narration": "Now let's talk about the three main types of agents, because not every problem needs the same architecture.",
+          "duration": 9.134,
+          "dominant_visual_concept": "Introduction of agent types with a branching visual.",
+          "visual_description": "A central 'Agent Types' header appears. Below it, three empty, labeled slots or sections appear horizontally, ready for 'Reactive', 'Goal-Based', and 'Utility-Based' agents. The 'Reactive' slot highlights.",
+          "on_screen_elements": [
+            "Agent Types",
+            "Reactive",
+            "Goal-Based",
+            "Utility-Based"
+          ],
+          "transition_to_next": "Focus shifts to the 'Reactive' slot.",
+          "run_time": 9.134,
+          "start_time": 0.0,
+          "end_time": 9.134,
+          "step_title": "Types of Agents",
+          "on_screen_text": [
+            "Agent Types",
+            "Reactive",
+            "Goal-Based",
+            "Utility-Based"
+          ],
+          "matching_section": "Purpose: A central 'Agent Types' header appears. Below it, three empty, labeled slots or sections appear horizontally, ready for 'Reactive', 'Goal-Based', and 'Utility-Based' agents. The 'Reactive' slot highlights.\nPresentation Components:\n\u2022 Step Title: Types of Agents\n\u2022 Screen Context: Reactive & Goal-Based Agents (Step 1)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Types of Agents.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Types of Agents.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 2,
+          "title": "Reactive Agent: Rule-Driven",
+          "narration": "The first type is the reactive agent. A reactive agent responds to its current input using predefined rules. It has no memory of what happened before. No ability to plan ahead. It simply observes the condition and responds. Think of a simple alert agent as Solara. If output at Site 12 drops below 8% of a baseline, send a notification. That's a reactive agent. Fast, predictable, easy to build, but limited. It can't investigate why the drop happened, or determine whether the alert is actually worth sending.",
+          "duration": 44.148,
+          "dominant_visual_concept": "A simple condition-action switch mechanism.",
+          "visual_description": "Inside the 'Reactive' slot, a visual mechanism appears: A 'Sensor' icon (e.g., a waveform) detects an 'Input Condition' ([Output < 8%]). This triggers a direct, fast-pulsing arrow to a 'Rule Engine' (e.g., a gear icon), which instantly activates an 'Action' (e.g., a notification bell icon labeled [Send Alert]). A small 'No Memory' icon and 'No Plan' icon float above it. The entire mechanism glows green for 'Fast' and 'Predictable', then briefly flashes red with 'Limited' text. The Solara Site icon from earlier could briefly appear with a dropping gauge and an alert.",
+          "on_screen_elements": [
+            "Reactive Agent",
+            "Input Condition",
+            "Rule Engine",
+            "Action",
+            "Send Alert",
+            "No Memory",
+            "No Plan",
+            "Limited"
+          ],
+          "transition_to_next": "Reactive agent visual minimizes slightly, 'Goal-Based' slot highlights.",
+          "run_time": 44.148,
+          "start_time": 9.134,
+          "end_time": 53.282,
+          "step_title": "Reactive Agent: Rule-Driven",
+          "on_screen_text": [
+            "Reactive Agent",
+            "Input Condition",
+            "Rule Engine",
+            "Action",
+            "Send Alert",
+            "No Memory",
+            "No Plan",
+            "Limited"
+          ],
+          "matching_section": "Purpose: Inside the 'Reactive' slot, a visual mechanism appears: A 'Sensor' icon (e.g., a waveform) detects an 'Input Condition' ([Output < 8%]). This triggers a direct, fast-pulsing arrow to a 'Rule Engine' (e.g., a gear icon), which instantly activates an 'Action' (e.g., a notification bell icon labeled [Send Alert]). A small 'No Memory' icon and 'No Plan' icon float above it. The entire mechanism glows green for 'Fast' and 'Predictable', then briefly flashes red with 'Limited' text. The Solara Site icon from earlier could briefly appear with a dropping gauge and an alert.\nPresentation Components:\n\u2022 Step Title: Reactive Agent: Rule-Driven\n\u2022 Screen Context: Reactive & Goal-Based Agents (Step 2)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Reactive Agent: Rule-Driven.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Reactive Agent: Rule-Driven.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 3,
+          "title": "Goal-Based Agent: Planned Outcomes",
+          "narration": "The second type is the goal-based agent. A goal-based agent reasons about actions in terms of whether they move it closer to a defined outcome. It plans and evaluates options. It chooses the path most likely to achieve the goal. Solara's Site Performance Investigation Agent works this way. Its goal is to determine why Site 47 under-performed last Tuesday. It doesn't follow a fixed script. It decides what data to pull based on what it finds, adjusting its approach as results come in.",
+          "duration": 42.118,
+          "dominant_visual_concept": "Agent navigating a branching path towards a defined goal, evaluating options.",
+          "visual_description": "Inside the 'Goal-Based' slot, a visual mechanism appears: A 'Goal Node' (e.g., a target icon labeled [Under-performance Cause]) is at the right. An 'Agent' icon (our AI Core) is at the left. From the agent, multiple branching paths (decision points) emerge. The agent icon navigates these paths, pausing at each branch point to 'Evaluate Options' (e.g., small question marks appear). A 'Path Score' (e.g., a progress bar) increases as it moves closer to the goal. The chosen path illuminates, showing dynamic adjustment. Small data icons (e.g., [Pull Data]) appear along the chosen path. The 'Fixed Script' label appears with a red 'X' over it.",
+          "on_screen_elements": [
+            "Goal-Based Agent",
+            "Goal",
+            "Under-performance Cause",
+            "Evaluate Options",
+            "Path Score",
+            "Pull Data",
+            "Fixed Script (X)"
+          ],
+          "transition_to_next": "Both agent visuals minimize, preparing for the next scene's utility agent.",
+          "run_time": 42.118,
+          "start_time": 53.282,
+          "end_time": 95.4,
+          "step_title": "Goal-Based Agent: Planned Outcomes",
+          "on_screen_text": [
+            "Goal-Based Agent",
+            "Goal",
+            "Under-performance Cause",
+            "Evaluate Options",
+            "Path Score",
+            "Pull Data",
+            "Fixed Script (X)"
+          ],
+          "matching_section": "Purpose: Inside the 'Goal-Based' slot, a visual mechanism appears: A 'Goal Node' (e.g., a target icon labeled [Under-performance Cause]) is at the right. An 'Agent' icon (our AI Core) is at the left. From the agent, multiple branching paths (decision points) emerge. The agent icon navigates these paths, pausing at each branch point to 'Evaluate Options' (e.g., small question marks appear). A 'Path Score' (e.g., a progress bar) increases as it moves closer to the goal. The chosen path illuminates, showing dynamic adjustment. Small data icons (e.g., [Pull Data]) appear along the chosen path. The 'Fixed Script' label appears with a red 'X' over it.\nPresentation Components:\n\u2022 Step Title: Goal-Based Agent: Planned Outcomes\n\u2022 Screen Context: Reactive & Goal-Based Agents (Step 3)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Goal-Based Agent: Planned Outcomes.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Goal-Based Agent: Planned Outcomes.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        }
+      ],
+      "scene_index": 7,
+      "title": "Reactive & Goal-Based Agents",
+      "voiceover_narration": "Now let's talk about the three main types of agents, because not every problem needs the same architecture. The first type is the reactive agent. A reactive agent responds to its current input using predefined rules. It has no memory of what happened before. No ability to plan ahead. It simply observes the condition and responds. Think of a simple alert agent as Solara. If output at Site 12 drops below 8% of a baseline, send a notification. That's a reactive agent. Fast, predictable, easy to build, but limited. It can't investigate why the drop happened, or determine whether the alert is actually worth sending. The second type is the goal-based agent. A goal-based agent reasons about actions in terms of whether they move it closer to a defined outcome. It plans and evaluates options. It chooses the path most likely to achieve the goal. Solara's Site Performance Investigation Agent works this way. Its goal is to determine why Site 47 under-performed last Tuesday. It doesn't follow a fixed script. It decides what data to pull based on what it finds, adjusting its approach as results come in.",
+      "dynamic_selection_reason": "Assigned explicit layout 70% from pedagogical curriculum plan.",
+      "sme_positioning": {
+        "layout_type": "70_left_rounded_rect",
+        "manim_geometry": {
+          "cx": -3.687,
+          "cy": -0.023,
+          "w": 4.937,
+          "h": 5.349,
+          "corner_radius": 0.074
+        },
+        "bounding_box": {
+          "x": 80,
+          "y": 80,
+          "w": 640,
+          "h": 920,
+          "corner_radius": 10
+        },
+        "corner_radius": 10,
+        "blue_band": {
+          "color": "#2C81FE",
+          "width": 180,
+          "height": 1080
+        },
+        "description": "Left rounded rectangle (radius 10px) with blue accent band (guidelines.md 8.5 & OSL 3.0 Pages 6, 16, 17)."
+      },
+      "presentation_safe_zone": {
+        "allowed": true,
+        "bounding_box": {
+          "x_min": 760,
+          "x_max": 1840,
+          "y_min": 80,
+          "y_max": 1000
+        },
+        "collision_constraints": {
+          "content_min_x": 760
+        },
+        "notes": "Right side 1080px workspace for content cards."
+      },
+      "start_time": 301.8,
+      "end_time": 381.8,
+      "manim_video": "output/types_and_architectures_of_ai_agents_sme/manim_time_synced_videos/group_7.mp4"
+    },
+    {
+      "scene_id": 8,
+      "scene_title": "Utility-Based Agent & Complete Workflow",
+      "scene_type": "application_and_reflection",
+      "duration": 117.7,
+      "sme_layout": "70",
+      "presentation_steps": [
+        {
+          "step_number": 1,
+          "title": "Utility-Based Agent: Optimized Trade-offs",
+          "narration": "The third type is the utility-based agent. A utility-based agent goes further than goal-based reasoning. It doesn't just ask, will this action achieve the goal? It asks, which available action achieves the goal most efficiently, at the lowest cost, and with the highest confidence. At Solara, a utility-based agent managing report generation across hundreds of sites needs to make trade-off decisions constantly. Do I generate a full diagnostic report or a summary? Do I escalate the anomaly or log it for review? It evaluates options against a utility function and picks the best one.",
+          "duration": 44.622,
+          "dominant_visual_concept": "Decision matrix with weighted trade-offs and optimization.",
+          "visual_description": "Inside the 'Utility-Based' slot from the previous scene, a visual mechanism appears: A 'Decision Matrix' (e.g., a 2x2 grid) emerges, with rows representing 'Actions' (e.g., [Full Report], [Summary], [Escalate], [Log]) and columns representing 'Metrics' ([Efficiency], [Cost], [Confidence]). Each cell contains a numerical 'Utility Score'. An 'Agent' icon (our AI Core) hovers, dynamically highlighting the highest-scoring action path after evaluating all options. A 'Utility Function' graph (e.g., a small curve) appears briefly to indicate the optimization process. The chosen action path glows.",
+          "on_screen_elements": [
+            "Utility-Based Agent",
+            "Actions",
+            "Metrics",
+            "Efficiency",
+            "Cost",
+            "Confidence",
+            "Utility Score",
+            "Utility Function",
+            "Optimize"
+          ],
+          "transition_to_next": "Utility agent visual fades, making way for the complete workflow diagram.",
+          "run_time": 44.622,
+          "start_time": 0.0,
+          "end_time": 44.622,
+          "step_title": "Utility-Based Agent: Optimized Trade-offs",
+          "on_screen_text": [
+            "Utility-Based Agent",
+            "Actions",
+            "Metrics",
+            "Efficiency",
+            "Cost",
+            "Confidence",
+            "Utility Score",
+            "Utility Function",
+            "Optimize"
+          ],
+          "matching_section": "Purpose: Inside the 'Utility-Based' slot from the previous scene, a visual mechanism appears: A 'Decision Matrix' (e.g., a 2x2 grid) emerges, with rows representing 'Actions' (e.g., [Full Report], [Summary], [Escalate], [Log]) and columns representing 'Metrics' ([Efficiency], [Cost], [Confidence]). Each cell contains a numerical 'Utility Score'. An 'Agent' icon (our AI Core) hovers, dynamically highlighting the highest-scoring action path after evaluating all options. A 'Utility Function' graph (e.g., a small curve) appears briefly to indicate the optimization process. The chosen action path glows.\nPresentation Components:\n\u2022 Step Title: Utility-Based Agent: Optimized Trade-offs\n\u2022 Screen Context: Utility-Based Agent & Complete Workflow (Step 1)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Utility-Based Agent: Optimized Trade-offs.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Utility-Based Agent: Optimized Trade-offs.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 2,
+          "title": "Complete Agent Workflow",
+          "narration": "Let's zoom out and look at how these components and concepts come together in a complete agent workflow. A goal arrives The agent perceives it, adds it to context, and begins reasoning. It identifies the first action needed and executes. The results come back. The agent evaluates whether it's closer to the goal, it plans the next action, it executes again. This continues, perceive, reason, act, until the goal is reached. An error condition is triggered, or the agent determines it cannot proceed and hands off to a human.",
+          "duration": 42.248,
+          "dominant_visual_concept": "Full P-R-A loop with goal progression and potential error conditions.",
+          "visual_description": "A comprehensive 'Agent Workflow' diagram appears center-stage. It's a larger version of the P-R-A loop from earlier, but with added elements: A 'Goal' input node starts the flow. Arrows lead from 'Goal' to 'Perceive', then 'Reason', then 'Act', then back to 'Perceive'. A 'Goal Progress' bar updates with each cycle. An 'Error Condition' node with a red lightning bolt icon branches off the main loop. The entire loop animates, showing data packets flowing and nodes illuminating sequentially. When the 'Goal' is met, a 'Goal Achieved' badge appears. Or, if 'Error Condition' is triggered, the flow diverts.",
+          "on_screen_elements": [
+            "Agent Workflow",
+            "Goal",
+            "Perceive",
+            "Reason",
+            "Act",
+            "Goal Progress",
+            "Error Condition",
+            "Goal Achieved"
+          ],
+          "transition_to_next": "Workflow continues, highlighting the handoff mechanism.",
+          "run_time": 42.248,
+          "start_time": 44.622,
+          "end_time": 86.87,
+          "step_title": "Complete Agent Workflow",
+          "on_screen_text": [
+            "Agent Workflow",
+            "Goal",
+            "Perceive",
+            "Reason",
+            "Act",
+            "Goal Progress",
+            "Error Condition",
+            "Goal Achieved"
+          ],
+          "matching_section": "Purpose: A comprehensive 'Agent Workflow' diagram appears center-stage. It's a larger version of the P-R-A loop from earlier, but with added elements: A 'Goal' input node starts the flow. Arrows lead from 'Goal' to 'Perceive', then 'Reason', then 'Act', then back to 'Perceive'. A 'Goal Progress' bar updates with each cycle. An 'Error Condition' node with a red lightning bolt icon branches off the main loop. The entire loop animates, showing data packets flowing and nodes illuminating sequentially. When the 'Goal' is met, a 'Goal Achieved' badge appears. Or, if 'Error Condition' is triggered, the flow diverts.\nPresentation Components:\n\u2022 Step Title: Complete Agent Workflow\n\u2022 Screen Context: Utility-Based Agent & Complete Workflow (Step 2)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Complete Agent Workflow.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Complete Agent Workflow.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 3,
+          "title": "Responsible Handoff",
+          "narration": "What's important to notice is that workflow is the handoff point. Good agent design always includes a point at which the agent recognizes the limits of its confidence and escalates. That's not a failure, it's responsible architecture. At Solara, an agent that flags an equipment anomaly, it can't fully explain and routes it to a human engineer isn't falling short. It's doing exactly what it should.",
+          "duration": 31.33,
+          "dominant_visual_concept": "Escalation path from agent to human, signifying responsible design.",
+          "visual_description": "The 'Agent Workflow' diagram persists. From the 'Reason' or 'Act' stage, a clear, animated 'Handoff' path branches off, leading to a 'Human Engineer' icon (e.g., a person with a hard hat). A 'Confidence Gauge' (e.g., a dial) appears near the agent, showing 'Confidence: Low' when the handoff path is activated. The path glows green, labeled 'Responsible Handoff'. The Solara Site anomaly example from earlier briefly reappears, showing the agent routing the anomaly to the human engineer icon.",
+          "on_screen_elements": [
+            "Handoff",
+            "Confidence: Low",
+            "Human Engineer",
+            "Responsible Handoff"
+          ],
+          "transition_to_next": "Workflow diagram shrinks and fades, preparing for summary.",
+          "run_time": 31.33,
+          "start_time": 86.87,
+          "end_time": 118.2,
+          "step_title": "Responsible Handoff",
+          "on_screen_text": [
+            "Handoff",
+            "Confidence: Low",
+            "Human Engineer",
+            "Responsible Handoff"
+          ],
+          "matching_section": "Purpose: The 'Agent Workflow' diagram persists. From the 'Reason' or 'Act' stage, a clear, animated 'Handoff' path branches off, leading to a 'Human Engineer' icon (e.g., a person with a hard hat). A 'Confidence Gauge' (e.g., a dial) appears near the agent, showing 'Confidence: Low' when the handoff path is activated. The path glows green, labeled 'Responsible Handoff'. The Solara Site anomaly example from earlier briefly reappears, showing the agent routing the anomaly to the human engineer icon.\nPresentation Components:\n\u2022 Step Title: Responsible Handoff\n\u2022 Screen Context: Utility-Based Agent & Complete Workflow (Step 3)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Responsible Handoff.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Responsible Handoff.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        }
+      ],
+      "scene_index": 8,
+      "title": "Utility-Based Agent & Complete Workflow",
+      "voiceover_narration": "The third type is the utility-based agent. A utility-based agent goes further than goal-based reasoning. It doesn't just ask, will this action achieve the goal? It asks, which available action achieves the goal most efficiently, at the lowest cost, and with the highest confidence. At Solara, a utility-based agent managing report generation across hundreds of sites needs to make trade-off decisions constantly. Do I generate a full diagnostic report or a summary? Do I escalate the anomaly or log it for review? It evaluates options against a utility function and picks the best one. Let's zoom out and look at how these components and concepts come together in a complete agent workflow. A goal arrives The agent perceives it, adds it to context, and begins reasoning. It identifies the first action needed and executes. The results come back. The agent evaluates whether it's closer to the goal, it plans the next action, it executes again. This continues, perceive, reason, act, until the goal is reached. An error condition is triggered, or the agent determines it cannot proceed and hands off to a human. What's important to notice is that workflow is the handoff point. Good agent design always includes a point at which the agent recognizes the limits of its confidence and escalates. That's not a failure, it's responsible architecture. At Solara, an agent that flags an equipment anomaly, it can't fully explain and routes it to a human engineer isn't falling short. It's doing exactly what it should.",
+      "dynamic_selection_reason": "Assigned explicit layout 70% from pedagogical curriculum plan.",
+      "sme_positioning": {
+        "layout_type": "70_left_rounded_rect",
+        "manim_geometry": {
+          "cx": -3.687,
+          "cy": -0.023,
+          "w": 4.937,
+          "h": 5.349,
+          "corner_radius": 0.074
+        },
+        "bounding_box": {
+          "x": 80,
+          "y": 80,
+          "w": 640,
+          "h": 920,
+          "corner_radius": 10
+        },
+        "corner_radius": 10,
+        "blue_band": {
+          "color": "#2C81FE",
+          "width": 180,
+          "height": 1080
+        },
+        "description": "Left rounded rectangle (radius 10px) with blue accent band (guidelines.md 8.5 & OSL 3.0 Pages 6, 16, 17)."
+      },
+      "presentation_safe_zone": {
+        "allowed": true,
+        "bounding_box": {
+          "x_min": 760,
+          "x_max": 1840,
+          "y_min": 80,
+          "y_max": 1000
+        },
+        "collision_constraints": {
+          "content_min_x": 760
+        },
+        "notes": "Right side 1080px workspace for content cards."
+      },
+      "start_time": 381.8,
+      "end_time": 499.5,
+      "manim_video": "output/types_and_architectures_of_ai_agents_sme/manim_time_synced_videos/group_8.mp4"
+    },
+    {
+      "scene_id": 9,
+      "scene_title": "Summary & What's Next",
+      "scene_type": "summary_and_next",
+      "duration": 51.83,
+      "sme_layout": "70",
+      "presentation_steps": [
+        {
+          "step_number": 1,
+          "title": "Key Takeaways",
+          "narration": "Let's bring it together. Every agent is built from four components. Perception, memory, reasoning, and action working together in a continuous loop. That loop drives agent environment interaction. The agent observes, decides, acts, and observes again. The three types of agents, reactive, goal-based, and utility-based represent increasing levels of sophistication. Reactive agents are fast and rule-driven. Goal-based agents plan towards outcomes. Utility-based agents optimize across trade-offs.",
+          "duration": 35.785,
+          "dominant_visual_concept": "Consolidated summary of core components, interaction loop, and agent types.",
+          "visual_description": "A central, dynamic 'Summary' panel appears. Three distinct sections within it animate in sequentially: 1. 'Components:' with four small icons (Perception, Memory, Reasoning, Action) arranged in a mini-loop. 2. 'Interaction:' with a simplified circular arrow icon labeled 'Observe -> Decide -> Act'. 3. 'Agent Types:' with three distinct icons (Reactive: gear, Goal-Based: target, Utility-Based: balance scale) with concise tags: [Rule-Driven], [Outcome-Focused], [Optimized]. Each section illuminates as narrated.",
+          "on_screen_elements": [
+            "Summary",
+            "Components",
+            "Perception",
+            "Memory",
+            "Reasoning",
+            "Action",
+            "Interaction",
+            "Observe",
+            "Decide",
+            "Act",
+            "Agent Types",
+            "Reactive",
+            "Rule-Driven",
+            "Goal-Based",
+            "Outcome-Focused",
+            "Utility-Based",
+            "Optimized"
+          ],
+          "transition_to_next": "Summary panel recedes to the left, 'What's Next' section appears.",
+          "run_time": 35.785,
+          "start_time": 0.0,
+          "end_time": 35.785,
+          "step_title": "Key Takeaways",
+          "on_screen_text": [
+            "Summary",
+            "Components",
+            "Perception",
+            "Memory",
+            "Reasoning",
+            "Action",
+            "Interaction",
+            "Observe",
+            "Decide",
+            "Act",
+            "Agent Types",
+            "Reactive",
+            "Rule-Driven",
+            "Goal-Based",
+            "Outcome-Focused",
+            "Utility-Based",
+            "Optimized"
+          ],
+          "matching_section": "Purpose: A central, dynamic 'Summary' panel appears. Three distinct sections within it animate in sequentially: 1. 'Components:' with four small icons (Perception, Memory, Reasoning, Action) arranged in a mini-loop. 2. 'Interaction:' with a simplified circular arrow icon labeled 'Observe -> Decide -> Act'. 3. 'Agent Types:' with three distinct icons (Reactive: gear, Goal-Based: target, Utility-Based: balance scale) with concise tags: [Rule-Driven], [Outcome-Focused], [Optimized]. Each section illuminates as narrated.\nPresentation Components:\n\u2022 Step Title: Key Takeaways\n\u2022 Screen Context: Summary & What's Next (Step 1)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing Key Takeaways.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Key Takeaways.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        },
+        {
+          "step_number": 2,
+          "title": "What's Next: Hands-On Demo",
+          "narration": "Coming up next, we're going hands-on. In the demo, we'll visualize types and architectures of AI, agents, and action as good so you can see the decision loops and execution patterns we've been discussing actually running in real time. Let's take a look.",
+          "duration": 23.315,
+          "dominant_visual_concept": "Animated 'What's Next' banner with a preview of a live demo.",
+          "visual_description": "A prominent 'What's Next' banner animates onto the right side of the screen. Inside it, a small, animated 'Play' button icon and a 'Live Demo' badge appear. A subtle, animated background representing a code editor or a simulation screen fills the banner, hinting at the upcoming hands-on session. The banner pulsates gently.",
+          "on_screen_elements": [
+            "What's Next",
+            "Live Demo",
+            "Hands-On"
+          ],
+          "transition_to_next": "The 'What's Next' banner remains on screen, pulsating, as the scene ends.",
+          "run_time": 23.315,
+          "start_time": 35.785,
+          "end_time": 59.1,
+          "step_title": "What's Next: Hands-On Demo",
+          "on_screen_text": [
+            "What's Next",
+            "Live Demo",
+            "Hands-On"
+          ],
+          "matching_section": "Purpose: A prominent 'What's Next' banner animates onto the right side of the screen. Inside it, a small, animated 'Play' button icon and a 'Live Demo' badge appear. A subtle, animated background representing a code editor or a simulation screen fills the banner, hinting at the upcoming hands-on session. The banner pulsates gently.\nPresentation Components:\n\u2022 Step Title: What's Next: Hands-On Demo\n\u2022 Screen Context: Summary & What's Next (Step 2)\n\u2022 Centerstage Visual Model: Dynamic architectural schematic representing What's Next: Hands-On Demo.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for What's Next: Hands-On Demo.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+        }
+      ],
+      "scene_index": 9,
+      "title": "Summary & What's Next",
+      "voiceover_narration": "Let's bring it together. Every agent is built from four components. Perception, memory, reasoning, and action working together in a continuous loop. That loop drives agent environment interaction. The agent observes, decides, acts, and observes again. The three types of agents, reactive, goal-based, and utility-based represent increasing levels of sophistication. Reactive agents are fast and rule-driven. Goal-based agents plan towards outcomes. Utility-based agents optimize across trade-offs. Coming up next, we're going hands-on. In the demo, we'll visualize types and architectures of AI, agents, and action as good so you can see the decision loops and execution patterns we've been discussing actually running in real time. Let's take a look.",
+      "dynamic_selection_reason": "Assigned explicit layout 70% from pedagogical curriculum plan.",
+      "sme_positioning": {
+        "layout_type": "70_left_rounded_rect",
+        "manim_geometry": {
+          "cx": -3.687,
+          "cy": -0.023,
+          "w": 4.937,
+          "h": 5.349,
+          "corner_radius": 0.074
+        },
+        "bounding_box": {
+          "x": 80,
+          "y": 80,
+          "w": 640,
+          "h": 920,
+          "corner_radius": 10
+        },
+        "corner_radius": 10,
+        "blue_band": {
+          "color": "#2C81FE",
+          "width": 180,
+          "height": 1080
+        },
+        "description": "Left rounded rectangle (radius 10px) with blue accent band (guidelines.md 8.5 & OSL 3.0 Pages 6, 16, 17)."
+      },
+      "presentation_safe_zone": {
+        "allowed": true,
+        "bounding_box": {
+          "x_min": 760,
+          "x_max": 1840,
+          "y_min": 80,
+          "y_max": 1000
+        },
+        "collision_constraints": {
+          "content_min_x": 760
+        },
+        "notes": "Right side 1080px workspace for content cards."
+      },
+      "start_time": 499.5,
+      "end_time": 551.33,
+      "manim_video": "output/types_and_architectures_of_ai_agents_sme/manim_time_synced_videos/group_9.mp4"
+    }
+  ]
+}

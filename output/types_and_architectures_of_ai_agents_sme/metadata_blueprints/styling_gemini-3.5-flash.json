@@ -1,0 +1,177 @@
+{
+  "topic": "Types And Architectures Of Ai Agents Sme",
+  "design_system": "Simplilearn OSL 3.0 (10-Color Pastel Infographic Palette, Open Sans)",
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "AI Agent: The Active System",
+      "sme_layout": "100",
+      "voiceover_narration": "In the last topic, we established what an AI agent is. A system that doesn't just respond, but acts.",
+      "styled_blocks": [
+        {
+          "matching_section": "The major slide title, \"AI Agent: The Active System\", is styled in Open Sans Bold, 40pt, Color Primary Dark Charcoal (#404040), and positioned in the top safe header region. The instructional sequence begins with the construction of the lower-third reference banner across the horizontal span of the bottom screen margin within the 1920x1080 canvas footprint. This banner is a soft rectangular panel filled with Soft Card (#F8FAFC) and bordered by a subtle stroke of Soft Border (#DADCE0) with a stroke_width = 1.5 and corner_radius = 0.074 Manim units. First"
+        }
+      ],
+      "osl_theme": {
+        "font_family": "Open Sans",
+        "title_size": 45,
+        "body_size": 22,
+        "card_corner_radius": 10,
+        "highlight_color": "#F78908",
+        "primary_accent": "#2C81FE"
+      }
+    },
+    {
+      "scene_id": 2,
+      "title": "Solara & Lesson Objectives",
+      "sme_layout": "70",
+      "voiceover_narration": "We introduced Solara Energy and looked at how agents can take a goal like monitoring site performance and turn it into a sequence of real actions, querying data, comparing outputs, flagging anomalies and generating reports.",
+      "styled_blocks": [
+        {
+          "matching_section": "Establish the scene environment configured for Layout 20 percent with the subject-matter expert presenter picture-in-picture window anchored in the upper-right canvas zone, ensuring all visual assets remain below vertical coordinate $y = 1.6$ and left of horizontal coordinate $x = 3.5$ within the upper stratum. First, write the title text Solara: Goal-Driven Actions in Open Sans Bold font, 40pt (Manim 26-28pt) in Title Case with Color Primary Dark Charcoal (#404040), positioned in the upper-left canvas margin, maintaining safe clearance from the boundary of the presenter window. Immediately following the title settle"
+        }
+      ],
+      "osl_theme": {
+        "font_family": "Open Sans",
+        "title_size": 45,
+        "body_size": 22,
+        "card_corner_radius": 10,
+        "highlight_color": "#F78908",
+        "primary_accent": "#2C81FE"
+      }
+    },
+    {
+      "scene_id": 3,
+      "title": "One Core, Four Pillars: Core Architecture",
+      "sme_layout": "20",
+      "voiceover_narration": "Every AI agent, regardless of type, is built from the same fundamental components. There's the perception layer.",
+      "styled_blocks": [
+        {
+          "matching_section": "The visual presentation initiates at the upper left workspace margin where the title text One Core, Four Pillars: Core Architecture enters smoothly via a directional wipe from left to right, coming to rest horizontally before coordinate 1440 pixels to guarantee continuous visual clearance for the presenter picture-in-picture frame positioned in the top right quadrant. The title text is styled in Open Sans Bold, 40pt, Primary Dark Charcoal (#404040), Title Case. Below the strict 270-pixel vertical clearance boundary, a subtle circular vector stroke sketches outward from the center to establish the 1200-pixel diameter orbital ring centered symmetrically across the operational canvas. This orbital ring has"
+        }
+      ],
+      "osl_theme": {
+        "font_family": "Open Sans",
+        "title_size": 45,
+        "body_size": 22,
+        "card_corner_radius": 10,
+        "highlight_color": "#F78908",
+        "primary_accent": "#2C81FE"
+      }
+    },
+    {
+      "scene_id": 4,
+      "title": "Agent-Environment Interaction Loop",
+      "sme_layout": "70",
+      "voiceover_narration": "These four components work together in a continuous loop. The agent perceives, reasons, acts, then perceives again based on the result of that action.",
+      "styled_blocks": [
+        {
+          "matching_section": "The presentation opens as the scene title reading \"Agent-Environment Interaction Loop\" styled in `Open Sans Bold, 40pt` with `Dark Charcoal Text (#404040)` writes smoothly across the upper horizontal axis, anchoring safely below the top margin and terminating well to the left of the upper-right corner presenter clearance zone. Following the title placement, attention directs immediately to the center visual workspace where an expansive outer concentric vector ring draws into view, styled with a `Sky Blue (#62B7E4)` stroke, tagged along its outer perimeter with a bold label reading \"Environment Ring\" styled in `Open Sans SemiBold, 16pt` with `Slate"
+        }
+      ],
+      "osl_theme": {
+        "font_family": "Open Sans",
+        "title_size": 45,
+        "body_size": 22,
+        "card_corner_radius": 10,
+        "highlight_color": "#F78908",
+        "primary_accent": "#2C81FE"
+      }
+    },
+    {
+      "scene_id": 5,
+      "title": "Dynamic Interaction Example",
+      "sme_layout": "70",
+      "voiceover_narration": "At Solara, an agent monitoring grid performance isn't just waiting for someone to run a report. It's watching. When output at a site drops below threshold, it observes the deviation, decides the appropriate response, which might be querying historical data, cross-referencing weather records, or escalating to a human operator, and takes that action.",
+      "styled_blocks": [
+        {
+          "matching_section": "The presentation workspace initializes respecting the top-right presenter Picture-in-Picture safe zone, ensuring all header typography terminates left of the x = 1440px boundary and visual elements remain vertically positioned below y = 270px. First, the scene title \"Monitoring Grid Performance\" writes smoothly onto the upper-left canvas using Open Sans Bold font, 40pt, in Primary Dark Charcoal (#404040) color, rendered in Title Case. This is followed immediately by the settled positioning of the concept badge \"Dynamic Event Reaction\" directly beneath it, styled as a subtitle using Open Sans SemiBold font, 28pt, in Slate Gray Muted (#"
+        }
+      ],
+      "osl_theme": {
+        "font_family": "Open Sans",
+        "title_size": 45,
+        "body_size": 22,
+        "card_corner_radius": 10,
+        "highlight_color": "#F78908",
+        "primary_accent": "#2C81FE"
+      }
+    },
+    {
+      "scene_id": 6,
+      "title": "Perception-Reasoning-Action Cycle Deep Dive",
+      "sme_layout": "20",
+      "voiceover_narration": "Perception is input. The agent receives information, a data reading, a user request, a tool result, and error message. It takes that in and adds it to its working context.",
+      "styled_blocks": [
+        {
+          "matching_section": "In the upper workspace below the top safe margin, the primary scene title \"Perception: Input Intake\" draws into view anchored horizontally left-of-center, maintaining strict clearance before the top-right presenter picture-in-picture exclusion boundary. The title is styled using Open Sans font, Bold weight, 40pt (Manim equivalent 26-28pt) in Title Case, with Color Primary Dark Charcoal (#404040). In the open central workspace beneath the title, the dynamic intake architecture initiates as the central Perception Module is constructed first, establishing its inner receptive focal node filled with Primary Accent Brand Blue (#2C81FE) and expanding outward into an intricate optical-ap"
+        }
+      ],
+      "osl_theme": {
+        "font_family": "Open Sans",
+        "title_size": 45,
+        "body_size": 22,
+        "card_corner_radius": 10,
+        "highlight_color": "#F78908",
+        "primary_accent": "#2C81FE"
+      }
+    },
+    {
+      "scene_id": 7,
+      "title": "Reactive & Goal-Based Agents",
+      "sme_layout": "70",
+      "voiceover_narration": "Now let's talk about the three main types of agents, because not every problem needs the same architecture.",
+      "styled_blocks": [
+        {
+          "matching_section": "First, the master title, styled in Open Sans Bold, 40pt (Manim 26-28pt), Dark Charcoal Text (#404040) and Title Case, \"Types of Agents\" writes out smoothly into the upper central region of the canvas, settling with its right boundary terminating comfortably before the upper-right safe margin to establish a balanced top-level anchor. Directly below the master title, a primary distribution trunk draws downward along the vertical center and branches symmetrically into a tripartite horizontal bus. These structural lines are styled with Soft Border (#DADCE0) with a stroke_width of 2.0. From this primary distribution line, three vertical feed paths extend downward"
+        }
+      ],
+      "osl_theme": {
+        "font_family": "Open Sans",
+        "title_size": 45,
+        "body_size": 22,
+        "card_corner_radius": 10,
+        "highlight_color": "#F78908",
+        "primary_accent": "#2C81FE"
+      }
+    },
+    {
+      "scene_id": 8,
+      "title": "Utility-Based Agent & Complete Workflow",
+      "sme_layout": "70",
+      "voiceover_narration": "The third type is the utility-based agent. A utility-based agent goes further than goal-based reasoning. It doesn't just ask, will this action achieve the goal? It asks, which available action achieves the goal most efficiently, at the lowest cost, and with the highest confidence. At Solara, a utility-based agent managing report generation across hundreds of sites needs to make trade-off decisions constantly. Do I generate a full diagnostic report or a summary? Do I escalate the anomaly or log it for review? It evaluates options against a utility function and picks the best one.",
+      "styled_blocks": [
+        {
+          "matching_section": "Begin by rendering the scene title Utility-Based Agent: Optimized Trade-offs as a prominent, left-aligned header positioned in the upper canvas region, maintaining strict clearance before the top-right presenter frame. The title text \"Utility-Based Agent: Optimized Trade-offs\" will be styled in Open Sans font, Bold weight, 40pt size, with Color Primary Dark Charcoal (#404040), rendered in Title Case. Once the header settles into its anchored position, construct the miniature coordinate axes adjacent to the top-left of the central workspace, drawing the horizontal and vertical axes with Color Slate Gray Muted (#5F6368) before plotting the dynamic utility function curve that"
+        }
+      ],
+      "osl_theme": {
+        "font_family": "Open Sans",
+        "title_size": 45,
+        "body_size": 22,
+        "card_corner_radius": 10,
+        "highlight_color": "#F78908",
+        "primary_accent": "#2C81FE"
+      }
+    },
+    {
+      "scene_id": 9,
+      "title": "Summary & What's Next",
+      "sme_layout": "70",
+      "voiceover_narration": "Let's bring it together. Every agent is built from four components. Perception, memory, reasoning, and action working together in a continuous loop. That loop drives agent environment interaction. The agent observes, decides, acts, and observes again. The three types of agents, reactive, goal-based, and utility-based represent increasing levels of sophistication. Reactive agents are fast and rule-driven. Goal-based agents plan towards outcomes. Utility-based agents optimize across trade-offs.",
+      "styled_blocks": [
+        {
+          "matching_section": "In the upper workspace terminating safely before the upper-right presenter safe zone, the scene title \"Key Takeaways\" is written cleanly into position across the upper-left and center area, styled with `font=Open Sans Bold`, `size=40pt`, `color=Dark Charcoal Text (#404040)`, rendered in Title Case. Once the title settles, the main central canvas initiates a progressive left-to-right sequential construction of three open-space kinetic vector clusters aligned along a shared horizontal center axis without any bounding container cards or rectangular frames. First, attention directs to the left third of the canvas, where a high-contrast cognitive title badge reading \"Core Components\" draws"
+        }
+      ],
+      "osl_theme": {
+        "font_family": "Open Sans",
+        "title_size": 45,
+        "body_size": 22,
+        "card_corner_radius": 10,
+        "highlight_color": "#F78908",
+        "primary_accent": "#2C81FE"
+      }
+    }
+  ]
+}

@@ -1,0 +1,623 @@
+{
+  "audio_file": "group_5_pair_1_statement1.wav",
+  "duration": 44.64,
+  "segments": [
+    {
+      "id": 0,
+      "start": 0.0,
+      "end": 3.34,
+      "duration": 3.34,
+      "text": "because not every problem needs the same architecture."
+    },
+    {
+      "id": 1,
+      "start": 3.34,
+      "end": 6.16,
+      "duration": 2.82,
+      "text": "The first type is the reactive agent."
+    },
+    {
+      "id": 2,
+      "start": 6.16,
+      "end": 9.48,
+      "duration": 3.32,
+      "text": "A reactive agent responds to its current input"
+    },
+    {
+      "id": 3,
+      "start": 9.48,
+      "end": 11.5,
+      "duration": 2.02,
+      "text": "using predefined rules."
+    },
+    {
+      "id": 4,
+      "start": 12.58,
+      "end": 15.18,
+      "duration": 2.6,
+      "text": "It has no memory of what happened before,"
+    },
+    {
+      "id": 5,
+      "start": 15.18,
+      "end": 17.18,
+      "duration": 2.0,
+      "text": "no ability to plan ahead."
+    },
+    {
+      "id": 6,
+      "start": 17.18,
+      "end": 20.16,
+      "duration": 2.98,
+      "text": "It simply observes a condition and responds."
+    },
+    {
+      "id": 7,
+      "start": 20.16,
+      "end": 22.82,
+      "duration": 2.66,
+      "text": "Think of a simple alert agent at Solara."
+    },
+    {
+      "id": 8,
+      "start": 22.82,
+      "end": 27.16,
+      "duration": 4.34,
+      "text": "If output at site 12 drops below 8% of a baseline,"
+    },
+    {
+      "id": 9,
+      "start": 27.16,
+      "end": 28.88,
+      "duration": 1.72,
+      "text": "send a notification."
+    },
+    {
+      "id": 10,
+      "start": 28.88,
+      "end": 30.84,
+      "duration": 1.96,
+      "text": "That's a reactive agent."
+    },
+    {
+      "id": 11,
+      "start": 30.84,
+      "end": 35.28,
+      "duration": 4.44,
+      "text": "Fast, predictable, easy to build, but limited."
+    },
+    {
+      "id": 12,
+      "start": 35.28,
+      "end": 38.32,
+      "duration": 3.04,
+      "text": "It can't investigate why the drop happened"
+    },
+    {
+      "id": 13,
+      "start": 38.32,
+      "end": 42.28,
+      "duration": 3.96,
+      "text": "or determine whether the alert is actually worth sending."
+    },
+    {
+      "id": 14,
+      "start": 42.28,
+      "end": 44.34,
+      "duration": 2.06,
+      "text": "The second type is the goal-based agent."
+    }
+  ],
+  "words": [
+    {
+      "word": "because",
+      "start": 0.0,
+      "end": 0.24
+    },
+    {
+      "word": "not",
+      "start": 0.24,
+      "end": 0.56
+    },
+    {
+      "word": "every",
+      "start": 0.56,
+      "end": 0.82
+    },
+    {
+      "word": "problem",
+      "start": 0.82,
+      "end": 1.2
+    },
+    {
+      "word": "needs",
+      "start": 1.2,
+      "end": 1.5
+    },
+    {
+      "word": "the",
+      "start": 1.5,
+      "end": 1.66
+    },
+    {
+      "word": "same",
+      "start": 1.66,
+      "end": 1.94
+    },
+    {
+      "word": "architecture.",
+      "start": 1.94,
+      "end": 3.82
+    },
+    {
+      "word": "The",
+      "start": 2.84,
+      "end": 3.48
+    },
+    {
+      "word": "first",
+      "start": 3.48,
+      "end": 3.82
+    },
+    {
+      "word": "type",
+      "start": 3.82,
+      "end": 4.12
+    },
+    {
+      "word": "is",
+      "start": 4.12,
+      "end": 4.32
+    },
+    {
+      "word": "the",
+      "start": 4.32,
+      "end": 4.56
+    },
+    {
+      "word": "reactive",
+      "start": 4.56,
+      "end": 4.84
+    },
+    {
+      "word": "agent.",
+      "start": 4.84,
+      "end": 6.02
+    },
+    {
+      "word": "A",
+      "start": 5.66,
+      "end": 6.4
+    },
+    {
+      "word": "reactive",
+      "start": 6.4,
+      "end": 6.92
+    },
+    {
+      "word": "agent",
+      "start": 6.92,
+      "end": 7.4
+    },
+    {
+      "word": "responds",
+      "start": 7.4,
+      "end": 8.08
+    },
+    {
+      "word": "to",
+      "start": 8.08,
+      "end": 8.5
+    },
+    {
+      "word": "its",
+      "start": 8.5,
+      "end": 8.7
+    },
+    {
+      "word": "current",
+      "start": 8.7,
+      "end": 9.06
+    },
+    {
+      "word": "input",
+      "start": 9.06,
+      "end": 9.44
+    },
+    {
+      "word": "using",
+      "start": 9.24,
+      "end": 9.82
+    },
+    {
+      "word": "predefined",
+      "start": 9.82,
+      "end": 10.52
+    },
+    {
+      "word": "rules.",
+      "start": 10.52,
+      "end": 11.96
+    },
+    {
+      "word": "It",
+      "start": 12.6,
+      "end": 12.76
+    },
+    {
+      "word": "has",
+      "start": 12.76,
+      "end": 12.96
+    },
+    {
+      "word": "no",
+      "start": 12.96,
+      "end": 13.26
+    },
+    {
+      "word": "memory",
+      "start": 13.26,
+      "end": 13.64
+    },
+    {
+      "word": "of",
+      "start": 13.64,
+      "end": 13.84
+    },
+    {
+      "word": "what",
+      "start": 13.84,
+      "end": 13.96
+    },
+    {
+      "word": "happened",
+      "start": 13.96,
+      "end": 14.18
+    },
+    {
+      "word": "before,",
+      "start": 14.18,
+      "end": 15.1
+    },
+    {
+      "word": "no",
+      "start": 14.68,
+      "end": 15.54
+    },
+    {
+      "word": "ability",
+      "start": 15.54,
+      "end": 15.98
+    },
+    {
+      "word": "to",
+      "start": 15.98,
+      "end": 16.18
+    },
+    {
+      "word": "plan",
+      "start": 16.18,
+      "end": 16.44
+    },
+    {
+      "word": "ahead.",
+      "start": 16.44,
+      "end": 17.66
+    },
+    {
+      "word": "It",
+      "start": 16.68,
+      "end": 17.38
+    },
+    {
+      "word": "simply",
+      "start": 17.38,
+      "end": 17.74
+    },
+    {
+      "word": "observes",
+      "start": 17.74,
+      "end": 18.2
+    },
+    {
+      "word": "a",
+      "start": 18.2,
+      "end": 18.32
+    },
+    {
+      "word": "condition",
+      "start": 18.32,
+      "end": 18.76
+    },
+    {
+      "word": "and",
+      "start": 18.76,
+      "end": 18.98
+    },
+    {
+      "word": "responds.",
+      "start": 18.98,
+      "end": 20.64
+    },
+    {
+      "word": "Think",
+      "start": 19.66,
+      "end": 20.42
+    },
+    {
+      "word": "of",
+      "start": 20.42,
+      "end": 20.54
+    },
+    {
+      "word": "a",
+      "start": 20.54,
+      "end": 20.64
+    },
+    {
+      "word": "simple",
+      "start": 20.64,
+      "end": 21.0
+    },
+    {
+      "word": "alert",
+      "start": 21.0,
+      "end": 21.36
+    },
+    {
+      "word": "agent",
+      "start": 21.36,
+      "end": 21.76
+    },
+    {
+      "word": "at",
+      "start": 21.76,
+      "end": 22.02
+    },
+    {
+      "word": "Solara.",
+      "start": 22.02,
+      "end": 22.96
+    },
+    {
+      "word": "If",
+      "start": 22.32,
+      "end": 23.04
+    },
+    {
+      "word": "output",
+      "start": 23.04,
+      "end": 23.44
+    },
+    {
+      "word": "at",
+      "start": 23.44,
+      "end": 23.66
+    },
+    {
+      "word": "site",
+      "start": 23.66,
+      "end": 23.74
+    },
+    {
+      "word": "12",
+      "start": 23.74,
+      "end": 24.12
+    },
+    {
+      "word": "drops",
+      "start": 24.12,
+      "end": 24.62
+    },
+    {
+      "word": "below",
+      "start": 24.62,
+      "end": 24.92
+    },
+    {
+      "word": "8%",
+      "start": 24.92,
+      "end": 25.86
+    },
+    {
+      "word": "of",
+      "start": 25.86,
+      "end": 26.24
+    },
+    {
+      "word": "a",
+      "start": 26.24,
+      "end": 26.34
+    },
+    {
+      "word": "baseline,",
+      "start": 26.34,
+      "end": 27.5
+    },
+    {
+      "word": "send",
+      "start": 26.66,
+      "end": 27.44
+    },
+    {
+      "word": "a",
+      "start": 27.44,
+      "end": 27.56
+    },
+    {
+      "word": "notification.",
+      "start": 27.56,
+      "end": 28.76
+    },
+    {
+      "word": "That's",
+      "start": 28.92,
+      "end": 29.22
+    },
+    {
+      "word": "a",
+      "start": 29.22,
+      "end": 29.44
+    },
+    {
+      "word": "reactive",
+      "start": 29.44,
+      "end": 29.74
+    },
+    {
+      "word": "agent.",
+      "start": 29.74,
+      "end": 30.08
+    },
+    {
+      "word": "Fast,",
+      "start": 30.34,
+      "end": 31.78
+    },
+    {
+      "word": "predictable,",
+      "start": 31.78,
+      "end": 32.92
+    },
+    {
+      "word": "easy",
+      "start": 32.92,
+      "end": 33.12
+    },
+    {
+      "word": "to",
+      "start": 33.12,
+      "end": 33.32
+    },
+    {
+      "word": "build,",
+      "start": 33.32,
+      "end": 33.82
+    },
+    {
+      "word": "but",
+      "start": 33.82,
+      "end": 34.38
+    },
+    {
+      "word": "limited.",
+      "start": 34.38,
+      "end": 35.76
+    },
+    {
+      "word": "It",
+      "start": 34.78,
+      "end": 35.5
+    },
+    {
+      "word": "can't",
+      "start": 35.5,
+      "end": 35.86
+    },
+    {
+      "word": "investigate",
+      "start": 35.86,
+      "end": 36.46
+    },
+    {
+      "word": "why",
+      "start": 36.46,
+      "end": 37.06
+    },
+    {
+      "word": "the",
+      "start": 37.06,
+      "end": 37.28
+    },
+    {
+      "word": "drop",
+      "start": 37.28,
+      "end": 37.52
+    },
+    {
+      "word": "happened",
+      "start": 37.52,
+      "end": 37.94
+    },
+    {
+      "word": "or",
+      "start": 37.82,
+      "end": 38.56
+    },
+    {
+      "word": "determine",
+      "start": 38.56,
+      "end": 39.08
+    },
+    {
+      "word": "whether",
+      "start": 39.08,
+      "end": 39.32
+    },
+    {
+      "word": "the",
+      "start": 39.32,
+      "end": 39.54
+    },
+    {
+      "word": "alert",
+      "start": 39.54,
+      "end": 39.88
+    },
+    {
+      "word": "is",
+      "start": 39.88,
+      "end": 40.1
+    },
+    {
+      "word": "actually",
+      "start": 40.1,
+      "end": 40.62
+    },
+    {
+      "word": "worth",
+      "start": 40.62,
+      "end": 41.02
+    },
+    {
+      "word": "sending.",
+      "start": 41.02,
+      "end": 42.14
+    },
+    {
+      "word": "The",
+      "start": 41.78,
+      "end": 42.46
+    },
+    {
+      "word": "second",
+      "start": 42.46,
+      "end": 42.8
+    },
+    {
+      "word": "type",
+      "start": 42.8,
+      "end": 43.12
+    },
+    {
+      "word": "is",
+      "start": 43.12,
+      "end": 43.36
+    },
+    {
+      "word": "the",
+      "start": 43.36,
+      "end": 43.58
+    },
+    {
+      "word": "goal-based",
+      "start": 43.58,
+      "end": 44.08
+    },
+    {
+      "word": "agent.",
+      "start": 44.08,
+      "end": 44.64
+    }
+  ]
+}
