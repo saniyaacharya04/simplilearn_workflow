@@ -1,19 +1,16 @@
-C_DARK_BLUE = "#1E293B"
 C_BRAND_BLUE = "#2C81FE"
+C_SKY_BLUE = "#62B7E4"
 C_LIGHT_BLUE = "#62B7E4"
 C_PURPLE = "#9B99C7"
-C_YELLOW = "#DDB945"
 C_RED = "#E58F6D"
 C_WHITE = "#FFFFFF"
 C_BLACK = "#404040"
 C_NAVY_DARK = "#404040"
-C_HIGHLIGHT = "#F78908"
-C_MINT = "#8ECDB7"
-C_BORDER = "#CBD5E1"
+C_DARK_BLUE = "#1E293B"
+C_YELLOW = "#DDB945"
+import os
 import re
-import numpy as np
 SME_LAYOUT = '20'
-from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
 # Dynamic Animation Safety Preamble
 for _anim_cls in (FadeIn, FadeOut, Create, Write):
@@ -69,6 +66,7 @@ for _scene_cls in (Scene, MovingCameraScene):
     except Exception:
         pass
 _orig_anim_safe_defined = True
+
 
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -199,60 +197,16 @@ try:
     from manim.utils.rate_functions import *
 except Exception:
     pass
-import os
-import math
+import numpy as np
+import manim.utils.rate_functions as _rf
+for _k in dir(_rf):
+    if not _k.startswith("_"):
+        globals()[_k] = getattr(_rf, _k)
 
-# Try importing InstrumentedScene, fallback gracefully if not defined in local environment
-try:
-    InstrumentedScene
-except NameError:
-    class InstrumentedScene(object):
-        pass
 
-# ---------------------------------------------------------
-# CONSTANTS & PALETTE (SIMPLILEARN OSL 3.0 SPECIFICATION)
-# ---------------------------------------------------------
-CANVAS_BG = "#F0F4F8"          # Modern Soft Slate Canvas
-C_PRIMARY_TEXT = "#404040"     # Primary Dark Charcoal
-C_TITLE_SLATE = "#0F172A"      # Slate Title
-C_SUB_SLATE = "#334155"        # Subtitle Slate
-C_HIGHLIGHT_ORANGE = "#F78908" # Focus Attention Highlight
 
-# 10-Color Approved Infographic Pastel Palette
-C_SKY_BLUE = "#62B7E4"
-C_STEEL_BLUE = "#7EA2C8"
-C_LAVENDER = "#9B99C7"
-C_MINT_SEAFOAM = "#8ECDB7"
-C_WARM_AMBER = "#E6A157"
-C_MUSTARD_GOLD = "#DDB945"
-C_CORAL = "#E58F6D"
-C_WARM_TAN = "#B88968"
-C_DUSTY_ROSE = "#D98CA1"
-C_SOFT_LILAC = "#C1A5C6"
 
-# Card / Background Container Fills
-C_CARD_WHITE = "#FFFFFF"
-C_CARD_SOFT = "#F8FAFC"
-C_BORDER_LIGHT = "#CBD5E1"
 
-# Asset Paths from Scene Context
-IMAGE_PATHS = {
-    "act_call_api": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_act_call_api.png",
-    "act_query_db": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_act_query_db.png",
-    "act_send_alert": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_act_send_alert.png",
-    "act_write_file": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_act_write_file.png",
-    "action_hub_asset": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_action_hub_asset.png",
-    "icon_action": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_icon_action.png",
-    "icon_memory": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_icon_memory.png",
-    "icon_perception": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_icon_perception.png",
-    "icon_reasoning": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_icon_reasoning.png",
-    "llm_brain": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_llm_brain.jpg",
-    "solar_sensor": "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_3_solar_sensor.jpg"
-}
-
-# ---------------------------------------------------------
-# HELPER FUNCTIONS
-# ---------------------------------------------------------
 
 
 
@@ -369,29 +323,154 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-def load_hero_image(key, target_height=1.5, fallback_func=None):
-    """Safely wraps ImageMobject inside Group or constructs vector fallback."""
-    path = IMAGE_PATHS.get(key, "")
-    if path and os.path.exists(path):
-        img = ImageMobject(path)
-        img.scale_to_fit_height(target_height)
-        return Group(img)
-    elif fallback_func is not None:
-        return Group(fallback_func())
-    else:
-        dummy = RoundedRectangle(corner_radius=0.1, width=target_height, height=target_height,
-                                 fill_color=C_CARD_WHITE, fill_opacity=0.9, stroke_color=C_SKY_BLUE, stroke_width=1.5)
-        return Group(dummy)
+class PulsingShockwaves(VGroup):
+    def __init__(self, center, color="#E6A157", max_radius=1.1, num_rings=3, **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.color = color
+        self.max_radius = max_radius
+        self.num_rings = num_rings
+        self.rings = [Circle(radius=0.2 + i * 0.3, color=color, stroke_width=2.0).move_to(self.center_pt) for i in range(num_rings)]
+        self.add(*self.rings)
+        self.t = 0.0
+        def update_waves(mob, dt):
+            mob.t += dt
+            for i, ring in enumerate(mob.rings):
+                phase = (mob.t * 0.9 + i / float(mob.num_rings)) % 1.0
+                r = 0.25 + phase * (mob.max_radius - 0.25)
+                ring.become(Circle(radius=r, color=mob.color, stroke_width=2.5 * (1.0 - phase)).move_to(mob.center_pt))
+                ring.set_stroke(opacity=max(0.0, 1.0 - phase))
+        self.add_updater(update_waves)
+
+class TelemetryWaves(VGroup):
+    def __init__(self, center, color="#8ECDB7", **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.arcs = [
+            Arc(radius=0.45 + i * 0.22, start_angle=-PI/3, angle=2*PI/3, color=color, stroke_width=2.2).move_to(self.center_pt + RIGHT * 0.50)
+            for i in range(3)
+        ]
+        self.add(*self.arcs)
+        self.t = 0.0
+        def update_telemetry(mob, dt):
+            mob.t += dt
+            for i, arc in enumerate(mob.arcs):
+                phase = (mob.t * 1.3 + i / 3.0) % 1.0
+                arc.set_stroke(opacity=max(0.1, 1.0 - phase), width=2.6 * (1.0 - phase * 0.4))
+        self.add_updater(update_telemetry)
+
+class NeuralHaloPulses(VGroup):
+    def __init__(self, center, color="#9B99C7", **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.h1 = Circle(radius=0.85, color=color, stroke_width=1.6).move_to(self.center_pt)
+        self.nodes = [
+            Dot(self.center_pt + np.array([np.cos(a)*0.65, np.sin(a)*0.65, 0]), radius=0.045, color=color)
+            for a in np.linspace(0, 2*PI, 6, endpoint=False)
+        ]
+        self.lines = [Line(self.center_pt, n.get_center(), color=color, stroke_width=1.0, stroke_opacity=0.6) for n in self.nodes]
+        self.add(self.h1, *self.lines, *self.nodes)
+        self.t = 0.0
+        def update_halo(mob, dt):
+            mob.t += dt
+            s = 1.0 + 0.07 * np.sin(mob.t * 3.0)
+            mob.h1.become(Circle(radius=0.85 * s, color=color, stroke_width=1.6).move_to(mob.center_pt))
+            mob.h1.set_stroke(opacity=0.4 + 0.4 * np.sin(mob.t * 3.0))
+        self.add_updater(update_halo)
+
+class DynamicRadarSweep(VGroup):
+    def __init__(self, center, radius=1.0, color="#62B7E4", speed=3.0, **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.radius = radius
+        self.speed = speed
+        self.dish = Circle(radius=radius, fill_color="#DCEEF9", fill_opacity=0.85, stroke_width=0).move_to(self.center_pt)
+        self.bezel = Circle(radius=radius, color=color, stroke_width=2.2).move_to(self.center_pt)
+        self.r1 = Circle(radius=radius*0.45, color=color, stroke_width=1.0, stroke_opacity=0.5).move_to(self.center_pt)
+        self.cross_h = Line(self.center_pt - np.array([radius, 0, 0]), self.center_pt + np.array([radius, 0, 0]), color="#BACAD8", stroke_width=0.8, stroke_opacity=0.6)
+        self.cross_v = Line(self.center_pt - np.array([0, radius, 0]), self.center_pt + np.array([0, radius, 0]), color="#BACAD8", stroke_width=0.8, stroke_opacity=0.6)
+        self.sweep_line = Line(self.center_pt, self.center_pt + np.array([radius, 0, 0]), color="#F78908", stroke_width=2.4)
+        self.blip = Dot(self.center_pt + np.array([0.45*radius, 0.4*radius, 0]), radius=0.05, color="#F78908")
+        self.add(self.dish, self.bezel, self.r1, self.cross_h, self.cross_v, self.blip, self.sweep_line)
+        self.angle = 0.0
+        def update_sweep(mob, dt):
+            mob.angle = (mob.angle + mob.speed * dt) % (2 * PI)
+            end_pt = mob.center_pt + mob.radius * np.array([np.cos(mob.angle), np.sin(mob.angle), 0])
+            mob.sweep_line.set_points_by_ends(mob.center_pt, end_pt)
+            d = (mob.angle - 0.7) % (2 * PI)
+            mob.blip.set_opacity(max(0.2, 1.0 - d * 0.5))
+        self.add_updater(update_sweep)
+
+class FlowingStream(VGroup):
+    def __init__(self, start_pt, end_pt, color="#62B7E4", num_dots=4, speed=1.2, **kwargs):
+        super().__init__(**kwargs)
+        self.p0 = np.array(start_pt)
+        self.p1 = np.array(end_pt)
+        self.color = color
+        self.num_dots = num_dots
+        self.speed = speed
+        self.rail = Line(self.p0, self.p1, color=color, stroke_width=1.5, stroke_opacity=0.4)
+        self.dots = [Dot(radius=0.055, color=color) for _ in range(num_dots)]
+        self.add(self.rail, *self.dots)
+        self.t = 0.0
+        def update_stream(mob, dt):
+            mob.t += dt
+            for i, dot in enumerate(mob.dots):
+                alpha = (mob.t * mob.speed + i / float(mob.num_dots)) % 1.0
+                dot.move_to(mob.p0 + alpha * (mob.p1 - mob.p0))
+                dot.set_opacity(np.sin(alpha * PI))
+        self.add_updater(update_stream)
+
+class PulsingNode(VGroup):
+    def __init__(self, center, radius=0.45, color="#2C81FE", label="", **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.radius = radius
+        self.color = color
+        self.core = Circle(radius=radius, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=color, stroke_width=2.5).move_to(self.center_pt)
+        self.halo = Circle(radius=radius * 1.3, color=color, stroke_width=1.5).move_to(self.center_pt)
+        self.add(self.core, self.halo)
+        if label:
+            self.lbl = CrispText(label, size=11, weight=BOLD, color="#404040").move_to(self.center_pt)
+            self.add(self.lbl)
+        self.t = 0.0
+        def update_node(mob, dt):
+            mob.t += dt
+            s = 1.0 + 0.12 * np.sin(mob.t * 3.0)
+            mob.halo.become(Circle(radius=mob.radius * 1.3 * s, color=mob.color, stroke_width=1.5).move_to(mob.center_pt))
+            mob.halo.set_stroke(opacity=max(0.1, 0.6 + 0.4 * np.sin(mob.t * 3.0)))
+        self.add_updater(update_node)
+
+class BalanceScale(VGroup):
+    def __init__(self, center, tilt_angle=0.12, beam_len=3.2, color="#404040", **kwargs):
+        super().__init__(**kwargs)
+        c = np.array(center)
+        self.fulcrum = Polygon(c, c + np.array([-0.3, -0.5, 0]), c + np.array([0.3, -0.5, 0]), color=color, fill_color="#E5EDF4", fill_opacity=1.0, stroke_width=2.0)
+        p_left = c + np.array([-np.cos(tilt_angle)*beam_len/2, -np.sin(tilt_angle)*beam_len/2, 0])
+        p_right = c + np.array([np.cos(tilt_angle)*beam_len/2, np.sin(tilt_angle)*beam_len/2, 0])
+        self.beam = Line(p_left, p_right, color=color, stroke_width=3.0)
+        self.pivot = Dot(c, radius=0.07, color="#F78908")
+        self.string_l = Line(p_left, p_left + DOWN * 0.5, color=color, stroke_width=1.2)
+        self.tray_l = Arc(radius=0.45, start_angle=PI, angle=PI, color=color, stroke_width=2.0).move_to(p_left + DOWN * 0.72)
+        self.string_r = Line(p_right, p_right + DOWN * 0.5, color=color, stroke_width=1.2)
+        self.tray_r = Arc(radius=0.45, start_angle=PI, angle=PI, color=color, stroke_width=2.0).move_to(p_right + DOWN * 0.72)
+        self.add(self.fulcrum, self.beam, self.pivot, self.string_l, self.tray_l, self.string_r, self.tray_r)
 
 
-# ---------------------------------------------------------
-# MAIN SCENE IMPLEMENTATION
-# ---------------------------------------------------------
+from feedback_functions.instrumented_scene import InstrumentedScene
+from manim import *
+import numpy as np
+
+# Global Custom CrispText wrapper using Text mobject with Open Sans
+
+class InstrumentedScene(Scene):
+    def sync_to(self, t):
+        pass
 
 class FinalScene(InstrumentedScene, MovingCameraScene):
     def construct(self):
-        # 1. Canvas Background Setup
-        self.camera.background_color = CANVAS_BG
+        # 1. Canvas Background Setup (OSL 3.0 Infographic Standard)
+        self.camera.background_color = "#F0F4F8"
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
                 pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -712,481 +791,493 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
 
-        # System Architecture Center & Radius
-        SYS_CENTER = np.array([0.0, -0.6, 0.0])
-        ORBIT_RADIUS = 2.4
 
-        # Cardinal Node Positions (West: Perception, South: Memory, North: Reasoning, East: Action)
-        POS_W = SYS_CENTER + np.array([-ORBIT_RADIUS, 0, 0])
-        POS_S = SYS_CENTER + np.array([0, -ORBIT_RADIUS * 0.85, 0])
-        POS_N = SYS_CENTER + np.array([0, ORBIT_RADIUS * 0.85, 0])
-        POS_E = SYS_CENTER + np.array([ORBIT_RADIUS, 0, 0])
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
 
-        # =====================================================
-        # ## Presentation Step 1: One Core, Four Pillars
-        # =====================================================
-        title_group = create_title("One Core, Four Pillars", "Four Pillars of AI Agent Architecture")
-        self.play(FadeIn(title_group, shift=DOWN * 0.15), run_time=0.8)
 
-        # Agent Core Orb
-        core_outer = Circle(radius=0.85, color=C_STEEL_BLUE, stroke_width=2.5, fill_color=C_CARD_WHITE, fill_opacity=0.95)
-        core_inner = Circle(radius=0.65, color=C_SKY_BLUE, stroke_width=1.5, fill_color="#E0F2FE", fill_opacity=0.6)
-        core_pulse = Circle(radius=0.95, color=C_SKY_BLUE, stroke_width=1.5, stroke_opacity=0.4)
-        core_txt = CrispText("Agent Core", size=15, weight=BOLD, color=C_TITLE_SLATE)
-        agent_core = VGroup(core_pulse, core_outer, core_inner, core_txt).move_to(SYS_CENTER)
 
-        # Blueprint Orbital Guide Ring
-        orbital_ring = DashedVMobject(Circle(radius=ORBIT_RADIUS, color=C_BORDER_LIGHT, stroke_width=1.5), num_dashes=36)
-        orbital_ring.move_to(SYS_CENTER)
 
-        # Four Dormant Quadrant Sockets
-        socket_labels = ["Perception", "Memory", "Reasoning", "Action"]
-        socket_positions = [POS_W, POS_S, POS_N, POS_E]
-        socket_colors = [C_SKY_BLUE, C_LAVENDER, C_WARM_AMBER, C_CORAL]
-        dormant_sockets = VGroup()
 
-        for pos, label, col in zip(socket_positions, socket_labels, socket_colors):
-            base_circ = Circle(radius=0.55, color=C_BORDER_LIGHT, stroke_width=1.5, fill_color=C_CARD_WHITE, fill_opacity=0.9)
-            lbl = CrispText(label, size=12, weight=BOLD, color="#94A3B8")
-            lbl.next_to(base_circ, DOWN if pos[1] <= SYS_CENTER[1] else UP, buff=0.15)
-            dormant_sockets.add(VGroup(base_circ, lbl).move_to(pos))
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        # Color Palette Definitions (OSL Approved 10-Color Pastel Palette & Accents)
+        C_SLATE_TITLE = "#0F172A"
+        C_SLATE_BODY = "#334155"
+        C_CHARCOAL = "#404040"
+        C_CYAN_SKY = "#62B7E4"
+        C_STEEL_BLUE = "#7EA2C8"
+        C_LAVENDER = "#9B99C7"
+        C_AMBER = "#E6A157"
+        C_CORAL = "#E58F6D"
+        C_ORANGE_PULSE = "#F78908"
+        C_CARD_BG = "#FFFFFF"
+        C_CARD_BORDER = "#D9E2EC"
+
+        # Global Title Construction Helper (Layout 20: Left anchor, must stop before x = 3.5)
+
+        # -------------------------------------------------------------
+        ## Presentation Step 1: One Core, Four Pillars
+        # -------------------------------------------------------------
+        title_group = create_title(
+            "Types And Architectures Of Ai Agents",
+            "One Core, Four Pillars"
+        )
+        self.play(FadeIn(title_group, shift=DOWN * 0.1), run_time=0.8)
+
+        # Center Arena: Agent Core Orb & Orbital Socket Blueprint
+        # Positioned below ceiling y <= 1.8 and safely centered
+        center_pos = np.array([0.0, -0.6, 0.0])
+        orbit_radius = 2.6
+
+        orbit_circle = DashedVMobject(
+            Circle(radius=orbit_radius, color="#CBD5E1", stroke_width=2.0),
+            num_dashes=48
+        ).move_to(center_pos)
+
+        # Central Agent Core Orb
+        core_outer = Circle(radius=0.9, color=C_STEEL_BLUE, stroke_width=2.5, fill_color="#E2E8F0", fill_opacity=0.4).move_to(center_pos)
+        core_inner = Circle(radius=0.68, color=C_CYAN_SKY, stroke_width=2, fill_color="#FFFFFF", fill_opacity=0.9).move_to(center_pos)
+        core_lbl = CrispText("Agent Core", size=14, weight=BOLD, color=C_SLATE_TITLE).move_to(center_pos)
+        agent_core = VGroup(core_outer, core_inner, core_lbl)
+
+        # Four Quadrant Sockets (W, S, N, E)
+        # Coordinates on orbit:
+        pos_west = center_pos + np.array([-orbit_radius, 0, 0])
+        pos_south = center_pos + np.array([0, -orbit_radius * 0.88, 0])
+        pos_north = center_pos + np.array([0, orbit_radius * 0.88, 0])
+        pos_east = center_pos + np.array([orbit_radius, 0, 0])
+
+        def make_socket(pos, label, accent_col):
+            bg = RoundedRectangle(width=1.9, height=0.72, corner_radius=0.15, color=C_CARD_BORDER, stroke_width=1.5, fill_color=C_CARD_BG, fill_opacity=0.9)
+            dot = Dot(radius=0.12, color=accent_col)
+            txt = CrispText(label, size=13, weight=BOLD, color=C_CHARCOAL)
+            content = VGroup(dot, txt).arrange(RIGHT, buff=0.14)
+            card = VGroup(bg, content).move_to(pos)
+            return card
+
+        sock_w = make_socket(pos_west, "Perception", C_CYAN_SKY)
+        sock_s = make_socket(pos_south, "Memory Layer", C_LAVENDER)
+        sock_n = make_socket(pos_north, "Reasoning Engine", C_AMBER)
+        sock_e = make_socket(pos_east, "Action Layer", C_CORAL)
+
+        sockets_grp = VGroup(sock_w, sock_s, sock_n, sock_e)
 
         self.play(
-            GrowFromCenter(agent_core),
-            Create(orbital_ring),
-            LaggedStart(*[FadeIn(s, scale=0.8) for s in dormant_sockets], lag_ratio=0.2),
-            run_time=2.2
+            Create(orbit_circle),
+            FadeIn(agent_core, scale=0.85),
+            run_time=1.2
+        )
+        self.play(
+            LaggedStart(
+                FadeIn(sock_w, shift=RIGHT * 0.2),
+                FadeIn(sock_s, shift=UP * 0.2),
+                FadeIn(sock_n, shift=DOWN * 0.2),
+                FadeIn(sock_e, shift=LEFT * 0.2),
+                lag_ratio=0.25
+            ),
+            run_time=1.4
         )
 
-        # West Socket (Perception) brightens with cyan sweep
-        west_highlight = Circle(radius=0.62, color=C_SKY_BLUE, stroke_width=3.5).move_to(POS_W)
-        west_active_lbl = CrispText("Perception", size=13, weight=BOLD, color=C_SKY_BLUE).move_to(dormant_sockets[0][1].get_center())
-        
+        # West socket brightens with cyan sweep
+        west_highlight = sock_w.copy().set_fill(opacity=0).set_stroke(color=C_CYAN_SKY, width=3.5)
+        self.play(Create(west_highlight), run_time=0.8)
+        self.play(FadeOut(west_highlight), run_time=0.5)
+        self.wait(1.5)
+
+        # -------------------------------------------------------------
+        ## Presentation Step 2: Perception: Sensing the World
+        # -------------------------------------------------------------
+        new_title = create_title(
+            "Perception: Sensing The World",
+            "Radar Sensing And Incoming Solar Feeds"
+        )
+        self.play(FadeOut(title_group), run_time=0.35)
+        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
+        title_group = new_title
+
+        # West radar dish expansion
+        radar_dish = Arc(radius=0.9, start_angle=-PI/2, angle=PI, color=C_CYAN_SKY, stroke_width=3).move_to(pos_west + LEFT * 0.2)
+        radar_center = Dot(radar_dish.get_center(), radius=0.08, color=C_CYAN_SKY)
+        radar_line = Line(radar_dish.get_center(), radar_dish.get_center() + np.array([0.7, 0.45, 0]), color=C_CYAN_SKY, stroke_width=2)
+        radar_waves = VGroup(*[
+            Arc(radius=0.35 * i, start_angle=-PI/3, angle=2*PI/3, color=C_CYAN_SKY, stroke_width=1.5).move_to(pos_west + LEFT * 0.2 + RIGHT * (0.25 * i))
+            for i in range(1, 4)
+        ])
+        radar_assembly = VGroup(radar_dish, radar_center, radar_line, radar_waves)
+
+        # Solar Telemetry Icon & Metric Chip
+        solar_card = RoundedRectangle(width=2.5, height=1.1, corner_radius=0.15, color=C_CYAN_SKY, stroke_width=1.5, fill_color=C_CARD_BG, fill_opacity=0.95)
+        solar_title = CrispText("Solar Ingestion", size=13, weight=BOLD, color=C_SLATE_TITLE)
+        telemetry_chip = CrispText("Telemetry: 482 kW", size=11, weight=NORMAL, color=C_SLATE_BODY)
+        solar_content = VGroup(solar_title, telemetry_chip).arrange(DOWN, aligned_edge=LEFT, buff=0.1)
+        solar_panel_grp = VGroup(solar_card, solar_content).arrange(ORIGIN).move_to(pos_west + LEFT * 2.2 + UP * 0.4)
+
+        # Flow conduit from solar panel to radar to core
+        conduit_west = Arrow(solar_panel_grp.get_right(), core_outer.get_left(), buff=0.15, color=C_CYAN_SKY, stroke_width=2.5, max_tip_length_to_length_ratio=0.12)
+
         self.play(
-            Create(west_highlight),
-            Transform(dormant_sockets[0][1], west_active_lbl),
-            dormant_sockets[0][0].animate.set_stroke(color=C_SKY_BLUE, width=2.5),
+            sock_w.animate.scale(0.85).shift(UP * 0.9),
+            FadeIn(radar_assembly, shift=RIGHT * 0.3),
+            FadeIn(solar_panel_grp, shift=DOWN * 0.2),
+            Create(conduit_west),
+            run_time=1.4
+        )
+
+        # Data pulse traveling along the conduit
+        pulse_p1 = Dot(solar_panel_grp.get_right(), color=C_ORANGE_PULSE, radius=0.09)
+        self.play(MoveAlongPath(pulse_p1, conduit_west), run_time=1.0)
+        self.remove(pulse_p1)
+        self.wait(1.5)
+
+        # -------------------------------------------------------------
+        ## Presentation Step 3: Three Input Channels
+        # -------------------------------------------------------------
+        new_title = create_title(
+            "Three Input Channels",
+            "Telemetry, User Queries, And System Triggers"
+        )
+        self.play(FadeOut(title_group), run_time=0.35)
+        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
+        title_group = new_title
+
+        # Two additional input channels: User Query & Monitor Trigger
+        query_card = RoundedRectangle(width=2.3, height=0.65, corner_radius=0.12, color=C_STEEL_BLUE, stroke_width=1.5, fill_color=C_CARD_BG, fill_opacity=0.95)
+        query_txt = CrispText("User Query", size=12, weight=BOLD, color=C_CHARCOAL)
+        fit_into_box(query_txt, query_card, pad_x=0.2, pad_y=0.08)
+        query_grp = VGroup(query_card, query_txt).arrange(ORIGIN).move_to(pos_west + LEFT * 2.1 + DOWN * 0.5)
+
+        trigger_card = RoundedRectangle(width=2.3, height=0.65, corner_radius=0.12, color=C_AMBER, stroke_width=1.5, fill_color=C_CARD_BG, fill_opacity=0.95)
+        trigger_txt = CrispText("Monitor Trigger", size=12, weight=BOLD, color=C_CHARCOAL)
+        fit_into_box(trigger_txt, trigger_card, pad_x=0.2, pad_y=0.08)
+        trigger_grp = VGroup(trigger_card, trigger_txt).arrange(ORIGIN).move_to(pos_west + LEFT * 2.1 + DOWN * 1.35)
+
+        conduit_q = Arrow(query_grp.get_right(), radar_assembly.get_bottom(), buff=0.1, color=C_STEEL_BLUE, stroke_width=2, max_tip_length_to_length_ratio=0.14)
+        conduit_t = Arrow(trigger_grp.get_right(), radar_assembly.get_bottom() + DOWN * 0.2, buff=0.1, color=C_AMBER, stroke_width=2, max_tip_length_to_length_ratio=0.14)
+
+        self.play(FadeIn(query_grp, shift=UP * 0.15), Create(conduit_q), run_time=0.8)
+        self.play(FadeIn(trigger_grp, shift=UP * 0.15), Create(conduit_t), run_time=0.8)
+
+        # Consolidate Perception assembly to compact West dock
+        perception_cluster = VGroup(sock_w, radar_assembly, solar_panel_grp, query_grp, trigger_grp, conduit_west, conduit_q, conduit_t)
+        
+        docked_perception_bg = RoundedRectangle(width=2.1, height=0.72, corner_radius=0.15, color=C_CYAN_SKY, stroke_width=2, fill_color=C_CARD_BG, fill_opacity=0.95)
+        docked_p_txt = CrispText("Perception Dock", size=12, weight=BOLD, color=C_SLATE_TITLE)
+        fit_into_box(docked_p_txt, docked_perception_bg, pad_x=0.2, pad_y=0.08)
+        docked_perception = VGroup(docked_perception_bg, docked_p_txt).arrange(ORIGIN).move_to(pos_west)
+
+        self.play(
+            FadeOut(perception_cluster),
+            FadeIn(docked_perception, scale=0.9),
             run_time=1.2
+        )
+
+        # South/Memory socket illuminates violet
+        mem_pulse = sock_s.copy().set_fill(opacity=0).set_stroke(color=C_LAVENDER, width=3.5)
+        self.play(Create(mem_pulse), run_time=0.7)
+        self.play(FadeOut(mem_pulse), run_time=0.4)
+        self.wait(1.0)
+
+        # -------------------------------------------------------------
+        ## Presentation Step 4: Memory: Two Tiers
+        # -------------------------------------------------------------
+        new_title = create_title(
+            "Memory: Two Tiers",
+            "Short-Term Context Buffer And Long-Term Vector Store"
+        )
+        self.play(FadeOut(title_group), run_time=0.35)
+        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
+        title_group = new_title
+
+        # Dual-Tier Memory Stack (Centered presentation)
+        mem_center = np.array([0.2, -0.6, 0.0])
+
+        # Tier 1: Ephemeral Context Buffer Register
+        cbuf_box = RoundedRectangle(width=3.6, height=1.0, corner_radius=0.15, color=C_STEEL_BLUE, stroke_width=1.5, fill_color=C_CARD_BG, fill_opacity=0.95)
+        cbuf_title = CrispText("Short-Term Context Buffer", size=13, weight=BOLD, color=C_SLATE_TITLE)
+        
+        # Buffer slots
+        slots = VGroup(*[
+            RoundedRectangle(width=0.65, height=0.36, corner_radius=0.08, color="#CBD5E1", stroke_width=1, fill_color="#F1F5F9", fill_opacity=0.9)
+            for _ in range(4)
+        ]).arrange(RIGHT, buff=0.12)
+        slots_lbl = CrispText("Active Tokens", size=10, weight=SEMIBOLD, color=C_STEEL_BLUE).next_to(slots, RIGHT, buff=0.15)
+        cbuf_content = VGroup(cbuf_title, VGroup(slots, slots_lbl)).arrange(DOWN, buff=0.12)
+        cbuf_grp = VGroup(cbuf_box, cbuf_content).arrange(ORIGIN).move_to(mem_center + UP * 0.85)
+
+        # Tier 2: Persistent Vector Database Cylinder
+        vdb_box = RoundedRectangle(width=3.6, height=1.1, corner_radius=0.15, color=C_LAVENDER, stroke_width=1.5, fill_color=C_CARD_BG, fill_opacity=0.95)
+        vdb_title = CrispText("Long-Term Vector Storage", size=13, weight=BOLD, color=C_SLATE_TITLE)
+        vdb_sub = CrispText("External Disk  |  Persistent Embeddings", size=11, weight=NORMAL, color=C_SLATE_BODY)
+        vdb_content = VGroup(vdb_title, vdb_sub).arrange(DOWN, buff=0.12)
+        vdb_grp = VGroup(vdb_box, vdb_content).arrange(ORIGIN).move_to(mem_center + DOWN * 0.7)
+
+        # Bidirectional Sync Arrow
+        sync_arrow = DoubleArrow(cbuf_box.get_bottom(), vdb_box.get_top(), buff=0.12, color=C_ORANGE_PULSE, stroke_width=2.5, max_tip_length_to_length_ratio=0.18)
+        sync_lbl = CrispText("Retrieval & Write", size=11, weight=BOLD, color=C_ORANGE_PULSE).next_to(sync_arrow, RIGHT, buff=0.12)
+
+        # Temporary fade agent_core to show deep dive
+        self.play(
+            agent_core.animate.set_opacity(0.60),
+            orbit_circle.animate.set_opacity(0.60),
+            FadeIn(cbuf_grp, shift=DOWN * 0.2),
+            FadeIn(vdb_grp, shift=UP * 0.2),
+            Create(sync_arrow),
+            FadeIn(sync_lbl),
+            run_time=1.4
         )
         self.wait(1.5)
 
-        # =====================================================
-        # ## Presentation Step 2: Perception: Sensing the World
-        # =====================================================
-        new_title = create_title("Perception: Sensing the World", "Receiving Continuous Environmental Feeds")
+        # -------------------------------------------------------------
+        ## Presentation Step 5: Memory Keeps Track
+        # -------------------------------------------------------------
+        new_title = create_title(
+            "Memory Keeps Track",
+            "Multi-Step Trajectory Without Context Loss"
+        )
         self.play(FadeOut(title_group), run_time=0.35)
         self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
         title_group = new_title
 
-        # Radar Sweep Dish at West Position
-        dish_center = POS_W + LEFT * 0.4
-        dish_arc = Arc(radius=0.9, start_angle=-PI/2.5, angle=2*PI/2.5, color=C_SKY_BLUE, stroke_width=3).move_to(dish_center)
-        dish_concentric = Arc(radius=0.6, start_angle=-PI/2.5, angle=2*PI/2.5, color=C_STEEL_BLUE, stroke_width=1.8).move_to(dish_center)
-        dish_emitter = Dot(point=dish_arc.get_arc_center(), radius=0.08, color=C_SKY_BLUE)
-        dish_group = VGroup(dish_arc, dish_concentric, dish_emitter)
-
-        # Telemetry Sensor Card (Solar Installation Data)
-        sensor_card_bg = RoundedRectangle(corner_radius=0.1, width=2.4, height=1.1, fill_color=C_CARD_WHITE, fill_opacity=0.95, stroke_color=C_SKY_BLUE, stroke_width=1.5)
-        sensor_tag = CrispText("Solar Telemetry", size=13, weight=BOLD, color=C_TITLE_SLATE)
-        sensor_metric = CrispText("Feed: 4.8 kW ∿ Live", size=11, weight=NORMAL, color="#0284C7")
-        sensor_group_text = VGroup(sensor_tag, sensor_metric).arrange(DOWN, aligned_edge=LEFT, buff=0.1)
-        fit_into_box(sensor_group_text, sensor_card_bg, pad_x=0.2, pad_y=0.08)
-        sensor_card = VGroup(sensor_card_bg, sensor_group_text).arrange(ORIGIN).move_to([-5.2, -0.6, 0])
-
-        # Particle Data Stream from Sensor Card to West Socket
-        beam_line = Line(start=sensor_card.get_right(), end=dish_group.get_left(), color=C_SKY_BLUE, stroke_width=2.5)
-        pulse_to_core = Arrow(start=POS_W, end=agent_core.get_left(), buff=0.2, color=C_SKY_BLUE, stroke_width=2.5, max_tip_length_to_length_ratio=0.2)
+        # Breadcrumb trail over the context buffer
+        wp1 = Dot(mem_center + UP * 0.85 + LEFT * 1.1, radius=0.14, color=C_CYAN_SKY)
+        wp2 = Dot(mem_center + UP * 0.85, radius=0.14, color=C_STEEL_BLUE)
+        wp3 = Dot(mem_center + UP * 0.85 + RIGHT * 1.1, radius=0.14, color=C_ORANGE_PULSE)
+        t_wp1 = CrispText("1", size=10, weight=BOLD, color="#FFFFFF").move_to(wp1.get_center())
+        t_wp2 = CrispText("2", size=10, weight=BOLD, color="#FFFFFF").move_to(wp2.get_center())
+        t_wp3 = CrispText("3", size=10, weight=BOLD, color="#FFFFFF").move_to(wp3.get_center())
+        trail_line = DashedLine(wp1.get_center(), wp3.get_center(), color=C_STEEL_BLUE, stroke_width=2)
+        breadcrumb_grp = VGroup(trail_line, wp1, t_wp1, wp2, t_wp2, wp3, t_wp3)
 
         self.play(
-            FadeOut(dormant_sockets[0][0]),
-            FadeIn(dish_group, shift=RIGHT * 0.2),
-            FadeIn(sensor_card, shift=RIGHT * 0.3),
-            Create(beam_line),
-            Create(pulse_to_core),
-            run_time=1.4
+            FadeIn(breadcrumb_grp),
+            vdb_box.animate.set_stroke(color=C_ORANGE_PULSE, width=2.5),
+            run_time=1.1
         )
 
-        # Traveling Data Particle
-        dot_particle = Dot(color=C_HIGHLIGHT_ORANGE, radius=0.09).move_to(beam_line.get_start())
+        # Dock memory cluster to south
+        docked_mem_bg = RoundedRectangle(width=2.1, height=0.72, corner_radius=0.15, color=C_LAVENDER, stroke_width=2, fill_color=C_CARD_BG, fill_opacity=0.95)
+        docked_mem_txt = CrispText("Memory Dock", size=12, weight=BOLD, color=C_SLATE_TITLE)
+        fit_into_box(docked_mem_txt, docked_mem_bg, pad_x=0.2, pad_y=0.08)
+        docked_mem = VGroup(docked_mem_bg, docked_mem_txt).arrange(ORIGIN).move_to(pos_south)
+
         self.play(
-            dot_particle.animate.move_to(dish_group.get_center()),
-            rate_func=linear,
-            run_time=0.9
+            FadeOut(VGroup(cbuf_grp, vdb_grp, sync_arrow, sync_lbl, breadcrumb_grp)),
+            agent_core.animate.set_opacity(1.0),
+            orbit_circle.animate.set_opacity(1.0),
+            FadeIn(docked_mem, scale=0.9),
+            run_time=1.3
         )
-        self.play(
-            dot_particle.animate.move_to(agent_core.get_center()),
-            agent_core[0].animate.scale(1.1).set_stroke(opacity=0.8),
-            run_time=0.8
-        )
-        self.play(FadeOut(dot_particle), agent_core[0].animate.scale(1/1.1).set_stroke(opacity=0.4), run_time=0.4)
+
+        # North socket lights amber
+        reason_pulse = sock_n.copy().set_fill(opacity=0).set_stroke(color=C_AMBER, width=3.5)
+        self.play(Create(reason_pulse), run_time=0.7)
+        self.play(FadeOut(reason_pulse), run_time=0.4)
         self.wait(1.0)
 
-        # =====================================================
-        # ## Presentation Step 3: Three Input Channels
-        # =====================================================
-        new_title = create_title("Three Input Channels", "Sensory Convergence: Telemetry, Queries, Triggers")
+        # -------------------------------------------------------------
+        ## Presentation Step 6: Reasoning: The LLM Engine
+        # -------------------------------------------------------------
+        new_title = create_title(
+            "Reasoning: The LLM Engine",
+            "Deliberation: Interpret, Decide, And Tool Selection"
+        )
         self.play(FadeOut(title_group), run_time=0.35)
         self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
         title_group = new_title
 
-        # Stacked 3 Input Source Channels on Far Left
-        ch1 = RoundedRectangle(corner_radius=0.08, width=2.3, height=0.65, fill_color=C_CARD_WHITE, fill_opacity=0.95, stroke_color=C_SKY_BLUE, stroke_width=1.5)
-        ch1_txt = CrispText("Solar Ingestion", size=11, weight=BOLD, color=C_TITLE_SLATE).move_to(ch1)
-        chan_telemetry = VGroup(ch1, ch1_txt)
+        # LLM Neural Die Centerstage
+        die_box = RoundedRectangle(width=5.2, height=2.2, corner_radius=0.2, color=C_AMBER, stroke_width=2, fill_color=C_CARD_BG, fill_opacity=0.95).move_to(center_pos)
+        die_title = CrispText("LLM Reasoning Die", size=14, weight=BOLD, color=C_SLATE_TITLE).next_to(die_box.get_top(), DOWN, buff=0.18)
 
-        ch2 = RoundedRectangle(corner_radius=0.08, width=2.3, height=0.65, fill_color=C_CARD_WHITE, fill_opacity=0.95, stroke_color=C_STEEL_BLUE, stroke_width=1.5)
-        ch2_txt = CrispText("User Query API", size=11, weight=BOLD, color=C_TITLE_SLATE).move_to(ch2)
-        chan_query = VGroup(ch2, ch2_txt)
+        # 3-Stage Pipeline inside Neural Die: Interpret -> Decide -> Select Tool
+        p_stage1 = RoundedRectangle(width=1.35, height=0.6, corner_radius=0.1, color=C_CYAN_SKY, stroke_width=1.5, fill_color="#F8FAFC", fill_opacity=0.9)
+        t_stage1 = CrispText("1. Interpret", size=11, weight=BOLD, color=C_CHARCOAL).move_to(p_stage1.get_center())
+        s1 = VGroup(p_stage1, t_stage1)
 
-        ch3 = RoundedRectangle(corner_radius=0.08, width=2.3, height=0.65, fill_color=C_CARD_WHITE, fill_opacity=0.95, stroke_color=C_WARM_AMBER, stroke_width=1.5)
-        ch3_txt = CrispText("Monitor Trigger", size=11, weight=BOLD, color=C_TITLE_SLATE).move_to(ch3)
-        chan_trigger = VGroup(ch3, ch3_txt)
+        p_stage2 = RoundedRectangle(width=1.35, height=0.6, corner_radius=0.1, color=C_STEEL_BLUE, stroke_width=1.5, fill_color="#F8FAFC", fill_opacity=0.9)
+        t_stage2 = CrispText("2. Decide", size=11, weight=BOLD, color=C_CHARCOAL).move_to(p_stage2.get_center())
+        s2 = VGroup(p_stage2, t_stage2)
 
-        channels_grp = VGroup(chan_telemetry, chan_query, chan_trigger).arrange(DOWN, buff=0.25).move_to([-5.2, -0.6, 0])
+        p_stage3 = RoundedRectangle(width=1.45, height=0.6, corner_radius=0.1, color=C_AMBER, stroke_width=1.5, fill_color="#F8FAFC", fill_opacity=0.9)
+        t_stage3 = CrispText("3. Select Tool", size=11, weight=BOLD, color=C_CHARCOAL).move_to(p_stage3.get_center())
+        s3 = VGroup(p_stage3, t_stage3)
 
-        # Converging Lines into Perception Dish
-        line_ch1 = Line(chan_telemetry.get_right(), dish_group.get_left(), color=C_SKY_BLUE, stroke_width=1.8)
-        line_ch2 = Line(chan_query.get_right(), dish_group.get_left(), color=C_STEEL_BLUE, stroke_width=1.8)
-        line_ch3 = Line(chan_trigger.get_right(), dish_group.get_left(), color=C_WARM_AMBER, stroke_width=1.8)
-        converge_lines = VGroup(line_ch1, line_ch2, line_ch3)
+        pipeline_grp = VGroup(s1, s2, s3).arrange(RIGHT, buff=0.2).next_to(die_title, DOWN, buff=0.22)
 
-        self.play(
-            ReplacementTransform(sensor_card, chan_telemetry),
-            FadeIn(chan_query, shift=UP * 0.1),
-            FadeIn(chan_trigger, shift=DOWN * 0.1),
-            ReplacementTransform(beam_line, line_ch1),
-            Create(line_ch2),
-            Create(line_ch3),
-            run_time=1.5
-        )
+        # Tool fanout icons to the right
+        tool_q = RoundedRectangle(width=1.0, height=0.4, corner_radius=0.08, color="#CBD5E1", stroke_width=1, fill_color="#FFFFFF", fill_opacity=0.95)
+        txt_tq = CrispText("Query", size=10, weight=SEMIBOLD, color=C_CHARCOAL).move_to(tool_q.get_center())
+        grp_tq = VGroup(tool_q, txt_tq).move_to(die_box.get_right() + RIGHT * 0.9 + UP * 0.5)
 
-        # Highlight sequence for 3 channels
-        for chan in [chan_telemetry, chan_query, chan_trigger]:
-            h_pulse = chan[0].copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-            self.play(Create(h_pulse), run_time=0.35)
-            self.play(FadeOut(h_pulse), run_time=0.25)
+        tool_api = RoundedRectangle(width=1.0, height=0.4, corner_radius=0.08, color=C_ORANGE_PULSE, stroke_width=2, fill_color="#FFFFFF", fill_opacity=0.95)
+        txt_tapi = CrispText("API Call", size=10, weight=BOLD, color=C_ORANGE_PULSE).move_to(tool_api.get_center())
+        grp_tapi = VGroup(tool_api, txt_tapi).move_to(die_box.get_right() + RIGHT * 0.9)
 
-        # Dock Perception cluster cleanly to West and cue Memory layer
-        perception_dock = VGroup(dish_group, channels_grp, converge_lines, dormant_sockets[0][1], west_highlight, pulse_to_core)
-        
-        # South Socket (Memory) lights violet to cue next beat
-        south_highlight = Circle(radius=0.62, color=C_LAVENDER, stroke_width=3.5).move_to(POS_S)
-        south_active_lbl = CrispText("Memory Layer", size=13, weight=BOLD, color=C_LAVENDER).move_to(dormant_sockets[1][1].get_center())
+        tool_file = RoundedRectangle(width=1.0, height=0.4, corner_radius=0.08, color="#CBD5E1", stroke_width=1, fill_color="#FFFFFF", fill_opacity=0.95)
+        txt_tfile = CrispText("File Io", size=10, weight=SEMIBOLD, color=C_CHARCOAL).move_to(tool_file.get_center())
+        grp_tfile = VGroup(tool_file, txt_tfile).move_to(die_box.get_right() + RIGHT * 0.9 + DOWN * 0.5)
 
-        self.play(
-            perception_dock.animate.scale(0.65).move_to(POS_W + LEFT * 0.2),
-            Create(south_highlight),
-            Transform(dormant_sockets[1][1], south_active_lbl),
-            dormant_sockets[1][0].animate.set_stroke(color=C_LAVENDER, width=2.5),
-            run_time=1.4
-        )
-        self.wait(1.0)
-
-        # =====================================================
-        # ## Presentation Step 4: Memory: Two Tiers
-        # =====================================================
-        new_title = create_title("Memory: Two Tiers", "Short-Term Working Context & Long-Term Vector Store")
-        self.play(FadeOut(title_group), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
-        title_group = new_title
-
-        # Tier 1: Ephemeral Context Buffer Register (Short-Term)
-        tier1_box = RoundedRectangle(corner_radius=0.08, width=3.4, height=1.0, fill_color=C_CARD_WHITE, fill_opacity=0.95, stroke_color=C_LAVENDER, stroke_width=2.0)
-        tier1_pill = RoundedRectangle(corner_radius=0.06, width=1.4, height=0.3, fill_color="#EDE9FE", fill_opacity=1.0, stroke_width=0)
-        tier1_tag = CrispText("Short-Term", size=11, weight=BOLD, color=C_LAVENDER).move_to(tier1_pill)
-        pill1 = VGroup(tier1_pill, tier1_tag).next_to(tier1_box.get_top(), DOWN, buff=0.08)
-        
-        # Buffer slots
-        slots = VGroup(*[RoundedRectangle(corner_radius=0.04, width=0.55, height=0.35, fill_color="#F1F5F9", stroke_color="#CBD5E1", stroke_width=1.0) for _ in range(4)]).arrange(RIGHT, buff=0.15)
-        slots.next_to(pill1, DOWN, buff=0.1)
-        tier1_group = VGroup(tier1_box, pill1, slots).move_to([0.0, 0.4, 0])
-
-        # Tier 2: Persistent Vector Database Cylinder (Long-Term)
-        tier2_box = RoundedRectangle(corner_radius=0.08, width=3.4, height=1.1, fill_color=C_CARD_WHITE, fill_opacity=0.95, stroke_color=C_STEEL_BLUE, stroke_width=2.0)
-        tier2_pill = RoundedRectangle(corner_radius=0.06, width=1.4, height=0.3, fill_color="#E0E7FF", fill_opacity=1.0, stroke_width=0)
-        tier2_tag = CrispText("Long-Term", size=11, weight=BOLD, color=C_STEEL_BLUE).move_to(tier2_pill)
-        pill2 = VGroup(tier2_pill, tier2_tag).next_to(tier2_box.get_top(), DOWN, buff=0.08)
-        
-        db_rings = VGroup(*[Line(LEFT * 1.3, RIGHT * 1.3, color=C_STEEL_BLUE, stroke_width=1.5) for _ in range(2)]).arrange(DOWN, buff=0.16)
-        db_rings.next_to(pill2, DOWN, buff=0.12)
-        tier2_group = VGroup(tier2_box, pill2, db_rings).move_to([0.0, -1.3, 0])
-
-        # Bidirectional retrieval arrow between tiers
-        bidi_arrow = DoubleArrow(tier1_group.get_bottom(), tier2_group.get_top(), buff=0.12, color=C_HIGHLIGHT_ORANGE, stroke_width=2.5, tip_length=0.18)
-
-        # Context capacity badge
-        cap_badge = RoundedRectangle(corner_radius=0.06, width=1.6, height=0.35, fill_color=C_CARD_WHITE, fill_opacity=1.0, stroke_color=C_BORDER_LIGHT, stroke_width=1.2)
-        cap_text = CrispText("Capacity: 8k", size=11, weight=BOLD, color=C_TITLE_SLATE).move_to(cap_badge)
-        metric_chip = VGroup(cap_badge, cap_text).next_to(tier1_group, RIGHT, buff=0.25)
+        tools_fanout = VGroup(grp_tq, grp_tapi, grp_tfile)
 
         self.play(
             agent_core.animate.set_opacity(0.60),
-            FadeIn(tier1_group, shift=DOWN * 0.2),
-            FadeIn(tier2_group, shift=UP * 0.2),
-            Create(bidi_arrow),
-            FadeIn(metric_chip, shift=LEFT * 0.2),
-            run_time=1.6
+            FadeIn(die_box),
+            FadeIn(die_title),
+            run_time=1.0
         )
-        self.wait(1.2)
+        self.play(
+            LaggedStart(
+                FadeIn(s1, shift=RIGHT * 0.15),
+                FadeIn(s2, shift=RIGHT * 0.15),
+                FadeIn(s3, shift=RIGHT * 0.15),
+                lag_ratio=0.3
+            ),
+            run_time=1.4
+        )
+        self.play(FadeIn(tools_fanout, shift=LEFT * 0.2), run_time=0.9)
 
-        # =====================================================
-        # ## Presentation Step 5: Memory Keeps Track
-        # =====================================================
-        new_title = create_title("Memory Keeps Track", "Breadcrumb Trail: Multi-Step Task Tracking")
-        self.play(FadeOut(title_group), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
-        title_group = new_title
-
-        # Step Breadcrumb Trail Waypoints (Step 1, Step 2, Step 3)
-        wp1 = Dot(point=[-1.0, 0.4, 0], radius=0.12, color=C_LAVENDER)
-        lbl1 = CrispText("Step 1", size=10, weight=BOLD, color=C_SUB_SLATE).next_to(wp1, UP, buff=0.08)
-        wp2 = Dot(point=[0.0, 0.4, 0], radius=0.12, color=C_LAVENDER)
-        lbl2 = CrispText("Step 2", size=10, weight=BOLD, color=C_SUB_SLATE).next_to(wp2, UP, buff=0.08)
-        wp3 = Dot(point=[1.0, 0.4, 0], radius=0.12, color=C_LAVENDER)
-        lbl3 = CrispText("Step 3", size=10, weight=BOLD, color=C_SUB_SLATE).next_to(wp3, UP, buff=0.08)
-        
-        trail_line = DashedLine(wp1.get_center(), wp3.get_center(), color=C_LAVENDER, stroke_width=2.0)
-        breadcrumbs = VGroup(trail_line, wp1, lbl1, wp2, lbl2, wp3, lbl3)
-
-        # "You Are Here" Marker with Pulse
-        active_marker = Circle(radius=0.18, color=C_HIGHLIGHT_ORANGE, stroke_width=3.0).move_to(wp2.get_center())
-        yah_badge = RoundedRectangle(corner_radius=0.04, width=1.1, height=0.28, fill_color=C_CARD_WHITE, stroke_color=C_HIGHLIGHT_ORANGE, stroke_width=1.0)
-        yah_lbl = CrispText("Active", size=10, weight=BOLD, color=C_HIGHLIGHT_ORANGE).move_to(yah_badge)
-        active_indicator = VGroup(active_marker, VGroup(yah_badge, yah_lbl).next_to(active_marker, DOWN, buff=0.08))
+        # Dock Reasoning cluster to north
+        docked_reason_bg = RoundedRectangle(width=2.1, height=0.72, corner_radius=0.15, color=C_AMBER, stroke_width=2, fill_color=C_CARD_BG, fill_opacity=0.95)
+        docked_reason_txt = CrispText("Reasoning Dock", size=12, weight=BOLD, color=C_SLATE_TITLE)
+        fit_into_box(docked_reason_txt, docked_reason_bg, pad_x=0.2, pad_y=0.08)
+        docked_reason = VGroup(docked_reason_bg, docked_reason_txt).arrange(ORIGIN).move_to(pos_north)
 
         self.play(
-            FadeIn(breadcrumbs),
-            Create(active_indicator),
-            run_time=1.2
-        )
-
-        # Pulse database cylinder to show state read
-        db_pulse = tier2_box.copy().set_fill(opacity=0).set_stroke(color=C_STEEL_BLUE, width=3.5)
-        self.play(
-            active_marker.animate.move_to(wp3.get_center()),
-            active_indicator[1].animate.next_to(wp3, DOWN, buff=0.08),
-            Create(db_pulse),
-            run_time=1.2
-        )
-        self.play(FadeOut(db_pulse), run_time=0.4)
-
-        # Consolidate and Dock Memory to South position
-        memory_cluster = VGroup(tier1_group, tier2_group, bidi_arrow, metric_chip, breadcrumbs, active_indicator)
-        
-        # North Socket (Reasoning) lights amber to cue next beat
-        north_highlight = Circle(radius=0.62, color=C_WARM_AMBER, stroke_width=3.5).move_to(POS_N)
-        north_active_lbl = CrispText("Reasoning Engine", size=13, weight=BOLD, color=C_WARM_AMBER).move_to(dormant_sockets[2][1].get_center())
-
-        self.play(
-            memory_cluster.animate.scale(0.4).move_to(POS_S),
-            agent_core.animate.set_opacity(0.95),
-            Create(north_highlight),
-            Transform(dormant_sockets[2][1], north_active_lbl),
-            dormant_sockets[2][0].animate.set_stroke(color=C_WARM_AMBER, width=2.5),
-            run_time=1.5
+            FadeOut(VGroup(die_box, die_title, pipeline_grp, tools_fanout)),
+            agent_core.animate.set_opacity(1.0),
+            FadeIn(docked_reason, scale=0.9),
+            run_time=1.3
         )
         self.wait(1.0)
 
-        # =====================================================
-        # ## Presentation Step 6: Reasoning: The LLM Engine
-        # =====================================================
-        new_title = create_title("Reasoning: The LLM Engine", "Cognitive Deliberation: Interpret, Decide, Select Tool")
+        # -------------------------------------------------------------
+        ## Presentation Step 7: Action: Doing Something
+        # -------------------------------------------------------------
+        new_title = create_title(
+            "Action: Doing Something",
+            "API Dispatch Hub And System Actuation"
+        )
         self.play(FadeOut(title_group), run_time=0.35)
         self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
         title_group = new_title
 
-        # Central LLM Processor Lattice Die
-        die_bg = RoundedRectangle(corner_radius=0.12, width=4.8, height=2.0, fill_color=C_CARD_WHITE, fill_opacity=0.98, stroke_color=C_WARM_AMBER, stroke_width=2.5).move_to(SYS_CENTER + UP * 0.1)
-        die_header = CrispText("LLM Cognition Core", size=14, weight=BOLD, color=C_TITLE_SLATE).next_to(die_bg.get_top(), DOWN, buff=0.12)
+        # East Socket expands into Action Dispatch Hub
+        dispatch_box = RoundedRectangle(width=2.8, height=1.6, corner_radius=0.18, color=C_CORAL, stroke_width=2, fill_color=C_CARD_BG, fill_opacity=0.95).move_to(pos_east + RIGHT * 0.4)
+        hub_lbl = CrispText("Dispatch Hub", size=13, weight=BOLD, color=C_SLATE_TITLE)
+        status_pill_bg = RoundedRectangle(width=1.3, height=0.36, corner_radius=0.08, color="#06C170", stroke_width=1.2, fill_color="#ECFDF5", fill_opacity=0.9)
+        status_pill_txt = CrispText("State: Active", size=10, weight=BOLD, color="#047857")
+        fit_into_box(status_pill_txt, status_pill_bg, pad_x=0.2, pad_y=0.08)
+        status_pill = VGroup(status_pill_bg, status_pill_txt).arrange(ORIGIN)
         
-        # 3-Stage Pipeline: Interpret -> Decide -> Select Tool
-        stg1 = RoundedRectangle(corner_radius=0.06, width=1.2, height=0.75, fill_color="#FEF3C7", stroke_color=C_WARM_AMBER, stroke_width=1.2)
-        t_stg1 = CrispText("1. Interpret", size=11, weight=BOLD, color=C_TITLE_SLATE).move_to(stg1)
-        p1 = VGroup(stg1, t_stg1)
+        actuator_dial = Circle(radius=0.32, color=C_CORAL, stroke_width=2, fill_color="#FFF5F5", fill_opacity=0.8)
+        dial_needle = Line(actuator_dial.get_center(), actuator_dial.get_center() + np.array([0.22, 0.16, 0]), color=C_ORANGE_PULSE, stroke_width=2.5)
+        dial_grp = VGroup(actuator_dial, dial_needle)
 
-        stg2 = RoundedRectangle(corner_radius=0.06, width=1.2, height=0.75, fill_color="#FEF3C7", stroke_color=C_WARM_AMBER, stroke_width=1.2)
-        t_stg2 = CrispText("2. Decide", size=11, weight=BOLD, color=C_TITLE_SLATE).move_to(stg2)
-        p2 = VGroup(stg2, t_stg2)
+        dispatch_content = VGroup(hub_lbl, status_pill, dial_grp).arrange(DOWN, buff=0.12).move_to(dispatch_box.get_center())
+        action_hub = VGroup(dispatch_box, dispatch_content)
 
-        stg3 = RoundedRectangle(corner_radius=0.06, width=1.3, height=0.75, fill_color="#FEF3C7", stroke_color=C_WARM_AMBER, stroke_width=1.2)
-        t_stg3 = CrispText("3. Select Tool", size=11, weight=BOLD, color=C_TITLE_SLATE).move_to(stg3)
-        p3 = VGroup(stg3, t_stg3)
-
-        pipeline_grp = VGroup(p1, p2, p3).arrange(RIGHT, buff=0.25).move_to(SYS_CENTER + DOWN * 0.1)
-
-        # Confidence Badge
-        conf_pill = RoundedRectangle(corner_radius=0.05, width=1.8, height=0.3, fill_color=C_CARD_WHITE, stroke_color=C_BORDER_LIGHT, stroke_width=1.0)
-        conf_txt = CrispText("Confidence: 0.94", size=11, weight=BOLD, color="#B45309").move_to(conf_pill)
-        conf_badge = VGroup(conf_pill, conf_txt).next_to(die_bg, UP, buff=0.12)
-
-        # Three Tool Icons on Right Edge
-        t_icon1 = RoundedRectangle(corner_radius=0.05, width=0.8, height=0.45, fill_color=C_CARD_WHITE, stroke_color=C_BORDER_LIGHT, stroke_width=1.2)
-        l_ic1 = CrispText("Query", size=10, weight=BOLD, color=C_TITLE_SLATE).move_to(t_icon1)
-        tool1 = VGroup(t_icon1, l_ic1)
-
-        t_icon2 = RoundedRectangle(corner_radius=0.05, width=0.8, height=0.45, fill_color=C_CARD_WHITE, stroke_color=C_HIGHLIGHT_ORANGE, stroke_width=1.8)
-        l_ic2 = CrispText("API", size=10, weight=BOLD, color=C_HIGHLIGHT_ORANGE).move_to(t_icon2)
-        tool2 = VGroup(t_icon2, l_ic2)
-
-        t_icon3 = RoundedRectangle(corner_radius=0.05, width=0.8, height=0.45, fill_color=C_CARD_WHITE, stroke_color=C_BORDER_LIGHT, stroke_width=1.2)
-        l_ic3 = CrispText("File", size=10, weight=BOLD, color=C_TITLE_SLATE).move_to(t_icon3)
-        tool3 = VGroup(t_icon3, l_ic3)
-
-        tool_fan = VGroup(tool1, tool2, tool3).arrange(DOWN, buff=0.15).next_to(die_bg, RIGHT, buff=0.25)
+        # Command packet arriving from Reasoning Dock (North to East)
+        cmd_path = CurvedArrow(docked_reason.get_right(), dispatch_box.get_top(), angle=-PI/3, color=C_ORANGE_PULSE, stroke_width=2.5)
+        cmd_packet = Dot(color=C_ORANGE_PULSE, radius=0.1)
 
         self.play(
-            agent_core.animate.set_opacity(0.60),
-            FadeIn(die_bg),
-            FadeIn(die_header),
-            FadeIn(pipeline_grp, shift=RIGHT * 0.1),
-            FadeIn(conf_badge),
-            FadeIn(tool_fan, shift=LEFT * 0.1),
-            run_time=1.6
+            FadeOut(sock_e),
+            FadeIn(action_hub, shift=LEFT * 0.2),
+            Create(cmd_path),
+            run_time=1.1
         )
-
-        # Stage Progression Highlight
-        for stage in [p1, p2, p3]:
-            h = stage[0].copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.0)
-            self.play(Create(h), run_time=0.35)
-            self.play(FadeOut(h), run_time=0.25)
-
-        # Highlight Selected Tool ("API")
-        tool_hl = tool2.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-        self.play(Create(tool_hl), run_time=0.5)
+        self.play(MoveAlongPath(cmd_packet, cmd_path), run_time=0.8)
+        self.remove(cmd_packet)
         self.wait(1.0)
 
-        # =====================================================
-        # ## Presentation Step 7: Action: Doing Something
-        # =====================================================
-        new_title = create_title("Action: Doing Something", "Actuator Layer: Executing Tool Operations")
+        # -------------------------------------------------------------
+        ## Presentation Step 8: The Continuous Loop
+        # -------------------------------------------------------------
+        new_title = create_title(
+            "The Continuous Loop",
+            "Perceive -> Remember -> Reason -> Act Circuit"
+        )
         self.play(FadeOut(title_group), run_time=0.35)
         self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
         title_group = new_title
 
-        # Contract Reasoning Die and dock to North position
-        reasoning_cluster = VGroup(die_bg, die_header, pipeline_grp, conf_badge, tool_fan, tool_hl)
-        
-        # East Socket (Action Layer) expands into Mechanical API Dispatch Hub
-        act_hub_bg = RoundedRectangle(corner_radius=0.12, width=3.6, height=2.2, fill_color=C_CARD_WHITE, fill_opacity=0.98, stroke_color=C_CORAL, stroke_width=2.5).move_to(POS_E + LEFT * 0.2)
-        act_title = CrispText("Action Dispatch Hub", size=13, weight=BOLD, color=C_TITLE_SLATE).next_to(act_hub_bg.get_top(), DOWN, buff=0.12)
-        
-        # Central Dial Indicator
-        act_dial_rim = Circle(radius=0.45, color=C_CORAL, stroke_width=2.0)
-        act_dial_needle = Line(ORIGIN, UP * 0.35, color=C_HIGHLIGHT_ORANGE, stroke_width=3.0)
-        dial_grp = VGroup(act_dial_rim, act_dial_needle).move_to(act_hub_bg.get_center() + LEFT * 0.7)
-
-        # Status Pill: [Active]
-        status_pill = RoundedRectangle(corner_radius=0.06, width=1.2, height=0.35, fill_color="#FEE2E2", stroke_color=C_CORAL, stroke_width=1.2)
-        status_lbl = CrispText("Active", size=11, weight=BOLD, color="#B91C1C").move_to(status_pill)
-        status_grp = VGroup(status_pill, status_lbl).next_to(act_hub_bg.get_center() + RIGHT * 0.6, UP, buff=0.05)
-
-        # Levers / Ports
-        lever1 = Line(LEFT * 0.3, RIGHT * 0.3, color=C_CORAL, stroke_width=2.5)
-        lever2 = Line(LEFT * 0.3, RIGHT * 0.3, color=C_CORAL, stroke_width=2.5)
-        levers_grp = VGroup(lever1, lever2).arrange(DOWN, buff=0.2).next_to(status_grp, DOWN, buff=0.15)
-
-        act_hub_full = VGroup(act_hub_bg, act_title, dial_grp, status_grp, levers_grp)
-
-        # Command Packet traveling from LLM Die to Action Hub
-        cmd_packet = RoundedRectangle(corner_radius=0.04, width=0.9, height=0.3, fill_color=C_HIGHLIGHT_ORANGE, fill_opacity=1.0, stroke_width=0)
-        cmd_txt = CrispText("Execute", size=9, weight=BOLD, color=C_CARD_WHITE).move_to(cmd_packet)
-        cmd_obj = VGroup(cmd_packet, cmd_txt).move_to(SYS_CENTER)
+        # Dock Action to East socket
+        docked_act_bg = RoundedRectangle(width=2.1, height=0.72, corner_radius=0.15, color=C_CORAL, stroke_width=2, fill_color=C_CARD_BG, fill_opacity=0.95)
+        docked_act_txt = CrispText("Action Dock", size=12, weight=BOLD, color=C_SLATE_TITLE)
+        fit_into_box(docked_act_txt, docked_act_bg, pad_x=0.2, pad_y=0.08)
+        docked_act = VGroup(docked_act_bg, docked_act_txt).arrange(ORIGIN).move_to(pos_east)
 
         self.play(
-            reasoning_cluster.animate.scale(0.35).move_to(POS_N),
-            FadeIn(act_hub_full, shift=LEFT * 0.2),
-            Create(cmd_obj),
-            dormant_sockets[3].animate.set_opacity(0.60),
-            agent_core.animate.set_opacity(0.85),
-            run_time=1.6
-        )
-
-        # Command arrives into Action Hub, dial turns
-        self.play(
-            cmd_obj.animate.move_to(act_hub_bg.get_center()),
-            act_dial_needle.animate.rotate(-PI / 3, about_point=act_dial_rim.get_center()),
-            run_time=0.9
-        )
-        self.play(FadeOut(cmd_obj), run_time=0.3)
-        self.wait(1.0)
-
-        # =====================================================
-        # ## Presentation Step 8: The Continuous Loop
-        # =====================================================
-        new_title = create_title("The Continuous Loop", "Autonomous Circuit: Perceive → Remember → Reason → Act")
-        self.play(FadeOut(title_group), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
-        title_group = new_title
-
-        # Shrink Action Hub to standard East Pillar Node
-        self.play(
-            act_hub_full.animate.scale(0.38).move_to(POS_E),
+            FadeOut(VGroup(action_hub, cmd_path)),
+            FadeIn(docked_act, scale=0.9),
             run_time=1.0
         )
 
-        # Re-establish 4 Balanced Pillar Stations with High-Craft Vector Cards
-        p_card = RoundedRectangle(corner_radius=0.08, width=1.8, height=0.8, fill_color=C_CARD_WHITE, fill_opacity=0.98, stroke_color=C_SKY_BLUE, stroke_width=2.0).move_to(POS_W)
-        p_t1 = CrispText("1. Perceive", size=12, weight=BOLD, color=C_SKY_BLUE).next_to(p_card.get_top(), DOWN, buff=0.1)
-        p_t2 = CrispText("Sense Inputs", size=10, weight=NORMAL, color=C_SUB_SLATE).next_to(p_t1, DOWN, buff=0.05)
-        pillar_perceive = VGroup(p_card, p_t1, p_t2)
-
-        m_card = RoundedRectangle(corner_radius=0.08, width=1.8, height=0.8, fill_color=C_CARD_WHITE, fill_opacity=0.98, stroke_color=C_LAVENDER, stroke_width=2.0).move_to(POS_S)
-        m_t1 = CrispText("2. Remember", size=12, weight=BOLD, color=C_LAVENDER).next_to(m_card.get_top(), DOWN, buff=0.1)
-        m_t2 = CrispText("State & Vectors", size=10, weight=NORMAL, color=C_SUB_SLATE).next_to(m_t1, DOWN, buff=0.05)
-        pillar_remember = VGroup(m_card, m_t1, m_t2)
-
-        r_card = RoundedRectangle(corner_radius=0.08, width=1.8, height=0.8, fill_color=C_CARD_WHITE, fill_opacity=0.98, stroke_color=C_WARM_AMBER, stroke_width=2.0).move_to(POS_N)
-        r_t1 = CrispText("3. Reason", size=12, weight=BOLD, color=C_WARM_AMBER).next_to(r_card.get_top(), DOWN, buff=0.1)
-        r_t2 = CrispText("LLM Cognition", size=10, weight=NORMAL, color=C_SUB_SLATE).next_to(r_t1, DOWN, buff=0.05)
-        pillar_reason = VGroup(r_card, r_t1, r_t2)
-
-        a_card = RoundedRectangle(corner_radius=0.08, width=1.8, height=0.8, fill_color=C_CARD_WHITE, fill_opacity=0.98, stroke_color=C_CORAL, stroke_width=2.0).move_to(POS_E)
-        a_t1 = CrispText("4. Act", size=12, weight=BOLD, color=C_CORAL).next_to(a_card.get_top(), DOWN, buff=0.1)
-        a_t2 = CrispText("Tools & APIs", size=10, weight=NORMAL, color=C_SUB_SLATE).next_to(a_t1, DOWN, buff=0.05)
-        pillar_act = VGroup(a_card, a_t1, a_t2)
-
-        pillars_balanced = VGroup(pillar_perceive, pillar_remember, pillar_reason, pillar_act)
-
-        # Continuous Orbital Closed-Loop Ribbon (Curved Arrows connecting 4 pillars in circular flow)
-        arc_w_to_n = CurvedArrow(POS_W + UP * 0.45, POS_N + LEFT * 0.9, radius=2.3, color=C_SKY_BLUE, stroke_width=2.5)
-        arc_n_to_e = CurvedArrow(POS_N + RIGHT * 0.9, POS_E + UP * 0.45, radius=2.3, color=C_WARM_AMBER, stroke_width=2.5)
-        arc_e_to_s = CurvedArrow(POS_E + DOWN * 0.45, POS_S + RIGHT * 0.9, radius=2.3, color=C_CORAL, stroke_width=2.5)
-        arc_s_to_w = CurvedArrow(POS_S + LEFT * 0.9, POS_W + DOWN * 0.45, radius=2.3, color=C_LAVENDER, stroke_width=2.5)
-        loop_ribbon = VGroup(arc_w_to_n, arc_n_to_e, arc_e_to_s, arc_s_to_w)
-
-        # Loop Cycle Counter Badge
-        cycle_badge = RoundedRectangle(corner_radius=0.06, width=2.4, height=0.45, fill_color=C_CARD_WHITE, fill_opacity=1.0, stroke_color=C_SKY_BLUE, stroke_width=1.5)
-        cycle_txt = CrispText("Loop State: Active Cycle", size=12, weight=BOLD, color=C_TITLE_SLATE).move_to(cycle_badge)
-        cycle_chip = VGroup(cycle_badge, cycle_txt).move_to(SYS_CENTER + DOWN * 1.5)
+        # The 4 Closed Circuit Ribbon Connectors:
+        # Perceive (West) -> Remember (South) -> Action (East) -> Reason (North) -> Loop back to Perceive
+        arc_ws = CurvedArrow(docked_perception.get_bottom(), docked_mem.get_left(), angle=PI/4, color=C_CYAN_SKY, stroke_width=2.5)
+        arc_se = CurvedArrow(docked_mem.get_right(), docked_act.get_bottom(), angle=PI/4, color=C_LAVENDER, stroke_width=2.5)
+        arc_en = CurvedArrow(docked_act.get_top(), docked_reason.get_right(), angle=PI/4, color=C_CORAL, stroke_width=2.5)
+        arc_nw = CurvedArrow(docked_reason.get_left(), docked_perception.get_top(), angle=PI/4, color=C_AMBER, stroke_width=2.5)
+        loop_ribbon = VGroup(arc_ws, arc_se, arc_en, arc_nw)
 
         self.play(
-            FadeOut(perception_dock),
-            FadeOut(memory_cluster),
-            FadeOut(reasoning_cluster),
-            FadeOut(act_hub_full),
-            FadeOut(dormant_sockets),
-            FadeIn(pillars_balanced),
-            agent_core.animate.set_opacity(1.0),
             Create(loop_ribbon),
-            FadeIn(cycle_chip, shift=UP * 0.1),
-            run_time=2.0
+            run_time=1.8
         )
 
-        # Dynamic Pulse Indicator traveling around the continuous loop
-        loop_dot = Dot(color=C_HIGHLIGHT_ORANGE, radius=0.1)
-        self.play(MoveAlongPath(loop_dot, arc_w_to_n, rate_func=linear), run_time=0.8)
-        self.play(MoveAlongPath(loop_dot, arc_n_to_e, rate_func=linear), run_time=0.8)
-        self.play(MoveAlongPath(loop_dot, arc_e_to_s, rate_func=linear), run_time=0.8)
-        self.play(MoveAlongPath(loop_dot, arc_s_to_w, rate_func=linear), run_time=0.8)
-        self.play(FadeOut(loop_dot), run_time=0.3)
+        # Circulating Loop Pulse through all 4 pillars
+        cycle_badge = RoundedRectangle(width=1.9, height=0.45, corner_radius=0.1, color=C_STEEL_BLUE, stroke_width=1.5, fill_color=C_CARD_BG, fill_opacity=0.95).move_to(center_pos + DOWN * 1.5)
+        cycle_txt = CrispText("Autonomous Loop", size=11, weight=BOLD, color=C_SLATE_TITLE).move_to(cycle_badge.get_center())
+        cycle_grp = VGroup(cycle_badge, cycle_txt)
 
-        # Subtle Core Breathing Pulse
+        loop_pulse = Dot(docked_perception.get_bottom(), color=C_ORANGE_PULSE, radius=0.12)
+        
+        self.play(FadeIn(cycle_grp, shift=UP * 0.1), run_time=0.6)
+        
+        # Traverse full cycle
+        self.play(MoveAlongPath(loop_pulse, arc_ws), run_time=0.7)
+        self.play(MoveAlongPath(loop_pulse, arc_se), run_time=0.7)
+        self.play(MoveAlongPath(loop_pulse, arc_en), run_time=0.7)
+        self.play(MoveAlongPath(loop_pulse, arc_nw), run_time=0.7)
+        self.remove(loop_pulse)
+
+        # Subtle continuous rotation of core accent
         self.play(
-            agent_core[0].animate.scale(1.15).set_stroke(color=C_HIGHLIGHT_ORANGE, width=2.5),
-            run_time=0.7
+            agent_core[0].animate.set_stroke(color=C_ORANGE_PULSE, width=3.5),
+            run_time=0.8
         )
         self.play(
-            agent_core[0].animate.scale(1/1.15).set_stroke(color=C_SKY_BLUE, width=1.5),
-            run_time=0.7
+            agent_core[0].animate.set_stroke(color=C_STEEL_BLUE, width=2.5),
+            run_time=0.6
         )
+
+        # Hold deterministic persistent resting state
         self.wait(2.5)

@@ -862,15 +862,21 @@ def sanitize_manim_code(code: str, script_path: str = None) -> str:
             cur = start_args
             in_str = None
             escape = False
+            in_comment = False
             while cur < len(text) and depth > 0:
                 c = text[cur]
                 if escape:
                     escape = False
                 elif c == '\\':
                     escape = True
+                elif in_comment:
+                    if c == '\n':
+                        in_comment = False
                 elif in_str:
                     if c == in_str:
                         in_str = None
+                elif c == '#':
+                    in_comment = True
                 elif c in ('"', "'"):
                     in_str = c
                 elif c in '([{':
@@ -892,21 +898,27 @@ def sanitize_manim_code(code: str, script_path: str = None) -> str:
             sub_depth = 0
             sub_in_str = None
             sub_escape = False
+            sub_in_comment = False
             for i, c in enumerate(args_str):
                 if sub_escape:
                     sub_escape = False
                 elif c == '\\':
                     sub_escape = True
+                elif sub_in_comment:
+                    if c == '\n':
+                        sub_in_comment = False
                 elif sub_in_str:
                     if c == sub_in_str:
                         sub_in_str = None
+                elif c == '#':
+                    sub_in_comment = True
                 elif c in ('"', "'"):
                     sub_in_str = c
                 elif c in '([{':
                     sub_depth += 1
                 elif c in ')]}':
                     sub_depth -= 1
-                elif c == ',' and sub_depth == 0 and not sub_in_str:
+                elif c == ',' and sub_depth == 0 and not sub_in_str and not sub_in_comment:
                     args.append(args_str[arg_start:i])
                     arg_start = i + 1
             args.append(args_str[arg_start:])
@@ -915,9 +927,16 @@ def sanitize_manim_code(code: str, script_path: str = None) -> str:
             for a in args:
                 raw_a = a
                 s = a.strip()
-                if not s:
+                if not s or s.startswith('#'):
                     new_args.append(raw_a)
                     continue
+                # Separate or strip comments
+                if '#' in s:
+                    s_no_comm = "\n".join([line[:line.find('#')].strip() if '#' in line else line.strip() for line in s.splitlines()]).strip()
+                    if not s_no_comm:
+                        new_args.append(raw_a)
+                        continue
+                    s = s_no_comm
                 # If keyword arg (run_time=..., rate_func=...)
                 if re.match(r'^[a-zA-Z_]\w*\s*=', s):
                     new_args.append(raw_a)
@@ -937,7 +956,10 @@ def sanitize_manim_code(code: str, script_path: str = None) -> str:
                 # Wrap true naked Mobject with FadeIn
                 lead_ws = raw_a[:len(raw_a) - len(raw_a.lstrip())]
                 trail_ws = raw_a[len(raw_a.rstrip()):]
-                new_args.append(f"{lead_ws}FadeIn({s}){trail_ws}")
+                if trailing_comment:
+                    new_args.append(f"{lead_ws}FadeIn({s}) {trailing_comment}{trail_ws}")
+                else:
+                    new_args.append(f"{lead_ws}FadeIn({s}){trail_ws}")
                 
             reconstructed = "self.play(" + ",".join(new_args) + ")"
             result.append(reconstructed)

@@ -1,16 +1,30 @@
+C_DARK_BLUE = "#1E293B"
 C_BRAND_BLUE = "#2C81FE"
-C_SKY_BLUE = "#62B7E4"
-C_STEEL_BLUE = "#7EA2C8"
 C_LIGHT_BLUE = "#62B7E4"
 C_PURPLE = "#9B99C7"
+C_YELLOW = "#DDB945"
 C_RED = "#E58F6D"
+C_WHITE = "#FFFFFF"
 C_BLACK = "#404040"
 C_NAVY_DARK = "#404040"
-C_DARK_BLUE = "#1E293B"
-C_TEXT = "#404040"
-C_YELLOW = "#DDB945"
+# Global Color Palette - 10-Color Infographic Slate Compliance
+C_SLATE_TITLE = "#0F172A"
+C_SUBTITLE = "#475569"
+C_CHARCOAL = "#404040"
+C_CARD_BG = "#FFFFFF"
+C_BORDER = "#CBD5E1"
+C_SKY_BLUE = "#62B7E4"
+C_STEEL_BLUE = "#7EA2C8"
+C_LAVENDER = "#9B99C7"
+C_AMBER = "#E6A157"
+C_CORAL = "#E58F6D"
+C_ALERT_RED = "#E05252"
+C_FOCUS = "#F78908"
+
+import os
 import re
-SME_LAYOUT = '70'
+SME_LAYOUT = '20'
+from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
 # Dynamic Animation Safety Preamble
 for _anim_cls in (FadeIn, FadeOut, Create, Write):
@@ -66,6 +80,18 @@ for _scene_cls in (Scene, MovingCameraScene):
     except Exception:
         pass
 _orig_anim_safe_defined = True
+
+import manim.utils.rate_functions as rate_functions # Added explicit import for rate_functions
+
+# Removed try-except block for rate_functions to ensure they are imported
+# from manim.utils.rate_functions import * # This line is no longer needed after adding explicit import
+
+
+
+# Updated safe_image with path resolution and Group wrapping for ImageMobject
+
+# Updated create_pill with robust argument handling
+
 
 
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
@@ -193,16 +219,17 @@ except Exception:
     pass
 
 NumberLine.c2p = lambda self, *args: self.n2p(args[0])
-try:
-    from manim.utils.rate_functions import *
-except Exception:
-    pass
 import numpy as np
-import manim.utils.rate_functions as _rf
-for _k in dir(_rf):
-    if not _k.startswith("_"):
-        globals()[_k] = getattr(_rf, _k)
 
+# Global fallback for InstrumentedScene if not defined
+try:
+    InstrumentedScene
+except NameError:
+    class InstrumentedScene(Scene):
+        pass
+
+# Global _ACRONYMS set to avoid re-creation in CrispText
+_ACRONYMS = {"AI", "RAM", "DB", "API", "LLM", "CPU", "GPU", "UI", "OSL", "ML", "OST", "VDB", "JSON", "HTTP", "REST", "SQL", "SME", "PIP", "HD", "FHD"}
 
 
 
@@ -318,157 +345,21 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-class PulsingShockwaves(VGroup):
-    def __init__(self, center, color="#E6A157", max_radius=1.1, num_rings=3, **kwargs):
-        super().__init__(**kwargs)
-        self.center_pt = np.array(center)
-        self.color = color
-        self.max_radius = max_radius
-        self.num_rings = num_rings
-        self.rings = [Circle(radius=0.2 + i * 0.3, color=color, stroke_width=2.0).move_to(self.center_pt) for i in range(num_rings)]
-        self.add(*self.rings)
-        self.t = 0.0
-        def update_waves(mob, dt):
-            mob.t += dt
-            for i, ring in enumerate(mob.rings):
-                phase = (mob.t * 0.9 + i / float(mob.num_rings)) % 1.0
-                r = 0.25 + phase * (mob.max_radius - 0.25)
-                ring.become(Circle(radius=r, color=mob.color, stroke_width=2.5 * (1.0 - phase)).move_to(mob.center_pt))
-                ring.set_stroke(opacity=max(0.0, 1.0 - phase))
-        self.add_updater(update_waves)
 
-class TelemetryWaves(VGroup):
-    def __init__(self, center, color="#8ECDB7", **kwargs):
-        super().__init__(**kwargs)
-        self.center_pt = np.array(center)
-        self.arcs = [
-            Arc(radius=0.45 + i * 0.22, start_angle=-PI/3, angle=2*PI/3, color=color, stroke_width=2.2).move_to(self.center_pt + RIGHT * 0.50)
-            for i in range(3)
-        ]
-        self.add(*self.arcs)
-        self.t = 0.0
-        def update_telemetry(mob, dt):
-            mob.t += dt
-            for i, arc in enumerate(mob.arcs):
-                phase = (mob.t * 1.3 + i / 3.0) % 1.0
-                arc.set_stroke(opacity=max(0.1, 1.0 - phase), width=2.6 * (1.0 - phase * 0.4))
-        self.add_updater(update_telemetry)
-
-class NeuralHaloPulses(VGroup):
-    def __init__(self, center, color="#9B99C7", **kwargs):
-        super().__init__(**kwargs)
-        self.center_pt = np.array(center)
-        self.h1 = Circle(radius=0.85, color=color, stroke_width=1.6).move_to(self.center_pt)
-        self.nodes = [
-            Dot(self.center_pt + np.array([np.cos(a)*0.65, np.sin(a)*0.65, 0]), radius=0.045, color=color)
-            for a in np.linspace(0, 2*PI, 6, endpoint=False)
-        ]
-        self.lines = [Line(self.center_pt, n.get_center(), color=color, stroke_width=1.0, stroke_opacity=0.6) for n in self.nodes]
-        self.add(self.h1, *self.lines, *self.nodes)
-        self.t = 0.0
-        def update_halo(mob, dt):
-            mob.t += dt
-            s = 1.0 + 0.07 * np.sin(mob.t * 3.0)
-            mob.h1.become(Circle(radius=0.85 * s, color=color, stroke_width=1.6).move_to(mob.center_pt))
-            mob.h1.set_stroke(opacity=0.4 + 0.4 * np.sin(mob.t * 3.0))
-        self.add_updater(update_halo)
-
-class DynamicRadarSweep(VGroup):
-    def __init__(self, center, radius=1.0, color="#62B7E4", speed=3.0, **kwargs):
-        super().__init__(**kwargs)
-        self.center_pt = np.array(center)
-        self.radius = radius
-        self.speed = speed
-        self.dish = Circle(radius=radius, fill_color="#DCEEF9", fill_opacity=0.85, stroke_width=0).move_to(self.center_pt)
-        self.bezel = Circle(radius=radius, color=color, stroke_width=2.2).move_to(self.center_pt)
-        self.r1 = Circle(radius=radius*0.45, color=color, stroke_width=1.0, stroke_opacity=0.5).move_to(self.center_pt)
-        self.cross_h = Line(self.center_pt - np.array([radius, 0, 0]), self.center_pt + np.array([radius, 0, 0]), color="#BACAD8", stroke_width=0.8, stroke_opacity=0.6)
-        self.cross_v = Line(self.center_pt - np.array([0, radius, 0]), self.center_pt + np.array([0, radius, 0]), color="#BACAD8", stroke_width=0.8, stroke_opacity=0.6)
-        self.sweep_line = Line(self.center_pt, self.center_pt + np.array([radius, 0, 0]), color="#F78908", stroke_width=2.4)
-        self.blip = Dot(self.center_pt + np.array([0.45*radius, 0.4*radius, 0]), radius=0.05, color="#F78908")
-        self.add(self.dish, self.bezel, self.r1, self.cross_h, self.cross_v, self.blip, self.sweep_line)
-        self.angle = 0.0
-        def update_sweep(mob, dt):
-            mob.angle = (mob.angle + mob.speed * dt) % (2 * PI)
-            end_pt = mob.center_pt + mob.radius * np.array([np.cos(mob.angle), np.sin(mob.angle), 0])
-            mob.sweep_line.set_points_by_ends(mob.center_pt, end_pt)
-            d = (mob.angle - 0.7) % (2 * PI)
-            mob.blip.set_opacity(max(0.2, 1.0 - d * 0.5))
-        self.add_updater(update_sweep)
-
-class FlowingStream(VGroup):
-    def __init__(self, start_pt, end_pt, color="#62B7E4", num_dots=4, speed=1.2, **kwargs):
-        super().__init__(**kwargs)
-        self.p0 = np.array(start_pt)
-        self.p1 = np.array(end_pt)
-        self.color = color
-        self.num_dots = num_dots
-        self.speed = speed
-        self.rail = Line(self.p0, self.p1, color=color, stroke_width=1.5, stroke_opacity=0.4)
-        self.dots = [Dot(radius=0.055, color=color) for _ in range(num_dots)]
-        self.add(self.rail, *self.dots)
-        self.t = 0.0
-        def update_stream(mob, dt):
-            mob.t += dt
-            for i, dot in enumerate(mob.dots):
-                alpha = (mob.t * mob.speed + i / float(mob.num_dots)) % 1.0
-                dot.move_to(mob.p0 + alpha * (mob.p1 - mob.p0))
-                dot.set_opacity(np.sin(alpha * PI))
-        self.add_updater(update_stream)
-
-class PulsingNode(VGroup):
-    def __init__(self, center, radius=0.45, color="#2C81FE", label="", **kwargs):
-        super().__init__(**kwargs)
-        self.center_pt = np.array(center)
-        self.radius = radius
-        self.color = color
-        self.core = Circle(radius=radius, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=color, stroke_width=2.5).move_to(self.center_pt)
-        self.halo = Circle(radius=radius * 1.3, color=color, stroke_width=1.5).move_to(self.center_pt)
-        self.add(self.core, self.halo)
-        if label:
-            self.lbl = CrispText(label, size=11, weight=BOLD, color="#404040").move_to(self.center_pt)
-            self.add(self.lbl)
-        self.t = 0.0
-        def update_node(mob, dt):
-            mob.t += dt
-            s = 1.0 + 0.12 * np.sin(mob.t * 3.0)
-            mob.halo.become(Circle(radius=mob.radius * 1.3 * s, color=mob.color, stroke_width=1.5).move_to(mob.center_pt))
-            mob.halo.set_stroke(opacity=max(0.1, 0.6 + 0.4 * np.sin(mob.t * 3.0)))
-        self.add_updater(update_node)
-
-class BalanceScale(VGroup):
-    def __init__(self, center, tilt_angle=0.12, beam_len=3.2, color="#404040", **kwargs):
-        super().__init__(**kwargs)
-        c = np.array(center)
-        self.fulcrum = Polygon(c, c + np.array([-0.3, -0.5, 0]), c + np.array([0.3, -0.5, 0]), color=color, fill_color="#E5EDF4", fill_opacity=1.0, stroke_width=2.0)
-        p_left = c + np.array([-np.cos(tilt_angle)*beam_len/2, -np.sin(tilt_angle)*beam_len/2, 0])
-        p_right = c + np.array([np.cos(tilt_angle)*beam_len/2, np.sin(tilt_angle)*beam_len/2, 0])
-        self.beam = Line(p_left, p_right, color=color, stroke_width=3.0)
-        self.pivot = Dot(c, radius=0.07, color="#F78908")
-        self.string_l = Line(p_left, p_left + DOWN * 0.5, color=color, stroke_width=1.2)
-        self.tray_l = Arc(radius=0.45, start_angle=PI, angle=PI, color=color, stroke_width=2.0).move_to(p_left + DOWN * 0.72)
-        self.string_r = Line(p_right, p_right + DOWN * 0.5, color=color, stroke_width=1.2)
-        self.tray_r = Arc(radius=0.45, start_angle=PI, angle=PI, color=color, stroke_width=2.0).move_to(p_right + DOWN * 0.72)
-        self.add(self.fulcrum, self.beam, self.pivot, self.string_l, self.tray_l, self.string_r, self.tray_r)
+def create_header(*args, **kwargs):
+    return create_title(*args, **kwargs)
 
 
-from feedback_functions.instrumented_scene import InstrumentedScene
-from manim import *
-import numpy as np
-import os
 
-# -------------------------------------------------------------------------
-# Fallback helpers for execution environments where CrispText or InstrumentedScene
-# might not be pre-injected into global scope.
-# -------------------------------------------------------------------------
-try:
-    from template1_title_intro import CrispText
-except ImportError:
-    
-    pass
+
+
+
+
+
+
 class FinalScene(InstrumentedScene, MovingCameraScene):
     def construct(self):
-        # 1. Canvas Setup (Modern Soft Light Slate Canvas)
+        # 1. Canvas Background Setup (Layout 20: 20% Top-Right PiP, Light Canvas)
         self.camera.background_color = "#F0F4F8"
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -772,470 +663,496 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.clamp_to_screen = clamp_to_screen
 
 
+        # Assign global utility functions to self
 
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
+        self.camera.frame.save_state()
 
+        # =========================================================================
+        # PRESENTATION STEP 1: Monitoring Grid Performance
+        # =========================================================================
+        ## Presentation Step 1
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        # Safe Workspace for Layout 70 (70% Left Split SME):
-        # Left x <= -1.48 reserved for SME instructor video.
-        # Active workspace: x in [-0.80, 6.40], y in [-3.50, 2.20], center x ~ +2.80.
-        X_LEFT_SAFE = -0.80
-        X_CENTER = 2.80
-        Y_CEILING = 2.20
-        
-        # Color Palette Tokens (Approved 10-Color Infographic Pastel Palette)
-        C_SKY = "#62B7E4"
-        C_STEEL = "#7EA2C8"
-        C_LAVENDER = "#9B99C7"
-        C_MINT = "#8ECDB7"
-        C_AMBER = "#E6A157"
-        C_CORAL = "#E58F6D"
-        C_ROSE = "#D98CA1"
-        C_TEXT_MAIN = "#1E293B"
-        C_TEXT_BODY = "#404040"
-        C_WHITE = "#FFFFFF"
-        C_ORANGE_ALERT = "#F78908"
-
-        # -----------------------------------------------------------------
-        # Header Construction Helper
-        # -----------------------------------------------------------------
-
-        # =================================================================
-        ## Presentation Step 1: Monitoring Grid Performance
-        # =================================================================
-        # Narration: At Solara, an agent monitoring grid performance isn't
-        # just waiting for someone to run a report. It's watching...
-        
-        title_group = create_title("Dynamic Interaction Example", "Monitoring Grid Performance")
-        self.play(FadeIn(title_group, shift=DOWN * 0.15), run_time=0.8)
-
-        # -----------------------------------------------------------------
-        # Asset 1: Solara Site (Solar Panel Vector Mechanism)
-        # -----------------------------------------------------------------
-        site_center = np.array([0.70, 0.10, 0])
-        
-        # Stand and ground
-        site_pole = Line(site_center + DOWN * 0.9, site_center + DOWN * 0.1, stroke_color=C_STEEL, stroke_width=4)
-        site_base = Line(site_center + DOWN * 0.9 + LEFT * 0.6, site_center + DOWN * 0.9 + RIGHT * 0.6, stroke_color=C_STEEL, stroke_width=3)
-        
-        # Angled solar panel face
-        panel_outline = Polygon(
-            site_center + LEFT * 1.05 + UP * 0.55,
-            site_center + RIGHT * 1.05 + UP * 0.55,
-            site_center + RIGHT * 0.85 + DOWN * 0.35,
-            site_center + LEFT * 0.85 + DOWN * 0.35,
-            stroke_color=C_STEEL,
-            fill_color=C_SKY,
-            fill_opacity=0.35,
-            stroke_width=2.5
+        title_group = self.create_title( # Using self.create_title
+            "Agent-Environment Interaction Loop",
+            "Real-Time Monitoring: Perception, Decision, and Actuation"
         )
-        # Solar cell grid lines
-        panel_grid_v1 = Line(site_center + LEFT * 0.35 + UP * 0.55, site_center + LEFT * 0.28 + DOWN * 0.35, stroke_color=C_STEEL, stroke_width=1.5)
-        panel_grid_v2 = Line(site_center + RIGHT * 0.35 + UP * 0.55, site_center + RIGHT * 0.28 + DOWN * 0.35, stroke_color=C_STEEL, stroke_width=1.5)
-        panel_grid_h = Line(site_center + LEFT * 0.95 + UP * 0.10, site_center + RIGHT * 0.95 + UP * 0.10, stroke_color=C_STEEL, stroke_width=1.5)
-        
-        # Badge Label for Site
-        site_pill_bg = RoundedRectangle(corner_radius=0.074, width=1.65, height=0.38, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_STEEL, stroke_width=1.5)
-        site_pill_txt = CrispText("Solara Site Alpha", size=11, weight=BOLD, color=C_TEXT_MAIN)
-        fit_into_box(site_pill_txt, site_pill_bg, pad_x=0.2, pad_y=0.08)
-        site_pill = VGroup(site_pill_bg, site_pill_txt).next_to(site_base, DOWN, buff=0.15)
-        solara_site_grp = VGroup(site_pole, site_base, panel_outline, panel_grid_v1, panel_grid_v2, panel_grid_h, site_pill)
+        self.play(FadeIn(title_group, shift=DOWN * 0.1), run_time=0.8)
 
-        # -----------------------------------------------------------------
-        # Asset 2: Performance Gauge (Dial with Dynamic Needle & Threshold)
-        # -----------------------------------------------------------------
-        gauge_center = site_center + UP * 1.45
-        gauge_radius = 0.58
-        
-        # Arc Dial
-        dial_bg = Arc(radius=gauge_radius, start_angle=0, angle=PI, arc_center=gauge_center, stroke_color="#CBD5E1", stroke_width=6)
-        dial_normal = Arc(radius=gauge_radius, start_angle=PI * 0.35, angle=PI * 0.65, arc_center=gauge_center, stroke_color=C_MINT, stroke_width=6)
-        dial_danger = Arc(radius=gauge_radius, start_angle=0, angle=PI * 0.35, arc_center=gauge_center, stroke_color=C_CORAL, stroke_width=6)
-        
-        # Threshold Indicator Marker
-        thresh_angle = PI * 0.35
-        thresh_pos = gauge_center + np.array([np.cos(thresh_angle), np.sin(thresh_angle), 0]) * (gauge_radius + 0.12)
+        # ---------------------------------------------------------
+        # Procedural Graphic: Solara Site (Solar Photovoltaic Array)
+        # ---------------------------------------------------------
+        site_center = np.array([-4.6, -0.6, 0])
+        site_base = RoundedRectangle(
+            width=2.5, height=2.8, corner_radius=0.15,
+            fill_color=C_CARD_BG, fill_opacity=0.9,
+            stroke_color=C_STEEL_BLUE, stroke_width=2
+        ).move_to(site_center)
+
+        site_label = CrispText("Solara Grid Site", size=15, weight=BOLD, color=C_SLATE_TITLE)
+        site_label.next_to(site_base.get_top(), DOWN, buff=0.2)
+
+        # Procedural Solar Panels
+        panels = VGroup()
+        for row in range(2):
+            for col in range(2):
+                p = Polygon(
+                    [-0.45, -0.25, 0], [0.45, -0.25, 0],
+                    [0.35, 0.25, 0], [-0.35, 0.25, 0],
+                    fill_color="#2B6CB0", fill_opacity=0.85,
+                    stroke_color="#93C5FD", stroke_width=1.5
+                ).shift(site_center + np.array([(col - 0.5) * 1.0, (0.5 - row) * 0.7 - 0.25, 0]))
+                # Grid lines across panel
+                h_line = Line(p.get_left(), p.get_right(), stroke_color="#93C5FD", stroke_width=1)
+                v_line = Line(p.get_bottom(), p.get_top(), stroke_color="#93C5FD", stroke_width=1)
+                panels.add(p, h_line, v_line)
+
+        site_group = VGroup(site_base, site_label, panels)
+
+        self.play(
+            FadeIn(site_base, shift=UP * 0.2),
+            Write(site_label),
+            LaggedStart(*[FadeIn(p, scale=0.8) for p in panels], lag_ratio=0.08),
+            run_time=2.0
+        )
+
+        # ---------------------------------------------------------
+        # Procedural Graphic: Performance Gauge (Precision Chronometer)
+        # ---------------------------------------------------------
+        gauge_center = np.array([-1.8, -0.6, 0])
+        gauge_rim = Arc(
+            radius=1.1, start_angle=-PI / 4, angle=1.5 * PI,
+            stroke_color=C_BORDER, stroke_width=8
+        ).move_to(gauge_center)
+
+        # Safe band vs Alert band
+        gauge_safe = Arc(
+            radius=1.1, start_angle=PI / 4, angle=PI,
+            stroke_color=C_SKY_BLUE, stroke_width=8
+        ).move_to(gauge_center)
+
+        gauge_alert_band = Arc(
+            radius=1.1, start_angle=-PI / 4, angle=PI / 2,
+            stroke_color=C_ALERT_RED, stroke_width=8
+        ).move_to(gauge_center)
+
+        # Threshold Mark
+        threshold_angle = PI / 4
+        thresh_pos = gauge_center + 1.1 * np.array([np.cos(threshold_angle), np.sin(threshold_angle), 0])
         thresh_line = Line(
-            gauge_center + np.array([np.cos(thresh_angle), np.sin(thresh_angle), 0]) * (gauge_radius - 0.15),
-            thresh_pos,
-            stroke_color=C_ROSE,
-            stroke_width=2.5
+            thresh_pos - 0.18 * np.array([np.cos(threshold_angle), np.sin(threshold_angle), 0]),
+            thresh_pos + 0.18 * np.array([np.cos(threshold_angle), np.sin(threshold_angle), 0]),
+            stroke_color=C_FOCUS, stroke_width=4
         )
-        thresh_label = CrispText("Threshold", size=9, weight=BOLD, color=C_ROSE).next_to(thresh_pos, UP + RIGHT, buff=0.05)
-        
-        # Needle (Pivot at gauge_center)
-        needle_hub = Dot(gauge_center, radius=0.07, color=C_TEXT_MAIN)
-        needle_angle_val = ValueTracker(PI * 0.85)  # Start healthy in green zone
-        
-        needle = always_redraw(lambda: Line(
-            gauge_center,
-            gauge_center + np.array([np.cos(needle_angle_val.get_value()), np.sin(needle_angle_val.get_value()), 0]) * (gauge_radius - 0.08),
-            stroke_color=C_TEXT_MAIN,
-            stroke_width=2.8
-        ))
-        
-        gauge_badge = RoundedRectangle(corner_radius=0.06, width=1.45, height=0.32, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_STEEL, stroke_width=1.2)
-        gauge_txt = CrispText("Grid Output", size=10, weight=BOLD, color=C_TEXT_MAIN)
-        gauge_tag = VGroup(gauge_badge, gauge_txt).move_to(gauge_center + DOWN * 0.22)
-        gauge_group = VGroup(dial_bg, dial_danger, dial_normal, thresh_line, thresh_label, needle_hub, needle, gauge_tag)
+        thresh_tag = CrispText("Threshold", size=11, weight=BOLD, color=C_FOCUS)
+        thresh_tag.next_to(thresh_pos, UR, buff=0.1)
 
-        # -----------------------------------------------------------------
-        # Asset 3: Monitoring Agent AI Core Node
-        # -----------------------------------------------------------------
-        agent_center = np.array([3.40, 0.40, 0])
-        
-        # Rotating outer halo
-        agent_halo = DashedVMobject(
-            Circle(radius=0.78, arc_center=agent_center, stroke_color=C_SKY, stroke_width=1.8),
-            num_dashes=14
-        )
-        agent_core_bg = Circle(radius=0.58, arc_center=agent_center, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_SKY, stroke_width=2.5)
-        
-        # Microchip icon inside agent core
-        chip_box = Square(side_length=0.40, fill_color=C_SKY, fill_opacity=0.25, stroke_color=C_SKY, stroke_width=1.5).move_to(agent_center)
-        chip_line1 = Line(agent_center + LEFT * 0.12, agent_center + RIGHT * 0.12, stroke_color=C_TEXT_MAIN, stroke_width=1.5)
-        chip_line2 = Line(agent_center + UP * 0.12, agent_center + DOWN * 0.12, stroke_color=C_TEXT_MAIN, stroke_width=1.5)
-        agent_icon = VGroup(chip_box, chip_line1, chip_line2)
-        
-        agent_label_bg = RoundedRectangle(corner_radius=0.074, width=1.70, height=0.38, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_SKY, stroke_width=1.5)
-        agent_label_txt = CrispText("Monitoring Agent", size=11, weight=BOLD, color=C_TEXT_MAIN)
-        fit_into_box(agent_label_txt, agent_label_bg, pad_x=0.2, pad_y=0.08)
-        agent_pill = VGroup(agent_label_bg, agent_label_txt).next_to(agent_core_bg, DOWN, buff=0.15)
-        agent_node = VGroup(agent_halo, agent_core_bg, agent_icon, agent_pill)
+        # Dial needle
+        needle_angle = ValueTracker(PI * 0.75)  # Starts in healthy zone
+        needle_pivot = Dot(gauge_center, radius=0.08, color=C_SLATE_TITLE)
 
-        # Telemetry arrow between gauge and agent
-        telemetry_arrow = Arrow(gauge_center + RIGHT * 0.85, agent_center + LEFT * 0.75, buff=0.1, stroke_width=2.5, max_tip_length_to_length_ratio=0.2, color=C_STEEL)
-        telemetry_label = CrispText("Perception Stream", size=10, weight=BOLD, color=C_STEEL).next_to(telemetry_arrow, UP, buff=0.08)
+        def get_needle():
+            ang = needle_angle.get_value()
+            tip = gauge_center + 0.9 * np.array([np.cos(ang), np.sin(ang), 0])
+            return Line(gauge_center, tip, stroke_color=C_SLATE_TITLE, stroke_width=3.5)
 
-        # Introduce Solara Site, Gauge, and Agent
-        self.play(
-            GrowFromCenter(solara_site_grp),
-            FadeIn(gauge_group, shift=DOWN * 0.2),
-            run_time=1.4
-        )
-        self.wait(1.2)
+        needle = always_redraw(get_needle)
+
+        gauge_label = CrispText("Output Telemetry", size=13, weight=BOLD, color=C_SLATE_TITLE)
+        gauge_label.next_to(gauge_rim, DOWN, buff=0.25)
+
+        # Flowing conduit from site to gauge
+        conduit_1 = Line(site_base.get_right(), gauge_center + LEFT * 1.2, stroke_color=C_STEEL_BLUE, stroke_width=2)
 
         self.play(
-            GrowFromCenter(agent_node),
-            GrowArrow(telemetry_arrow),
-            FadeIn(telemetry_label, shift=UP * 0.1),
-            run_time=1.2
+            Create(conduit_1),
+            Create(gauge_rim),
+            Create(gauge_safe),
+            Create(gauge_alert_band),
+            Create(thresh_line),
+            FadeIn(thresh_tag),
+            FadeIn(needle_pivot),
+            FadeIn(needle),
+            Write(gauge_label),
+            run_time=2.2
         )
         self.wait(1.5)
 
-        # Needle drops below threshold (Simulation of sudden output drop)
+        # Active telemetry particle stream from site to gauge
+        stream_dot = Dot(site_base.get_right(), radius=0.07, color=C_SKY_BLUE)
+        self.play(MoveAlongPath(stream_dot, conduit_1, rate_func=rate_functions.ease_out_cubic), run_time=1.0)
+        self.remove(stream_dot)
+
+        # ---------------------------------------------------------
+        # Needle Drops Below Threshold -> Red Alert Shockwave
+        # ---------------------------------------------------------
+        alert_pulse = Circle(radius=1.2, stroke_color=C_ALERT_RED, stroke_width=3.5, fill_opacity=0).move_to(gauge_center)
+        alert_badge = RoundedRectangle(
+            width=1.6, height=0.45, corner_radius=0.08,
+            fill_color=C_ALERT_RED, fill_opacity=0.9,
+            stroke_color=C_CARD_BG, stroke_width=1
+        ).next_to(gauge_label, DOWN, buff=0.15)
+        alert_text = CrispText("Output Drop", size=12, weight=BOLD, color="#FFFFFF").move_to(alert_badge.get_center())
+
         self.play(
-            needle_angle_val.animate.set_value(PI * 0.18),
-            run_time=2.2,
-            rate_func=easeInOutCubic
+            needle_angle.animate.set_value(0.0),  # Drops deeply into alert red band
+            run_time=1.8,
+            rate_func=rate_functions.ease_in_out_sine # Fixed NameError here
         )
-        
-        # Red/Orange Alert Pulse on the Gauge
-        alert_pulse = Circle(radius=0.62, arc_center=gauge_center, stroke_color=C_ORANGE_ALERT, stroke_width=3.5).set_fill(opacity=0)
         self.play(
             Create(alert_pulse),
-            run_time=0.6
-        )
-        self.play(
-            alert_pulse.animate.scale(1.35).set_stroke(opacity=0),
-            run_time=0.8
+            alert_pulse.animate.scale(1.3).set_stroke(opacity=0),
+            FadeIn(alert_badge),
+            FadeIn(alert_text),
+            run_time=1.2
         )
         self.remove(alert_pulse)
 
-        # Perception signal particle moves to agent
-        signal_particle = Dot(color=C_ORANGE_ALERT, radius=0.09).move_to(gauge_center + RIGHT * 0.85)
-        self.play(
-            MoveAlongPath(signal_particle, Line(gauge_center + RIGHT * 0.85, agent_center + LEFT * 0.75), rate_func=ease_out_cubic),
-            run_time=1.0
+        # ---------------------------------------------------------
+        # Monitoring Agent Core (AI Perception Hub)
+        # ---------------------------------------------------------
+        agent_center = np.array([1.2, -0.6, 0])
+        agent_outer_ring = Circle(radius=0.95, stroke_color=C_SKY_BLUE, stroke_width=2.5, fill_color=C_CARD_BG, fill_opacity=0.9).move_to(agent_center)
+        agent_inner_core = Circle(radius=0.6, stroke_color=C_AMBER, stroke_width=2, fill_color="#FEF3C7", fill_opacity=0.5).move_to(agent_center)
+
+        # Kinetic Halo Spokes
+        halo_lines = VGroup(*[
+            Line(
+                agent_center + 0.65 * np.array([np.cos(a), np.sin(a), 0]),
+                agent_center + 0.88 * np.array([np.cos(a), np.sin(a), 0]),
+                stroke_color=C_SKY_BLUE, stroke_width=1.5
+            ) for a in np.linspace(0, 2 * PI, 12, endpoint=False)
+        ])
+
+        # Continuous subtle ambient rotation on agent halo
+        halo_lines.add_updater(lambda m, dt: m.rotate(0.25 * dt, about_point=agent_center))
+
+        agent_title = CrispText("Monitoring Agent", size=14, weight=BOLD, color=C_SLATE_TITLE).next_to(agent_outer_ring, UP, buff=0.18)
+        agent_sub = CrispText("Autonomous AI Core", size=11, color=C_SUBTITLE).next_to(agent_title, DOWN, buff=0.08)
+
+        # Perception Transmission Arrow
+        perception_arrow = Arrow(
+            gauge_center + RIGHT * 1.15,
+            agent_outer_ring.get_left(),
+            buff=0.1, stroke_width=3, color=C_FOCUS, max_tip_length_to_length_ratio=0.2
         )
-        self.remove(signal_particle)
+        perception_pill = RoundedRectangle(
+            width=1.5, height=0.38, corner_radius=0.07,
+            fill_color=C_CARD_BG, fill_opacity=1.0,
+            stroke_color=C_FOCUS, stroke_width=1.5
+        ).move_to(perception_arrow.get_center()).set_z_index(10)
+        perception_text = CrispText("Perception", size=11, weight=BOLD, color=C_FOCUS).move_to(perception_pill).set_z_index(11)
 
-        # Agent cognitive glow response
-        agent_pulse = agent_core_bg.copy().set_fill(opacity=0).set_stroke(color=C_ORANGE_ALERT, width=3.5)
         self.play(
-            Create(agent_pulse),
-            agent_halo.animate.rotate(PI * 0.8),
-            run_time=1.1
+            GrowFromCenter(agent_outer_ring),
+            GrowFromCenter(agent_inner_core),
+            FadeIn(halo_lines),
+            Write(agent_title),
+            FadeIn(agent_sub),
+            GrowArrow(perception_arrow),
+            FadeIn(perception_pill),
+            Write(perception_text),
+            run_time=2.2
         )
-        self.play(FadeOut(agent_pulse), run_time=0.5)
-        self.wait(1.0)
+        self.wait(2.0)
 
-        # -----------------------------------------------------------------
-        # Asset 4: Decision Tree Sprouting to the Right
-        # -----------------------------------------------------------------
-        # Branches: Query Data, Cross-Ref Weather, Escalate Human
-        tree_origin = agent_center + RIGHT * 0.75 + UP * 0.05
-        
-        target_branch1 = np.array([5.50, 1.40, 0])
-        target_branch2 = np.array([5.50, 0.40, 0])
-        target_branch3 = np.array([5.50, -0.60, 0])
-        
-        path1 = CubicBezier(tree_origin, tree_origin + RIGHT * 0.6 + UP * 0.4, target_branch1 + LEFT * 0.5, target_branch1, stroke_color=C_STEEL, stroke_width=2.0)
-        path2 = Line(tree_origin, target_branch2, stroke_color=C_STEEL, stroke_width=2.0)
-        path3 = CubicBezier(tree_origin, tree_origin + RIGHT * 0.6 + DOWN * 0.4, target_branch3 + LEFT * 0.5, target_branch3, stroke_color=C_STEEL, stroke_width=2.0)
+        # ---------------------------------------------------------
+        # Decision Tree Sprouting from Agent Core
+        # ---------------------------------------------------------
+        tree_origin = agent_center + RIGHT * 0.95
+        branch_targets = [
+            np.array([4.2, 1.0, 0]),     # Query Historical Data
+            np.array([4.2, -0.6, 0]),    # Cross-Ref Weather
+            np.array([4.2, -2.2, 0])     # Escalate Human Operator (Chosen)
+        ]
+        branch_labels_text = [
+            "Query Historical Data",
+            "Cross-Ref Weather",
+            "Escalate to Operator"
+        ]
 
-        # Branch Option Cards / Badges
-        card_w, card_h = 1.70, 0.45
-        
-        def create_branch_card(text, color):
-            bg = RoundedRectangle(corner_radius=0.074, width=card_w, height=card_h, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=color, stroke_width=1.6)
-            txt = CrispText(text, size=11, weight=BOLD, color=C_TEXT_MAIN)
-            return VGroup(bg, txt)
+        branches = VGroup()
+        branch_cards = VGroup()
 
-        card_query = create_branch_card("Query Data", C_STEEL).move_to(target_branch1)
-        card_weather = create_branch_card("Weather Data", C_LAVENDER).move_to(target_branch2)
-        card_escalate = create_branch_card("Escalate Human", C_AMBER).move_to(target_branch3)
+        for idx, (target, label_text) in enumerate(zip(branch_targets, branch_labels_text)):
+            branch_line = CubicBezier(
+                tree_origin,
+                tree_origin + RIGHT * 1.1,
+                target + LEFT * 1.1,
+                target,
+                stroke_color=C_BORDER, stroke_width=2.5
+            )
+            branches.add(branch_line)
+
+            pill = RoundedRectangle(
+                width=2.6, height=0.6, corner_radius=0.1,
+                fill_color=C_CARD_BG, fill_opacity=0.95,
+                stroke_color=C_BORDER, stroke_width=1.5
+            ).move_to(target + RIGHT * 1.3)
+
+            dot_marker = Dot(pill.get_left() + RIGHT * 0.25, radius=0.08, color=C_STEEL_BLUE)
+            txt = CrispText(label_text, size=12, weight=SEMIBOLD, color=C_CHARCOAL)
+            txt.next_to(dot_marker, RIGHT, buff=0.15)
+            branch_cards.add(VGroup(pill, dot_marker, txt))
 
         self.play(
-            Create(path1),
-            Create(path2),
-            Create(path3),
-            FadeIn(card_query, shift=RIGHT * 0.2),
-            FadeIn(card_weather, shift=RIGHT * 0.2),
-            FadeIn(card_escalate, shift=RIGHT * 0.2),
-            run_time=2.0
+            LaggedStart(*[Create(b) for b in branches], lag_ratio=0.25),
+            LaggedStart(*[FadeIn(c, shift=RIGHT * 0.2) for c in branch_cards], lag_ratio=0.25),
+            run_time=2.5
         )
-        self.wait(1.5)
+        self.wait(2.5)
 
-        # Highlight "Escalate Human" Branch as chosen Action
-        highlight_box = card_escalate[0].copy().set_fill(opacity=0).set_stroke(color=C_ORANGE_ALERT, width=3.5)
-        path3_glow = path3.copy().set_fill(opacity=0).set_stroke(color=C_ORANGE_ALERT, width=3.5)
-        
-        self.play(
-            Create(path3_glow),
-            Create(highlight_box),
-            run_time=1.2
+        # ---------------------------------------------------------
+        # Actuation Choice: Escalate to Human Operator Glows Orange/Coral
+        # ---------------------------------------------------------
+        escalate_branch = branches[2]
+        escalate_card = branch_cards[2]
+
+        # Vector Icon for Human Operator Station
+        operator_pos = np.array([4.5, -3.2, 0])
+        op_head = Circle(radius=0.18, fill_color=C_CORAL, fill_opacity=0.9, stroke_color=C_SLATE_TITLE, stroke_width=1.5).move_to(operator_pos + UP * 0.22)
+        op_body = Arc(radius=0.32, start_angle=0, angle=PI, stroke_color=C_SLATE_TITLE, stroke_width=1.5, fill_color=C_CORAL, fill_opacity=0.9).move_to(operator_pos - UP * 0.1)
+        op_console = RoundedRectangle(width=0.9, height=0.2, corner_radius=0.04, fill_color=C_SLATE_TITLE, fill_opacity=0.8, stroke_width=0).next_to(op_body, DOWN, buff=0.08)
+        op_icon = VGroup(op_head, op_body, op_console)
+        op_label = CrispText("Control Desk", size=11, weight=BOLD, color=C_SLATE_TITLE).next_to(op_console, DOWN, buff=0.08)
+        op_group = VGroup(op_icon, op_label)
+
+        action_arrow = Arrow(
+            escalate_card.get_bottom(),
+            op_icon.get_top(),
+            stroke_color=C_FOCUS, stroke_width=3, buff=0.1, max_tip_length_to_length_ratio=0.25
         )
-        self.wait(1.0)
 
-        # -----------------------------------------------------------------
-        # Asset 5: Human Operator Vector Icon
-        # -----------------------------------------------------------------
-        human_pos = np.array([5.50, -1.75, 0])
-        arrow_to_human = Arrow(target_branch3 + DOWN * 0.25, human_pos + UP * 0.40, buff=0.08, stroke_width=2.5, color=C_ORANGE_ALERT)
-        
-        # Human icon: head circle and shoulder arc
-        human_head = Circle(radius=0.16, arc_center=human_pos + UP * 0.16, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_TEXT_MAIN, stroke_width=2.0)
-        human_body = Arc(radius=0.30, start_angle=PI * 0.15, angle=PI * 0.70, arc_center=human_pos + DOWN * 0.15, stroke_color=C_TEXT_MAIN, stroke_width=2.2)
-        human_pill = VGroup(
-            RoundedRectangle(corner_radius=0.06, width=1.55, height=0.34, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_TEXT_MAIN, stroke_width=1.3),
-            CrispText("Human Operator", size=10, weight=BOLD, color=C_TEXT_MAIN)
-        ).next_to(human_body, DOWN, buff=0.12)
-        human_operator_grp = VGroup(arrow_to_human, human_head, human_body, human_pill)
+        # Highlight Chosen Path
+        focus_highlight_box = escalate_card[0].copy().set_fill(opacity=0).set_stroke(color=C_FOCUS, width=3.5)
 
         self.play(
-            GrowArrow(arrow_to_human),
-            FadeIn(human_head, shift=DOWN * 0.1),
-            Create(human_body),
-            FadeIn(human_pill),
+            escalate_branch.animate.set_stroke(color=C_FOCUS, width=4.0),
+            Create(focus_highlight_box),
+            escalate_card[1].animate.set_color(C_FOCUS),
+            run_time=1.5
+        )
+        self.play(
+            GrowArrow(action_arrow),
+            FadeIn(op_group, shift=UP * 0.15),
             run_time=1.5
         )
 
-        # Action execution feedback packet
-        action_packet = Dot(color=C_ORANGE_ALERT, radius=0.09).move_to(target_branch3)
+        # Particle dispatch along action arrow
+        action_packet = Dot(escalate_card.get_bottom(), radius=0.09, color=C_FOCUS)
         self.play(
-            MoveAlongPath(action_packet, arrow_to_human),
-            run_time=0.9
+            MoveAlongPath(action_packet, action_arrow, rate_func=rate_functions.ease_out_cubic),
+            run_time=1.0
         )
         self.remove(action_packet)
 
-        # Action Execution Status Pill
-        action_pill = VGroup(
-            RoundedRectangle(corner_radius=0.06, width=1.65, height=0.32, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_ORANGE_ALERT, stroke_width=1.5),
-            CrispText("Action: Dispatched", size=10, weight=BOLD, color=C_ORANGE_ALERT)
-        ).next_to(human_pill, DOWN, buff=0.10)
-        
-        self.play(FadeIn(action_pill, shift=UP * 0.1), run_time=0.8)
+        # Dispatch Status Pill
+        dispatched_pill = RoundedRectangle(
+            width=2.1, height=0.45, corner_radius=0.08,
+            fill_color="#FEF3C7", fill_opacity=0.95,
+            stroke_color=C_FOCUS, stroke_width=1.5
+        ).next_to(agent_inner_core, DOWN, buff=0.35)
+        dispatched_txt = CrispText("Action Executed", size=12, weight=BOLD, color=C_FOCUS).move_to(dispatched_pill)
 
-        # Ambient live rotation to avoid frozen canvas before step sync
-        halo_updater = lambda m, dt: m.rotate(0.35 * dt)
-        agent_halo.add_updater(halo_updater)
-        
-        # Sync with narration duration for Step 1 (~58.85s)
-        self.sync_to(58.855)
+        self.play(FadeIn(dispatched_pill), Write(dispatched_txt), run_time=1.2)
+        self.wait(3.0)
 
-        # =================================================================
-        ## Presentation Step 2: Bi-Directional Relationship
-        # =================================================================
-        # Narration: The environment shapes the agent. The agent shapes the
-        # environment. That bi-directional relationship is what makes agents...
+        # =========================================================================
+        # PRESENTATION STEP 2: Bi-Directional Relationship
+        # =========================================================================
+        ## Presentation Step 2
 
-        agent_halo.remove_updater(halo_updater)
-
-        # Title transition
-        new_title_group = create_title("Dynamic Interaction Example", "Bi-Directional Relationship")
-        self.play(
-            ReplacementTransform(title_group, new_title_group),
-            FadeOut(card_query),
-            FadeOut(card_weather),
-            FadeOut(card_escalate),
-            FadeOut(highlight_box),
-            FadeOut(path1),
-            FadeOut(path2),
-            FadeOut(path3),
-            FadeOut(path3_glow),
-            FadeOut(human_operator_grp),
-            FadeOut(action_pill),
-            FadeOut(telemetry_arrow),
-            FadeOut(telemetry_label),
-            FadeOut(gauge_group),
-            run_time=1.4
+        # Seamless Title Transition
+        step2_title_group = self.create_title( # Using self.create_title
+            "Agent-Environment Interaction Loop",
+            "Bi-Directional Dynamics: Continuous Reciprocal Influence"
         )
-        title_group = new_title_group
 
-        # Reposition Solara Site (Environment) and Agent for symmetrical bi-directional loop
-        env_pos = np.array([0.90, -0.10, 0])
-        agent_target_pos = np.array([4.60, -0.10, 0])
-        
+        # Cleanly morph step 1 transient decision structures while keeping Solara Site & Monitoring Agent persistent
+        halo_lines.clear_updaters()  # Stop temporary updater for clean repositioning
+
         self.play(
-            solara_site_grp.animate.move_to(env_pos),
-            agent_node.animate.move_to(agent_target_pos),
+            ReplacementTransform(title_group, step2_title_group),
+            FadeOut(conduit_1),
+            FadeOut(gauge_rim),
+            FadeOut(gauge_safe),
+            FadeOut(gauge_alert_band),
+            FadeOut(thresh_line),
+            FadeOut(thresh_tag),
+            FadeOut(needle_pivot),
+            FadeOut(needle),
+            FadeOut(gauge_label),
+            FadeOut(alert_badge),
+            FadeOut(alert_text),
+            FadeOut(perception_arrow),
+            FadeOut(perception_pill),
+            FadeOut(perception_text),
+            FadeOut(branches),
+            FadeOut(branch_cards),
+            FadeOut(focus_highlight_box),
+            FadeOut(action_arrow),
+            FadeOut(op_group),
+            FadeOut(dispatched_pill),
+            FadeOut(dispatched_txt),
+            run_time=1.8
+        )
+
+        # Reposition Environment (Solara Site) and Agent for Large Bi-Directional Arena
+        env_target_pos = np.array([-3.6, -0.6, 0])
+        agent_target_pos = np.array([2.4, -0.6, 0])
+
+        self.play(
+            site_group.animate.move_to(env_target_pos),
+            agent_outer_ring.animate.move_to(agent_target_pos),
+            agent_inner_core.animate.move_to(agent_target_pos),
+            halo_lines.animate.move_to(agent_target_pos),
+            agent_title.animate.next_to(agent_outer_ring.move_to(agent_target_pos), UP, buff=0.2),
+            agent_sub.animate.next_to(agent_title, DOWN, buff=0.08),
+            run_time=2.0
+        )
+
+        # Re-attach rotation updater on Agent Halo
+        halo_lines.add_updater(lambda m, dt: m.rotate(0.3 * dt, about_point=agent_target_pos))
+
+        # Distinct Environment Macro Pill
+        env_badge = RoundedRectangle(
+            width=2.8, height=0.55, corner_radius=0.1,
+            fill_color=C_CARD_BG, fill_opacity=1.0,
+            stroke_color=C_STEEL_BLUE, stroke_width=2
+        ).next_to(site_base, DOWN, buff=0.25)
+        env_text = CrispText("Environment (Data & Physical Grid)", size=12, weight=BOLD, color=C_SLATE_TITLE).move_to(env_badge)
+
+        agent_badge = RoundedRectangle(
+            width=2.4, height=0.55, corner_radius=0.1,
+            fill_color=C_CARD_BG, fill_opacity=1.0,
+            stroke_color=C_SKY_BLUE, stroke_width=2
+        ).next_to(agent_outer_ring, DOWN, buff=0.25)
+        agent_badge_text = CrispText("Agent (Reasoning Core)", size=12, weight=BOLD, color=C_SLATE_TITLE).move_to(agent_badge)
+
+        self.play(
+            FadeIn(env_badge),
+            Write(env_text),
+            FadeIn(agent_badge),
+            Write(agent_badge_text),
             run_time=1.5
         )
 
-        # -----------------------------------------------------------------
-        # Bi-Directional Kinetic Arcs
-        # Arc 1 (Top): Environment -> Agent ("Shapes Agent" / Perception)
-        # Arc 2 (Bottom): Agent -> Environment ("Shapes Environment" / Action)
-        # -----------------------------------------------------------------
-        arc_start_top = env_pos + UP * 0.95 + RIGHT * 0.30
-        arc_end_top = agent_target_pos + UP * 0.95 + LEFT * 0.30
-        top_curve = CurvedArrow(arc_start_top, arc_end_top, angle=-0.55, stroke_width=3.2, color=C_SKY)
-        
-        arc_start_bottom = agent_target_pos + DOWN * 0.95 + LEFT * 0.30
-        arc_end_bottom = env_pos + DOWN * 0.95 + RIGHT * 0.30
-        bottom_curve = CurvedArrow(arc_start_bottom, arc_end_bottom, angle=-0.55, stroke_width=3.2, color=C_AMBER)
-
-        # Labels for Bi-directional influences
-        label_top_bg = RoundedRectangle(corner_radius=0.074, width=2.45, height=0.42, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_SKY, stroke_width=1.5)
-        label_top_txt = CrispText("Shapes Agent (Perception)", size=11, weight=BOLD, color=C_TEXT_MAIN)
-        fit_into_box(label_top_txt, label_top_bg, pad_x=0.2, pad_y=0.08)
-        label_top = VGroup(label_top_bg, label_top_txt).next_to(top_curve, UP, buff=0.15)
-
-        label_bottom_bg = RoundedRectangle(corner_radius=0.074, width=2.55, height=0.42, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_AMBER, stroke_width=1.5)
-        label_bottom_txt = CrispText("Shapes Environment (Action)", size=11, weight=BOLD, color=C_TEXT_MAIN)
-        fit_into_box(label_bottom_txt, label_bottom_bg, pad_x=0.2, pad_y=0.08)
-        label_bottom = VGroup(label_bottom_bg, label_bottom_txt).next_to(bottom_curve, DOWN, buff=0.15)
-
-        # Central Cognitive Badge
-        center_loop_pos = (env_pos + agent_target_pos) / 2.0
-        badge_bg = RoundedRectangle(corner_radius=0.09, width=2.10, height=0.55, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=C_STEEL, stroke_width=2.0)
-        badge_txt = CrispText("Bi-Directional", size=13, weight=BOLD, color=C_TEXT_MAIN)
-        badge_sub = CrispText("Dynamic Closed Loop", size=9, weight=NORMAL, color="#64748B")
-        badge_content = VGroup(badge_txt, badge_sub).arrange(DOWN, buff=0.04)
-        center_badge = VGroup(badge_bg, badge_content).move_to(center_loop_pos)
-
-        # Sub-nodes around agent: Perceive -> Reason -> Act
-        pra_radius = 0.95
-        p_pos = agent_target_pos + np.array([np.cos(PI * 0.75), np.sin(PI * 0.75), 0]) * pra_radius
-        r_pos = agent_target_pos + np.array([0, 1.0, 0]) * pra_radius
-        a_pos = agent_target_pos + np.array([np.cos(PI * 0.25), np.sin(PI * 0.25), 0]) * pra_radius
-
-        def make_micro_pill(txt, color):
-            bg = RoundedRectangle(corner_radius=0.05, width=0.85, height=0.30, fill_color=C_WHITE, fill_opacity=1.0, stroke_color=color, stroke_width=1.2)
-            t = CrispText(txt, size=9, weight=BOLD, color=color)
-            return VGroup(bg, t)
-
-        pill_p = make_micro_pill("Perceive", C_SKY).move_to(p_pos)
-        pill_r = make_micro_pill("Reason", C_LAVENDER).move_to(r_pos + UP * 0.15)
-        pill_a = make_micro_pill("Act", C_AMBER).move_to(a_pos)
-        pra_group = VGroup(pill_p, pill_r, pill_a)
-
-        # Reveal Bi-directional arrows and badges
-        self.play(
-            Create(top_curve),
-            FadeIn(label_top, shift=DOWN * 0.1),
-            run_time=1.4
-        )
-        self.play(
-            Create(bottom_curve),
-            FadeIn(label_bottom, shift=UP * 0.1),
-            run_time=1.4
-        )
-        self.play(
-            GrowFromCenter(center_badge),
-            FadeIn(pra_group, shift=UP * 0.15),
-            run_time=1.2
+        # ---------------------------------------------------------
+        # Bi-Directional Kinetic Conduits (Top: Shapes Agent, Bottom: Shapes Environment)
+        # ---------------------------------------------------------
+        # Top Arc: Environment -> Agent ("Shapes Agent")
+        top_arc = CurvedArrow(
+            env_target_pos + UP * 1.5 + RIGHT * 0.8,
+            agent_target_pos + UP * 1.5 + LEFT * 0.8,
+            angle=-0.45,
+            color=C_SKY_BLUE,
+            stroke_width=4.5
         )
 
-        # -----------------------------------------------------------------
-        # Continuous Living Particle Loop (Environment <-> Agent)
-        # -----------------------------------------------------------------
-        particle_forward = Dot(color=C_SKY, radius=0.08)
-        particle_return = Dot(color=C_AMBER, radius=0.08)
-        
-        # Kinetic particle travel across loop
-        self.play(
-            MoveAlongPath(particle_forward, top_curve, rate_func=ease_out_cubic),
-            MoveAlongPath(particle_return, bottom_curve, rate_func=ease_out_cubic),
-            run_time=2.2
-        )
-        self.remove(particle_forward, particle_return)
+        top_tag = RoundedRectangle(
+            width=2.2, height=0.5, corner_radius=0.08,
+            fill_color=C_CARD_BG, fill_opacity=1.0,
+            stroke_color=C_SKY_BLUE, stroke_width=2
+        ).move_to(top_arc.point_from_proportion(0.5) + UP * 0.35)
+        top_txt = CrispText("Shapes Agent", size=13, weight=BOLD, color=C_SLATE_TITLE).move_to(top_tag)
+        top_sub = CrispText("Telemetry, Constraints, Shifts", size=10, color=C_SUBTITLE).next_to(top_tag, UP, buff=0.06)
 
-        # Attach ambient continuous updaters so the screen remains kinetic
-        # and alive throughout the remainder of the narration.
-        agent_halo.add_updater(halo_updater)
-        
-        # Subtle pulsing focus highlight on the bi-directional center badge
-        badge_pulse = badge_bg.copy().set_fill(opacity=0).set_stroke(color=C_ORANGE_ALERT, width=3.0)
-        self.play(
-            Create(badge_pulse),
-            run_time=1.0
+        # Bottom Arc: Agent -> Environment ("Shapes Environment")
+        bottom_arc = CurvedArrow(
+            agent_target_pos + DOWN * 1.5 + LEFT * 0.8,
+            env_target_pos + DOWN * 1.5 + RIGHT * 0.8,
+            angle=-0.45,
+            color=C_AMBER,
+            stroke_width=4.5
         )
-        self.play(
-            badge_pulse.animate.scale(1.15).set_stroke(opacity=0),
-            run_time=1.2
-        )
-        self.remove(badge_pulse)
 
-        # Particle stream continuous loop
-        def stream_cycle():
-            p1 = Dot(color=C_SKY, radius=0.08)
-            p2 = Dot(color=C_AMBER, radius=0.08)
+        bottom_tag = RoundedRectangle(
+            width=2.4, height=0.5, corner_radius=0.08,
+            fill_color=C_CARD_BG, fill_opacity=1.0,
+            stroke_color=C_AMBER, stroke_width=2
+        ).move_to(bottom_arc.point_from_proportion(0.5) + DOWN * 0.35)
+        bottom_txt = CrispText("Shapes Environment", size=13, weight=BOLD, color=C_SLATE_TITLE).move_to(bottom_tag)
+        bottom_sub = CrispText("Dispatches, Mitigations, State Changes", size=10, color=C_SUBTITLE).next_to(bottom_tag, DOWN, buff=0.06)
+
+        # Central Cognitive Anchor: "Bi-Directional Loop"
+        center_focal_pos = (env_target_pos + agent_target_pos) / 2
+        center_pill = RoundedRectangle(
+            width=2.5, height=0.65, corner_radius=0.12,
+            fill_color="#F8FAFC", fill_opacity=1.0,
+            stroke_color=C_FOCUS, stroke_width=2.5
+        ).move_to(center_focal_pos)
+        center_title = CrispText("Bi-Directional", size=14, weight=BOLD, color=C_SLATE_TITLE).move_to(center_pill.get_center() + UP * 0.08)
+        center_sub = CrispText("Dynamic Closed Loop", size=10, weight=SEMIBOLD, color=C_FOCUS).next_to(center_title, DOWN, buff=0.05)
+        center_focal_grp = VGroup(center_pill, center_title, center_sub)
+
+        self.play(
+            Create(top_arc),
+            FadeIn(top_tag),
+            Write(top_txt),
+            FadeIn(top_sub),
+            run_time=2.0
+        )
+        self.play(
+            Create(bottom_arc),
+            FadeIn(bottom_tag),
+            Write(bottom_txt),
+            FadeIn(bottom_sub),
+            run_time=2.0
+        )
+        self.play(
+            GrowFromCenter(center_focal_grp),
+            run_time=1.5
+        )
+
+        # ---------------------------------------------------------
+        # Subtle Perceive -> Reason -> Act Micro-Ring around the Agent
+        # ---------------------------------------------------------
+        pra_radius = 1.35
+        pra_colors = [C_SKY_BLUE, C_AMBER, C_CORAL]
+        pra_labels = ["Perceive", "Reason", "Act"]
+        pra_angles = [PI / 2, 11 * PI / 6, 7 * PI / 6]
+
+        pra_group = VGroup()
+        for ang, col, lbl in zip(pra_angles, pra_colors, pra_labels):
+            pos = agent_target_pos + pra_radius * np.array([np.cos(ang), np.sin(ang), 0])
+            node = Dot(pos, radius=0.12, color=col)
+            node_tag = CrispText(lbl, size=11, weight=BOLD, color=C_SLATE_TITLE).next_to(pos, np.array([np.cos(ang), np.sin(ang), 0]), buff=0.12)
+            pra_group.add(node, node_tag)
+
+        # Connecting subtle orbital ring
+        pra_orbit = Circle(radius=pra_radius, stroke_color=C_BORDER, stroke_width=1.5, stroke_opacity=0.6).move_to(agent_target_pos)
+
+        self.play(
+            Create(pra_orbit),
+            LaggedStart(*[FadeIn(p) for p in pra_group], lag_ratio=0.2),
+            run_time=2.0
+        )
+
+        # ---------------------------------------------------------
+        # Continuous Kinetic Cycle: Circulating Packets in Closed Loop
+        # ---------------------------------------------------------
+        # Data Packet: Env -> Agent
+        data_packet = Dot(radius=0.1, color=C_SKY_BLUE)
+        # Action Packet: Agent -> Env
+        act_packet = Dot(radius=0.1, color=C_AMBER)
+
+        # Pulse highlight on Bi-Directional Anchor
+        center_glow = center_pill.copy().set_fill(opacity=0).set_stroke(color=C_FOCUS, width=4)
+
+        # Two synchronized circulation cycles to maintain visual engagement
+        for _ in range(2):
             self.play(
-                MoveAlongPath(p1, top_curve, rate_func=ease_out_cubic),
-                MoveAlongPath(p2, bottom_curve, rate_func=ease_out_cubic),
-                run_time=2.0
+                MoveAlongPath(data_packet, top_arc, rate_func=rate_functions.ease_out_cubic),
+                MoveAlongPath(act_packet, bottom_arc, rate_func=rate_functions.ease_out_cubic),
+                Create(center_glow),
+                run_time=2.2
             )
-            self.remove(p1, p2)
+            self.play(
+                FadeOut(center_glow),
+                run_time=0.6
+            )
 
-        # Run stream cycles while narrator completes explanation
-        for _ in range(3):
-            stream_cycle()
+        self.remove(data_packet, act_packet)
+        self.wait(3.0)
 
-        agent_halo.remove_updater(halo_updater)
-
-        # Exact audio synchronization for Step 2 (~36.65s, cumulative ~95.50s)
-        self.sync_to(58.855 + 36.645)
+        # Clean removal of updaters before concluding
+        halo_lines.clear_updaters()

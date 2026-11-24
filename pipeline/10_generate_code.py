@@ -747,6 +747,16 @@ class CodeGenerator:
           * Zero green cards, containers, pills, backgrounds, borders, or body text!
           * Green (`#06C170`, `#2D6A4F`, `C_GREEN`) is strictly prohibited. Only tiny micro-icons (like a small checkmark) may use green if indispensable.
 
+        - INSTRUCTIONAL PROMPTING GUIDELINES (STRICT COMPLIANCE MANDATE):
+          * MINIMALISTIC SCREEN: Exactly 1 to 2 focal objects centerstage at any given time. Never clutter the screen with multiple complex diagrams at once.
+          * LOW TEXT ARCHITECTURE: Use low text with strategically placed annotations (1 to 3 words per label/badge). STRICTLY ZERO tabular grids, ZERO multi-column data matrices, ZERO paragraphs.
+          * CUES ON PICTOGRAMS & ICONS: Rely on rich vector pictograms, symbols, and picture icons rather than text lists.
+          * VISUALLY RICH FRAMEWORKS: Build living vector primitives (PremiumBalanceScale, PrecisionChronometerGauge, NeuralReasoningCore, ActionDispatchHub, VectorGoalTarget, VectorOperatorStation).
+          * SMOOTH MORPHING TRANSITIONS: Evolve and transform focal objects smoothly between steps; avoid abrupt cutaways or static wipes.
+          * NO CAMERA MOVEMENTS: Maintain 100% steady camera framing on the 16:9 canvas per Simplilearn OSL 3.0.
+          * SHORT NARRATION AUDIO-VISUAL SYNC: Keep presentation steps granular (8-15s per beat) so every spoken sentence triggers an active visual event.
+          * NO DECORATIVE ELASTIC JITTER: Keep kinematics purposeful and harmonic (ambient needle jitter, particle circulation, gentle balance sway).
+
         - LLM CREATIVE VISUAL AUTONOMY WITH COGNITIVE ANCHORS (THE GROUP 3 STANDARD):
           * Strictly avoid boring 2005-style PowerPoint text dumps (paragraphs and bullet walls).
           * HOWEVER, "minimal text" DOES NOT MEAN ZERO TEXT OR PURE MOVING GEOMETRY!
@@ -1070,10 +1080,11 @@ class CodeGenerator:
         2. Slide Title Header: Construct the on-screen title using the exact Scene Title specified in Scene Context.
            - SINGLE HEADER: Maintain a single top-left header `title_group = create_title(...)` and morph it with `ReplacementTransform`.
            - STRICT PROHIBITION: NEVER render "Scene 1", "Scene 2", "Scene 3", etc. as visible screen text or slide titles! Strictly NEVER create duplicate centered titles (`create_title_centered`) colliding with the top header!
-        3. STRICT PROHIBITION OF PPT-STYLE BOXES & RECTANGULAR CARDS:
-           - Strictly DO NOT diagram system architectures or components as isolated RoundedRectangle text boxes connected by plain lines!
+        3. STRICT PROHIBITION OF PPT-STYLE BOXES & STACKED RECTANGULAR CARDS (CRITICAL):
+           - Strictly DO NOT diagram system architectures, workflows, or inputs/outputs as stacks or columns of RoundedRectangle cards, pills, or text boxes!
            - Strictly DO NOT create a cluster of floating cards, panels, or boxes with labels. That looks like a 2005 PowerPoint slide!
-           - Never build static slide cards or bullet lists.
+           - Zero Bulleted Cards: NEVER draw a card or document shape containing bullet points (`• Item 1`). Deliverables, plans, and summaries must be sleek vector indicators (status dials, illuminated checkmark rings, pulsing metric badges), NEVER slide cards with bulleted sentences!
+           - Input & Signal Streams: Diagram input data streams, user requests, tool results, and telemetry as open-space conduits with glowing moving particle packets (`Dot()`, `FlowingStream`), NEVER as stacked rectangular cards or pills (e.g., `wc_frame`, stacked card boxes)!
            - Text budget: Micro-labels and metric badges only (1-3 words). Never put descriptive sentences inside shapes or cards!
         4. CREATIVE VECTOR IMPLEMENTATION (LLM DECIDES THE VISUAL MECHANISM ACROSS ANY DOMAIN):
            - You have full creative autonomy to decide and construct the optimal living vector mechanism for the concept described in the storyboard, whether the topic is Finance, Business Strategy, Healthcare, Science, Project Management, Economics, or Technology.
@@ -1087,7 +1098,12 @@ class CodeGenerator:
              * Data or entity movement: `MoveAlongPath(Dot(), path)` or flowing particle streams.
              * Active processes: rotating halos (`Rotate`), pulsing rings (`PulsingShockwaves`), or oscillating waves (`TelemetryWaves`).
              * State transitions: morphing paths, illuminating active routes, dynamic value updates.
-           - Pre-defined vector classes are available in global scope if helpful (`PulsingNode`, `FlowingStream`, `BalanceScale`, `TelemetryWaves`, `PulsingShockwaves`, `NeuralHaloPulses`, `DynamicRadarSweep`), OR feel free to construct any custom Manim VGroup geometry that best demonstrates the lesson!
+           - Pre-defined vector classes are available in global scope if helpful (`PremiumBalanceScale`, `PrecisionChronometerGauge`, `NeuralReasoningCore`, `ActionDispatchHub`, `PulsingNode`, `FlowingStream`, `BalanceScale`, `TelemetryWaves`, `PulsingShockwaves`, `NeuralHaloPulses`, `DynamicRadarSweep`), OR feel free to construct any custom Manim VGroup geometry that best demonstrates the lesson!
+           - ARCHITECTURAL VECTOR MECHANICS MANDATE (QUALITY REQUIREMENT):
+             * For conceptual mechanisms like weighing trade-offs, analytical balance scales, chronometer dials, utility gauges, cognitive reasoning cores, and action dispatch hubs, ALWAYS use pure Manim vector primitives (`PremiumBalanceScale`, `PrecisionChronometerGauge`, `NeuralReasoningCore`, `ActionDispatchHub`).
+             * Zero static raster images (`ImageMobject`) for mechanical concepts. Build living Manim geometry with two-tone shading and dynamic updaters.
+             * Judicial boxing: Avoid heavy PPT square container boxes. Let the apparatus breathe in open canvas negative space, using boxes only as micro-pills or base plinths.
+             * Fixed 16:9 camera: Strictly maintain a steady camera frame (no zooming or camera panning per Simplilearn OSL 3.0).
         5. High-Contrast Typography Hierarchy:
            - Titles & element headers: #0F172A (bold dark slate). Body text: #334155 (slate). Never use white text on light elements/canvas or low-contrast gray.
            - Font sizes: Titles (24-28), Headers (18-20), Body (14-16), Badges/Pills (12-13).
@@ -2073,7 +2089,8 @@ class BalanceScale(VGroup):
             "template2_learning_roadmap.py",
             "template3_topic_coverage.py",
             "template4_process_flow.py",
-            "template5_action_flowchart.py"
+            "template5_action_flowchart.py",
+            "vector_primitives.py"
         ]:
             tmpl_src = os.path.join(script_dir, "helpers", tmpl)
             if not os.path.exists(tmpl_src):

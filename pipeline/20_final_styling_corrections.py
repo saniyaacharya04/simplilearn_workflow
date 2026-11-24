@@ -1762,7 +1762,7 @@ class FinalStylingCorrections:
 
         # Copy official Simplilearn templates and intro_icons into styled_scenes_dir
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        for tmpl in ["template1_title_intro.py", "template2_learning_roadmap.py", "template3_topic_coverage.py", "template4_process_flow.py", "template5_action_flowchart.py"]:
+        for tmpl in ["template1_title_intro.py", "template2_learning_roadmap.py", "template3_topic_coverage.py", "template4_process_flow.py", "template5_action_flowchart.py", "vector_primitives.py"]:
             tmpl_src = os.path.join(script_dir, "helpers", tmpl)
             if not os.path.exists(tmpl_src):
                 tmpl_src = os.path.join(os.path.dirname(script_dir), "template", tmpl)

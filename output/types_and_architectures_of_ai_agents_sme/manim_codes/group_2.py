@@ -2,7 +2,6 @@ C_DARK_BLUE = "#1E293B"
 C_BRAND_BLUE = "#2C81FE"
 C_SKY_BLUE = "#62B7E4"
 C_STEEL_BLUE = "#7EA2C8"
-C_CORAL = "#E58F6D"
 C_LIGHT_BLUE = "#62B7E4"
 C_PURPLE = "#9B99C7"
 C_YELLOW = "#DDB945"
@@ -10,6 +9,7 @@ C_RED = "#E58F6D"
 C_WHITE = "#FFFFFF"
 C_BLACK = "#404040"
 C_NAVY_DARK = "#404040"
+import os
 import re
 SME_LAYOUT = '70'
 from feedback_functions.instrumented_scene import InstrumentedScene
@@ -68,6 +68,7 @@ for _scene_cls in (Scene, MovingCameraScene):
     except Exception:
         pass
 _orig_anim_safe_defined = True
+
 
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -199,136 +200,137 @@ try:
 except Exception:
     pass
 import numpy as np
-import os
 
-# Safe fallback for InstrumentedScene
-try:
-    InstrumentedScene
-except NameError:
-    class InstrumentedScene:
+# Ensure environment compatibility
+if "InstrumentedScene" not in globals():
+    class InstrumentedScene(Scene):
         pass
 
+# Ensure CrispText fallback for clean rendering
+if "CrispText" not in globals():
 
 
 
 
 
-def CrispText(text, size=24, font="Open Sans", **kwargs):
-    if "font_size" in kwargs:
-        size = kwargs.pop("font_size")
-    try:
-        size = float(size)
-    except (ValueError, TypeError):
-        size = 24.0
-    if 0.0 < size <= 1.0:
-        if size >= 0.28:
-            size = 26.0
-        elif size >= 0.19:
-            size = 18.0
-        elif size >= 0.14:
-            size = 14.0
-        else:
-            size = 12.0
-    elif size < 4.0:
-        size = 5.0
-    align = kwargs.pop("align", "center")
-    autowrap_val = kwargs.pop("autowrap", kwargs.pop("wrap", None))
-    disable_wrap_val = kwargs.pop("disable_wrap", kwargs.pop("disable_autowrap", False))
-    max_w_param = kwargs.pop("max_width", kwargs.pop("wrap_width", None))
-    for bad_k in ("alignment", "max_len", "line_spacing", "title_size", "item_size"):
-        kwargs.pop(bad_k, None)
-    slant_val = kwargs.pop("slant", NORMAL)
-    weight_val = kwargs.pop("weight", NORMAL)
-    if isinstance(weight_val, str):
-        weight_clean = weight_val.upper().replace("-", "").replace("_", "").replace(" ", "")
-        if weight_clean == "REGULAR":
-            weight_val = NORMAL
-        elif weight_clean in ("SEMIBOLD", "SEMI_BOLD"):
-            weight_val = SEMIBOLD
-        elif weight_clean == "BOLD":
-            weight_val = BOLD
-        elif weight_clean == "LIGHT":
-            weight_val = LIGHT
-        elif weight_clean in ("NORMAL", "BOOK"):
-            weight_val = NORMAL
-        else:
-            weight_val = NORMAL
-    color_val = kwargs.pop("color", None)
-    if color_val is None:
-        color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
-    elif str(color_val).upper() in ("#F9C72C", "C_YELLOW", "YELLOW", "#FFF9E6", "#FFFF00", "#0B3C5D", "#06152B", "#0A2540", "#1D3557", "NAVY", "C_NAVY", "C_NAVY_DARK"):
-        color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
-    raw_str = str(text)
-    _acronyms = {"AI", "RAM", "DB", "API", "LLM", "CPU", "GPU", "UI", "OSL", "ML", "OST", "VDB", "JSON", "HTTP", "REST", "SQL", "SME", "PIP", "HD", "FHD"}
-    import re as _re
-    def _tc_sub(m):
-        w = m.group(0)
-        return w if w in _acronyms else w.capitalize()
-    raw_str = _re.sub(r"\b[A-Z]{2,}\b", _tc_sub, raw_str)
-    NL = chr(10)
-    split_lines = [l for l in raw_str.split(NL)] if NL in raw_str else ([l for l in raw_str.split(r"\\n")] if r"\\n" in raw_str else None)
-    if split_lines is None:
-        should_autowrap = False
-        wrap_target_chars = 34
-        if max_w_param is not None:
-            try:
-                mw = float(max_w_param)
-                wrap_target_chars = max(16, int(mw / (size * 0.0082)))
-                should_autowrap = (" " in raw_str and len(raw_str) > wrap_target_chars)
-            except Exception:
-                pass
-        if not should_autowrap:
-            if autowrap_val is True:
-                should_autowrap = True
-                wrap_target_chars = 34
-            elif autowrap_val is False or disable_wrap_val:
-                should_autowrap = False
+
+
+
+    def CrispText(text, size=24, font="Open Sans", **kwargs):
+        if "font_size" in kwargs:
+            size = kwargs.pop("font_size")
+        try:
+            size = float(size)
+        except (ValueError, TypeError):
+            size = 24.0
+        if 0.0 < size <= 1.0:
+            if size >= 0.28:
+                size = 26.0
+            elif size >= 0.19:
+                size = 18.0
+            elif size >= 0.14:
+                size = 14.0
             else:
-                should_autowrap = (len(raw_str) > 36 and " " in raw_str and size <= 16)
-                wrap_target_chars = 34
-        if should_autowrap:
-            words = raw_str.split()
-            lines = []
-            curr_line = []
-            curr_len = 0
-            for w in words:
-                sep = 1 if curr_line else 0
-                if curr_len + len(w) + sep > wrap_target_chars:
-                    if curr_line:
-                        lines.append(" ".join(curr_line))
-                    curr_line = [w]
-                    curr_len = len(w)
+                size = 12.0
+        elif size < 4.0:
+            size = 5.0
+        align = kwargs.pop("align", "center")
+        autowrap_val = kwargs.pop("autowrap", kwargs.pop("wrap", None))
+        disable_wrap_val = kwargs.pop("disable_wrap", kwargs.pop("disable_autowrap", False))
+        max_w_param = kwargs.pop("max_width", kwargs.pop("wrap_width", None))
+        for bad_k in ("alignment", "max_len", "line_spacing", "title_size", "item_size"):
+            kwargs.pop(bad_k, None)
+        slant_val = kwargs.pop("slant", NORMAL)
+        weight_val = kwargs.pop("weight", NORMAL)
+        if isinstance(weight_val, str):
+            weight_clean = weight_val.upper().replace("-", "").replace("_", "").replace(" ", "")
+            if weight_clean == "REGULAR":
+                weight_val = NORMAL
+            elif weight_clean in ("SEMIBOLD", "SEMI_BOLD"):
+                weight_val = SEMIBOLD
+            elif weight_clean == "BOLD":
+                weight_val = BOLD
+            elif weight_clean == "LIGHT":
+                weight_val = LIGHT
+            elif weight_clean in ("NORMAL", "BOOK"):
+                weight_val = NORMAL
+            else:
+                weight_val = NORMAL
+        color_val = kwargs.pop("color", None)
+        if color_val is None:
+            color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
+        elif str(color_val).upper() in ("#F9C72C", "C_YELLOW", "YELLOW", "#FFF9E6", "#FFFF00", "#0B3C5D", "#06152B", "#0A2540", "#1D3557", "NAVY", "C_NAVY", "C_NAVY_DARK"):
+            color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
+        raw_str = str(text)
+        _acronyms = {"AI", "RAM", "DB", "API", "LLM", "CPU", "GPU", "UI", "OSL", "ML", "OST", "VDB", "JSON", "HTTP", "REST", "SQL", "SME", "PIP", "HD", "FHD"}
+        import re as _re
+        def _tc_sub(m):
+            w = m.group(0)
+            return w if w in _acronyms else w.capitalize()
+        raw_str = _re.sub(r"\b[A-Z]{2,}\b", _tc_sub, raw_str)
+        NL = chr(10)
+        split_lines = [l for l in raw_str.split(NL)] if NL in raw_str else ([l for l in raw_str.split(r"\\n")] if r"\\n" in raw_str else None)
+        if split_lines is None:
+            should_autowrap = False
+            wrap_target_chars = 34
+            if max_w_param is not None:
+                try:
+                    mw = float(max_w_param)
+                    wrap_target_chars = max(16, int(mw / (size * 0.0082)))
+                    should_autowrap = (" " in raw_str and len(raw_str) > wrap_target_chars)
+                except Exception:
+                    pass
+            if not should_autowrap:
+                if autowrap_val is True:
+                    should_autowrap = True
+                    wrap_target_chars = 34
+                elif autowrap_val is False or disable_wrap_val:
+                    should_autowrap = False
                 else:
-                    curr_line.append(w)
-                    curr_len += len(w) + sep
-            if curr_line:
-                lines.append(" ".join(curr_line))
-            split_lines = lines
+                    should_autowrap = (len(raw_str) > 36 and " " in raw_str and size <= 16)
+                    wrap_target_chars = 34
+            if should_autowrap:
+                words = raw_str.split()
+                lines = []
+                curr_line = []
+                curr_len = 0
+                for w in words:
+                    sep = 1 if curr_line else 0
+                    if curr_len + len(w) + sep > wrap_target_chars:
+                        if curr_line:
+                            lines.append(" ".join(curr_line))
+                        curr_line = [w]
+                        curr_len = len(w)
+                    else:
+                        curr_line.append(w)
+                        curr_len += len(w) + sep
+                if curr_line:
+                    lines.append(" ".join(curr_line))
+                split_lines = lines
+            else:
+                split_lines = [raw_str]
+        clean_kwargs = {k: v for k, v in kwargs.items() if k in ("tab_width", "t2c", "t2f", "t2s", "t2w", "l2g", "gradient", "fill_opacity", "stroke_width", "stroke_color")}
+        if len(split_lines) > 1:
+            line_mobs = [Text(l, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs) for l in split_lines]
+            aligned_edge = ORIGIN if align == "center" else (LEFT if align == "left" else RIGHT)
+            mob = VGroup(*line_mobs).arrange(DOWN, buff=0.18, aligned_edge=aligned_edge).scale(0.25)
         else:
-            split_lines = [raw_str]
-    clean_kwargs = {k: v for k, v in kwargs.items() if k in ("tab_width", "t2c", "t2f", "t2s", "t2w", "l2g", "gradient", "fill_opacity", "stroke_width", "stroke_color")}
-    if len(split_lines) > 1:
-        line_mobs = [Text(l, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs) for l in split_lines]
-        aligned_edge = ORIGIN if align == "center" else (LEFT if align == "left" else RIGHT)
-        mob = VGroup(*line_mobs).arrange(DOWN, buff=0.18, aligned_edge=aligned_edge).scale(0.25)
-    else:
-        mob = Text(raw_str, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs).scale(0.25)
-    orig_scale = mob.scale_to_fit_width
-    def safe_scale_width(tw):
-        if hasattr(mob, "width") and mob.width > 0:
-            ratio = tw / mob.width
-            if ratio > 1.0:
-                return mob
-            if ratio < 0.88:
-                ratio = 0.88
-            return orig_scale(mob.width * ratio)
-        return orig_scale(tw)
-    mob.scale_to_fit_width = safe_scale_width
-    return mob
-
+            mob = Text(raw_str, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs).scale(0.25)
+        orig_scale = mob.scale_to_fit_width
+        def safe_scale_width(tw):
+            if hasattr(mob, "width") and mob.width > 0:
+                ratio = tw / mob.width
+                if ratio > 1.0:
+                    return mob
+                if ratio < 0.88:
+                    ratio = 0.88
+                return orig_scale(mob.width * ratio)
+            return orig_scale(tw)
+        mob.scale_to_fit_width = safe_scale_width
+        return mob
 class FinalScene(InstrumentedScene, MovingCameraScene):
     def construct(self):
-        # 1. Canvas Background Setup (OSL 3.0 Soft Light Slate Canvas)
+        # 1. Canvas Configuration - Modern Soft Light Slate Canvas
         self.camera.background_color = "#F0F4F8"
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -650,366 +652,439 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
 
-        # Universal Header Helper (Top-Left Safe Zone, terminating before x <= 3.5 for 20% SME PIP)
-        def create_header(step_title):
-            kicker = CrispText("Solara & Lesson Objectives", size=13, weight=BOLD, color="#62B7E4")
-            title = CrispText(step_title, size=22, weight=BOLD, color="#0F172A")
-            header_grp = VGroup(kicker, title).arrange(DOWN, aligned_edge=LEFT, buff=0.08)
-            header_grp.move_to([-6.1, 3.2, 0], aligned_edge=UL)
-            return header_grp
 
-        # =========================================================================
-        # ## Presentation Step 1: Solara: Goal-Driven Actions
-        # Narration: "We introduced Solara Energy and looked at how agents can take
-        # a goal like monitoring site performance and turn it into a sequence of
-        # real actions, querying data, comparing outputs, flagging anomalies and
-        # generating reports."
-        # Total Duration: 26.66s
-        # =========================================================================
-        header = create_header("Solara: Goal-Driven Actions")
-        self.play(FadeIn(header, shift=DOWN * 0.15), run_time=0.8)
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
 
-        # 1.1 Solara Plant Hero Asset (Image or Procedural Vector Anchor)
-        plant_img_path = "images/scene_2_solara_plant.png"
-        if not os.path.exists(plant_img_path):
-            plant_img_path = "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_2_solara_plant.png"
 
-        if os.path.exists(plant_img_path):
-            img_mob = ImageMobject(plant_img_path)
-            img_mob.scale_to_fit_height(1.85)
-            plant_group = Group(img_mob)
-        else:
-            # Procedural fallback photovoltaic array
-            pv_grid = VGroup()
-            for row in range(2):
-                for col in range(3):
-                    panel = RoundedRectangle(
-                        width=0.55, height=0.35, corner_radius=0.04,
-                        fill_color="#62B7E4", fill_opacity=0.7, stroke_color="#475569", stroke_width=1.5
-                    ).shift(RIGHT * (col * 0.62) + UP * (row * 0.42))
-                    pv_grid.add(panel)
-            ground = Line(LEFT * 1.2, RIGHT * 1.2, color="#94A3B8", stroke_width=2.5).next_to(pv_grid, DOWN, buff=0.1)
-            sun = Circle(radius=0.25, fill_color="#E6A157", fill_opacity=0.9, stroke_color="#DDB945", stroke_width=2).shift(UP * 0.8 + RIGHT * 0.8)
-            plant_group = Group(VGroup(ground, pv_grid, sun))
 
-        plant_group.move_to([-4.85, -0.4, 0])
 
-        # Stylized Solara Facility Tag
-        plant_badge = RoundedRectangle(
-            width=2.4, height=0.5, corner_radius=0.074,
-            fill_color="#FFFFFF", fill_opacity=1.0, stroke_color="#CBD5E1", stroke_width=1.5
-        ).next_to(plant_group, DOWN, buff=0.25)
-        plant_title = CrispText("Solara Energy Hub", size=12, weight=BOLD, color="#0F172A").move_to(plant_badge.get_center())
-        plant_anchor = Group(plant_group, plant_badge, plant_title)
 
-        # 1.2 Goal Node (Steady Pulsing Sensory Center)
-        goal_outer = Circle(radius=0.52, stroke_color="#62B7E4", stroke_width=2, fill_color="#FFFFFF", fill_opacity=0.95)
-        goal_inner = Circle(radius=0.35, fill_color="#62B7E4", fill_opacity=0.25, stroke_color="#2C81FE", stroke_width=2)
-        goal_core = Dot(radius=0.12, color="#2C81FE")
-        # Procedural target crosshairs
-        ch1 = Line(UP * 0.28, DOWN * 0.28, color="#2C81FE", stroke_width=1.5)
-        ch2 = Line(LEFT * 0.28, RIGHT * 0.28, color="#2C81FE", stroke_width=1.5)
-        goal_glyph = VGroup(goal_outer, goal_inner, goal_core, ch1, ch2).move_to([-2.3, -0.4, 0])
 
-        goal_lbl = CrispText("Goal Node", size=13, weight=BOLD, color="#0F172A").next_to(goal_glyph, DOWN, buff=0.28)
-        goal_sub = CrispText("Site Performance", size=10, weight=NORMAL, color="#64748B").next_to(goal_lbl, DOWN, buff=0.06)
-        goal_node = VGroup(goal_glyph, goal_lbl, goal_sub)
 
-        # Continuous breathing updater for goal node
-        goal_pulse = Circle(radius=0.54, stroke_color="#62B7E4", stroke_width=2.5, fill_opacity=0).move_to(goal_glyph.get_center())
-        goal_pulse.add_updater(lambda m, dt: m.scale(1.002 if m.radius < 0.66 else 0.82))
 
-        # 1.3 Procedural Flow Nodes (Query -> Compare -> Flag -> Report)
-        def create_flow_node(x_pos, title_text, sub_text, glyph_type, accent_color):
-            disc = Circle(radius=0.45, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=accent_color, stroke_width=2.5).move_to([x_pos, -0.4, 0])
-            
-            if glyph_type == "query":
-                # Magnifying Glass Vector
-                glass_rim = Circle(radius=0.18, stroke_color=accent_color, stroke_width=2.2, fill_opacity=0)
-                handle = Line(ORIGIN, DR * 0.16, stroke_color=accent_color, stroke_width=3).move_to(glass_rim.point_at_angle(-PI / 4) + DR * 0.08)
-                glyph = VGroup(glass_rim, handle).move_to(disc.get_center())
-            elif glyph_type == "compare":
-                # Balance Scale Vector
-                stand = Line(UP * 0.22, DOWN * 0.22, stroke_color=accent_color, stroke_width=2)
-                beam = Line(LEFT * 0.24, RIGHT * 0.24, stroke_color=accent_color, stroke_width=2).shift(UP * 0.18)
-                pan_l = Arc(radius=0.10, start_angle=PI, angle=PI, stroke_color=accent_color, stroke_width=1.5).move_to(beam.get_left() + DOWN * 0.16)
-                pan_r = Arc(radius=0.10, start_angle=PI, angle=PI, stroke_color=accent_color, stroke_width=1.5).move_to(beam.get_right() + DOWN * 0.16)
-                glyph = VGroup(stand, beam, pan_l, pan_r).move_to(disc.get_center())
-            elif glyph_type == "flag":
-                # Anomaly Flag / Warning Beacon
-                pole = Line(DOWN * 0.24, UP * 0.24, stroke_color=accent_color, stroke_width=2)
-                flag_cloth = Polygon([0, 0.24, 0], [0.26, 0.12, 0], [0, 0, 0], fill_color=accent_color, fill_opacity=0.85, stroke_width=0)
-                glyph = VGroup(pole, flag_cloth).move_to(disc.get_center())
-            else:  # report
-                # Document Report Vector
-                doc = RoundedRectangle(width=0.32, height=0.42, corner_radius=0.04, stroke_color=accent_color, stroke_width=2, fill_opacity=0)
-                l1 = Line(LEFT * 0.10, RIGHT * 0.10, stroke_color=accent_color, stroke_width=1.5).shift(UP * 0.08)
-                l2 = Line(LEFT * 0.10, RIGHT * 0.10, stroke_color=accent_color, stroke_width=1.5)
-                l3 = Line(LEFT * 0.10, RIGHT * 0.04, stroke_color=accent_color, stroke_width=1.5).shift(DOWN * 0.08)
-                glyph = VGroup(doc, l1, l2, l3).move_to(disc.get_center())
 
-            t_lbl = CrispText(title_text, size=13, weight=BOLD, color="#0F172A").next_to(disc, DOWN, buff=0.28)
-            s_lbl = CrispText(sub_text, size=10, weight=NORMAL, color="#64748B").next_to(t_lbl, DOWN, buff=0.06)
-            return VGroup(disc, glyph, t_lbl, s_lbl)
 
-        node_query = create_flow_node(-0.4, "Query Data", "Inverter Telemetry", "query", "#7EA2C8")
-        node_compare = create_flow_node(1.5, "Compare Outputs", "Model vs Actual", "compare", "#9B99C7")
-        node_flag = create_flow_node(3.4, "Flag Anomalies", "Variance Alert", "flag", "#E6A157")
-        node_report = create_flow_node(5.3, "Generate Reports", "Root Synthesis", "report", "#8ECDB7")
 
-        # Conduits between nodes
-        def create_arrow(start_mob, end_mob):
-            return Arrow(
-                start_mob[0].get_right() + RIGHT * 0.08,
-                end_mob[0].get_left() + LEFT * 0.08,
-                buff=0.0, stroke_width=2.5, stroke_color="#CBD5E1", max_tip_length_to_length_ratio=0.25
-            )
 
-        arr0 = create_arrow(goal_glyph, node_query)
-        arr1 = create_arrow(node_query, node_compare)
-        arr2 = create_arrow(node_compare, node_flag)
-        arr3 = create_arrow(node_flag, node_report)
 
-        # Entrance Animations
-        self.play(FadeIn(plant_anchor, shift=RIGHT * 0.2), run_time=1.2)
-        self.play(FadeIn(goal_node, shift=UP * 0.1), FadeIn(goal_pulse), run_time=1.0)
-        self.wait(1.5)
 
-        # Sequential Data Flow Walkthrough
-        def animate_conduit_flow(arrow, next_node, highlight_color):
-            packet = Dot(color="#F78908", radius=0.09).move_to(arrow.get_start())
-            self.play(
-                arrow.animate.set_stroke(color=highlight_color, width=3.5),
-                MoveAlongPath(packet, arrow, rate_func=smooth),
-                FadeIn(next_node, shift=UP * 0.1),
-                run_time=2.2
-            )
-            self.remove(packet)
 
-        # Beat: Query Data
-        animate_conduit_flow(arr0, node_query, "#7EA2C8")
-        self.wait(1.8)
 
-        # Beat: Compare Outputs
-        animate_conduit_flow(arr1, node_compare, "#9B99C7")
-        self.wait(1.8)
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
 
-        # Beat: Flag Anomalies
-        animate_conduit_flow(arr2, node_flag, "#E6A157")
-        # Pulse highlight on anomaly flag
-        flag_highlight = node_flag[0].copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
-        self.play(Create(flag_highlight), run_time=0.6)
-        self.play(FadeOut(flag_highlight), run_time=0.6)
-        self.wait(1.4)
 
-        # Beat: Generate Reports
-        animate_conduit_flow(arr3, node_report, "#8ECDB7")
-        self.wait(3.5)
 
-        # Persistent group cleanup for Step 1
-        goal_pulse.clear_updaters()
-        step1_mobjects = Group(plant_anchor, goal_node, goal_pulse, arr0, arr1, arr2, arr3, node_query, node_compare, node_flag, node_report)
 
-        # =========================================================================
-        # ## Presentation Step 2: Agent Diversity & Architectures
-        # Narration: "But not all agents work the same way. There are different types
-        # built on different architectures designed for different kinds of problems.
-        # And understanding those differences is what allows you to match the right
-        # agent to the right job."
-        # Total Duration: 21.236s
-        # =========================================================================
-        new_header = create_header("Agent Diversity & Architectures")
-        self.play(
-            ReplacementTransform(header, new_header),
-            FadeOut(step1_mobjects, shift=DOWN * 0.2),
-            run_time=1.0
+
+
+
+
+
+
+
+
+
+
+        self.camera.frame.save_state()
+
+        # Color Palette Tokens (Approved 10-Color Infographic Palette)
+        C_SKY = "#62B7E4"
+        C_STEEL = "#7EA2C8"
+        C_LAVENDER = "#9B99C7"
+        C_MINT = "#8ECDB7"
+        C_AMBER = "#E6A157"
+        C_CORAL = "#E58F6D"
+        C_ROSE = "#D98CA1"
+        C_LILAC = "#C1A5C6"
+        C_TITLE = "#0F172A"       # Bold Dark Slate (High contrast)
+        C_SUBTITLE = "#475569"    # Mid Slate
+        C_BODY = "#334155"        # Slate text
+        C_MUTED = "#64748B"       # Subtle annotation
+        C_HIGHLIGHT = "#F78908"   # Warm Focus Orange
+        C_CARD_BG = "#FFFFFF"     # Pure White elevated surface
+        C_CARD_BORDER = "#CBD5E1" # Slate-200 border
+
+        # -------------------------------------------------------------------------
+        # Helper: Unified Slide Header
+        # -------------------------------------------------------------------------
+
+        # Helper: Circular Vector Icon Disc
+        def create_icon_badge(symbol_mobject, bg_color=C_SKY, radius=0.38):
+            disc = Circle(radius=radius, fill_color=bg_color, fill_opacity=0.18, stroke_color=bg_color, stroke_width=2)
+            symbol_mobject.move_to(disc.get_center())
+            return VGroup(disc, symbol_mobject)
+
+        # -------------------------------------------------------------------------
+        ## Presentation Step 1: Solara: Goal-Driven Actions
+        # Step Duration: 26.66s
+        # -------------------------------------------------------------------------
+        step1_title = create_title(
+            "Diverse Architectures & Learning Objectives",
+            "Solara Energy: Goal-Driven Autonomous Execution"
         )
-        header = new_header
+        self.play(FadeIn(step1_title, shift=DOWN * 0.15), run_time=0.8)
 
-        # 2.1 Central Problem Sphere
-        prob_sphere_core = Circle(radius=0.9, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color="#7EA2C8", stroke_width=2.5)
-        prob_orbit1 = Circle(radius=0.72, stroke_color="#CBD5E1", stroke_width=1.5, stroke_opacity=0.6)
-        prob_orbit2 = Circle(radius=0.55, stroke_color="#CBD5E1", stroke_width=1.5, stroke_opacity=0.6)
-        
-        # Internal Telemetry waves for the problem
-        prob_sine = FunctionGraph(lambda x: 0.12 * np.sin(4 * x), x_range=[-0.45, 0.45], color="#62B7E4").move_to(prob_sphere_core.get_center())
-        prob_title = CrispText("Problem Domain", size=13, weight=BOLD, color="#0F172A").next_to(prob_sine, UP, buff=0.15)
-        prob_tag = CrispText("Site Volatility & Anomaly", size=10, weight=NORMAL, color="#64748B").next_to(prob_sine, DOWN, buff=0.15)
-        
-        problem_sphere = VGroup(prob_sphere_core, prob_orbit1, prob_orbit2, prob_sine, prob_title, prob_tag)
-        problem_sphere.move_to([-0.1, -0.6, 0])
-
-        # 2.2 Three Orbiting Agent Archetypes
-        def create_agent_archetype(pos, title, sub, glyph_type, color_code):
-            disc = Circle(radius=0.55, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=color_code, stroke_width=2.5).move_to(pos)
-            
-            if glyph_type == "gear":
-                # Procedural Mechanical Gear (Reflex)
-                hub = Circle(radius=0.18, stroke_color=color_code, stroke_width=2, fill_opacity=0).move_to(disc.get_center())
-                teeth = VGroup(*[
-                    Rectangle(width=0.08, height=0.12, fill_color=color_code, fill_opacity=1.0, stroke_width=0)
-                    .move_to(hub.point_at_angle(a) + 0.05 * np.array([np.cos(a), np.sin(a), 0]))
-                    for a in np.linspace(0, 2 * PI, 8, endpoint=False)
-                ])
-                glyph = VGroup(hub, teeth)
-            elif glyph_type == "compass":
-                # Procedural Navigational Compass (Goal-Based)
-                rim = Circle(radius=0.22, stroke_color=color_code, stroke_width=1.5, stroke_opacity=0.5).move_to(disc.get_center())
-                needle_n = Polygon([0, 0.22, 0], [0.07, 0, 0], [-0.07, 0, 0], fill_color=color_code, fill_opacity=0.9, stroke_width=0)
-                needle_s = Polygon([0, -0.22, 0], [0.07, 0, 0], [-0.07, 0, 0], fill_color="#94A3B8", fill_opacity=0.7, stroke_width=0)
-                glyph = VGroup(rim, needle_n, needle_s).move_to(disc.get_center())
-            else:
-                # Procedural Diamond Prism (Utility / Learning)
-                outer_d = Polygon([0, 0.25, 0], [0.25, 0, 0], [0, -0.25, 0], [-0.25, 0, 0], stroke_color=color_code, stroke_width=2.2, fill_opacity=0)
-                inner_d = Polygon([0, 0.13, 0], [0.13, 0, 0], [0, -0.13, 0], [-0.13, 0, 0], stroke_color=color_code, stroke_width=1.5, fill_opacity=0.25, fill_color=color_code)
-                glyph = VGroup(outer_d, inner_d).move_to(disc.get_center())
-
-            pill = RoundedRectangle(width=1.9, height=0.45, corner_radius=0.074, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color="#CBD5E1", stroke_width=1.2)
-            t = CrispText(title, size=12, weight=BOLD, color="#0F172A")
-            pill_grp = VGroup(pill, t).next_to(disc, DOWN, buff=0.18)
-            sub_lbl = CrispText(sub, size=10, weight=NORMAL, color="#64748B").next_to(pill_grp, DOWN, buff=0.06)
-            return VGroup(disc, glyph, pill_grp, sub_lbl)
-
-        agent_reflex = create_agent_archetype([-4.3, 0.1, 0], "Reflex Agent", "Condition-Action", "gear", "#62B7E4")
-        agent_goal = create_agent_archetype([-0.1, 1.45, 0], "Goal-Based Agent", "Search & Planning", "compass", "#E6A157")
-        agent_learning = create_agent_archetype([4.1, 0.1, 0], "Utility / Learning", "Multi-Objective Optimization", "diamond", "#9B99C7")
-
-        # Conduits linking agents to Problem Sphere
-        beam_reflex = DashedLine(agent_reflex[0].get_center(), problem_sphere[0].get_center(), stroke_color="#94A3B8", stroke_width=2)
-        beam_goal = DashedLine(agent_goal[0].get_center(), problem_sphere[0].get_center(), stroke_color="#94A3B8", stroke_width=2)
-        beam_learning = DashedLine(agent_learning[0].get_center(), problem_sphere[0].get_center(), stroke_color="#94A3B8", stroke_width=2)
-
-        # Entrance
-        self.play(FadeIn(problem_sphere, scale=0.8), run_time=1.2)
-        self.play(
-            LaggedStart(
-                FadeIn(agent_reflex, shift=RIGHT * 0.2),
-                FadeIn(agent_goal, shift=DOWN * 0.2),
-                FadeIn(agent_learning, shift=LEFT * 0.2),
-                Create(beam_reflex),
-                Create(beam_goal),
-                Create(beam_learning),
-                lag_ratio=0.25
-            ),
-            run_time=2.4
-        )
-        self.wait(2.5)
-
-        # Beat: Matching the right agent to the right job
-        # Narration: "match the right agent to the right job"
-        # The Goal-Based Agent is identified as the optimal match for site planning:
-        match_glow_beam = Line(agent_goal[0].get_center(), problem_sphere[0].get_center(), stroke_color="#F78908", stroke_width=4.5)
-        match_highlight = agent_goal[0].copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
-
-        packet_match = Dot(color="#F78908", radius=0.12).move_to(agent_goal[0].get_center())
+        # 1.1 Solara Energy Brand & Context Emblem
+        solara_emblem = VGroup()
+        sun_core = Circle(radius=0.45, fill_color=C_AMBER, fill_opacity=0.9, stroke_color="#FFFFFF", stroke_width=2.5)
+        sun_rays = VGroup(*[
+            Line(
+                start=sun_core.point_at_angle(angle) + 0.08 * np.array([np.cos(angle), np.sin(angle), 0]),
+                end=sun_core.point_at_angle(angle) + 0.22 * np.array([np.cos(angle), np.sin(angle), 0]),
+                stroke_color=C_AMBER, stroke_width=2.5
+            )
+            for angle in np.linspace(0, 2 * np.pi, 8, endpoint=False)
+        ])
+        brand_name = CrispText("Solara Energy", size=18, weight="BOLD", color=C_TITLE)
+        brand_sub = CrispText("Site Operations Hub", size=12, weight="NORMAL", color=C_MUTED)
+        brand_text_grp = VGroup(brand_name, brand_sub).arrange(DOWN, aligned_edge=LEFT, buff=0.06)
+        solara_emblem.add(sun_core, sun_rays, brand_text_grp)
+        brand_text_grp.next_to(sun_core, RIGHT, buff=0.25)
+        solara_emblem.move_to([-5.2, 1.4, 0])
 
         self.play(
-            Create(match_glow_beam),
-            Create(match_highlight),
-            problem_sphere[0].animate.set_stroke(color="#F78908", width=3.5),
+            GrowFromCenter(sun_core),
+            Create(sun_rays),
+            FadeIn(brand_text_grp, shift=RIGHT * 0.2),
             run_time=1.2
         )
-        self.play(MoveAlongPath(packet_match, match_glow_beam, rate_func=smooth), run_time=1.5)
-        self.remove(packet_match)
-        self.wait(4.0)
 
-        step2_mobjects = Group(
-            problem_sphere, agent_reflex, agent_goal, agent_learning,
-            beam_reflex, beam_goal, beam_learning, match_glow_beam, match_highlight
-        )
+        # 1.2 Five Sequential Operational Flow Nodes
+        # Node Definitions: (Title, Icon Builder, Accent Color)
+        def make_bullseye():
+            return VGroup(
+                Circle(radius=0.24, stroke_color=C_SKY, stroke_width=2),
+                Circle(radius=0.14, fill_color=C_SKY, fill_opacity=0.8, stroke_color=C_SKY, stroke_width=1.5),
+                Dot(radius=0.05, color="#FFFFFF")
+            )
 
-        # =========================================================================
-        # ## Presentation Step 3: Learning Outcomes
-        # Narration: "By the end of this topic, you will be able to describe the
-        # core components that make up an AI agent's architecture. Explain how agents
-        # interact with their environment through a continuous loop. Walk through the
-        # perception reasoning action cycle that drives agent decision making and
-        # identify the three main types of agents and one each as appropriate, as
-        # well as visualize how a complete agent workflow flows from input to outcome."
-        # Total Duration: 39.206s
-        # =========================================================================
-        final_header = create_header("Learning Outcomes")
-        self.remove(new_header)
-        self.play(
-            ReplacementTransform(header, final_header),
-            FadeOut(step2_mobjects, shift=DOWN * 0.2),
-            run_time=1.0
-        )
-        header = final_header
+        def make_query_icon():
+            glass = Circle(radius=0.16, stroke_color=C_STEEL, stroke_width=2.2)
+            handle = Line(glass.point_at_angle(-np.pi / 4), glass.point_at_angle(-np.pi / 4) + np.array([0.15, -0.15, 0]), stroke_color=C_STEEL, stroke_width=3)
+            return VGroup(glass, handle)
 
-        # 3.1 Five Structured Learning Outcome Cards
-        objectives_data = [
-            ("01", "Core Architectural Components", "Describe sensory layers, cognitive reasoning engines, and actuator interfaces", "#62B7E4"),
-            ("02", "Environment Feedback Loop", "Explain continuous closed-loop interaction between agent states and external context", "#8ECDB7"),
-            ("03", "Perception-Reasoning-Action Cycle", "Trace dynamic information processing driving automated autonomous decisions", "#9B99C7"),
-            ("04", "Three Agent Archetypes", "Compare reflex, goal-based, and utility architectures to match the appropriate role", "#E6A157"),
-            ("05", "End-to-End Operational Workflow", "Visualize the complete path from telemetry ingestion to real-world outcome", "#7EA2C8"),
+        def make_compare_icon():
+            beam = Line([-0.2, 0.08, 0], [0.2, -0.04, 0], stroke_color=C_LAVENDER, stroke_width=2.5)
+            pivot = Triangle(fill_color=C_LAVENDER, fill_opacity=1, stroke_width=0).scale(0.12).next_to(beam, DOWN, buff=-0.04)
+            left_pan = Line([-0.2, 0.08, 0], [-0.2, -0.08, 0], stroke_color=C_LAVENDER, stroke_width=1.5)
+            right_pan = Line([0.2, -0.04, 0], [0.2, -0.2, 0], stroke_color=C_LAVENDER, stroke_width=1.5)
+            return VGroup(beam, pivot, left_pan, right_pan)
+
+        def make_flag_icon():
+            pole = Line([0, -0.22, 0], [0, 0.22, 0], stroke_color=C_CORAL, stroke_width=2.5)
+            cloth = Polygon([0, 0.22, 0], [0.26, 0.11, 0], [0, 0, 0], fill_color=C_CORAL, fill_opacity=0.9, stroke_color=C_CORAL, stroke_width=1)
+            return VGroup(pole, cloth)
+
+        def make_report_icon():
+            sheet = RoundedRectangle(width=0.32, height=0.42, corner_radius=0.04, fill_color="#FFFFFF", fill_opacity=1, stroke_color=C_MINT, stroke_width=2)
+            l1 = Line([-0.1, 0.1, 0], [0.1, 0.1, 0], stroke_color=C_MINT, stroke_width=1.8)
+            l2 = Line([-0.1, 0.0, 0], [0.1, 0.0, 0], stroke_color=C_MINT, stroke_width=1.8)
+            l3 = Line([-0.1, -0.1, 0], [0.04, -0.1, 0], stroke_color=C_MINT, stroke_width=1.8)
+            return VGroup(sheet, l1, l2, l3)
+
+        pipeline_data = [
+            ("Goal: Monitor", "Site Performance", make_bullseye(), C_SKY),
+            ("Query Data", "Inverter Telemetry", make_query_icon(), C_STEEL),
+            ("Compare", "Model Baselines", make_compare_icon(), C_LAVENDER),
+            ("Flag Alerts", "Thermal Deviations", make_flag_icon(), C_CORAL),
+            ("Reports", "Ops Dispatch Ready", make_report_icon(), C_MINT),
         ]
 
-        card_groups = []
-        y_starts = [1.25, 0.35, -0.55, -1.45, -2.35]
+        flow_cards = VGroup()
+        connecting_arrows = VGroup()
 
-        for idx, (num, title_txt, desc_txt, accent_c) in enumerate(objectives_data):
-            # Card base container (OSL Standard safe width, staying within safe boundaries)
-            card = RoundedRectangle(
-                width=10.4, height=0.74, corner_radius=0.074,
-                fill_color="#FFFFFF", fill_opacity=0.98, stroke_color="#E2E8F0", stroke_width=1.5
+        card_width = 2.15
+        card_height = 2.25
+        x_spacing = 2.55
+        start_x = -5.1
+
+        for idx, (head_txt, sub_txt, icon_vg, accent_c) in enumerate(pipeline_data):
+            card_x = start_x + idx * x_spacing
+            card_y = -0.65
+
+            bg_rect = RoundedRectangle(
+                width=card_width, height=card_height, corner_radius=0.14,
+                fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_CARD_BORDER, stroke_width=1.8
+            ).move_to([card_x, card_y, 0])
+
+            top_bar = RoundedRectangle(
+                width=card_width, height=0.08, corner_radius=0.04,
+                fill_color=accent_c, fill_opacity=1.0, stroke_width=0
+            ).next_to(bg_rect.get_top(), DOWN, buff=0)
+
+            badge = create_icon_badge(icon_vg, bg_color=accent_c, radius=0.36)
+            badge.move_to(bg_rect.get_top() + DOWN * 0.6)
+
+            title_m = CrispText(head_txt, size=14, weight="BOLD", color=C_TITLE)
+            title_m.next_to(badge, DOWN, buff=0.18)
+
+            sub_m = CrispText(sub_txt, size=11, weight="NORMAL", color=C_MUTED)
+            sub_m.next_to(title_m, DOWN, buff=0.08)
+
+            step_chip = RoundedRectangle(width=0.48, height=0.24, corner_radius=0.06, fill_color=accent_c, fill_opacity=0.15, stroke_width=0)
+            step_num = CrispText(f"0{idx+1}", size=10, weight="BOLD", color=accent_c)
+            step_num.move_to(step_chip)
+            chip_grp = VGroup(step_chip, step_num).move_to(bg_rect.get_top() + DOWN * 0.22)
+
+            node_grp = VGroup(bg_rect, top_bar, chip_grp, badge, title_m, sub_m)
+            flow_cards.add(node_grp)
+
+            if idx < 4:
+                arrow = Arrow(
+                    start=[card_x + card_width / 2 + 0.05, card_y, 0],
+                    end=[card_x + x_spacing - card_width / 2 - 0.05, card_y, 0],
+                    buff=0, stroke_width=2.5, color=C_STEEL, max_tip_length_to_length_ratio=0.26
+                )
+                connecting_arrows.add(arrow)
+
+        # 1.3 Sequential Reveal synchronized with narration beat
+        # Narrator introduces goal -> query -> compare -> flag -> report
+        for i in range(len(flow_cards)):
+            anims = [FadeIn(flow_cards[i], shift=UP * 0.2)]
+            if i > 0:
+                anims.append(GrowArrow(connecting_arrows[i - 1]))
+            self.play(*anims, run_time=1.1)
+
+            # Active kinetic pulse along the current stage
+            card_glow = flow_cards[i][0].copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
+            self.play(Create(card_glow), run_time=0.5)
+            self.play(FadeOut(card_glow), run_time=0.4)
+            self.wait(2.2)
+
+        # Ambient continuous particle flow from Goal through Pipeline to Report
+        trail_dots = VGroup(*[Dot(radius=0.06, color=C_HIGHLIGHT) for _ in range(4)])
+        self.play(
+            LaggedStart(*[
+                MoveAlongPath(dot, arr, rate_func=linear)
+                for dot, arr in zip(trail_dots, connecting_arrows)
+            ], lag_ratio=0.25),
+            run_time=2.2
+        )
+        self.remove(trail_dots)
+        self.wait(2.0)
+
+        # -------------------------------------------------------------------------
+        ## Presentation Step 2: Agent Diversity & Architectures
+        # Step Duration: 21.236s
+        # -------------------------------------------------------------------------
+        step2_title = create_title(
+            "Agent Diversity & Architectures",
+            "Matching Architecture to Task Complexity"
+        )
+        self.play(
+            FadeOut(solara_emblem),
+            FadeOut(flow_cards),
+            FadeOut(connecting_arrows),
+            ReplacementTransform(step1_title, step2_title),
+            run_time=1.0
+        )
+
+        # 2.1 Central Problem Sphere (The Environmental Challenge Hub)
+        problem_center = np.array([0.0, -0.6, 0])
+        problem_outer = Circle(radius=1.35, stroke_color=C_STEEL, stroke_width=2.0, stroke_opacity=0.6)
+        problem_dashed = DashedVMobject(Circle(radius=1.15, stroke_color=C_AMBER, stroke_width=2.2), num_dashes=24)
+        problem_core = Circle(radius=0.9, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=C_TITLE, stroke_width=2.0)
+
+        prob_tag = CrispText("Task Space", size=15, weight="BOLD", color=C_TITLE).move_to(problem_center + UP * 0.15)
+        prob_desc = CrispText("Dynamic Solara Anomaly", size=11, weight="NORMAL", color=C_MUTED).next_to(prob_tag, DOWN, buff=0.08)
+        problem_sphere = VGroup(problem_outer, problem_dashed, problem_core, prob_tag, prob_desc).move_to(problem_center)
+
+        # 2.2 Three Orbiting Agent Architectures
+        # Agent 1: Reactive (Simple Gear / Fast reflex) - Left
+        # Agent 2: Deliberative (Model-based Compass / Planner) - Top Center
+        # Agent 3: Goal & Utility (Multi-faceted Diamond / Optimizer) - Right
+        agent_configs = [
+            ("Reactive Agent", "Fixed Condition-Action Rules", C_SKY, [-4.6, -0.6, 0]),
+            ("Deliberative Agent", "Internal World Model & Planning", C_AMBER, [0.0, 1.35, 0]),
+            ("Utility Optimizer", "Multi-Objective Trade-off Engine", C_LAVENDER, [4.6, -0.6, 0]),
+        ]
+
+        agent_nodes = VGroup()
+        connecting_conduits = VGroup()
+
+        for name, sub, col, pos in agent_configs:
+            a_box = RoundedRectangle(
+                width=2.85, height=1.35, corner_radius=0.12,
+                fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=col, stroke_width=2.2
+            ).move_to(pos)
+
+            a_title = CrispText(name, size=14, weight="BOLD", color=C_TITLE).move_to(a_box.get_top() + DOWN * 0.38)
+            a_sub = CrispText(sub, size=10, weight="NORMAL", color=C_BODY).next_to(a_title, DOWN, buff=0.1)
+
+            status_pill = RoundedRectangle(width=0.9, height=0.24, corner_radius=0.06, fill_color=col, fill_opacity=0.18, stroke_width=0)
+            status_txt = CrispText("Arch Type", size=9, weight="BOLD", color=col)
+            status_txt.move_to(status_pill)
+            status_grp = VGroup(status_pill, status_txt).move_to(a_box.get_bottom() + UP * 0.22)
+
+            agent_m = VGroup(a_box, a_title, a_sub, status_grp)
+            agent_nodes.add(agent_m)
+
+            # Curved dynamic conduit to problem sphere
+            conduit = CurvedArrow(
+                start_point=pos + (problem_center - pos) * 0.35,
+                end_point=problem_center + (pos - problem_center) * 0.45,
+                angle=0.18 if pos[0] >= 0 else -0.18,
+                color=col, stroke_width=2.5
             )
-            # Numeric Disc Badge
-            disc = Circle(radius=0.24, fill_color=accent_c, fill_opacity=1.0, stroke_width=0)
-            num_txt = CrispText(num, size=13, weight=BOLD, color="#FFFFFF").move_to(disc.get_center())
-            disc_grp = VGroup(disc, num_txt).move_to(card.get_left() + RIGHT * 0.52)
+            connecting_conduits.add(conduit)
 
-            # Title and description text
-            t = CrispText(title_txt, size=13, weight=BOLD, color="#0F172A")
-            d = CrispText(desc_txt, size=10, weight=NORMAL, color="#475569")
-            text_col = VGroup(t, d).arrange(DOWN, aligned_edge=LEFT, buff=0.04)
-            text_col.next_to(disc_grp, RIGHT, buff=0.35)
+        # Entrance animations
+        self.play(
+            GrowFromCenter(problem_sphere),
+            run_time=1.2
+        )
 
-            # Right tag indicator
-            tag_box = RoundedRectangle(
-                width=1.35, height=0.32, corner_radius=0.05,
-                fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=accent_c, stroke_width=1.2
+        for i in range(3):
+            self.play(
+                FadeIn(agent_nodes[i], shift=UP * 0.15),
+                Create(connecting_conduits[i]),
+                run_time=0.9
             )
-            tag_txt = CrispText("Outcome " + num, size=9, weight=BOLD, color=accent_c).move_to(tag_box.get_center())
-            fit_into_box(tag_txt, tag_box, pad_x=0.2, pad_y=0.08)
-            tag_grp = VGroup(tag_box, tag_txt).move_to(card.get_right() + LEFT * 0.95)
 
-            row_grp = VGroup(card, disc_grp, text_col, tag_grp).move_to([-0.2, y_starts[idx], 0])
-            card_groups.append(row_grp)
+        # 2.3 Visual Metaphor: Matching Problem Sphere to the Ideal Utility Agent
+        # Sphere pattern pulses as problem shifts
+        shift_ring = Circle(radius=1.0, stroke_color=C_HIGHLIGHT, stroke_width=3.0).move_to(problem_center)
+        self.play(
+            problem_dashed.animate.rotate(np.pi / 2),
+            Create(shift_ring),
+            run_time=1.2
+        )
+        self.play(FadeOut(shift_ring), run_time=0.4)
 
-        # Progressive reveal synchronized with narration
-        # Beat 1: Core components
-        self.play(FadeIn(card_groups[0], shift=RIGHT * 0.15), run_time=1.0)
-        p1 = card_groups[0][0].copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
-        self.play(Create(p1), run_time=0.6)
-        self.play(FadeOut(p1), run_time=0.4)
-        self.wait(4.5)
+        # Match indicator: Utility Optimizer (Agent 3) lights up as the optimal choice
+        matched_conduit = connecting_conduits[2]
+        match_pulse = matched_conduit.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=5.0)
+        matched_box_glow = agent_nodes[2][0].copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=4.0)
 
-        # Beat 2: Continuous loop
-        self.play(FadeIn(card_groups[1], shift=RIGHT * 0.15), run_time=1.0)
-        p2 = card_groups[1][0].copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
-        self.play(Create(p2), run_time=0.6)
-        self.play(FadeOut(p2), run_time=0.4)
-        self.wait(4.8)
+        match_badge = RoundedRectangle(width=1.65, height=0.36, corner_radius=0.08, fill_color=C_HIGHLIGHT, fill_opacity=1.0, stroke_width=0)
+        match_txt = CrispText("Optimal Match", size=11, weight="BOLD", color="#FFFFFF").move_to(match_badge)
+        match_flag = VGroup(match_badge, match_txt).next_to(agent_nodes[2], UP, buff=0.15)
 
-        # Beat 3: Perception reasoning action cycle
-        self.play(FadeIn(card_groups[2], shift=RIGHT * 0.15), run_time=1.0)
-        p3 = card_groups[2][0].copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
-        self.play(Create(p3), run_time=0.6)
-        self.play(FadeOut(p3), run_time=0.4)
-        self.wait(5.2)
+        # Stream of packets flowing from Utility Optimizer to Problem Space
+        packets = VGroup(*[Dot(radius=0.07, color=C_HIGHLIGHT) for _ in range(3)])
+        self.play(
+            Create(matched_box_glow),
+            Create(match_pulse),
+            FadeIn(match_flag, shift=DOWN * 0.1),
+            run_time=1.1
+        )
+        self.play(
+            LaggedStart(*[
+                MoveAlongPath(p, matched_conduit) for p in packets
+            ], lag_ratio=0.3),
+            run_time=2.2
+        )
+        self.remove(packets)
+        self.wait(3.5)
 
-        # Beat 4: Three main types of agents
-        self.play(FadeIn(card_groups[3], shift=RIGHT * 0.15), run_time=1.0)
-        p4 = card_groups[3][0].copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
-        self.play(Create(p4), run_time=0.6)
-        self.play(FadeOut(p4), run_time=0.4)
-        self.wait(5.5)
+        # Cleanup Step 2
+        step2_all = VGroup(
+            problem_sphere, agent_nodes, connecting_conduits,
+            matched_box_glow, match_pulse, match_flag
+        )
 
-        # Beat 5: Complete agent workflow from input to outcome
-        self.play(FadeIn(card_groups[4], shift=RIGHT * 0.15), run_time=1.0)
-        p5 = card_groups[4][0].copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
-        self.play(Create(p5), run_time=0.6)
-        self.play(FadeOut(p5), run_time=0.4)
-        self.wait(6.0)
+        # -------------------------------------------------------------------------
+        ## Presentation Step 3: Learning Outcomes
+        # Step Duration: 39.206s
+        # -------------------------------------------------------------------------
+        step3_title = create_title(
+            "Learning Outcomes",
+            "Core Architectural Competencies & Real-World Objectives"
+        )
+        self.play(
+            FadeOut(step2_all),
+            ReplacementTransform(step2_title, step3_title),
+            run_time=1.0
+        )
+
+        # 3.1 Five Master Learning Objectives (OSL 3.0 Standardized Roadmap Cards)
+        outcomes_data = [
+            (
+                "Core Components of Agent Architecture",
+                "Deconstruct sensors, internal state memory, and cognitive actuators",
+                C_SKY
+            ),
+            (
+                "Continuous Environment Interaction Loop",
+                "Analyze feedback dynamics between perception, action, and world response",
+                C_STEEL
+            ),
+            (
+                "Perception-Reasoning-Action Cycle",
+                "Walk through sequential deliberation and runtime decision gating",
+                C_LAVENDER
+            ),
+            (
+                "Three Core Architectural Archetypes",
+                "Classify reactive, deliberative, and utility-driven agent models",
+                C_AMBER
+            ),
+            (
+                "End-to-End Operational Workflow",
+                "Trace real production execution from initial stimulus to verified result",
+                C_MINT
+            )
+        ]
+
+        outcome_cards = VGroup()
+        start_y = 1.3
+        y_pitch = 0.98
+
+        for idx, (head_t, body_t, theme_c) in enumerate(outcomes_data):
+            row_y = start_y - idx * y_pitch
+
+            # Base Card Container
+            card_rect = RoundedRectangle(
+                width=11.6, height=0.82, corner_radius=0.1,
+                fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_CARD_BORDER, stroke_width=1.4
+            ).move_to([0.0, row_y, 0])
+
+            # Left Color Tag & Index Disc
+            index_disc = Circle(radius=0.22, fill_color=theme_c, fill_opacity=1.0, stroke_width=0)
+            index_num = CrispText(f"0{idx+1}", size=12, weight="BOLD", color="#FFFFFF").move_to(index_disc)
+            disc_grp = VGroup(index_disc, index_num).move_to(card_rect.get_left() + RIGHT * 0.45)
+
+            # Checkmark Icon Disc (Achieved competency indicator)
+            check_disc = Circle(radius=0.18, fill_color=theme_c, fill_opacity=0.18, stroke_color=theme_c, stroke_width=1.5)
+            chk_stem = Line([-0.07, 0.0, 0], [-0.01, -0.06, 0], stroke_color=theme_c, stroke_width=2.2)
+            chk_tail = Line([-0.01, -0.06, 0], [0.08, 0.06, 0], stroke_color=theme_c, stroke_width=2.2)
+            check_icon = VGroup(check_disc, chk_stem, chk_tail).move_to(card_rect.get_right() + LEFT * 0.45)
+
+            # High-Contrast Typography Hierarchy
+            head_lbl = CrispText(head_t, size=15, weight="BOLD", color=C_TITLE)
+            head_lbl.next_to(disc_grp, RIGHT, buff=0.35)
+            head_lbl.shift(UP * 0.1)
+
+            body_lbl = CrispText(body_t, size=11, weight="NORMAL", color=C_BODY)
+            body_lbl.next_to(disc_grp, RIGHT, buff=0.35)
+            body_lbl.shift(DOWN * 0.14)
+
+            full_row = VGroup(card_rect, disc_grp, head_lbl, body_lbl, check_icon)
+            outcome_cards.add(full_row)
+
+        # 3.2 Progressive Reveal in Sync with Spoken Narration (5 beats across ~38 seconds)
+        # Narration:
+        # Beat 1: "describe the core components that make up an AI agent's architecture" (~7.5s)
+        # Beat 2: "Explain how agents interact with their environment through a continuous loop" (~7.5s)
+        # Beat 3: "Walk through the perception reasoning action cycle..." (~7.5s)
+        # Beat 4: "identify the three main types of agents and when each is appropriate" (~7.5s)
+        # Beat 5: "visualize how a complete agent workflow flows from input to outcome" (~7.5s)
+
+        for i, card in enumerate(outcome_cards):
+            self.play(
+                FadeIn(card, shift=RIGHT * 0.25),
+                run_time=0.85
+            )
+
+            # Focal Attention Accent Highlight (Rule 5 & OSL 3.0 specification)
+            highlight_stroke = card[0].copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.2)
+            self.play(Create(highlight_stroke), run_time=0.55)
+            self.play(FadeOut(highlight_stroke), run_time=0.45)
+
+            # Timed hold matching individual narration clause
+            self.wait(4.2)
+
+        # Final persistent anchor stabilization
+        self.wait(3.0)

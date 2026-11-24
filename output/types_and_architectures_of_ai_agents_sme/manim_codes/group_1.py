@@ -1,20 +1,18 @@
-C_DARK_BLUE = "#1E293B"
 C_BRAND_BLUE = "#2C81FE"
 C_SKY_BLUE = "#62B7E4"
 C_STEEL_BLUE = "#7EA2C8"
 C_CORAL = "#E58F6D"
 C_LIGHT_BLUE = "#62B7E4"
 C_PURPLE = "#9B99C7"
-C_YELLOW = "#DDB945"
 C_RED = "#E58F6D"
 C_WHITE = "#FFFFFF"
 C_BLACK = "#404040"
 C_NAVY_DARK = "#404040"
-import re
-import numpy as np
-SME_LAYOUT = '100'
-from feedback_functions.instrumented_scene import InstrumentedScene
+C_DARK_BLUE = "#1E293B"
+C_YELLOW = "#DDB945"
 import os
+import re
+SME_LAYOUT = '70'
 from manim import *
 # Dynamic Animation Safety Preamble
 for _anim_cls in (FadeIn, FadeOut, Create, Write):
@@ -70,6 +68,7 @@ for _scene_cls in (Scene, MovingCameraScene):
     except Exception:
         pass
 _orig_anim_safe_defined = True
+
 
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -200,17 +199,15 @@ try:
     from manim.utils.rate_functions import *
 except Exception:
     pass
+import numpy as np
+import manim.utils.rate_functions as _rf
+for _k in dir(_rf):
+    if not _k.startswith("_"):
+        globals()[_k] = getattr(_rf, _k)
 
-# Pre-defined helpers and base class stubs for compatibility
 
-class InstrumentedScene(Scene):
-    def current_time(self):
-        return getattr(self, "_current_time", 0.0)
 
-    def sync_to(self, target_time):
-        dt = target_time - self.renderer.time
-        if dt > 0:
-            self.wait(dt)
+
 
 
 
@@ -328,9 +325,153 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
+class PulsingShockwaves(VGroup):
+    def __init__(self, center, color="#E6A157", max_radius=1.1, num_rings=3, **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.color = color
+        self.max_radius = max_radius
+        self.num_rings = num_rings
+        self.rings = [Circle(radius=0.2 + i * 0.3, color=color, stroke_width=2.0).move_to(self.center_pt) for i in range(num_rings)]
+        self.add(*self.rings)
+        self.t = 0.0
+        def update_waves(mob, dt):
+            mob.t += dt
+            for i, ring in enumerate(mob.rings):
+                phase = (mob.t * 0.9 + i / float(mob.num_rings)) % 1.0
+                r = 0.25 + phase * (mob.max_radius - 0.25)
+                ring.become(Circle(radius=r, color=mob.color, stroke_width=2.5 * (1.0 - phase)).move_to(mob.center_pt))
+                ring.set_stroke(opacity=max(0.0, 1.0 - phase))
+        self.add_updater(update_waves)
+
+class TelemetryWaves(VGroup):
+    def __init__(self, center, color="#8ECDB7", **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.arcs = [
+            Arc(radius=0.45 + i * 0.22, start_angle=-PI/3, angle=2*PI/3, color=color, stroke_width=2.2).move_to(self.center_pt + RIGHT * 0.50)
+            for i in range(3)
+        ]
+        self.add(*self.arcs)
+        self.t = 0.0
+        def update_telemetry(mob, dt):
+            mob.t += dt
+            for i, arc in enumerate(mob.arcs):
+                phase = (mob.t * 1.3 + i / 3.0) % 1.0
+                arc.set_stroke(opacity=max(0.1, 1.0 - phase), width=2.6 * (1.0 - phase * 0.4))
+        self.add_updater(update_telemetry)
+
+class NeuralHaloPulses(VGroup):
+    def __init__(self, center, color="#9B99C7", **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.h1 = Circle(radius=0.85, color=color, stroke_width=1.6).move_to(self.center_pt)
+        self.nodes = [
+            Dot(self.center_pt + np.array([np.cos(a)*0.65, np.sin(a)*0.65, 0]), radius=0.045, color=color)
+            for a in np.linspace(0, 2*PI, 6, endpoint=False)
+        ]
+        self.lines = [Line(self.center_pt, n.get_center(), color=color, stroke_width=1.0, stroke_opacity=0.6) for n in self.nodes]
+        self.add(self.h1, *self.lines, *self.nodes)
+        self.t = 0.0
+        def update_halo(mob, dt):
+            mob.t += dt
+            s = 1.0 + 0.07 * np.sin(mob.t * 3.0)
+            mob.h1.become(Circle(radius=0.85 * s, color=color, stroke_width=1.6).move_to(mob.center_pt))
+            mob.h1.set_stroke(opacity=0.4 + 0.4 * np.sin(mob.t * 3.0))
+        self.add_updater(update_halo)
+
+class DynamicRadarSweep(VGroup):
+    def __init__(self, center, radius=1.0, color="#62B7E4", speed=3.0, **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.radius = radius
+        self.speed = speed
+        self.dish = Circle(radius=radius, fill_color="#DCEEF9", fill_opacity=0.85, stroke_width=0).move_to(self.center_pt)
+        self.bezel = Circle(radius=radius, color=color, stroke_width=2.2).move_to(self.center_pt)
+        self.r1 = Circle(radius=radius*0.45, color=color, stroke_width=1.0, stroke_opacity=0.5).move_to(self.center_pt)
+        self.cross_h = Line(self.center_pt - np.array([radius, 0, 0]), self.center_pt + np.array([radius, 0, 0]), color="#BACAD8", stroke_width=0.8, stroke_opacity=0.6)
+        self.cross_v = Line(self.center_pt - np.array([0, radius, 0]), self.center_pt + np.array([0, radius, 0]), color="#BACAD8", stroke_width=0.8, stroke_opacity=0.6)
+        self.sweep_line = Line(self.center_pt, self.center_pt + np.array([radius, 0, 0]), color="#F78908", stroke_width=2.4)
+        self.blip = Dot(self.center_pt + np.array([0.45*radius, 0.4*radius, 0]), radius=0.05, color="#F78908")
+        self.add(self.dish, self.bezel, self.r1, self.cross_h, self.cross_v, self.blip, self.sweep_line)
+        self.angle = 0.0
+        def update_sweep(mob, dt):
+            mob.angle = (mob.angle + mob.speed * dt) % (2 * PI)
+            end_pt = mob.center_pt + mob.radius * np.array([np.cos(mob.angle), np.sin(mob.angle), 0])
+            mob.sweep_line.set_points_by_ends(mob.center_pt, end_pt)
+            d = (mob.angle - 0.7) % (2 * PI)
+            mob.blip.set_opacity(max(0.2, 1.0 - d * 0.5))
+        self.add_updater(update_sweep)
+
+class FlowingStream(VGroup):
+    def __init__(self, start_pt, end_pt, color="#62B7E4", num_dots=4, speed=1.2, **kwargs):
+        super().__init__(**kwargs)
+        self.p0 = np.array(start_pt)
+        self.p1 = np.array(end_pt)
+        self.color = color
+        self.num_dots = num_dots
+        self.speed = speed
+        self.rail = Line(self.p0, self.p1, color=color, stroke_width=1.5, stroke_opacity=0.4)
+        self.dots = [Dot(radius=0.055, color=color) for _ in range(num_dots)]
+        self.add(self.rail, *self.dots)
+        self.t = 0.0
+        def update_stream(mob, dt):
+            mob.t += dt
+            for i, dot in enumerate(mob.dots):
+                alpha = (mob.t * mob.speed + i / float(mob.num_dots)) % 1.0
+                dot.move_to(mob.p0 + alpha * (mob.p1 - mob.p0))
+                dot.set_opacity(np.sin(alpha * PI))
+        self.add_updater(update_stream)
+
+class PulsingNode(VGroup):
+    def __init__(self, center, radius=0.45, color="#2C81FE", label="", **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center)
+        self.radius = radius
+        self.color = color
+        self.core = Circle(radius=radius, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=color, stroke_width=2.5).move_to(self.center_pt)
+        self.halo = Circle(radius=radius * 1.3, color=color, stroke_width=1.5).move_to(self.center_pt)
+        self.add(self.core, self.halo)
+        if label:
+            self.lbl = CrispText(label, size=11, weight=BOLD, color="#404040").move_to(self.center_pt)
+            self.add(self.lbl)
+        self.t = 0.0
+        def update_node(mob, dt):
+            mob.t += dt
+            s = 1.0 + 0.12 * np.sin(mob.t * 3.0)
+            mob.halo.become(Circle(radius=mob.radius * 1.3 * s, color=mob.color, stroke_width=1.5).move_to(mob.center_pt))
+            mob.halo.set_stroke(opacity=max(0.1, 0.6 + 0.4 * np.sin(mob.t * 3.0)))
+        self.add_updater(update_node)
+
+class BalanceScale(VGroup):
+    def __init__(self, center, tilt_angle=0.12, beam_len=3.2, color="#404040", **kwargs):
+        super().__init__(**kwargs)
+        c = np.array(center)
+        self.fulcrum = Polygon(c, c + np.array([-0.3, -0.5, 0]), c + np.array([0.3, -0.5, 0]), color=color, fill_color="#E5EDF4", fill_opacity=1.0, stroke_width=2.0)
+        p_left = c + np.array([-np.cos(tilt_angle)*beam_len/2, -np.sin(tilt_angle)*beam_len/2, 0])
+        p_right = c + np.array([np.cos(tilt_angle)*beam_len/2, np.sin(tilt_angle)*beam_len/2, 0])
+        self.beam = Line(p_left, p_right, color=color, stroke_width=3.0)
+        self.pivot = Dot(c, radius=0.07, color="#F78908")
+        self.string_l = Line(p_left, p_left + DOWN * 0.5, color=color, stroke_width=1.2)
+        self.tray_l = Arc(radius=0.45, start_angle=PI, angle=PI, color=color, stroke_width=2.0).move_to(p_left + DOWN * 0.72)
+        self.string_r = Line(p_right, p_right + DOWN * 0.5, color=color, stroke_width=1.2)
+        self.tray_r = Arc(radius=0.45, start_angle=PI, angle=PI, color=color, stroke_width=2.0).move_to(p_right + DOWN * 0.72)
+        self.add(self.fulcrum, self.beam, self.pivot, self.string_l, self.tray_l, self.string_r, self.tray_r)
+
+
+from feedback_functions.instrumented_scene import InstrumentedScene
+from manim import *
+import numpy as np
+
+# Ensure CrispText compatibility if not provided in environment
+if "CrispText" not in globals():
+    
+    pass
 class FinalScene(InstrumentedScene, MovingCameraScene):
     def construct(self):
-        # 1. Canvas Background Setup (OSL 3.0 Standard)
+        # -------------------------------------------------------------------------
+        # Canvas & Background Configuration (Modern Soft Light Slate Canvas)
+        # -------------------------------------------------------------------------
         self.camera.background_color = "#F0F4F8"
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -652,239 +793,312 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
 
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # Safe workspace bounds for SME 70% Layout:
+        # Presentation workspace: x in [-0.80, +6.40], y in [-3.50, +2.20], center x ≈ +2.80
+        CORE_CENTER = np.array([2.80, -0.50, 0.0])
+
+        # -------------------------------------------------------------------------
+        # Slide Header (Top-Left Safe Alignment at x = -0.80)
+        # -------------------------------------------------------------------------
+        title_text = CrispText(
+            "AI Agents: Action, Not Just Response",
+            size=26,
+            font="Open Sans",
+            weight=BOLD,
+            color="#0F172A"
+        )
+        subtitle_text = CrispText(
+            "Agent: Beyond Response",
+            size=18,
+            font="Open Sans",
+            weight=NORMAL,
+            color="#475569"
+        )
+        header_grp = VGroup(title_text, subtitle_text).arrange(DOWN, aligned_edge=LEFT, buff=0.15)
+        header_grp.move_to(np.array([-0.80 + header_grp.width / 2.0, 3.10, 0.0]))
+
+        # =========================================================================
         ## Presentation Step 1
-        # Step Title: Agent: Beyond Response
-        # Duration: 48.68s
-        # Concept: AI Agent is an active system that perceives and acts upon the environment continuously.
+        title_group = create_title("Environment")
+        self.play(FadeIn(title_group, shift=DOWN*0.1), run_time=0.8)
+        # =========================================================================
+        # Narration: In the last topic, we established what an AI agent is.
+        #            A system that doesn't just respond, but acts.
+        # Run time: ~48.68s
+        # -------------------------------------------------------------------------
 
-        # --- Header Creation ---
-        title_group = create_title("AI Agent: The Active System", "Agent: Beyond Response")
-        self.play(FadeIn(title_group, shift=DOWN * 0.15), run_time=0.8)
+        # Beat 1.1: Header Reveal (0.0s - 3.5s)
+        self.play(FadeIn(header_grp, shift=DOWN * 0.15), run_time=1.2)
+        self.wait(1.8)
 
-        # --- Ambient Kinetic Environment Grid ---
-        grid_lines = VGroup()
-        for x in range(-6, 7, 2):
-            line = DashedLine(
-                start=[x, -3.2, 0],
-                end=[x, 2.2, 0],
-                dash_length=0.1,
-                dashed_ratio=0.5,
-                stroke_color="#7EA2C8",
-                stroke_opacity=0.18,
-                stroke_width=1.2,
-            )
-            grid_lines.add(line)
-        for y in range(-3, 3, 1):
-            line = DashedLine(
-                start=[-6.2, y, 0],
-                end=[6.2, y, 0],
-                dash_length=0.1,
-                dashed_ratio=0.5,
-                stroke_color="#7EA2C8",
-                stroke_opacity=0.18,
-                stroke_width=1.2,
-            )
-            grid_lines.add(line)
+        # -------------------------------------------------------------------------
+        # Beat 1.2: Construct the Living Environment Matrix (3.5s - 12.0s)
+        # -------------------------------------------------------------------------
+        # Concentric orbital scan rings representing the operational environment
+        env_outer_ring = DashedVMobject(
+            Circle(radius=2.60, color="#7EA2C8", stroke_width=1.5, stroke_opacity=0.45),
+            num_dashes=36
+        ).move_to(CORE_CENTER)
 
-        # Environment Boundary Rings (Concentric Sensing Zones)
-        env_rings = VGroup()
-        for r in [2.0, 2.8, 3.6]:
-            env_ring = Circle(radius=r, stroke_color="#8ECDB7", stroke_opacity=0.22, stroke_width=1.5)
-            env_rings.add(env_ring)
+        env_mid_ring = Circle(
+            radius=1.85,
+            color="#9B99C7",
+            stroke_width=1.2,
+            stroke_opacity=0.35
+        ).move_to(CORE_CENTER)
 
-        env_label_top = CrispText("Environment Sensing Sphere", size=13, weight=BOLD, color="#7EA2C8")
-        env_label_top.move_to([0, 2.15, 0])
+        # Subtle crosshair coordinates marking spatial awareness
+        cross_h = DashedVMobject(
+            Line(CORE_CENTER + LEFT * 2.50, CORE_CENTER + RIGHT * 2.50, color="#7EA2C8", stroke_width=1.0, stroke_opacity=0.30),
+            num_dashes=24
+        )
+        cross_v = DashedVMobject(
+            Line(CORE_CENTER + DOWN * 2.20, CORE_CENTER + UP * 2.20, color="#7EA2C8", stroke_width=1.0, stroke_opacity=0.30),
+            num_dashes=20
+        )
+
+        # Environment status badge (Top-Right of field)
+        env_badge_bg = RoundedRectangle(
+            width=1.80,
+            height=0.42,
+            corner_radius=0.074,
+            fill_color="#FFFFFF",
+            fill_opacity=1.0,
+            stroke_color="#7EA2C8",
+            stroke_width=1.4
+        )
+        env_badge_lbl = CrispText("Environment", size=13, font="Open Sans", weight=BOLD, color="#1E293B")
+        env_badge = VGroup(env_badge_bg, env_badge_lbl).move_to(CORE_CENTER + np.array([1.65, 2.05, 0.0]))
 
         self.play(
-            FadeIn(grid_lines, run_time=1.0),
-            FadeIn(env_rings, run_time=1.2),
-            FadeIn(env_label_top, run_time=0.8),
+            Create(env_outer_ring),
+            Create(env_mid_ring),
+            Create(cross_h),
+            Create(cross_v),
+            FadeIn(env_badge, shift=UP * 0.1),
+            run_time=2.5
         )
+        self.wait(2.5)
 
-        # --- Multi-Faceted Living AI Agent Core ---
-        # Outer pulsating aura
-        core_aura = Circle(radius=1.35, stroke_color="#62B7E4", stroke_width=2.5, stroke_opacity=0.45)
-        core_aura.set_fill("#62B7E4", opacity=0.06)
+        # -------------------------------------------------------------------------
+        # Beat 1.3: The Active AI Agent Core Emerges (12.0s - 22.0s)
+        # -------------------------------------------------------------------------
+        # Halo pulses and multifaceted geometric core
+        halo_outer = Circle(radius=1.10, color="#62B7E4", stroke_width=1.5, stroke_opacity=0.40).move_to(CORE_CENTER)
+        halo_inner = Circle(radius=0.85, color="#2C81FE", stroke_width=2.0, stroke_opacity=0.60).move_to(CORE_CENTER)
 
-        # Middle rotating gear/dendrite ring
-        core_ring_outer = DashedVMobject(
-            Circle(radius=1.05, stroke_color="#2C81FE", stroke_width=2.5),
-            num_dashes=18,
-            dashed_ratio=0.6,
+        core_backdrop = Circle(
+            radius=0.72,
+            fill_color="#FFFFFF",
+            fill_opacity=1.0,
+            stroke_color="#62B7E4",
+            stroke_width=2.5
+        ).move_to(CORE_CENTER)
+
+        # Multifaceted lattice (hexagonal geometric lattice)
+        poly_hex = RegularPolygon(n=6, radius=0.60, color="#7EA2C8", stroke_width=2.0).move_to(CORE_CENTER)
+        poly_tri1 = RegularPolygon(n=3, radius=0.55, color="#9B99C7", stroke_width=1.8).move_to(CORE_CENTER)
+        poly_tri2 = RegularPolygon(n=3, radius=0.55, color="#62B7E4", stroke_width=1.8).move_to(CORE_CENTER).rotate(PI)
+        lattice_grp = VGroup(poly_hex, poly_tri1, poly_tri2)
+
+        # Nucleus node
+        core_nucleus = Dot(CORE_CENTER, radius=0.18, color="#2C81FE")
+        core_nucleus_glow = Dot(CORE_CENTER, radius=0.30, color="#62B7E4", fill_opacity=0.35)
+
+        # Agent anchor badge beneath core
+        core_badge_bg = RoundedRectangle(
+            width=1.85,
+            height=0.45,
+            corner_radius=0.074,
+            fill_color="#FFFFFF",
+            fill_opacity=1.0,
+            stroke_color="#62B7E4",
+            stroke_width=1.5
         )
+        core_badge_txt = CrispText("Agent Core", size=14, font="Open Sans", weight=BOLD, color="#0F172A")
+        fit_into_box(core_badge_txt, core_badge_bg, pad_x=0.2, pad_y=0.08)
+        core_badge = VGroup(core_badge_bg, core_badge_txt).move_to(CORE_CENTER + DOWN * 1.30)
 
-        # Inner faceted polygon
-        core_hex = RegularPolygon(n=8, radius=0.75, stroke_color="#62B7E4", stroke_width=2.5)
-        core_hex.set_fill("#FFFFFF", opacity=0.92)
-
-        # Inner Glowing Processor Core
-        core_inner_glow = Circle(radius=0.45, stroke_color="#E6A157", stroke_width=2.0)
-        core_inner_glow.set_fill("#E6A157", opacity=0.25)
-
-        # Central Chip Symbol / Node
-        chip_box = Square(side_length=0.38, stroke_color="#0F172A", stroke_width=2.0, fill_color="#F8FAFC", fill_opacity=1.0)
-        chip_cross_h = Line([-0.12, 0, 0], [0.12, 0, 0], stroke_color="#62B7E4", stroke_width=2)
-        chip_cross_v = Line([0, -0.12, 0], [0, 0.12, 0], stroke_color="#62B7E4", stroke_width=2)
-        chip_glyph = VGroup(chip_box, chip_cross_h, chip_cross_v)
-
-        core_group = VGroup(core_aura, core_ring_outer, core_hex, core_inner_glow, chip_glyph)
-        core_group.move_to([0, -0.3, 0])
-
-        # Core Label Pill
-        core_tag_bg = RoundedRectangle(corner_radius=0.1, width=1.9, height=0.42, stroke_color="#62B7E4", stroke_width=1.5, fill_color="#FFFFFF", fill_opacity=0.95)
-        core_tag_text = CrispText("AI Agent Core", size=14, weight=BOLD, color="#0F172A")
-        fit_into_box(core_tag_text, core_tag_bg, pad_x=0.2, pad_y=0.08)
-        core_tag = VGroup(core_tag_bg, core_tag_text).move_to([0, -1.35, 0])
-
-        # Status Badge: Autonomous Action Engine
-        sub_badge_bg = RoundedRectangle(corner_radius=0.08, width=2.4, height=0.34, stroke_color="#8ECDB7", stroke_width=1.2, fill_color="#F8FAFC", fill_opacity=0.9)
-        sub_badge_txt = CrispText("Active Decision Loop", size=12, weight=SEMIBOLD, color="#404040")
-        fit_into_box(sub_badge_txt, sub_badge_bg, pad_x=0.2, pad_y=0.08)
-        sub_badge = VGroup(sub_badge_bg, sub_badge_txt).next_to(core_tag, DOWN, buff=0.14)
-
-        # Optional Hero illustration asset if provided
-        img_path = "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/images/scene_1_solara_plant.png"
-        hero_asset = None
-        if os.path.exists(img_path):
-            try:
-                raw_img = ImageMobject(img_path)
-                raw_img.scale_to_fit_height(1.8)
-                raw_img.move_to([4.2, -0.3, 0])
-                hero_tag_bg = RoundedRectangle(corner_radius=0.08, width=2.2, height=0.38, stroke_color="#7EA2C8", stroke_width=1.2, fill_color="#FFFFFF", fill_opacity=0.9)
-                hero_tag_txt = CrispText("Real-World Context", size=12, weight=BOLD, color="#0F172A")
-                fit_into_box(hero_tag_txt, hero_tag_bg, pad_x=0.2, pad_y=0.08)
-                hero_tag = VGroup(hero_tag_bg, hero_tag_txt).next_to(raw_img, DOWN, buff=0.15)
-                hero_asset = Group(raw_img, hero_tag)
-            except Exception:
-                hero_asset = None
-
-        # Build entry animation for AI core
-        self.play(
-            GrowFromCenter(core_aura),
-            GrowFromCenter(core_hex),
-            FadeIn(core_ring_outer),
-            FadeIn(core_inner_glow),
-            FadeIn(chip_glyph),
-            run_time=1.4,
-        )
-        self.play(
-            FadeIn(core_tag, shift=UP * 0.1),
-            FadeIn(sub_badge, shift=UP * 0.1),
-            run_time=0.8,
-        )
-        if hero_asset:
-            self.play(FadeIn(hero_asset, shift=LEFT * 0.2), run_time=1.0)
-
-        # --- Dynamic Telemetry Conduits & Dual Flow Vectors ---
-        # Left Inflow Conduit: Perception & Sensor Ingestion (Continuous data flowing INTO core)
-        inflow_path_1 = CurvedArrow(start_point=[-4.8, 0.9, 0], end_point=[-1.2, 0.2, 0], angle=-0.35, color="#62B7E4")
-        inflow_path_2 = CurvedArrow(start_point=[-4.8, -1.5, 0], end_point=[-1.2, -0.6, 0], angle=0.35, color="#7EA2C8")
-
-        inflow_badge_bg = RoundedRectangle(corner_radius=0.08, width=2.2, height=0.45, stroke_color="#62B7E4", stroke_width=1.5, fill_color="#FFFFFF", fill_opacity=0.95)
-        inflow_badge_txt = CrispText("1. Continuous Sensing", size=13, weight=BOLD, color="#0F172A")
-        fit_into_box(inflow_badge_txt, inflow_badge_bg, pad_x=0.2, pad_y=0.08)
-        inflow_badge = VGroup(inflow_badge_bg, inflow_badge_txt).move_to([-4.4, 1.45, 0])
-
-        # Right Outflow Conduit: Autonomous Action Execution (Action signals flowing OUT of core)
-        outflow_path_1 = CurvedArrow(start_point=[1.2, 0.2, 0], end_point=[4.8, 0.9, 0], angle=0.35, color="#E6A157")
-        outflow_path_2 = CurvedArrow(start_point=[1.2, -0.6, 0], end_point=[4.8, -1.5, 0], angle=-0.35, color="#E58F6D")
-
-        outflow_badge_bg = RoundedRectangle(corner_radius=0.08, width=2.2, height=0.45, stroke_color="#E6A157", stroke_width=1.5, fill_color="#FFFFFF", fill_opacity=0.95)
-        outflow_badge_txt = CrispText("2. Proactive Action", size=13, weight=BOLD, color="#0F172A")
-        fit_into_box(outflow_badge_txt, outflow_badge_bg, pad_x=0.2, pad_y=0.08)
-        outflow_badge = VGroup(outflow_badge_bg, outflow_badge_txt).move_to([4.4 if not hero_asset else 3.8, 1.45, 0])
+        core_sub_txt = CrispText("Autonomous System", size=12, font="Open Sans", weight=NORMAL, color="#64748B")
+        core_sub_txt.next_to(core_badge, DOWN, buff=0.10)
 
         self.play(
-            Create(inflow_path_1),
-            Create(inflow_path_2),
-            FadeIn(inflow_badge, shift=RIGHT * 0.15),
-            run_time=1.2,
+            FadeIn(halo_outer, scale=0.8),
+            FadeIn(halo_inner, scale=0.85),
+            FadeIn(core_backdrop, scale=0.9),
+            run_time=1.8
         )
         self.play(
-            Create(outflow_path_1),
-            Create(outflow_path_2),
-            FadeIn(outflow_badge, shift=LEFT * 0.15),
-            run_time=1.2,
+            Create(lattice_grp),
+            GrowFromCenter(core_nucleus_glow),
+            GrowFromCenter(core_nucleus),
+            FadeIn(core_badge, shift=UP * 0.1),
+            FadeIn(core_sub_txt, shift=UP * 0.08),
+            run_time=2.0
         )
 
-        # --- Continuous Updaters for Living Kinetic Motion ---
-        # 1. Continuous rotation of core rings
-        core_ring_outer.add_updater(lambda m, dt: m.rotate(0.35 * dt))
-        core_hex.add_updater(lambda m, dt: m.rotate(-0.15 * dt))
+        # Attach continuous kinetic rotation to core lattice and environmental scan
+        poly_hex.add_updater(lambda m, dt: m.rotate(0.20 * dt))
+        poly_tri1.add_updater(lambda m, dt: m.rotate(-0.35 * dt))
+        poly_tri2.add_updater(lambda m, dt: m.rotate(0.25 * dt))
+        env_outer_ring.add_updater(lambda m, dt: m.rotate(-0.08 * dt))
 
-        # 2. Pulsing aura breathing updater
-        pulse_tracker = ValueTracker(1.0)
-        def aura_updater(m):
-            scale_val = 1.0 + 0.08 * np.sin(pulse_tracker.get_value() * 3.0)
-            m.set_stroke(opacity=0.35 + 0.15 * np.cos(pulse_tracker.get_value() * 3.0))
-        core_aura.add_updater(aura_updater)
+        self.wait(3.5)
 
-        # Update tracker continuously during animations
-        self.add(pulse_tracker)
-        pulse_tracker.add_updater(lambda m, dt: m.increment_value(dt))
+        # -------------------------------------------------------------------------
+        # Beat 1.4: Inward Perception Stream (Perceive Environment) (22.0s - 32.0s)
+        # -------------------------------------------------------------------------
+        # Inward conduit path from environment left into the core
+        inflow_path = CubicBezier(
+            CORE_CENTER + np.array([-2.40, 1.10, 0]),
+            CORE_CENTER + np.array([-1.60, 1.25, 0]),
+            CORE_CENTER + np.array([-1.20, 0.40, 0]),
+            CORE_CENTER + np.array([-0.65, 0.15, 0])
+        )
+        inflow_curve = inflow_path.copy().set_fill(opacity=0).set_stroke(color="#62B7E4", width=2.0, opacity=0.7)
 
-        # --- Flowing Data Packets & Action Pulses ---
-        # Data Packet Stream: Ingestion (Left to Center)
-        p1 = Dot(point=[-4.8, 0.9, 0], radius=0.09, color="#62B7E4").set_z_index(30)
-        p2 = Dot(point=[-4.8, -1.5, 0], radius=0.09, color="#7EA2C8").set_z_index(30)
+        # Inward perception badge
+        perceive_badge_bg = RoundedRectangle(
+            width=1.90,
+            height=0.40,
+            corner_radius=0.074,
+            fill_color="#FFFFFF",
+            fill_opacity=1.0,
+            stroke_color="#62B7E4",
+            stroke_width=1.4
+        )
+        perceive_badge_lbl = CrispText("Perceive State", size=12, font="Open Sans", weight=BOLD, color="#1E293B")
+        perceive_badge = VGroup(perceive_badge_bg, perceive_badge_lbl).move_to(CORE_CENTER + np.array([-2.10, 1.50, 0.0]))
 
-        # Action Packet Stream: Execution (Center to Right)
-        a1 = Dot(point=[1.2, 0.2, 0], radius=0.10, color="#F78908").set_z_index(30)
-        a2 = Dot(point=[1.2, -0.6, 0], radius=0.10, color="#E6A157").set_z_index(30)
-
-        # Focus Highlight on Active System Core
-        core_highlight = core_hex.copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
-        self.play(Create(core_highlight), run_time=0.9)
-
-        # Orchestrated Flow Cycles to match ~48s narration
-        # Packet cycle 1
         self.play(
-            MoveAlongPath(p1, inflow_path_1, rate_func=linear, run_time=1.8),
-            MoveAlongPath(p2, inflow_path_2, rate_func=linear, run_time=1.8),
+            Create(inflow_curve),
+            FadeIn(perceive_badge, shift=RIGHT * 0.1),
+            run_time=1.5
         )
-        self.remove(p1, p2)
 
-        # Core processes and responds proactively
+        # Animated flowing data packets into core
+        in_dot1 = Dot(radius=0.08, color="#62B7E4")
+        in_dot2 = Dot(radius=0.07, color="#7EA2C8")
+
         self.play(
-            core_inner_glow.animate.set_fill("#F78908", opacity=0.5),
-            run_time=0.8,
+            MoveAlongPath(in_dot1, inflow_curve, rate_func=linear, run_time=1.8),
         )
+        self.remove(in_dot1)
+
         self.play(
-            MoveAlongPath(a1, outflow_path_1, rate_func=smooth, run_time=1.8),
-            MoveAlongPath(a2, outflow_path_2, rate_func=smooth, run_time=1.8),
-            core_inner_glow.animate.set_fill("#E6A157", opacity=0.25),
+            MoveAlongPath(in_dot2, inflow_curve, rate_func=linear, run_time=1.8),
         )
-        self.remove(a1, a2)
-        self.play(FadeOut(core_highlight), run_time=0.6)
+        self.remove(in_dot2)
+        self.wait(1.5)
 
-        # Informative Cognitive Sub-Card: The Agent Paradigm
-        card_bg = RoundedRectangle(corner_radius=0.1, width=6.2, height=0.85, stroke_color="#8ECDB7", stroke_width=1.5, fill_color="#FFFFFF", fill_opacity=0.96)
-        card_title = CrispText("Dynamic Closed-Loop Behavior", size=14, weight=BOLD, color="#0F172A")
-        card_desc = CrispText("Perceives environmental state, reasons internally, and triggers deliberate impact.", size=12, weight=NORMAL, color="#334155")
-        card_group = VGroup(card_title, card_desc).arrange(DOWN, aligned_edge=LEFT, buff=0.08)
-        full_card = VGroup(card_bg, card_group).move_to([0, -2.55, 0])
-        fit_into_box(card_group, card_bg)
+        # -------------------------------------------------------------------------
+        # Beat 1.5: Outward Action Stream (Beyond Response -> Autonomous Action) (32.0s - 42.0s)
+        # -------------------------------------------------------------------------
+        # Outward conduit path from core to environment right
+        outflow_path = CubicBezier(
+            CORE_CENTER + np.array([0.65, -0.15, 0]),
+            CORE_CENTER + np.array([1.20, -0.40, 0]),
+            CORE_CENTER + np.array([1.60, -1.15, 0]),
+            CORE_CENTER + np.array([2.35, -1.05, 0])
+        )
+        outflow_curve = outflow_path.copy().set_fill(opacity=0).set_stroke(color="#E6A157", width=2.2, opacity=0.8)
 
-        self.play(FadeIn(full_card, shift=UP * 0.15), run_time=1.0)
+        # Action badge
+        action_badge_bg = RoundedRectangle(
+            width=1.90,
+            height=0.40,
+            corner_radius=0.074,
+            fill_color="#FFFFFF",
+            fill_opacity=1.0,
+            stroke_color="#E6A157",
+            stroke_width=1.4
+        )
+        action_badge_lbl = CrispText("Execute Action", size=12, font="Open Sans", weight=BOLD, color="#1E293B")
+        action_badge = VGroup(action_badge_bg, action_badge_lbl).move_to(CORE_CENTER + np.array([2.10, -1.45, 0.0]))
 
-        # Packet cycle 2 & 3: Sustained dynamic circulation across remaining narration duration
-        for _ in range(3):
-            p1_loop = Dot(point=[-4.8, 0.9, 0], radius=0.08, color="#62B7E4").set_z_index(30)
-            p2_loop = Dot(point=[-4.8, -1.5, 0], radius=0.08, color="#7EA2C8").set_z_index(30)
-            a1_loop = Dot(point=[1.2, 0.2, 0], radius=0.09, color="#F78908").set_z_index(30)
-            a2_loop = Dot(point=[1.2, -0.6, 0], radius=0.09, color="#E58F6D").set_z_index(30)
+        self.play(
+            Create(outflow_curve),
+            FadeIn(action_badge, shift=LEFT * 0.1),
+            run_time=1.5
+        )
 
-            self.play(
-                MoveAlongPath(p1_loop, inflow_path_1, rate_func=linear, run_time=2.2),
-                MoveAlongPath(p2_loop, inflow_path_2, rate_func=linear, run_time=2.2),
-            )
-            self.remove(p1_loop, p2_loop)
+        # Outward action pulse particles
+        out_dot1 = Dot(radius=0.09, color="#F78908")
+        out_dot2 = Dot(radius=0.08, color="#E6A157")
 
-            self.play(
-                MoveAlongPath(a1_loop, outflow_path_1, rate_func=smooth, run_time=2.2),
-                MoveAlongPath(a2_loop, outflow_path_2, rate_func=smooth, run_time=2.2),
-            )
-            self.remove(a1_loop, a2_loop)
+        self.play(
+            MoveAlongPath(out_dot1, outflow_curve, rate_func=linear, run_time=1.8),
+        )
+        self.remove(out_dot1)
 
-        # Smooth synchronization to the allocated presentation step boundary
-        self.sync_to(48.68)
+        self.play(
+            MoveAlongPath(out_dot2, outflow_curve, rate_func=linear, run_time=1.8),
+        )
+        self.remove(out_dot2)
+        self.wait(1.2)
+
+        # -------------------------------------------------------------------------
+        # Beat 1.6: Kinetic Climax & Harmonized Activity Loop (42.0s - 48.68s)
+        # -------------------------------------------------------------------------
+        # Pulse highlight around Agent Core to reinforce the thematic concept
+        agent_pulse = core_badge_bg.copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
+        core_glow_ring = Circle(radius=0.95, color="#F78908", stroke_width=2.5).move_to(CORE_CENTER)
+
+        # Dynamic dual-stream cycle
+        in_loop = Dot(radius=0.08, color="#62B7E4")
+        out_loop = Dot(radius=0.09, color="#F78908")
+
+        self.play(
+            Create(agent_pulse),
+            Create(core_glow_ring),
+            MoveAlongPath(in_loop, inflow_curve, rate_func=linear, run_time=2.0),
+            run_time=2.0
+        )
+        self.remove(in_loop)
+
+        self.play(
+            FadeOut(agent_pulse),
+            FadeOut(core_glow_ring),
+            MoveAlongPath(out_loop, outflow_curve, rate_func=linear, run_time=2.2),
+            run_time=2.2
+        )
+        self.remove(out_loop)
+
+        # Final tranquil hold with persistent rotating updaters active
+        self.wait(2.48)

@@ -1229,19 +1229,26 @@ LESSON METADATA:
 - Strict Rule: Top-Right PIP (Layout 20%) content must terminate title/lead-in <= 1440px with zero overlap. All diagrams and visual models below y <= 270px (y <= 1.6 in Manim).
 
 SPECIFIC INSTRUCTIONAL DIRECTIVES (SIMPLILEARN OSL 3.0 & SANJEETH KPLOR REVIEW):
-1. PURE VECTOR MOTION GRAPHICS LANGUAGE (NO PPT BOXES / SLIDE CARDS):
-   - Never use slide boxes, bullet cards, or flat rectangular templates.
-   - Autonomously decide the most intuitive physical, mechanical, or geometric visual metaphor that directly demonstrates the instructional concept.
-2. MINIMALISTIC & FOCUSED:
-   - Exactly ONE dominant visual mechanism or transformation centerstage at a time.
-   - Low text architecture: 1 to 3 word labels, concise badges, and numeric metrics. Zero bullet paragraphs.
-3. NO COMPLEX MATHEMATICAL EQUATIONS:
+1. INCREASE NUMBER OF PRESENTATION STEPS TO 7 OR 8:
+   - For any scene longer than 45 seconds, break down the narrative into 6 to 8 short, punchy presentation steps (~8-15s per step).
+   - Short narration per presentation step ensures exact word-level audio-visual synchronization without long visual freezes.
+2. MINIMALISTIC SCREEN WITH FEW FOCAL OBJECTS & CLEAN TRANSITIONS:
+   - Exactly 1 to 2 focal visual objects centerstage at any given time.
+   - Smooth entry, exits and morphing transitions for high pedagogical engagement.
+   - Never clutter the screen with multiple complex diagrams at once.
+3. STRICT LOW-TEXT ARCHITECTURE (NO PPT BOXES, NO TABLES, NO BULLETS):
+   - Low text with strategically placed annotations: strictly 1 to 3 words per label/badge, or numeric metrics.
+   - Zero bullet paragraphs, zero text walls, zero multi-column tabular data matrices.
+4. VISUALLY RICH FRAMEWORKS & LIVING ILLUSTRATIONS:
+   - Autonomously decide intuitive physical, mechanical, or geometric vector primitives (gauges, balance scales, neural cores, dispatch hubs).
+   - Strong cues on pictograms and picture icons rather than text lists.
+5. ZERO CAMERA MOVEMENTS:
+   - Strictly 100% steady camera on 16:9 canvas frame per Simplilearn OSL 3.0.
+6. AVOID DECORATIVE OR EXCESSIVE ELASTIC MOVEMENTS:
+   - Keep motion purposeful, continuous, and harmonic (ambient needle jitter, particle circulation, gentle balance sway).
+7. NO COMPLEX MATHEMATICAL EQUATIONS:
    - Do NOT include complex academic formulas (no argmax, Bellman expectations, cosine similarity proofs, or R^d vectors).
    - Use crisp, domain-accurate professional terminology and clear process flows instead.
-4. WORD-LEVEL AUDIO-VISUAL SYNC:
-   - Each presentation step must have exact synchronized narration matching the spoken audio.
-5. REUSABLE ASSET SPECIFICATION:
-   - Identify concrete vector assets and icons for every step.
 
 MANDATORY OUTPUT JSON SCHEMA:
 {{

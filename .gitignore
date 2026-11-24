@@ -24,6 +24,8 @@ temp_*/
 *.log
 scratch/
 media/
+media*/
+media */
 logs/
 input/
 ppt_trackers/

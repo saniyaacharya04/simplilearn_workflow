@@ -10,8 +10,8 @@ C_RED = "#E58F6D"
 C_WHITE = "#FFFFFF"
 C_BLACK = "#404040"
 C_NAVY_DARK = "#404040"
+import os
 import re
-import numpy as np
 SME_LAYOUT = '70'
 from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
@@ -69,6 +69,7 @@ for _scene_cls in (Scene, MovingCameraScene):
     except Exception:
         pass
 _orig_anim_safe_defined = True
+
 
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -199,22 +200,18 @@ try:
     from manim.utils.rate_functions import *
 except Exception:
     pass
-import os
+import numpy as np
 
-# Base class fallback if InstrumentedScene is not provided in test harness
-try:
-    from utils import InstrumentedScene
-except ImportError:
-    class InstrumentedScene(Scene):
-        def sync_to(self, timestamp: float):
-            current = self.renderer.time
-            if timestamp > current:
-                self.wait(timestamp - current)
+# Fallback definitions to ensure deterministic execution in standard Manim CE
+if "InstrumentedScene" not in globals():
+    class InstrumentedScene:
+        pass
 
-# CrispText helper fallback if not globally defined
-try:
-    from template1_title_intro import CrispText
-except ImportError:
+if "CrispText" not in globals():
+
+
+
+
 
 
 
@@ -331,10 +328,15 @@ except ImportError:
             return orig_scale(tw)
         mob.scale_to_fit_width = safe_scale_width
         return mob
-
 class FinalScene(InstrumentedScene, MovingCameraScene):
+    """
+    Scene 8: Utility-Based Agents & Workflow
+    Layout Archetype: Layout 70 (70% Left Split SME Presentation)
+    Safe presentation workspace: x in [-0.80, +6.40], y in [-3.50, +2.20], center x ≈ +2.80.
+    """
+
     def construct(self):
-        # 1. Canvas Configuration (OSL 3.0 Standard)
+        # 1. Canvas Configuration (OSL 3.0 Modern Soft Light Slate Canvas)
         self.camera.background_color = "#F0F4F8"
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -656,286 +658,402 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
 
-        # Safe Layout Constants for SME 70% Left Split
-        # Content Workspace: x in [-0.80, +6.40], y in [-3.50, +2.20], center_x ≈ +2.80
-        CX = 2.80
-        LEFT_SAFE = -0.80
-        RIGHT_SAFE = 6.40
 
-        # Palette definition (Strict Simplilearn pastel compliance, zero navy, zero green containers)
-        COLOR_TITLE = "#0F172A"
-        COLOR_SUBTITLE = "#475569"
-        COLOR_TEXT = "#404040"
-        COLOR_CARD_BG = "#FFFFFF"
-        COLOR_CARD_BORDER = "#CBD5E1"
-        COLOR_ACCENT_BLUE = "#62B7E4"
-        COLOR_STEEL_BLUE = "#7EA2C8"
-        COLOR_LAVENDER = "#9B99C7"
-        COLOR_AMBER = "#E6A157"
-        COLOR_CORAL = "#E58F6D"
-        COLOR_HIGHLIGHT = "#F78908"
-
-        # Asset Paths
-        path_matrix = "images/scene_8_decision_matrix_icon.png"
-        path_operator = "images/scene_8_engineer_operator.png"
-        path_target = "images/scene_8_goal_target.png"
-
-        # Fallback check for paths
-        alt_prefix = "/Users/saniyaacharya/Simplilearn/output/types_and_architectures_of_ai_agents_sme/"
-        if not os.path.exists(path_matrix) and os.path.exists(alt_prefix + path_matrix):
-            path_matrix = alt_prefix + path_matrix
-        if not os.path.exists(path_operator) and os.path.exists(alt_prefix + path_operator):
-            path_operator = alt_prefix + path_operator
-        if not os.path.exists(path_target) and os.path.exists(alt_prefix + path_target):
-            path_target = alt_prefix + path_target
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
 
 
-        # ---------------------------------------------------------------------
-        ## Presentation Step 1: Utility-Based Agent: Optimized Trade-offs
-        # ---------------------------------------------------------------------
-        title_group = create_title("Utility-Based Agent", "Multi-Objective Decision Matrix & Optimization")
-        self.play(FadeIn(title_group, shift=DOWN * 0.1), run_time=0.8)
 
-        # Hero Asset: Decision Matrix Icon
-        img_matrix = None
-        if os.path.exists(path_matrix):
-            matrix_mob = ImageMobject(path_matrix).scale_to_fit_height(1.3)
-            img_matrix = Group(matrix_mob).move_to(np.array([CX - 2.5, 1.25, 0]))
-            self.play(FadeIn(img_matrix, shift=RIGHT * 0.2), run_time=0.7)
 
-        # Mathematical Utility Badge
-        util_formula_bg = RoundedRectangle(width=3.6, height=0.75, corner_radius=0.1, fill_color=COLOR_CARD_BG, fill_opacity=1, stroke_color=COLOR_AMBER, stroke_width=2)
-        util_formula = MathTex(r"U(a) = \sum w_i \cdot m_i(a)", font_size=20, color=COLOR_TEXT)
-        util_badge = VGroup(util_formula_bg, util_formula).move_to(np.array([CX + 1.2, 1.25, 0]))
-        self.play(FadeIn(util_badge, shift=UP * 0.15), run_time=0.7)
 
-        # Procedural Decision Matrix Table
-        # Columns: Action | Efficiency | Cost | Confidence | Score
-        col_widths = [1.8, 1.2, 1.1, 1.3, 1.0]
-        total_w = sum(col_widths)
-        table_bg = RoundedRectangle(width=total_w + 0.4, height=2.45, corner_radius=0.12, fill_color=COLOR_CARD_BG, fill_opacity=0.95, stroke_color=COLOR_CARD_BORDER, stroke_width=1.5)
-        table_bg.move_to(np.array([CX, -0.65, 0]))
 
-        header_labels = ["Action", "Efficiency", "Cost", "Confidence", "Utility"]
-        headers_grp = VGroup()
-        cur_x = table_bg.get_left()[0] + 0.2
-        for i, (name, w) in enumerate(zip(header_labels, col_widths)):
-            col_center = cur_x + w / 2
-            txt = CrispText(name, size=13, weight="BOLD", color=COLOR_STEEL_BLUE)
-            txt.move_to(np.array([col_center, table_bg.get_top()[1] - 0.28, 0]))
-            headers_grp.add(txt)
-            cur_x += w
 
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # Universal Header Creator for Layout 70 (Left-anchored at x = -0.80)
+
+        # =========================================================================
+        # PRESENTATION STEP 1: Utility-Based Agent: Optimized Trade-offs
+        # =========================================================================
+        ## Presentation Step 1
+
+        title_step1 = create_title(
+            "Utility-Based Agent: Optimized Trade-offs",
+            "Evaluating available options against efficiency, cost, and confidence"
+        )
+        self.play(FadeIn(title_step1, shift=DOWN * 0.15), run_time=0.9)
+
+        # Main Layout Workspace Center: x = 2.80, y = -0.60
+        # Build Decision Matrix & Utility Optimization Engine
+        center_x = 2.80
+        center_y = -0.55
+
+        # Decision Matrix Visual Table (x in [0.20, 5.40])
+        # Columns: Action | Efficiency | Cost | Confidence | Utility Score
+        col_widths = [1.35, 1.05, 0.95, 1.15, 1.10]
+        col_x = []
+        cur_x = -0.60
+        for w in col_widths:
+            col_x.append(cur_x + w / 2.0)
+            cur_x += w + 0.12
+
+        # Header Row
+        headers = ["Action", "Efficiency", "Cost", "Confidence", "Utility"]
+        header_group = VGroup()
+        for idx, (hx, name) in enumerate(zip(col_x, headers)):
+            bg = RoundedRectangle(
+                width=col_widths[idx], height=0.42, corner_radius=0.074,
+                fill_color="#7EA2C8" if name != "Utility" else "#E6A157",
+                fill_opacity=0.9, stroke_color="#CBD5E1", stroke_width=1.2
+            ).move_to(np.array([hx, 1.25, 0]))
+            lbl = CrispText(name, size=13, weight=BOLD, color="#FFFFFF").move_to(bg)
+            header_group.add(VGroup(bg, lbl))
+
+        # Matrix Data Rows
+        # [Full Report], [Summary], [Escalate], [Log]
         row_data = [
-            ("Full Report", "0.45", "0.30", "0.95", "0.62"),
-            ("Diagnostic Summary", "0.85", "0.75", "0.88", "0.84"),
-            ("Escalate Anomaly", "0.60", "0.40", "0.90", "0.67"),
-            ("Passive Log", "0.95", "0.90", "0.40", "0.68"),
+            ("Full Report", "0.62", "High", "0.95", "0.78", "#FFFFFF"),
+            ("Summary", "0.94", "Low", "0.88", "0.92", "#FFFFFF"),       # Optimal Choice!
+            ("Escalate", "0.45", "Medium", "0.82", "0.64", "#FFFFFF"),
+            ("Log Review", "0.85", "Low", "0.70", "0.77", "#FFFFFF"),
         ]
 
-        rows_grp = VGroup()
-        row_highlights = []
-        for r_idx, (act, eff, cst, conf, score) in enumerate(row_data):
-            y_pos = table_bg.get_top()[1] - 0.65 - (r_idx * 0.42)
-            cur_x = table_bg.get_left()[0] + 0.2
+        row_groups = VGroup()
+        matrix_rows = []
+        y_cursor = 0.65
 
-            row_items = [act, eff, cst, conf, score]
-            r_elements = VGroup()
-            for c_idx, (val, w) in enumerate(zip(row_items, col_widths)):
-                col_center = cur_x + w / 2
-                is_bold = (c_idx == 0 or c_idx == 4)
-                color = COLOR_TITLE if is_bold else COLOR_TEXT
-                val_txt = CrispText(val, size=12, weight="BOLD" if is_bold else "NORMAL", color=color)
-                val_txt.move_to(np.array([col_center, y_pos, 0]))
-                r_elements.add(val_txt)
-                cur_x += w
+        for r_idx, (act, eff, cost, conf, score, bg_col) in enumerate(row_data):
+            row_items = [act, eff, cost, conf, score]
+            r_vgroup = VGroup()
+            for c_idx, (cx, val) in enumerate(zip(col_x, row_items)):
+                cell_box = RoundedRectangle(
+                    width=col_widths[c_idx], height=0.46, corner_radius=0.074,
+                    fill_color=bg_col, fill_opacity=0.95,
+                    stroke_color="#E2E8F0", stroke_width=1.0
+                ).move_to(np.array([cx, y_cursor, 0]))
 
-            # Box outline for rows
-            row_box = RoundedRectangle(width=total_w + 0.2, height=0.38, corner_radius=0.06, fill_color="#F8FAFC", fill_opacity=0.6, stroke_width=0.8, stroke_color="#E2E8F0")
-            row_box.move_to(np.array([table_bg.get_center()[0], y_pos, 0]))
-            rows_grp.add(VGroup(row_box, r_elements))
+                val_color = "#0F172A" if c_idx == 0 else ("#E6A157" if c_idx == 4 else "#334155")
+                val_weight = BOLD if c_idx in (0, 4) else NORMAL
+                val_text = CrispText(val, size=13, weight=val_weight, color=val_color).move_to(cell_box)
+                r_vgroup.add(VGroup(cell_box, val_text))
+            
+            row_groups.add(r_vgroup)
+            matrix_rows.append(r_vgroup)
+            y_cursor -= 0.56
 
-        matrix_assembly = VGroup(table_bg, headers_grp, rows_grp)
-        self.play(FadeIn(table_bg), LaggedStart(*[FadeIn(h) for h in headers_grp], lag_ratio=0.1), run_time=1.0)
-        self.play(LaggedStart(*[FadeIn(r) for r in rows_grp], lag_ratio=0.15), run_time=1.4)
+        matrix_assembly = VGroup(header_group, row_groups)
 
-        # Kinetic AI Optimization: Highlight the winning path ("Diagnostic Summary" with score 0.84)
-        best_row = rows_grp[1]
-        best_stroke = RoundedRectangle(width=total_w + 0.22, height=0.40, corner_radius=0.06, fill_opacity=0, stroke_color=COLOR_HIGHLIGHT, stroke_width=3.5)
-        best_stroke.move_to(best_row.get_center())
+        # Procedural AI Cognitive Reasoning Core on Right Side / Floating Anchor
+        # (Neural Core Evaluating Options)
+        ai_core_center = np.array([5.70, 0.40, 0])
+        core_outer_ring = Arc(radius=0.65, angle=2 * np.pi, color="#62B7E4", stroke_width=2.5).move_to(ai_core_center)
+        core_inner_ring = Arc(radius=0.45, angle=2 * np.pi, color="#9B99C7", stroke_width=2.0).move_to(ai_core_center)
+        core_hub = Dot(point=ai_core_center, radius=0.28, color="#2C81FE")
+        core_lbl = CrispText("Utility AI", size=11, weight=BOLD, color="#FFFFFF").move_to(ai_core_center)
+        ai_core = VGroup(core_outer_ring, core_inner_ring, core_hub, core_lbl)
 
-        opt_badge = RoundedRectangle(width=1.9, height=0.36, corner_radius=0.08, fill_color=COLOR_AMBER, fill_opacity=1, stroke_width=0)
-        opt_label = CrispText("Optimal Path: 0.84", size=11, weight="BOLD", color="#FFFFFF")
-        best_tag = VGroup(opt_badge, opt_label).next_to(best_stroke, RIGHT, buff=0.2)
+        # Mini Utility Function Spline Curve below Matrix (y in [-2.50, -1.50])
+        curve_axes = Axes(
+            x_range=[0, 4, 1], y_range=[0, 1.2, 0.5],
+            x_length=3.4, y_length=1.3,
+            axis_config={"color": "#94A3B8", "stroke_width": 1.5, "include_tip": False}
+        ).move_to(np.array([1.25, -2.40, 0]))
 
-        # Animated trade-off scanning sweep
-        scan_line = Line(table_bg.get_left() + UP * 0.5, table_bg.get_right() + UP * 0.5, stroke_color=COLOR_ACCENT_BLUE, stroke_width=2.5)
-        self.play(FadeIn(scan_line), run_time=0.4)
-        self.play(scan_line.animate.shift(DOWN * 1.8), run_time=1.4, rate_func=smooth)
-        self.play(FadeOut(scan_line), Create(best_stroke), FadeIn(best_tag, shift=LEFT * 0.15), run_time=0.8)
+        def utility_func(x):
+            return 1.05 * np.exp(-0.45 * (x - 2.0) ** 2)
 
-        # Subtle live pulse on chosen path
-        pulse_ring = best_stroke.copy().set_fill(opacity=0).set_stroke(color=COLOR_HIGHLIGHT, width=5)
-        self.play(pulse_ring.animate.scale(1.03).set_opacity(0), run_time=0.9)
-        self.remove(pulse_ring)
+        curve_graph = curve_axes.plot(utility_func, x_range=[0.3, 3.7], color="#E6A157", stroke_width=3.2)
+        curve_tag = CrispText("Utility Function Curve: U(Action)", size=12, weight=BOLD, color="#0F172A")
+        curve_tag.next_to(curve_axes, UP, buff=0.15, aligned_edge=LEFT)
+        curve_group = VGroup(curve_axes, curve_graph, curve_tag)
 
-        # Maintain ambient continuity through step narration
-        self.sync_to(109.48)
+        # Trade-Off Decision Pills (Summary vs Full Report)
+        tradeoff_box = RoundedRectangle(
+            width=2.8, height=1.45, corner_radius=0.074,
+            fill_color="#FFFFFF", fill_opacity=0.95, stroke_color="#62B7E4", stroke_width=1.5
+        ).move_to(np.array([4.65, -2.40, 0]))
+        to_title = CrispText("Dynamic Trade-Off", size=13, weight=BOLD, color="#0F172A").move_to(np.array([4.65, -1.85, 0]))
+        to_line1 = CrispText("Diagnostic Depth vs Speed", size=12, weight=NORMAL, color="#334155").move_to(np.array([4.65, -2.25, 0]))
+        to_line2 = CrispText("Score: 0.92 (Optimal)", size=13, weight=BOLD, color="#E6A157").move_to(np.array([4.65, -2.65, 0]))
+        tradeoff_group = VGroup(tradeoff_box, to_title, to_line1, to_line2)
 
-        # ---------------------------------------------------------------------
-        ## Presentation Step 2: Complete Agent Workflow
-        # ---------------------------------------------------------------------
-        new_title_group = create_title("Complete Agent Workflow", "Continuous Perceive - Reason - Act Execution Loop")
+        # Entrance Choreography for Step 1
+        self.play(FadeIn(header_group, shift=DOWN * 0.2), run_time=1.0)
+        for r in row_groups:
+            self.play(FadeIn(r, shift=RIGHT * 0.15), run_time=0.45)
+        
+        self.play(GrowFromCenter(ai_core), run_time=1.0)
+        self.play(FadeIn(curve_group, shift=UP * 0.2), FadeIn(tradeoff_group, shift=UP * 0.2), run_time=1.2)
+
+        # Active Scanning Simulation: AI Core evaluates each row with kinetic laser sweep
+        eval_line = Line(ai_core_center, matrix_rows[0].get_right(), color="#9B99C7", stroke_width=2.5)
+        self.play(Create(eval_line), run_time=0.6)
+
+        for i in range(1, 4):
+            new_line = Line(ai_core_center, matrix_rows[i].get_right(), color="#9B99C7", stroke_width=2.5)
+            self.play(ReplacementTransform(eval_line, new_line), run_time=0.55)
+            eval_line = new_line
+
+        self.play(FadeOut(eval_line), run_time=0.4)
+
+        # Highlight optimal choice: Row 1 ("Summary" - Score 0.92)
+        optimal_row = matrix_rows[1]
+        highlight_box = RoundedRectangle(
+            width=optimal_row.width + 0.18, height=optimal_row.height + 0.12, corner_radius=0.074,
+            stroke_color="#F78908", stroke_width=3.5, fill_opacity=0
+        ).move_to(optimal_row)
+
+        star_badge = Star(n=5, outer_radius=0.18, inner_radius=0.09, color="#F78908", fill_opacity=1.0)
+        star_badge.next_to(highlight_box, LEFT, buff=0.15)
+
+        self.play(Create(highlight_box), FadeIn(star_badge, scale=1.3), run_time=1.1)
+
+        # Ambient live rotation of AI Core during extended spoken narration
+        rot_tracker = ValueTracker(0)
+        def rotate_rings(m, dt):
+            core_outer_ring.rotate(0.35 * dt)
+            core_inner_ring.rotate(-0.45 * dt)
+
+        core_outer_ring.add_updater(rotate_rings)
+        self.wait(14.0)
+        core_outer_ring.remove_updater(rotate_rings)
+
+        # =========================================================================
+        # PRESENTATION STEP 2: Complete Agent Workflow
+        # =========================================================================
+        ## Presentation Step 2
+
+        title_step2 = create_title(
+            "Complete Agent Workflow",
+            "Perceive -> Reason -> Act cyclic loop with goal progression and error diversion"
+        )
+
+        # Transition Step 1 out cleanly
+        step1_mobs = VGroup(matrix_assembly, ai_core, curve_group, tradeoff_group, highlight_box, star_badge)
         self.play(
-            ReplacementTransform(title_group, new_title_group),
-            FadeOut(matrix_assembly),
-            FadeOut(best_stroke),
-            FadeOut(best_tag),
-            FadeOut(util_badge),
-            FadeOut(img_matrix) if img_matrix else Wait(0.01),
+            ReplacementTransform(title_step1, title_step2),
+            FadeOut(step1_mobs, shift=DOWN * 0.2),
             run_time=0.9
         )
-        title_group = new_title_group
 
-        # Goal Node on the Left
-        img_target = None
-        if os.path.exists(path_target):
-            target_mob = ImageMobject(path_target).scale_to_fit_height(1.1)
-            img_target = Group(target_mob).move_to(np.array([LEFT_SAFE + 0.6, -0.4, 0]))
-            self.play(FadeIn(img_target, shift=RIGHT * 0.2), run_time=0.7)
+        # Build Complete PRA Loop Diagram in Safe Workspace: x in [-0.60, 6.20], y in [-3.20, 1.80]
+        # Nodes:
+        # 1. Goal Input Node: x = -0.10, y = 0.50
+        # 2. Perceive Node: x = 1.90, y = 1.10
+        # 3. Reason Node: x = 4.10, y = 0.50
+        # 4. Act Node: x = 3.00, y = -1.10
+        # 5. Goal Achieved Badge: x = 5.60, y = -1.10
+        # 6. Error Condition Branch: x = 1.60, y = -1.90
 
-        goal_label = CrispText("Goal Ingestion", size=13, weight="BOLD", color=COLOR_TITLE)
-        goal_sub = CrispText("Solar Site Anomaly", size=11, weight="NORMAL", color=COLOR_SUBTITLE)
-        goal_text_grp = VGroup(goal_label, goal_sub).arrange(DOWN, aligned_edge=ORIGIN, buff=0.06)
-        goal_text_grp.next_to(img_target if img_target else np.array([LEFT_SAFE + 0.6, -0.4, 0]), DOWN, buff=0.15)
-        self.play(FadeIn(goal_text_grp), run_time=0.5)
+        def create_workflow_node(text_title, subtitle, color_border, pos, icon_sym=None):
+            box = RoundedRectangle(
+                width=1.90, height=1.05, corner_radius=0.074,
+                fill_color="#FFFFFF", fill_opacity=0.98,
+                stroke_color=color_border, stroke_width=2.4
+            ).move_to(pos)
+            top_pill = RoundedRectangle(
+                width=1.70, height=0.34, corner_radius=0.074,
+                fill_color=color_border, fill_opacity=0.18, stroke_width=0
+            ).move_to(pos + UP * 0.26)
+            t_title = CrispText(text_title, size=14, weight=BOLD, color="#0F172A").move_to(top_pill)
+            t_sub = CrispText(subtitle, size=11, weight=NORMAL, color="#334155").move_to(pos + DOWN * 0.22)
+            return VGroup(box, top_pill, t_title, t_sub)
 
-        # P-R-A Circular / Loop Workflow Nodes
-        # Node Layout coordinates around a loop center
-        LOOP_CENTER = np.array([CX + 0.7, -0.4, 0])
-        R_LOOP = 1.55
+        node_goal = create_workflow_node("Goal Input", "Arrives to Agent", "#62B7E4", np.array([-0.05, 0.40, 0]))
+        node_perceive = create_workflow_node("Perceive", "Context Update", "#7EA2C8", np.array([2.30, 1.15, 0]))
+        node_reason = create_workflow_node("Reason", "Plan & Evaluate", "#9B99C7", np.array([4.75, 0.40, 0]))
+        node_act = create_workflow_node("Act", "Execute Tool/Action", "#E6A157", np.array([2.95, -0.95, 0]))
 
-        p_pos = LOOP_CENTER + np.array([-R_LOOP * 0.866, R_LOOP * 0.5, 0])
-        r_pos = LOOP_CENTER + np.array([0, -R_LOOP * 0.9, 0])
-        a_pos = LOOP_CENTER + np.array([R_LOOP * 0.866, R_LOOP * 0.5, 0])
+        # Connecting Directed Arrows
+        arr_g_to_p = Arrow(node_goal.get_top(), node_perceive.get_left(), buff=0.12, color="#62B7E4", stroke_width=2.5)
+        arr_p_to_r = Arrow(node_perceive.get_right(), node_reason.get_top(), buff=0.12, color="#7EA2C8", stroke_width=2.5)
+        arr_r_to_a = Arrow(node_reason.get_bottom(), node_act.get_right(), buff=0.12, color="#9B99C7", stroke_width=2.5)
+        arr_a_to_p = Arrow(node_act.get_left(), node_perceive.get_bottom(), buff=0.12, color="#E6A157", stroke_width=2.5)
 
-        def make_node(label_text, sub_text, color, pos):
-            bg = RoundedRectangle(width=2.1, height=0.95, corner_radius=0.12, fill_color=COLOR_CARD_BG, fill_opacity=1, stroke_color=color, stroke_width=2.5)
-            t1 = CrispText(label_text, size=13, weight="BOLD", color=COLOR_TITLE)
-            t2 = CrispText(sub_text, size=11, weight="NORMAL", color=COLOR_SUBTITLE)
-            txt = VGroup(t1, t2).arrange(DOWN, buff=0.05)
-            fit_into_box(txt, bg, pad_x=0.2, pad_y=0.08)
-            grp = VGroup(bg, txt).move_to(pos)
-            return grp
+        loop_arrows = VGroup(arr_g_to_p, arr_p_to_r, arr_r_to_a, arr_a_to_p)
 
-        node_perceive = make_node("Perceive", "Context Ingestion", COLOR_ACCENT_BLUE, p_pos)
-        node_reason = make_node("Reason", "Utility Optimization", COLOR_AMBER, r_pos)
-        node_act = make_node("Act", "Tool & Dispatch", COLOR_CORAL, a_pos)
+        # Goal Progress Bar at top-right: x in [3.40, 6.00], y = 1.95
+        p_frame = RoundedRectangle(
+            width=2.6, height=0.38, corner_radius=0.074,
+            fill_color="#FFFFFF", fill_opacity=0.9, stroke_color="#CBD5E1", stroke_width=1.2
+        ).move_to(np.array([4.65, 1.90, 0]))
+        p_fill = RoundedRectangle(
+            width=1.95, height=0.26, corner_radius=0.074,
+            fill_color="#62B7E4", fill_opacity=0.9, stroke_width=0
+        ).align_to(p_frame, LEFT).shift(RIGHT * 0.06)
+        p_lbl = CrispText("Goal Progress: 75%", size=11, weight=BOLD, color="#0F172A").move_to(p_frame)
+        progress_bar = VGroup(p_frame, p_fill, p_lbl)
 
-        # Directed Conduit Flow
-        arrow_goal = Arrow(goal_text_grp.get_right() + UP * 0.3, node_perceive.get_left(), buff=0.15, stroke_width=3, color=COLOR_STEEL_BLUE)
-        arrow_pr = CurvedArrow(node_perceive.get_bottom(), node_reason.get_left(), angle=0.45, stroke_width=3, color=COLOR_ACCENT_BLUE)
-        arrow_ra = CurvedArrow(node_reason.get_right(), node_act.get_bottom(), angle=0.45, stroke_width=3, color=COLOR_AMBER)
-        arrow_ap = CurvedArrow(node_act.get_bottom() + DOWN*0.1, node_perceive.get_bottom() + DOWN*0.1, angle=0.6, stroke_width=3, color=COLOR_CORAL)
+        # Error Condition Node branching off Act/Reason
+        error_box = RoundedRectangle(
+            width=2.10, height=0.88, corner_radius=0.074,
+            fill_color="#FFFFFF", fill_opacity=0.98, stroke_color="#E58F6D", stroke_width=2.2
+        ).move_to(np.array([0.55, -2.40, 0]))
+        err_icon = Star(n=4, outer_radius=0.18, inner_radius=0.08, color="#E58F6D", fill_opacity=1.0)
+        err_icon.move_to(np.array([-0.20, -2.40, 0]))
+        err_t1 = CrispText("Error Condition", size=13, weight=BOLD, color="#0F172A").move_to(np.array([0.80, -2.25, 0]))
+        err_t2 = CrispText("Anomaly Detected", size=11, weight=NORMAL, color="#334155").move_to(np.array([0.80, -2.55, 0]))
+        node_error = VGroup(error_box, err_icon, err_t1, err_t2)
+
+        arr_error = CurvedArrow(node_act.get_bottom(), error_box.get_right(), angle=-0.5, color="#E58F6D", stroke_width=2.5)
+
+        # Success / Goal Achieved Badge
+        achieved_box = RoundedRectangle(
+            width=1.90, height=0.88, corner_radius=0.074,
+            fill_color="#FFFFFF", fill_opacity=0.98, stroke_color="#8ECDB7", stroke_width=2.2
+        ).move_to(np.array([5.20, -2.40, 0]))
+        ach_icon = Dot(point=np.array([4.45, -2.40, 0]), radius=0.14, color="#8ECDB7")
+        ach_t1 = CrispText("Goal Achieved", size=13, weight=BOLD, color="#0F172A").move_to(np.array([5.40, -2.25, 0]))
+        ach_t2 = CrispText("Action Verified", size=11, weight=NORMAL, color="#334155").move_to(np.array([5.40, -2.55, 0]))
+        node_achieved = VGroup(achieved_box, ach_icon, ach_t1, ach_t2)
+
+        arr_success = CurvedArrow(node_act.get_right(), achieved_box.get_top(), angle=0.4, color="#8ECDB7", stroke_width=2.5)
+
+        # Entrance Sequence
+        self.play(FadeIn(node_goal, shift=RIGHT * 0.2), FadeIn(progress_bar, shift=DOWN * 0.1), run_time=0.9)
+        self.play(Create(arr_g_to_p), FadeIn(node_perceive, shift=DOWN * 0.2), run_time=0.85)
+        self.play(Create(arr_p_to_r), FadeIn(node_reason, shift=LEFT * 0.2), run_time=0.85)
+        self.play(Create(arr_r_to_a), FadeIn(node_act, shift=UP * 0.2), run_time=0.85)
+        self.play(Create(arr_a_to_p), run_time=0.7)
+
+        # Particle Data Packet Cycling through the Loop (2 complete cycles)
+        packet = Dot(radius=0.13, color="#F78908")
+        packet.move_to(arr_g_to_p.get_start())
+        self.add(packet)
+        self.play(MoveAlongPath(packet, arr_g_to_p), run_time=0.7)
+        self.play(MoveAlongPath(packet, arr_p_to_r), run_time=0.7)
+        self.play(MoveAlongPath(packet, arr_r_to_a), run_time=0.7)
+        self.play(MoveAlongPath(packet, arr_a_to_p), run_time=0.7)
+
+        # Cycle 2 with progress bar update
+        new_fill = RoundedRectangle(
+            width=2.45, height=0.26, corner_radius=0.074,
+            fill_color="#62B7E4", fill_opacity=0.9, stroke_width=0
+        ).align_to(p_frame, LEFT).shift(RIGHT * 0.06)
+        new_lbl = CrispText("Goal Progress: 100%", size=11, weight=BOLD, color="#0F172A").move_to(p_frame)
 
         self.play(
-            FadeIn(arrow_goal),
-            FadeIn(node_perceive),
-            FadeIn(arrow_pr),
-            FadeIn(node_reason),
-            FadeIn(arrow_ra),
-            FadeIn(node_act),
-            FadeIn(arrow_ap),
-            run_time=1.5
-        )
-
-        # Dynamic Goal Progress Bar at the Top
-        progress_border = RoundedRectangle(width=3.6, height=0.32, corner_radius=0.08, fill_color=COLOR_CARD_BG, fill_opacity=1, stroke_color=COLOR_CARD_BORDER, stroke_width=1.5)
-        progress_fill = RoundedRectangle(width=0.4, height=0.24, corner_radius=0.06, fill_color=COLOR_AMBER, fill_opacity=1, stroke_width=0)
-        progress_fill.align_to(progress_border, LEFT).shift(RIGHT * 0.04)
-        progress_label = CrispText("Goal Convergence: Iteration 1", size=12, weight="BOLD", color=COLOR_TITLE)
-        progress_grp = VGroup(progress_label, VGroup(progress_border, progress_fill).arrange(RIGHT, buff=0.15)).arrange(UP, aligned_edge=LEFT, buff=0.1)
-        progress_grp.move_to(np.array([CX + 0.7, 1.45, 0]))
-        self.play(FadeIn(progress_grp), run_time=0.7)
-
-        # Flowing Kinetic Data Particles (Cycle 1 & Cycle 2)
-        dot_particle = Dot(radius=0.09, color=COLOR_HIGHLIGHT)
-        self.play(MoveAlongPath(dot_particle, arrow_goal, run_time=0.6, rate_func=linear))
-        self.play(MoveAlongPath(dot_particle, arrow_pr, run_time=0.7, rate_func=linear))
-        self.play(MoveAlongPath(dot_particle, arrow_ra, run_time=0.7, rate_func=linear))
-        self.play(MoveAlongPath(dot_particle, arrow_ap, run_time=0.7, rate_func=linear))
-
-        # Iteration 2 update
-        self.play(
-            progress_fill.animate.stretch_to_fit_width(2.2).align_to(progress_border, LEFT).shift(RIGHT * 0.04),
-            progress_label.animate.become(CrispText("Goal Convergence: Iteration 2", size=12, weight="BOLD", color=COLOR_TITLE).move_to(progress_label)),
+            MoveAlongPath(packet, arr_p_to_r),
+            Transform(p_fill, new_fill),
+            Transform(p_lbl, new_lbl),
             run_time=0.8
         )
-        self.play(MoveAlongPath(dot_particle, arrow_pr, run_time=0.6, rate_func=linear))
-        self.play(MoveAlongPath(dot_particle, arrow_ra, run_time=0.6, rate_func=linear))
-        self.remove(dot_particle)
+        self.play(MoveAlongPath(packet, arr_r_to_a), run_time=0.7)
+        self.remove(packet)
 
-        # Goal Completion Badge
-        achieve_bg = RoundedRectangle(width=2.5, height=0.55, corner_radius=0.1, fill_color=COLOR_CARD_BG, fill_opacity=1, stroke_color=COLOR_AMBER, stroke_width=2)
-        achieve_txt = CrispText("★ Goal Achieved", size=12, weight="BOLD", color=COLOR_TITLE)
-        fit_into_box(achieve_txt, achieve_bg, pad_x=0.2, pad_y=0.08)
-        goal_achieved_badge = VGroup(achieve_bg, achieve_txt).move_to(LOOP_CENTER)
-        self.play(FadeIn(goal_achieved_badge, scale=0.9), run_time=0.7)
+        # Reveal Branch Options: Error Divert & Goal Achieved
+        self.play(Create(arr_error), FadeIn(node_error, shift=UP * 0.15), run_time=0.9)
+        self.play(Create(arr_success), FadeIn(node_achieved, shift=UP * 0.15), run_time=0.9)
 
-        self.sync_to(151.73)
+        self.wait(10.0)
 
-        # ---------------------------------------------------------------------
-        ## Presentation Step 3: Responsible Handoff
-        # ---------------------------------------------------------------------
-        third_title_group = create_title("Responsible Escalation & Handoff", "Recognizing Confidence Limits & Engaging Human Oversight")
-        self.remove(new_title_group)
-        self.play(
-            ReplacementTransform(title_group, third_title_group),
-            FadeOut(goal_achieved_badge),
-            run_time=0.8
+        # =========================================================================
+        # PRESENTATION STEP 3: Responsible Handoff
+        # =========================================================================
+        ## Presentation Step 3
+
+        title_step3 = create_title(
+            "Responsible Handoff",
+            "Escalation when confidence limits are reached is sound architecture"
         )
-        title_group = third_title_group
 
-        # Human Engineer Operator Asset
-        img_operator = None
-        if os.path.exists(path_operator):
-            operator_mob = ImageMobject(path_operator).scale_to_fit_height(1.4)
-            img_operator = Group(operator_mob).move_to(np.array([RIGHT_SAFE - 0.7, -1.9, 0]))
-            self.play(FadeIn(img_operator, shift=LEFT * 0.2), run_time=0.8)
+        self.play(FadeOut(title_step2), run_time=0.35)
+        self.play(FadeIn(title_step3, shift=DOWN * 0.1), run_time=0.45)
 
-        operator_label = CrispText("Human Specialist", size=13, weight="BOLD", color=COLOR_TITLE)
-        operator_sub = CrispText("Solara Engineering Lead", size=11, weight="NORMAL", color=COLOR_SUBTITLE)
-        operator_txt_grp = VGroup(operator_label, operator_sub).arrange(DOWN, aligned_edge=ORIGIN, buff=0.05)
-        operator_txt_grp.next_to(img_operator if img_operator else np.array([RIGHT_SAFE - 0.7, -1.9, 0]), DOWN, buff=0.12)
-        self.play(FadeIn(operator_txt_grp), run_time=0.5)
+        # Persistence: Fade out obsolete goal achieved badge & error node to focus on Human Handoff
+        self.play(
+            FadeOut(node_achieved), FadeOut(arr_success),
+            FadeOut(node_error), FadeOut(arr_error),
+            run_time=0.7
+        )
 
-        # Confidence Telemetry Gauge (near Reason node)
-        gauge_bg = RoundedRectangle(width=2.7, height=1.05, corner_radius=0.1, fill_color=COLOR_CARD_BG, fill_opacity=1, stroke_color=COLOR_CORAL, stroke_width=2)
-        gauge_title = CrispText("Confidence Telemetry", size=11, weight="BOLD", color=COLOR_CORAL)
-        gauge_val = CrispText("Low: 0.32 < Threshold", size=12, weight="BOLD", color=COLOR_CORAL)
-        gauge_grp = VGroup(gauge_bg, VGroup(gauge_title, gauge_val).arrange(DOWN, buff=0.08)).move_to(np.array([CX - 0.8, -2.4, 0]))
-        self.play(FadeIn(gauge_grp, shift=UP * 0.15), run_time=0.7)
+        # Human Engineer Station Asset / Procedural Vector Glyph (x = 4.80, y = -2.30)
+        eng_plinth = RoundedRectangle(
+            width=2.50, height=1.35, corner_radius=0.074,
+            fill_color="#FFFFFF", fill_opacity=0.98,
+            stroke_color="#8ECDB7", stroke_width=2.5
+        ).move_to(np.array([4.65, -2.25, 0]))
 
-        # Escalation Branch Path from Reason node to Human Engineer
-        handoff_path = CurvedArrow(node_reason.get_bottom(), (img_operator if img_operator else operator_txt_grp).get_left() + UP * 0.2, angle=-0.35, stroke_width=3.5, color=COLOR_CORAL)
-        handoff_pill_bg = RoundedRectangle(width=2.4, height=0.4, corner_radius=0.08, fill_color=COLOR_CARD_BG, fill_opacity=1, stroke_color=COLOR_CORAL, stroke_width=1.5)
-        handoff_pill_txt = CrispText("Responsible Handoff", size=11, weight="BOLD", color=COLOR_CORAL)
-        fit_into_box(handoff_pill_txt, handoff_pill_bg, pad_x=0.2, pad_y=0.08)
-        handoff_pill = VGroup(handoff_pill_bg, handoff_pill_txt).move_to(handoff_path.point_from_proportion(0.5) + DOWN * 0.28)
+        # Engineer Avatar Glyphs
+        eng_center = np.array([3.85, -2.25, 0])
+        hard_hat = Arc(radius=0.26, angle=np.pi, color="#DDB945", stroke_width=3.5).move_to(eng_center + UP * 0.12)
+        hat_brim = Line(eng_center + UP * 0.12 + LEFT * 0.30, eng_center + UP * 0.12 + RIGHT * 0.30, color="#DDB945", stroke_width=2.5)
+        face_circle = Circle(radius=0.18, color="#0F172A", stroke_width=1.8).move_to(eng_center)
+        shoulders = Arc(radius=0.35, angle=np.pi, color="#0F172A", stroke_width=2.0).move_to(eng_center + DOWN * 0.28)
+        engineer_glyph = VGroup(face_circle, hard_hat, hat_brim, shoulders)
 
-        self.play(Create(handoff_path), FadeIn(handoff_pill), run_time=1.0)
+        eng_lbl1 = CrispText("Human Engineer", size=13, weight=BOLD, color="#0F172A").move_to(np.array([5.15, -2.05, 0]))
+        eng_lbl2 = CrispText("Solara Operations", size=11, weight=NORMAL, color="#334155").move_to(np.array([5.15, -2.35, 0]))
+        eng_status = CrispText("Expert In The Loop", size=10, weight=BOLD, color="#8ECDB7").move_to(np.array([5.15, -2.60, 0]))
 
-        # Pulse indicator packet traveling down escalation route
-        alert_packet = Dot(radius=0.1, color=COLOR_HIGHLIGHT)
-        self.play(MoveAlongPath(alert_packet, handoff_path, run_time=1.1, rate_func=smooth))
+        human_engineer_station = VGroup(eng_plinth, engineer_glyph, eng_lbl1, eng_lbl2, eng_status)
 
-        # Spotlight highlight on Human Operator
-        operator_highlight = RoundedRectangle(width=2.2, height=2.4, corner_radius=0.15, fill_opacity=0, stroke_color=COLOR_HIGHLIGHT, stroke_width=3.5)
-        operator_highlight.move_to(np.array([RIGHT_SAFE - 0.7, -2.1, 0]))
-        self.play(Create(operator_highlight), run_time=0.7)
-        self.remove(alert_packet)
+        # Animated Escalation / Handoff Path branching from Reason to Human Engineer
+        handoff_path = CurvedArrow(
+            node_reason.get_right() + DOWN * 0.15,
+            eng_plinth.get_top() + RIGHT * 0.20,
+            angle=-0.6, color="#8ECDB7", stroke_width=3.5
+        )
 
-        # Continuous gentle pulse on operator highlight for remaining narration
-        self.play(operator_highlight.animate.set_stroke(color=COLOR_AMBER, width=2.5), run_time=1.2)
+        handoff_pill = RoundedRectangle(
+            width=2.0, height=0.38, corner_radius=0.074,
+            fill_color="#8ECDB7", fill_opacity=0.95, stroke_width=0
+        ).move_to(np.array([5.45, -0.75, 0]))
+        handoff_tag = CrispText("Responsible Handoff", size=11, weight=BOLD, color="#FFFFFF").move_to(handoff_pill)
+        handoff_badge = VGroup(handoff_pill, handoff_tag)
 
-        self.sync_to(183.06)
+        # Confidence Gauge near Reason Node (x = 0.60, y = -1.00)
+        gauge_bg = RoundedRectangle(
+            width=2.20, height=1.35, corner_radius=0.074,
+            fill_color="#FFFFFF", fill_opacity=0.98,
+            stroke_color="#E58F6D", stroke_width=2.0
+        ).move_to(np.array([0.65, -1.05, 0]))
+
+        gauge_arc = Arc(radius=0.45, start_angle=0, angle=np.pi, color="#CBD5E1", stroke_width=4.0).move_to(np.array([0.65, -0.95, 0]))
+        needle = Line(np.array([0.65, -0.95, 0]), np.array([0.35, -0.75, 0]), color="#E58F6D", stroke_width=3.0)
+        gauge_title = CrispText("Confidence Gauge", size=12, weight=BOLD, color="#0F172A").move_to(np.array([0.65, -0.55, 0]))
+        gauge_val = CrispText("Confidence: Low (0.41)", size=11, weight=BOLD, color="#E58F6D").move_to(np.array([0.65, -1.45, 0]))
+        confidence_gauge = VGroup(gauge_bg, gauge_arc, needle, gauge_title, gauge_val)
+
+        # Entrance Sequence for Step 3
+        self.play(FadeIn(confidence_gauge, shift=RIGHT * 0.15), run_time=0.9)
+        self.play(Create(handoff_path), FadeIn(handoff_badge, scale=1.1), run_time=1.1)
+        self.play(FadeIn(human_engineer_station, shift=UP * 0.2), run_time=1.0)
+
+        # Flow packet of the Solara Site anomaly moving along the escalation path
+        anomaly_packet = Dot(radius=0.14, color="#F78908").move_to(node_reason.get_right() + DOWN * 0.15)
+        self.add(anomaly_packet)
+        self.play(MoveAlongPath(anomaly_packet, handoff_path), run_time=1.2)
+        self.remove(anomaly_packet)
+
+        # Animate Pulse Highlight on Human Station confirming safe reception of anomaly
+        pulse_highlight = eng_plinth.copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)
+        self.play(Create(pulse_highlight), run_time=0.7)
+        self.play(FadeOut(pulse_highlight), run_time=0.5)
+
+        # Final calm hold to finish narration synchronized and stable
+        self.wait(12.0)
