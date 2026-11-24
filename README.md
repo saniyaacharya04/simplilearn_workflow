@@ -1,6 +1,6 @@
-# Simplilearn OSL 3.0 Presentation & Video Production Pipeline
+# Kplor-Record-Edit: Simplilearn & Kplor AI Presentation & Video Production Pipeline
 
-Production-grade educational presentation and video engineering pipeline developed in strict compliance with **Simplilearn Online Self-Learning (OSL 3.0)** standards and post-production guidelines.
+Editing recorded SME videos, inclusion of Kplor artefacts, and production-grade educational presentation engineering in strict compliance with **Simplilearn Online Self-Learning (OSL 3.0)** standards and post-production guidelines.
 
 ---
 
