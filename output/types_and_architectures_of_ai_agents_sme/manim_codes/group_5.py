@@ -67,6 +67,7 @@ for _scene_cls in (Scene, MovingCameraScene):
         pass
 _orig_anim_safe_defined = True
 
+
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
         pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -205,7 +206,6 @@ for _k in dir(_rf):
 
 
 
-
 def CrispText(text, size=24, font="Open Sans", **kwargs):
     if "font_size" in kwargs:
         size = kwargs.pop("font_size")
@@ -318,7 +318,6 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-
 class PulsingShockwaves(VGroup):
     def __init__(self, center, color="#E6A157", max_radius=1.1, num_rings=3, **kwargs):
         super().__init__(**kwargs)
@@ -790,6 +789,24 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
 
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         # Safe Workspace for Layout 70 (70% Left Split SME):
         # Left x <= -1.48 reserved for SME instructor video.
@@ -960,7 +977,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Perception signal particle moves to agent
         signal_particle = Dot(color=C_ORANGE_ALERT, radius=0.09).move_to(gauge_center + RIGHT * 0.85)
         self.play(
-            MoveAlongPath(signal_particle, Line(gauge_center + RIGHT * 0.85, agent_center + LEFT * 0.75), rate_func=smooth),
+            MoveAlongPath(signal_particle, Line(gauge_center + RIGHT * 0.85, agent_center + LEFT * 0.75), rate_func=ease_out_cubic),
             run_time=1.0
         )
         self.remove(signal_particle)
@@ -1181,8 +1198,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         
         # Kinetic particle travel across loop
         self.play(
-            MoveAlongPath(particle_forward, top_curve, rate_func=linear),
-            MoveAlongPath(particle_return, bottom_curve, rate_func=linear),
+            MoveAlongPath(particle_forward, top_curve, rate_func=ease_out_cubic),
+            MoveAlongPath(particle_return, bottom_curve, rate_func=ease_out_cubic),
             run_time=2.2
         )
         self.remove(particle_forward, particle_return)
@@ -1208,8 +1225,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
             p1 = Dot(color=C_SKY, radius=0.08)
             p2 = Dot(color=C_AMBER, radius=0.08)
             self.play(
-                MoveAlongPath(p1, top_curve, rate_func=linear),
-                MoveAlongPath(p2, bottom_curve, rate_func=linear),
+                MoveAlongPath(p1, top_curve, rate_func=ease_out_cubic),
+                MoveAlongPath(p2, bottom_curve, rate_func=ease_out_cubic),
                 run_time=2.0
             )
             self.remove(p1, p2)

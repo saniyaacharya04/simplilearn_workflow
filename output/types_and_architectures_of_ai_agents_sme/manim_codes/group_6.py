@@ -1,48 +1,19 @@
+C_DARK_BLUE = "#1E293B"
+C_BRAND_BLUE = "#2C81FE"
+C_SKY_BLUE = "#62B7E4"
+C_STEEL_BLUE = "#7EA2C8"
+C_CORAL = "#E58F6D"
+C_LIGHT_BLUE = "#62B7E4"
+C_PURPLE = "#9B99C7"
+C_YELLOW = "#DDB945"
+C_RED = "#E58F6D"
+C_WHITE = "#FFFFFF"
+C_BLACK = "#404040"
+C_NAVY_DARK = "#404040"
 import re
 SME_LAYOUT = '20'
 from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
-class NullMobject(VGroup):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*[VMobject() for _ in range(15)])
-        self.set_opacity(0)
-    def __getitem__(self, val):
-        if isinstance(val, int) and val >= len(self.submobjects):
-            return VMobject()
-        return super().__getitem__(val)
-    def get_center(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_top(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_bottom(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_left(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_right(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-
-try:
-    if not hasattr(VGroup, '_orig_add_safe'):
-        VGroup._orig_add_safe = VGroup.add
-        def _safe_vg_add(self, *mobs):
-            cleaned = []
-            for m in mobs:
-                if isinstance(m, VMobject):
-                    cleaned.append(m)
-                elif hasattr(m, 'submobjects'):
-                    for sub in m.submobjects:
-                        if isinstance(sub, VMobject):
-                            cleaned.append(sub)
-            return VGroup._orig_add_safe(self, *cleaned)
-        VGroup.add = _safe_vg_add
-except Exception:
-    pass
-
 # Dynamic Animation Safety Preamble
 for _anim_cls in (FadeIn, FadeOut, Create, Write):
     try:
@@ -98,6 +69,130 @@ for _scene_cls in (Scene, MovingCameraScene):
         pass
 _orig_anim_safe_defined = True
 
+def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
+    if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
+        pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
+        pad_y = max(pad_y, getattr(frame_mobject, 'height', 0) * 0.22)
+    if hasattr(frame_mobject, 'width') and hasattr(target_mobject, 'width'):
+        max_w = frame_mobject.width - (pad_x * 2)
+        if max_w > 0 and target_mobject.width > max_w:
+            ratio = max_w / target_mobject.width
+            needed_w = target_mobject.width + (pad_x * 2)
+            if hasattr(frame_mobject, 'stretch_to_fit_width') and needed_w <= 6.2:
+                frame_mobject.stretch_to_fit_width(needed_w)
+            elif ratio < 0.88:
+                if hasattr(target_mobject, 'scale_to_fit_width'):
+                    target_mobject.scale_to_fit_width(target_mobject.width * 0.88)
+            else:
+                target_mobject.scale_to_fit_width(max_w)
+    if hasattr(frame_mobject, 'height') and hasattr(target_mobject, 'height'):
+        req_h = target_mobject.height + (pad_y * 2)
+        if req_h > frame_mobject.height:
+            frame_mobject.stretch_to_fit_height(req_h)
+    target_mobject.move_to(frame_mobject.get_center())
+    return target_mobject
+
+def safe_image(img_path, width=3.0, height=None):
+    if os.path.exists(str(img_path)):
+        try:
+            im = ImageMobject(str(img_path))
+            if width: im.scale_to_fit_width(width)
+            if height: im.scale_to_fit_height(height)
+            return im
+        except Exception:
+            pass
+    box = RoundedRectangle(width=width or 3.0, height=height or 2.0, corner_radius=0.074, fill_color='#F8FAFC', fill_opacity=0.9, stroke_color='#CBD5E1', stroke_width=1.5)
+    lbl = CrispText('Asset Image', font_size=12, color='#404040').move_to(box)
+    return VGroup(box, lbl)
+
+def create_pill(*args, **kwargs):
+    bg_color = kwargs.get('bg_color', globals().get('C_DARK_BLUE', '#1E293B'))
+    text_color = kwargs.get('text_color', globals().get('C_WHITE', '#FFFFFF'))
+    font_size = kwargs.get('font_size', 12)
+    texts = [str(a) for a in args if isinstance(a, (str, int, float)) and not str(a).startswith('#') and str(a) not in ('WHITE', 'BLACK')]
+    text_content = texts[0] if texts else 'Badge'
+    txt = CrispText(text_content, font_size=font_size, color=text_color, weight='BOLD')
+    bg = RoundedRectangle(width=max(txt.width + 0.4, 1.2), height=max(txt.height + 0.2, 0.4), corner_radius=0.15, fill_color=bg_color, fill_opacity=1.0, stroke_width=0)
+    txt.move_to(bg)
+    fit_into_box(txt, bg, pad_x=0.2, pad_y=0.08)
+    grp = VGroup(bg, txt)
+    grp.set_z_index(20)
+    return grp
+
+def create_checkmark(*args, **kwargs):
+    c = kwargs.get('color', globals().get('C_STEEL_BLUE', '#7EA2C8'))
+    for a in args:
+        if isinstance(a, str) and (a.startswith('#') or a in globals()):
+            c = a
+    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
+    if isinstance(sz, (int, float)) and sz > 1.0:
+        sz = sz / 60.0
+    sw = kwargs.get('stroke_width', 3.5)
+    p1 = ORIGIN
+    p2 = p1 + RIGHT * (sz * 0.42) + DOWN * (sz * 0.55)
+    p3 = p2 + RIGHT * (sz * 0.95) + UP * (sz * 1.15)
+    l1 = Line(p1, p2, color=c, stroke_width=sw)
+    l2 = Line(p2, p3, color=c, stroke_width=sw)
+    g = VGroup(l1, l2)
+    g.center()
+    return g
+
+def create_crossmark(*args, **kwargs):
+    c = kwargs.get('color', globals().get('C_CORAL', '#E58F6D'))
+    for a in args:
+        if isinstance(a, str) and (a.startswith('#') or a in globals()):
+            c = a
+    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
+    if isinstance(sz, (int, float)) and sz > 1.0:
+        sz = sz / 60.0
+    sw = kwargs.get('stroke_width', 3.5)
+    l1 = Line(ORIGIN, RIGHT * (sz * 0.8) + UP * (sz * 0.8), color=c, stroke_width=sw)
+    l2 = Line(ORIGIN + UP * (sz * 0.8), RIGHT * (sz * 0.8), color=c, stroke_width=sw)
+    g = VGroup(l1, l2)
+    g.center()
+    return g
+
+class NullMobject(VGroup):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*[VMobject() for _ in range(15)])
+        self.set_opacity(0)
+    def __getitem__(self, val):
+        if isinstance(val, int) and val >= len(self.submobjects):
+            return VMobject()
+        return super().__getitem__(val)
+    def get_center(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_top(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_bottom(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_left(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_right(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+
+try:
+    if not hasattr(VGroup, '_orig_add_safe'):
+        VGroup._orig_add_safe = VGroup.add
+        def _safe_vg_add(self, *mobs):
+            cleaned = []
+            for m in mobs:
+                if isinstance(m, VMobject):
+                    cleaned.append(m)
+                elif hasattr(m, 'submobjects'):
+                    for sub in m.submobjects:
+                        if isinstance(sub, VMobject):
+                            cleaned.append(sub)
+            return VGroup._orig_add_safe(self, *cleaned)
+        VGroup.add = _safe_vg_add
+except Exception:
+    pass
+
 NumberLine.c2p = lambda self, *args: self.n2p(args[0])
 try:
     from manim.utils.rate_functions import *
@@ -113,6 +208,8 @@ if "InstrumentedScene" not in globals():
             current = self.renderer.time
             if time_point > current:
                 self.wait(time_point - current)
+
+
 
 
 
@@ -228,88 +325,6 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
-    if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
-        pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
-        pad_y = max(pad_y, getattr(frame_mobject, 'height', 0) * 0.22)
-    if hasattr(frame_mobject, 'width') and hasattr(target_mobject, 'width'):
-        max_w = frame_mobject.width - (pad_x * 2)
-        if max_w > 0 and target_mobject.width > max_w:
-            ratio = max_w / target_mobject.width
-            needed_w = target_mobject.width + (pad_x * 2)
-            if hasattr(frame_mobject, 'stretch_to_fit_width') and needed_w <= 6.2:
-                frame_mobject.stretch_to_fit_width(needed_w)
-            elif ratio < 0.88:
-                if hasattr(target_mobject, 'scale_to_fit_width'):
-                    target_mobject.scale_to_fit_width(target_mobject.width * 0.88)
-            else:
-                target_mobject.scale_to_fit_width(max_w)
-    if hasattr(frame_mobject, 'height') and hasattr(target_mobject, 'height'):
-        req_h = target_mobject.height + (pad_y * 2)
-        if req_h > frame_mobject.height:
-            frame_mobject.stretch_to_fit_height(req_h)
-    target_mobject.move_to(frame_mobject.get_center())
-    return target_mobject
-
-def safe_image(img_path, width=3.0, height=None):
-    if os.path.exists(str(img_path)):
-        try:
-            im = ImageMobject(str(img_path))
-            if width: im.scale_to_fit_width(width)
-            if height: im.scale_to_fit_height(height)
-            return im
-        except Exception:
-            pass
-    box = RoundedRectangle(width=width or 3.0, height=height or 2.0, corner_radius=0.074, fill_color='#F8FAFC', fill_opacity=0.9, stroke_color='#CBD5E1', stroke_width=1.5)
-    lbl = CrispText('Asset Image', font_size=12, color='#404040').move_to(box)
-    return VGroup(box, lbl)
-
-def create_pill(*args, **kwargs):
-    bg_color = kwargs.get('bg_color', globals().get('C_DARK_BLUE', '#1E293B'))
-    text_color = kwargs.get('text_color', globals().get('C_WHITE', '#FFFFFF'))
-    font_size = kwargs.get('font_size', 12)
-    texts = [str(a) for a in args if isinstance(a, (str, int, float)) and not str(a).startswith('#') and str(a) not in ('WHITE', 'BLACK')]
-    text_content = texts[0] if texts else 'Badge'
-    txt = CrispText(text_content, font_size=font_size, color=text_color, weight='BOLD')
-    bg = RoundedRectangle(width=max(txt.width + 0.4, 1.2), height=max(txt.height + 0.2, 0.4), corner_radius=0.15, fill_color=bg_color, fill_opacity=1.0, stroke_width=0)
-    txt.move_to(bg)
-    fit_into_box(txt, bg, pad_x=0.2, pad_y=0.08)
-    grp = VGroup(bg, txt)
-    grp.set_z_index(20)
-    return grp
-
-def create_checkmark(*args, **kwargs):
-    c = kwargs.get('color', globals().get('C_STEEL_BLUE', '#7EA2C8'))
-    for a in args:
-        if isinstance(a, str) and (a.startswith('#') or a in globals()):
-            c = a
-    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
-    if isinstance(sz, (int, float)) and sz > 1.0:
-        sz = sz / 60.0
-    sw = kwargs.get('stroke_width', 3.5)
-    p1 = ORIGIN
-    p2 = p1 + RIGHT * (sz * 0.42) + DOWN * (sz * 0.55)
-    p3 = p2 + RIGHT * (sz * 0.95) + UP * (sz * 1.15)
-    l1 = Line(p1, p2, color=c, stroke_width=sw)
-    l2 = Line(p2, p3, color=c, stroke_width=sw)
-    g = VGroup(l1, l2)
-    g.center()
-    return g
-
-def create_crossmark(*args, **kwargs):
-    c = kwargs.get('color', globals().get('C_CORAL', '#E58F6D'))
-    for a in args:
-        if isinstance(a, str) and (a.startswith('#') or a in globals()):
-            c = a
-    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
-    if isinstance(sz, (int, float)) and sz > 1.0:
-        sz = sz / 60.0
-    sw = kwargs.get('stroke_width', 3.5)
-    l1 = Line(ORIGIN, RIGHT * (sz * 0.8) + UP * (sz * 0.8), color=c, stroke_width=sw)
-    l2 = Line(ORIGIN + UP * (sz * 0.8), RIGHT * (sz * 0.8), color=c, stroke_width=sw)
-    g = VGroup(l1, l2)
-    g.center()
-    return g
 
 class FinalScene(InstrumentedScene, MovingCameraScene):
     def construct(self):
@@ -615,6 +630,24 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.create_crossmark = create_crossmark
         self.fit_into_box = fit_into_box
         self.clamp_to_screen = clamp_to_screen
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         start_time = self.renderer.time
 
