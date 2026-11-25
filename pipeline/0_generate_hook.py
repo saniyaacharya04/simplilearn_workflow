@@ -41,7 +41,7 @@ PIPELINE STAGE 0: HOOK GENERATION (PEDAGOGICAL BLUEPRINT)
    - Step 2: Locates transcript / curriculum context files (clean_transcript.json, context.txt).
    - Step 3: Extracts continuous textual narrative and estimates optimal scene count and pacing.
    - Step 4: Dispatches structured instructional prompt (HOOK_ELEARNING_SYSTEM_PROMPT)
-     to Gemini 2.5 / 3.5 Flash or Claude (with deterministic fallback).
+     to Gemini 2.5 / 3.8 Flash or Claude (with deterministic fallback).
    - Step 5: Dynamically constructs scene distribution directly from spoken sentences:
      * Scene 1: Opening Hook (Layout 100 <= 20.0s).
      * Scene 2: Learning Objectives (Layout 70 if scenes >= 4).
@@ -559,7 +559,7 @@ class HookGenerator:
         purpose: str = "Create an authoritative, highly engaging Simplilearn OSL 3.0 digital learning presentation video."
     ) -> Dict[str, Any]:
         """
-        Orchestrates hook generation using Google Gemini (gemini-3.5-flash) or Claude
+        Orchestrates hook generation using Google Gemini (gemini-3.8-flash) or Claude
         with complete Simplilearn prompt fidelity and Simplilearn OSL 3.0 standards.
         """
         raw_text = self.extract_raw_text(transcript_input)
@@ -593,15 +593,15 @@ class HookGenerator:
 
         full_prompt = f"{formatted_system_prompt}\n\nUser Query: {formatted_user_prompt}"
 
-        # Try Google Gemini (Gemini 3.5 Flash)
+        # Try Google Gemini (Gemini 3.8 Flash)
         if self.api_provider in ["auto", "gemini"]:
             key = self.api_key or os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
             if key:
-                print(f"[*] Calling Gemini 3.5 Flash for Hook & Pedagogical Blueprint ({expected_scenes} scenes target)...")
+                print(f"[*] Calling Gemini 3.8 Flash for Hook & Pedagogical Blueprint ({expected_scenes} scenes target)...")
                 try:
                     import google.generativeai as genai
                     genai.configure(api_key=key, transport="rest")
-                    model = genai.GenerativeModel("gemini-3.5-flash")
+                    model = genai.GenerativeModel("gemini-3.8-flash")
                     resp = model.generate_content(
                         full_prompt,
                         generation_config=genai.GenerationConfig(

@@ -40,7 +40,7 @@ PIPELINE STAGE 4: IMAGE PROMPT GENERATION
    - Step 1: Validates upstream completion in 2_asset_class_output_tracker.json.
    - Step 2: Extracts image suggestion blocks and visual descriptions per scene.
    - Step 3: Applies Simplilearn 10-Color Infographic Pastel Palette tokens.
-   - Step 4: Dispatches prompt synthesis call to Gemini 3.5 Flash using
+   - Step 4: Dispatches prompt synthesis call to Gemini 3.8 Flash using
      IMAGE_PROMPTING_SYSTEM_PROMPT.
    - Step 5: Generates dense visual construction prompts enforcing pure white background,
      flat corporate vector style, and zero text/labels.
@@ -360,7 +360,7 @@ class ImagePrompting:
         input_folder: Optional[str] = None,
         api_provider: str = "auto",
         api_key: Optional[str] = None,
-        model_name: str = "gemini-3.5-flash",
+        model_name: str = "gemini-3.8-flash",
         **kwargs
     ):
         self.input_tracker_path = input_tracker_path
@@ -391,7 +391,7 @@ class ImagePrompting:
     ) -> Dict[str, Any]:
         """
         Processes all Image_Suggestions from classified catalog, generating
-        diffusion prompts via Gemini 3.8 / 3.5 Flash with full Simplilearn prompt fidelity.
+        diffusion prompts via Gemini 3.8 / 3.8 Flash with full Simplilearn prompt fidelity.
         """
         scenes = classified_catalog.get("scenes", [])
         image_prompts_output: Dict[str, Any] = {
@@ -629,7 +629,7 @@ if __name__ == "__main__":
     parser.add_argument("-a", "--assets", required=True, help="Input classified assets JSON")
     parser.add_argument("-o", "--output", required=True, help="Output image prompts JSON")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM API provider")
-    parser.add_argument("-m", "--model", default="gemini-3.5-flash", help="Model name")
+    parser.add_argument("-m", "--model", default="gemini-3.8-flash", help="Model name")
     args = parser.parse_args()
 
     prompter = ImagePrompting(

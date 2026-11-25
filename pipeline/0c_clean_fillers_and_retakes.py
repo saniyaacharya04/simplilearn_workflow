@@ -418,7 +418,7 @@ CRITICAL SAFETY INSTRUCTION:
 
     if api_provider in ["auto", "gemini"] and key and ("AIza" in key or os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")):
         import requests
-        for gemini_model in ["gemini-2.5-flash", "gemini-flash-latest", "gemini-3.5-flash", "gemini-3.8-flash"]:
+        for gemini_model in ["gemini-3.8-flash", "gemini-flash-latest", "gemini-3.8-flash", "gemini-3.8-flash"]:
             try:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{gemini_model}:generateContent?key={key}"
                 payload = {
@@ -807,7 +807,7 @@ def clean_fillers_and_retakes(
         cuts = list(audit_cuts)
         cleaned_transcript = segments
     else:
-        # Formulate cut decisions via Gemini 3.5 Flash LLM prompt call
+        # Formulate cut decisions via Gemini 3.8 Flash LLM prompt call
         llm_plan = plan_cuts_with_llm(segments, total_duration, api_provider=api_provider)
 
         cuts = list(llm_plan.get("cuts", []))

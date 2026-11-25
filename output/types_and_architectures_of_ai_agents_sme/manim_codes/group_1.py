@@ -65,9 +65,85 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
+        if not hasattr(_scene_cls, '_orig_play_safe'):
+            _orig_play = _scene_cls.play
+            def _make_safe_play():
+                def _safe_play(self, *args, **kwargs):
+                    if len(args) == 0:
+                        rt = kwargs.get('run_time', 0.5)
+                        return self.wait(rt)
+                    return _orig_play(self, *args, **kwargs)
+                return _safe_play
+            _scene_cls._orig_play_safe = True
+            _scene_cls.play = _make_safe_play()
+        if not hasattr(_scene_cls, 'get_time'):
+            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
+try:
+    from manim.utils.color.core import ManimColor
+    if not hasattr(ManimColor, '_orig_eq_safe'):
+        def _safe_color_eq(self, other):
+            if not isinstance(other, ManimColor):
+                try: other = ManimColor(other)
+                except Exception: return False
+            return bool(np.allclose(self._internal_value, other._internal_value))
+        ManimColor._orig_eq_safe = True
+        ManimColor.__eq__ = _safe_color_eq
+except Exception:
+    pass
+try:
+    if not hasattr(Mobject, 'stop_updater'):
+        Mobject.stop_updater = lambda self: self.clear_updaters()
+    if not hasattr(Mobject, 'set_fill'):
+        def _safe_mobj_set_fill(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_fill'):
+                    try: sub.set_fill(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_fill = _safe_mobj_set_fill
+    if not hasattr(Mobject, 'set_stroke'):
+        def _safe_mobj_set_stroke(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_stroke'):
+                    try: sub.set_stroke(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_stroke = _safe_mobj_set_stroke
+    if not hasattr(Mobject, '_orig_mobj_init_safe'):
+        _orig_mobj_init = Mobject.__init__
+        def _safe_mobj_init(self, *args, **kwargs):
+            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
+            res = _orig_mobj_init(self, *args, **clean_kw)
+            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
+                try: self.set_opacity(kwargs['opacity'])
+                except Exception: pass
+            return res
+        Mobject._orig_mobj_init_safe = True
+        Mobject.__init__ = _safe_mobj_init
+    if not hasattr(VMobject, '_orig_set_stroke_safe'):
+        _orig_set_stroke = VMobject.set_stroke
+        def _safe_set_stroke(self, *args, **kwargs):
+            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
+            if 'z_index' in kwargs:
+                try: self.set_z_index(kwargs['z_index'])
+                except Exception: pass
+            return _orig_set_stroke(self, *args, **clean_kw)
+        VMobject._orig_set_stroke_safe = True
+        VMobject.set_stroke = _safe_set_stroke
+except Exception:
+    pass
+YELLOW = globals().get('YELLOW', '#DDB945')
+WHITE = globals().get('WHITE', '#FFFFFF')
+BLACK = globals().get('BLACK', '#404040')
+RED = globals().get('RED', '#E58F6D')
+BLUE = globals().get('BLUE', '#62B7E4')
+GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
+
 
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -208,6 +284,20 @@ for _k in dir(_rf):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def CrispText(text, size=24, font="Open Sans", **kwargs):
     if "font_size" in kwargs:
         size = kwargs.pop("font_size")
@@ -320,7 +410,6 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-
 class PulsingShockwaves(VGroup):
     def __init__(self, center, color="#E6A157", max_radius=1.1, num_rings=3, **kwargs):
         super().__init__(**kwargs)
@@ -761,6 +850,132 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.create_crossmark = create_crossmark
         self.fit_into_box = fit_into_box
         self.clamp_to_screen = clamp_to_screen
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

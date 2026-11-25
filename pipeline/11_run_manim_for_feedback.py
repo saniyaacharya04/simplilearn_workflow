@@ -345,7 +345,7 @@ Code:
         output_tokens = getattr(usage, "completion_tokens", 0) or 0
         '''
         genai.configure(api_key=self.google_api_key)
-        clean_model = "gemini-2.5-flash" if "3.5" in str(model) else model
+        clean_model = "gemini-3.8-flash" if ("3.5" in str(model) or "2.5" in str(model)) else model
         model_variant = f"models/{clean_model}"
         model = genai.GenerativeModel(model_variant)
 
@@ -569,12 +569,12 @@ Code:
                 prompt = self.build_prompt(source_code, error_line, error_message, "full", raw_tail)
                 
                 print(f"    Sending code to gemini for a fix...")
-                fixed_code, finish_reason = self.call_corrector(prompt,model="gemini-3.5-flash")
+                fixed_code, finish_reason = self.call_corrector(prompt, model="gemini-3.8-flash")
 
                 if finish_reason == "length" and error_line:
                     print("    [!] Full-file response truncated; trying truncated fallback mode...")
                     prompt = self.build_prompt(source_code, error_line, error_message, "truncated", raw_tail)
-                    fixed_code, finish_reason = self.call_corrector(prompt, model="gemini-3.5-flash")
+                    fixed_code, finish_reason = self.call_corrector(prompt, model="gemini-3.8-flash")
 
                 if finish_reason == "length":
                     print("    [!] AI response still truncated. Skipping fix attempt.")
@@ -596,7 +596,7 @@ Code:
                         if syntax_attempt == 2:
                             break
                         repair_prompt = self.build_syntax_repair_prompt(fixed_code, str(e))
-                        fixed_code, repair_finish_reason = self.call_corrector(repair_prompt,model="gemini-3.5-flash")
+                        fixed_code, repair_finish_reason = self.call_corrector(repair_prompt, model="gemini-3.8-flash")
                         if repair_finish_reason == "length":
                             break
 
@@ -635,7 +635,8 @@ Code:
                     print(f"    [!] Retried process timed out again.")
 
                 if returncode != 0:
-                    print(f"--- Retry failed for {code_file}. Skipping to next file. ---")
+                    last_err = (stderr.strip().splitlines()[-1] if stderr.strip() else "Unknown error")
+                    print(f"--- Retry failed for {code_file}. Skipping to next file. Error: {last_err} ---")
                     continue
 
             media_dir = Path(script_dir) / "media"

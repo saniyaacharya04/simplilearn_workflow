@@ -6,10 +6,10 @@ C_YELLOW = "#DDB945"
 C_RED = "#E58F6D"
 C_WHITE = "#FFFFFF"
 C_BLACK = "#404040"
-C_NAVY_DARK = "#404040"
+C_NAVY_DARK = "#404040" # This seems to be a duplicate of C_BLACK's value, but the name implies dark blue. Keeping as is.
 C_MINT = "#8ECDB7"
-C_LAVENDER = "#9B99C7"
-C_CORAL = "#E58F6D"
+C_LAVENDER = "#9B99C7" # Duplicate of C_PURPLE
+C_CORAL = "#E58F6D" # Duplicate of C_RED
 import os
 import re
 SME_LAYOUT = '70'
@@ -66,8 +66,83 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
+        if not hasattr(_scene_cls, '_orig_play_safe'):
+            _orig_play = _scene_cls.play
+            def _make_safe_play():
+                def _safe_play(self, *args, **kwargs):
+                    if len(args) == 0:
+                        rt = kwargs.get('run_time', 0.5)
+                        return self.wait(rt)
+                    return _orig_play(self, *args, **kwargs)
+                return _safe_play
+            _scene_cls._orig_play_safe = True
+            _scene_cls.play = _make_safe_play()
+        if not hasattr(_scene_cls, 'get_time'):
+            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
+try:
+    from manim.utils.color.core import ManimColor
+    if not hasattr(ManimColor, '_orig_eq_safe'):
+        def _safe_color_eq(self, other):
+            if not isinstance(other, ManimColor):
+                try: other = ManimColor(other)
+                except Exception: return False
+            return bool(np.allclose(self._internal_value, other._internal_value))
+        ManimColor._orig_eq_safe = True
+        ManimColor.__eq__ = _safe_color_eq
+except Exception:
+    pass
+try:
+    if not hasattr(Mobject, 'stop_updater'):
+        Mobject.stop_updater = lambda self: self.clear_updaters()
+    if not hasattr(Mobject, 'set_fill'):
+        def _safe_mobj_set_fill(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_fill'):
+                    try: sub.set_fill(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_fill = _safe_mobj_set_fill
+    if not hasattr(Mobject, 'set_stroke'):
+        def _safe_mobj_set_stroke(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_stroke'):
+                    try: sub.set_stroke(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_stroke = _safe_mobj_set_stroke
+    if not hasattr(Mobject, '_orig_mobj_init_safe'):
+        _orig_mobj_init = Mobject.__init__
+        def _safe_mobj_init(self, *args, **kwargs):
+            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
+            res = _orig_mobj_init(self, *args, **clean_kw)
+            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
+                try: self.set_opacity(kwargs['opacity'])
+                except Exception: pass
+            return res
+        Mobject._orig_mobj_init_safe = True
+        Mobject.__init__ = _safe_mobj_init
+    if not hasattr(VMobject, '_orig_set_stroke_safe'):
+        _orig_set_stroke = VMobject.set_stroke
+        def _safe_set_stroke(self, *args, **kwargs):
+            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
+            if 'z_index' in kwargs:
+                try: self.set_z_index(kwargs['z_index'])
+                except Exception: pass
+            return _orig_set_stroke(self, *args, **clean_kw)
+        VMobject._orig_set_stroke_safe = True
+        VMobject.set_stroke = _safe_set_stroke
+except Exception:
+    pass
+YELLOW = globals().get('YELLOW', '#DDB945')
+WHITE = globals().get('WHITE', '#FFFFFF')
+BLACK = globals().get('BLACK', '#404040')
+RED = globals().get('RED', '#E58F6D')
+BLUE = globals().get('BLUE', '#62B7E4')
+GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
 
 
@@ -224,6 +299,14 @@ C_DUSTY_ROSE = "#D98CA1"
 C_SOFT_LILAC = "#C1A5C6"
 
 # Helper for CrispText
+
+
+
+
+
+
+
+
 
 
 
@@ -412,8 +495,7 @@ class DataStream(VGroup):
             # Distribute particles along the path initially
             alpha = np.random.rand()
             particle.move_to(self.arrow.point_from_proportion(alpha))
-            particle.set_opacity(1) # Start visible
-
+            particle.set_opacity(0) # Initially transparent for FadeIn animation
         self.add(self.particles)
 
         # Use individual ValueTrackers to allow staggered starts and continuous flow
@@ -801,6 +883,114 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.fit_into_box = fit_into_box
         self.clamp_to_screen = clamp_to_screen
 
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         # Removed redundant local definitions of helper functions.
         # The global definitions are used, and assigned to `self` for convenience.
 
@@ -813,17 +1003,15 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
         # The global create_pill is used
-        # The global create_state_badge is used
+
 
 
 
         # The global safe_image is used
 
-        # The global create_checkmark is used
-        # The global create_crossmark is used
 
 
-        # Removed duplicate definition of create_header after the self.clamp_to_screen assignment block.
+
 
 
         # SME 70% layout: Content right of x = -0.80
@@ -844,9 +1032,6 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Purpose: Explain Solara Energy Introduction
         # Narration: Monitoring site performance and goal-driven action sequences
         step1_title_text = "Solara Energy Introduction"
-        self.play(FadeOut(current_title), run_time=0.35) # Fade out old title
-        self.play(run_time=0.45) # Fade in new title
-        current_title = new_title # Update current_title for next step
 
         # Visuals for Step 1: Monitoring Hub, Site Performance, Action Dispatch
         monitoring_hub = RadarSweep(
@@ -890,8 +1075,10 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
         # Data flow from Site Performance to Monitoring Hub
         data_flow_to_hub = DataStream(site_performance_node, monitoring_hub, stream_color=C_MINT_SEAFOAM)
-        self.add(data_flow_to_hub) # Add updater immediately
-        self.play(Create(data_flow_to_hub.arrow), run_time=1.0) # Animate the arrow itself
+        # Add the DataStream to the scene AFTER its components are created
+        # Particles are initially transparent in DataStream's __init__
+        self.add(data_flow_to_hub) # Add updater immediately, but particles are transparent
+        self.play(Create(data_flow_to_hub.arrow), FadeIn(data_flow_to_hub.particles), run_time=1.0) # Animate the arrow itself and fade in particles
 
         # Connection from Monitoring Hub to Action Dispatch
         monitor_to_action_arrow = Arrow(
@@ -923,8 +1110,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.play(FadeOut(action_dispatch_pulse), run_time=0.4)
 
         # Total runtime for step 1 is 34.38.
-        # Current animation run_time: 0.8 (initial title) + 0.35 (fade out old title) + 0.45 (fade in new title) + 2.0 + 1.5 + 1.5 + 1.0 + 1.0 + 1.5 + 0.6 + 0.4 + 0.6 + 0.4 = 12.1 seconds
-        self.wait(34.38 - 12.1) # Adjust wait time based on animations
+        # Recalculate: 0.8 (initial title fadein) + 0.8 (title transition) + 2.0 (hub/label) + 1.5 (site node) + 1.5 (action node) + 1.0 (data_flow) + 1.0 (monitor_to_action_arrow) + 1.5 (action particle) + 0.6 (hub pulse) + 0.4 (hub pulse fade) + 0.6 (action pulse) + 0.4 (action pulse fade) = 14.1 seconds
+        self.wait(34.38 - 14.1) # Adjust wait time based on animations
 
         ## Presentation Step 2
         # Purpose: Explain Real-World Action Sequence
@@ -932,7 +1119,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         step2_title_text = "Real-World Action Sequence"
         new_title = self.create_title(step2_title_text) # Create new title for step 2
         self.play(FadeOut(current_title), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
+        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45) # Combined fade out/in
         current_title = new_title
 
         # Stop updaters before removing
@@ -948,8 +1135,6 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
             FadeOut(monitor_to_action_arrow),
             run_time=1.0
         )
-        # FadeOut already removes from scene, explicit remove is redundant here unless mobjects are added back.
-        # self.remove(data_flow_to_hub, monitoring_hub) 
 
         # Reposition action_dispatch_node to a more central position for elaboration
         self.play(action_dispatch_node.animate.move_to(np.array([content_center_x, content_center_y + 1.0, 0])), run_time=1.0)
@@ -961,12 +1146,13 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         generate_reports_node = PulsingNode("Generate Reports", node_color=C_SOFT_LILAC, font_size=16)
 
         # Arrange these nodes in a circular flow around action_dispatch_node
-        action_nodes_group = VGroup(
-            query_data_node,
-            compare_outputs_node,
-            flag_anomalies_node,
-            generate_reports_node
-        ).arrange_around_point(action_dispatch_node.get_center(), radius=2.5, angle=PI/2) # Start from top-right, go clockwise
+        center_pt = action_dispatch_node.get_center()
+        radius = 2.5
+        nodes = [query_data_node, compare_outputs_node, flag_anomalies_node, generate_reports_node]
+        angles = [PI/2, 0, -PI/2, PI]
+        for node, ang in zip(nodes, angles):
+            node.move_to(center_pt + radius * np.array([np.cos(ang), np.sin(ang), 0]))
+        action_nodes_group = VGroup(*nodes)
 
         self.play(
             LaggedStart(
@@ -1045,7 +1231,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         step3_title_text = "Architectural Diversity"
         new_title = self.create_title(step3_title_text) # Create new title for step 3
         self.play(FadeOut(current_title), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
+        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45) # Combined fade out/in
         current_title = new_title
 
         # Fade out detailed action sequence to focus on architectures
@@ -1055,8 +1241,6 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
             FadeOut(flow_arrows),
             run_time=1.0
         )
-        # It's important to remove mobjects with updaters if they are no longer needed
-        # self.remove(action_dispatch_node, action_nodes_group, flow_arrows) # FadeOut already removes from scene.
 
         # Introduce diverse agent architectures
         arch_colors = [C_SKY_BLUE, C_MINT_SEAFOAM, C_LAVENDER_PERIWINKLE, C_WARM_AMBER]
@@ -1093,7 +1277,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         step4_title_text = "Engineering Alignment"
         new_title = self.create_title(step4_title_text) # Create new title for step 4
         self.play(FadeOut(current_title), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
+        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45) # Combined fade out/in
         current_title = new_title
 
         # Stop ambient updaters for architectures to prepare for transformations

@@ -57,7 +57,7 @@ PIPELINE STAGE 20: FINAL STYLING & CODE FIXES
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 19_vlm_fixing_stage_tracker.json.
    - Step 2: Reads the existing code, storyboard, style guidelines, and timestamped fixes.
-   - Step 3: Prompts Gemini 3.5 Flash / Claude to refactor the Manim code:
+   - Step 3: Prompts Gemini 3.8 Flash / Claude to refactor the Manim code:
      * Applies timestamped layout fixes (container shifting, coordinate updates).
      * Enforces the 70/30 Visual Allocation law (functional visual models dominate canvas).
      * Eliminates ALL-CAPS; enforces Title Case for titles/badges, Sentence Case for body.
@@ -459,7 +459,7 @@ class FinalStylingCorrections:
 
     def generate_styling_corrections(self, config_data, topic_id):
         """
-        Refines code scripts using Gemini 3.5 Flash with high thinking depth,
+        Refines code scripts using Gemini 3.8 Flash with high thinking depth,
         incorporating styling rules and timestamped VLM layout directives.
         """
         print(f"  [Stage 20] Running generate_styling_corrections for {topic_id} ...")
@@ -1159,7 +1159,7 @@ class FinalStylingCorrections:
                     print(f"Refining group {group} (attempt {attempt}/3)...")
 
                     response = google_client.models.generate_content(
-                        model="gemini-3.5-flash",
+                        model="gemini-3.8-flash",
                         contents=formatted_system_prompt + "\n\n" + formatted_user_prompt,
                         config=types.GenerateContentConfig(
                             temperature=0.2,

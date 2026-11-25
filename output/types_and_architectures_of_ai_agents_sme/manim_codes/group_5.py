@@ -67,8 +67,83 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
+        if not hasattr(_scene_cls, '_orig_play_safe'):
+            _orig_play = _scene_cls.play
+            def _make_safe_play():
+                def _safe_play(self, *args, **kwargs):
+                    if len(args) == 0:
+                        rt = kwargs.get('run_time', 0.5)
+                        return self.wait(rt)
+                    return _orig_play(self, *args, **kwargs)
+                return _safe_play
+            _scene_cls._orig_play_safe = True
+            _scene_cls.play = _make_safe_play()
+        if not hasattr(_scene_cls, 'get_time'):
+            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
+try:
+    from manim.utils.color.core import ManimColor
+    if not hasattr(ManimColor, '_orig_eq_safe'):
+        def _safe_color_eq(self, other):
+            if not isinstance(other, ManimColor):
+                try: other = ManimColor(other)
+                except Exception: return False
+            return bool(np.allclose(self._internal_value, other._internal_value))
+        ManimColor._orig_eq_safe = True
+        ManimColor.__eq__ = _safe_color_eq
+except Exception:
+    pass
+try:
+    if not hasattr(Mobject, 'stop_updater'):
+        Mobject.stop_updater = lambda self: self.clear_updaters()
+    if not hasattr(Mobject, 'set_fill'):
+        def _safe_mobj_set_fill(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_fill'):
+                    try: sub.set_fill(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_fill = _safe_mobj_set_fill
+    if not hasattr(Mobject, 'set_stroke'):
+        def _safe_mobj_set_stroke(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_stroke'):
+                    try: sub.set_stroke(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_stroke = _safe_mobj_set_stroke
+    if not hasattr(Mobject, '_orig_mobj_init_safe'):
+        _orig_mobj_init = Mobject.__init__
+        def _safe_mobj_init(self, *args, **kwargs):
+            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
+            res = _orig_mobj_init(self, *args, **clean_kw)
+            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
+                try: self.set_opacity(kwargs['opacity'])
+                except Exception: pass
+            return res
+        Mobject._orig_mobj_init_safe = True
+        Mobject.__init__ = _safe_mobj_init
+    if not hasattr(VMobject, '_orig_set_stroke_safe'):
+        _orig_set_stroke = VMobject.set_stroke
+        def _safe_set_stroke(self, *args, **kwargs):
+            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
+            if 'z_index' in kwargs:
+                try: self.set_z_index(kwargs['z_index'])
+                except Exception: pass
+            return _orig_set_stroke(self, *args, **clean_kw)
+        VMobject._orig_set_stroke_safe = True
+        VMobject.set_stroke = _safe_set_stroke
+except Exception:
+    pass
+YELLOW = globals().get('YELLOW', '#DDB945')
+WHITE = globals().get('WHITE', '#FFFFFF')
+BLACK = globals().get('BLACK', '#404040')
+RED = globals().get('RED', '#E58F6D')
+BLUE = globals().get('BLUE', '#62B7E4')
+GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
 
 
@@ -230,6 +305,14 @@ FONT_OPEN_SANS = "Open Sans"
 # Helper for CrispText (maps descriptive sizes to Manim unit heights)
 
 
+
+
+
+
+
+
+
+
 def CrispText(text, size=24, font="Open Sans", **kwargs):
     if "font_size" in kwargs:
         size = kwargs.pop("font_size")
@@ -342,6 +425,17 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
+def create_header(*args, **kwargs):
+    return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
 class FlowingParticle(Dot):
     def __init__(self, path_mobject, color=C_HIGHLIGHT_ORANGE, radius=0.08, speed=0.5, **kwargs):
         super().__init__(color=color, radius=radius, **kwargs)
@@ -362,7 +456,30 @@ class FlowingParticle(Dot):
         self.remove_updater(self.updaters[0]) # Remove the position updater
 
 
+def _safe_mobj_set_fill(self, *args, **kwargs):
+    for sub in getattr(self, 'submobjects', []):
+        if hasattr(sub, 'set_fill'):
+            try: sub.set_fill(*args, **kwargs)
+            except Exception: pass
+    return self
+
+def _safe_mobj_set_stroke(self, *args, **kwargs):
+    for sub in getattr(self, 'submobjects', []):
+        if hasattr(sub, 'set_stroke'):
+            try: sub.set_stroke(*args, **kwargs)
+            except Exception: pass
+    return self
+
+if not hasattr(Mobject, 'set_fill'):
+    Mobject.set_fill = _safe_mobj_set_fill
+if not hasattr(Mobject, 'set_stroke'):
+    Mobject.set_stroke = _safe_mobj_set_stroke
+
+
 class FinalScene(MovingCameraScene): # Removed Slide from inheritance
+    def get_time(self):
+        return getattr(getattr(self, 'renderer', None), 'time', 0.0)
+
     def construct(self):
         # 1. Canvas Background: #F0F4F8 (Modern Soft Light Slate Canvas)
         self.camera.background_color = C_LIGHT_CANVAS
@@ -667,9 +784,80 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
         self.fit_into_box = fit_into_box
         self.clamp_to_screen = clamp_to_screen
 
-        # The following helper functions are defined globally and assigned to 'self' at the end of construct.
-        # Their redefinition locally here would shadow the global ones and is removed.
 
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # Assign global helper functions to self
 
         # --- Scene Setup: Define common positions and dimensions for Layout 70% ---
         # Content workspace: x ∈ [-0.80, +6.40], y ∈ [-3.60, +2.20].
@@ -679,50 +867,42 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
 
         # 1. Environment components (hero illustrations)
         # Assume images exist in 'images/' directory.
-        solar_plant_img = Group(ImageMobject("images/scene_5_solar_plant.png")) # Wrapped in Group
-        power_grid_img = Group(ImageMobject("images/scene_5_power_grid.png")) # Wrapped in Group
-        database_img = Group(ImageMobject("images/scene_5_database.png")) # Wrapped in Group
-        
-        # Scale to fit height and then arrange
         img_height = 1.2 # Standard height for these icons
-        solar_plant_img.scale_to_fit_height(img_height)
-        power_grid_img.scale_to_fit_height(img_height)
-        database_img.scale_to_fit_height(img_height)
+        solar_plant_img = self.safe_image("scene_5_solar_plant.png", height=img_height)
+        power_grid_img = self.safe_image("scene_5_power_grid.png", height=img_height)
+        database_img = self.safe_image("scene_5_database.png", height=img_height)
 
         # Arrange environment images horizontally
-        environment_icons = Group(solar_plant_img, power_grid_img, database_img).arrange(RIGHT, buff=0.6) # Changed to Group
+        environment_icons = Group(solar_plant_img, power_grid_img, database_img).arrange(RIGHT, buff=0.6)
         
         # Ensure the environment group is on the right side of the content area
-        environment_group = Group(environment_icons) # Already Group
+        environment_group = environment_icons # Simplified, as environment_icons is already a Group
         environment_group.move_to(RIGHT * 4.0 + DOWN * 0.5) # Center in the right content area
-        environment_label = CrispText("Operational Environment", size="header", weight=BOLD, color=C_DARK_SLATE_TITLE)
+        environment_label = CrispText("Operational Environment", size=24, weight=BOLD, color=C_DARK_SLATE_TITLE)
         environment_label.next_to(environment_group, DOWN, buff=0.4)
         environment_vgroup = Group(environment_group, environment_label) # Changed to Group
 
         # 2. Agent Core component (human operator icon)
-        human_operator_img = Group(ImageMobject("images/scene_5_human_operator.png")) # Wrapped in Group
-        human_operator_img.scale_to_fit_height(1.8) # Slightly larger as a central figure
+        human_operator_img = self.safe_image("scene_5_human_operator.png", height=1.8) # Slightly larger as a central figure
         
         # Position agent to the left of the environment, within the content area
-        agent_core_group = Group(human_operator_img) # Already Group
+        agent_core_group = human_operator_img # Simplified, as human_operator_img is already a Group
         agent_core_group.move_to(RIGHT * 0.8 + DOWN * 0.5)
-        agent_core_label = CrispText("Agent Core", size="header", weight=BOLD, color=C_DARK_SLATE_TITLE)
+        agent_core_label = CrispText("Agent Core", size=24, weight=BOLD, color=C_DARK_SLATE_TITLE)
         agent_core_label.next_to(agent_core_group, DOWN, buff=0.4)
         agent_core_vgroup = Group(agent_core_group, agent_core_label) # Changed to Group
 
         # 3. Internal State component (smaller database icon for memory/state)
-        internal_state_icon = Group(ImageMobject("images/scene_5_database.png")) # Wrapped in Group
-        internal_state_icon.scale_to_fit_height(0.8) # Smaller scale
+        internal_state_icon = self.safe_image("scene_5_database.png", height=0.8) # Smaller scale
         internal_state_icon.move_to(agent_core_group.get_center() + LEFT * 1.5 + UP * 0.8) # Position near agent
-        internal_state_label = CrispText("Internal State", size="badge", weight=BOLD, color=C_DARK_SLATE_TITLE)
+        internal_state_label = CrispText("Internal State", size=12, weight=BOLD, color=C_DARK_SLATE_TITLE)
         internal_state_label.next_to(internal_state_icon, DOWN, buff=0.2)
         internal_state_vgroup = Group(internal_state_icon, internal_state_label) # Changed to Group
 
         # 4. Action Tool (wrench icon)
-        wrench_img = Group(ImageMobject("images/scene_5_wrench.png")) # Wrapped in Group
-        wrench_img.scale_to_fit_height(0.65) # Smaller icon
+        wrench_img = self.safe_image("scene_5_wrench.png", height=0.65) # Smaller icon
         wrench_img.move_to(environment_group.get_center() + UP * 1.0) # Position near environment, for action impact
-        wrench_label = CrispText("Tool Execution", size="badge", weight=BOLD, color=C_DARK_SLATE_TITLE)
+        wrench_label = CrispText("Tool Execution", size=12, weight=BOLD, color=C_DARK_SLATE_TITLE)
         wrench_label.next_to(wrench_img, DOWN, buff=0.2)
         wrench_vgroup = Group(wrench_img, wrench_label) # Changed to Group
 
@@ -737,7 +917,7 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
             color=C_MINT_SEAFOAM, # Mint Seafoam for perception
             tip_length=0.25
         ).shift(UP * 0.5) # Shift up slightly to differentiate from action
-        perception_label = CrispText("Sensory Observation", size="badge", weight=SEMIBOLD, color=C_DARK_CHARCOAL)
+        perception_label = CrispText("Sensory Observation", size=12, weight=SEMIBOLD, color=C_DARK_CHARCOAL)
         perception_label.next_to(perception_arrow, UP, buff=0.1)
         
         # Internal processing path (within Agent / to Internal State)
@@ -758,7 +938,7 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
             tip_length=0.2
         )
         internal_process_path = VGroup(internal_process_arrow_to, internal_process_arrow_from)
-        internal_process_label = CrispText("Processing", size="badge", weight=SEMIBOLD, color=C_DARK_CHARCOAL)
+        internal_process_label = CrispText("Processing", size=12, weight=SEMIBOLD, color=C_DARK_CHARCOAL)
         internal_process_label.next_to(internal_process_arrow_to, UP * 0.5 + LEFT * 0.5, buff=0.1)
 
 
@@ -771,7 +951,7 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
             color=C_WARM_AMBER, # Warm Amber for action
             tip_length=0.25
         ).shift(DOWN * 0.5) # Shift down slightly
-        action_label = CrispText("Action Impact", size="badge", weight=SEMIBOLD, color=C_DARK_CHARCOAL)
+        action_label = CrispText("Action Impact", size=12, weight=SEMIBOLD, color=C_DARK_CHARCOAL)
         action_label.next_to(action_arrow, DOWN, buff=0.1)
 
         # Particles for continuous flow
@@ -789,10 +969,6 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
         ## Presentation Step 1: The Operational Environment
         self.play(FadeIn(initial_title_group, shift=DOWN*0.1), run_time=0.8)
         # Narration: Dynamic enterprise setting: solar arrays, grid fluctuations, databases
-        self.sync_to(0.0) 
-        self.play(FadeOut(current_title_group), run_time=0.35)
-        self.play(run_time=0.45) # Combined transition
-        current_title_group = step1_title # Update current title
 
         # Animate environment components
         self.play(
@@ -823,7 +999,7 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
         env_pulse_rect.add_updater(pulse_updater)
         self.add(env_pulse_rect) # Add the pulsing outline to the scene
 
-        self.wait_until_last_animation_finishes()
+        # self.wait_until_last_animation_finishes() # Removed: not a standard Manim method
         self.wait(5.0) # Additional wait for narration
         # self.next_slide() # Removed due to Manim-Slides removal
 
@@ -832,7 +1008,7 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
         # Narration: Agent ingests real-time environmental telemetry
         self.sync_to(7.0) # Adjusted timestamp based on previous run_time
         step2_title = create_title("Continuous Sensory Observation")
-        self.remove(initial_title_group)
+        # self.remove(initial_title_group) # Removed redundant remove, FadeOut handles removal
         self.play(FadeOut(current_title_group), run_time=0.35)
         self.play(FadeIn(step2_title, shift=DOWN * 0.1), run_time=0.45)
         current_title_group = step2_title
@@ -862,7 +1038,7 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
             FadeIn(perception_particle), # Add particle
             run_time=1.0
         )
-        self.add(perception_particle) # Add particle to scene permanently for updater
+        # self.add(perception_particle) # Removed: FadeIn already adds the mobject to the scene
         self.wait(2.0)
         self.play(
             FadeOut(highlight_perception_env),
@@ -914,7 +1090,7 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
             FadeIn(internal_particle),
             run_time=1.0
         )
-        self.add(internal_particle) # Add particle to scene permanently
+        # self.add(internal_particle) # Removed: FadeIn already adds the mobject to the scene
         self.wait(2.0)
         self.play(
             FadeOut(highlight_agent_core),
@@ -965,7 +1141,7 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
             FadeIn(action_particle),
             run_time=1.0
         )
-        self.add(action_particle) # Add particle to scene permanently
+        # self.add(action_particle) # Removed: FadeIn already adds the mobject to the scene
         self.wait(2.0)
         self.play(
             FadeOut(highlight_action_agent),

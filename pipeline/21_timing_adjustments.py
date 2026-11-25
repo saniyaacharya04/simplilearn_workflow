@@ -1274,8 +1274,8 @@ class GenerateTimingAdjustments:
 
             google_client = genai.Client(api_key=self.google_api_key)
 
-            clean_model = "gemini-3.8-flash" if model in ("gemini-2.5-flash", "gemini-3.6-flash", "gemini-3.8-flash") else model
-            models_to_try = [clean_model, "gemini-3.8-flash", "gemini-3.5-flash"]
+            clean_model = "gemini-3.8-flash" if model in ("gemini-3.8-flash", "gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.8-flash") else model
+            models_to_try = [clean_model, "gemini-3.8-flash"]
             last_err = None
 
             for attempt in range(1, 4):

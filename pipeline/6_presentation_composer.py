@@ -51,7 +51,7 @@ PIPELINE STAGE 6: PRESENTATION COMPOSER
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 5_audio_output_tracker.json.
    - Step 2: Loads storyboard blueprint, classified assets, and constructed assets.
-   - Step 3: Invokes Gemini 3.5 Flash using SYSTEM_PROMPT_PRESENTATION_COMPOSER to expand
+   - Step 3: Invokes Gemini 3.8 Flash using SYSTEM_PROMPT_PRESENTATION_COMPOSER to expand
      every presentation step into nested container hierarchies and layout coordinates.
    - Step 4: Enforces Simplilearn OSL 3.0 clearance rules:
      * Layout 70: Left frame (640x920, r=10px, blue band #2C81FE), content safe zone x >= 760px.
@@ -656,7 +656,7 @@ class PresentationComposer:
         input_folder: Optional[str] = None,
         api_provider: str = "auto",
         api_key: Optional[str] = None,
-        model_name: str = "gemini-3.5-flash",
+        model_name: str = "gemini-3.8-flash",
         **kwargs
     ):
         self.input_tracker_path = input_tracker_path
@@ -700,7 +700,7 @@ class PresentationComposer:
         # 2. Gemini via google.genai
         gemini_key = self.google_api_key or self.api_key or os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
         if gemini_key:
-            g_model = target_model if ("gemini" in target_model.lower() or "flash" in target_model.lower()) else "gemini-2.5-flash"
+            g_model = target_model if ("gemini" in target_model.lower() or "flash" in target_model.lower()) else "gemini-3.8-flash"
             try:
                 from google import genai
                 client = genai.Client(api_key=gemini_key)
@@ -1213,7 +1213,7 @@ if __name__ == "__main__":
     parser.add_argument("-c", "--constructed", default=None, help="Optional constructed assets JSON")
     parser.add_argument("-t", "--target-scene", default=None, help="Optional target scene ID to process")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM API provider")
-    parser.add_argument("-m", "--model", default="gemini-3.5-flash", help="Model name")
+    parser.add_argument("-m", "--model", default="gemini-3.8-flash", help="Model name")
     args = parser.parse_args()
 
     composer = PresentationComposer(

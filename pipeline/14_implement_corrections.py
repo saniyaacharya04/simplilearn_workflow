@@ -519,7 +519,7 @@ class ImplementCodeCorrections:
 
                 response = google_client.models.generate_content(
                     #model="gemini-3.1-pro-preview",
-                    model="gemini-3.5-flash",
+                    model="gemini-3.8-flash",
                     contents=system_prompt + "\n\n" + formatted_user_prompt,
                     config=types.GenerateContentConfig(
                         temperature=0.7,

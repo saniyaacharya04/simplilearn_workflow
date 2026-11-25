@@ -531,8 +531,101 @@ def sanitize_manim_code(code: str, script_path: str = None) -> str:
             "                        self.wait(target_time - curr_t)\n"
             "                return _safe_sync_to\n"
             "            _scene_cls.sync_to = _make_sync_to()\n"
+            "        if not hasattr(_scene_cls, '_orig_play_safe'):\n"
+            "            _orig_play = _scene_cls.play\n"
+            "            def _make_safe_play():\n"
+            "                def _safe_play(self, *args, **kwargs):\n"
+            "                    if len(args) == 0:\n"
+            "                        rt = kwargs.get('run_time', 0.5)\n"
+            "                        return self.wait(rt)\n"
+            "                    return _orig_play(self, *args, **kwargs)\n"
+            "                return _safe_play\n"
+            "            _scene_cls._orig_play_safe = True\n"
+            "            _scene_cls.play = _make_safe_play()\n"
+            "        if not hasattr(_scene_cls, 'get_time'):\n"
+            "            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)\n"
             "    except Exception:\n"
             "        pass\n"
+            "try:\n"
+            "    from manim.utils.color.core import ManimColor\n"
+            "    if not hasattr(ManimColor, '_orig_eq_safe'):\n"
+            "        def _safe_color_eq(self, other):\n"
+            "            if not isinstance(other, ManimColor):\n"
+            "                try: other = ManimColor(other)\n"
+            "                except Exception: return False\n"
+            "            return bool(np.allclose(self._internal_value, other._internal_value))\n"
+            "        ManimColor._orig_eq_safe = True\n"
+            "        ManimColor.__eq__ = _safe_color_eq\n"
+            "except Exception:\n"
+            "    pass\n"
+            "try:\n"
+            "    if not hasattr(Mobject, 'stop_updater'):\n"
+            "        Mobject.stop_updater = lambda self: self.clear_updaters()\n"
+            "    if not hasattr(Mobject, '_orig_add_updater_safe'):\n"
+            "        _orig_add_updater = Mobject.add_updater\n"
+            "        def _safe_add_updater(self, update_function=None, *args, **kwargs):\n"
+            "            if update_function is None or not callable(update_function):\n"
+            "                return self\n"
+            "            return _orig_add_updater(self, update_function, *args, **kwargs)\n"
+            "        Mobject._orig_add_updater_safe = True\n"
+            "        Mobject.add_updater = _safe_add_updater\n"
+            "    if not hasattr(VGroup, 'arrange_around_point'):\n"
+            "        def _arrange_around_point(self, point=ORIGIN, radius=2.0, angle=0.0, **kwargs):\n"
+            "            n = len(getattr(self, 'submobjects', []))\n"
+            "            if n > 0:\n"
+            "                for i, mob in enumerate(self.submobjects):\n"
+            "                    ang = angle + i * (2 * PI / n)\n"
+            "                    mob.move_to(np.array(point) + radius * np.array([np.cos(ang), np.sin(ang), 0]))\n"
+            "            return self\n"
+            "        VGroup.arrange_around_point = _arrange_around_point\n"
+            "        VMobject.arrange_around_point = _arrange_around_point\n"
+            "    if not hasattr(Mobject, 'set_fill'):\n"
+            "        def _safe_mobj_set_fill(self, *args, **kwargs):\n"
+            "            for sub in getattr(self, 'submobjects', []):\n"
+            "                if hasattr(sub, 'set_fill'):\n"
+            "                    try: sub.set_fill(*args, **kwargs)\n"
+            "                    except Exception: pass\n"
+            "            return self\n"
+            "        Mobject.set_fill = _safe_mobj_set_fill\n"
+            "    if not hasattr(Mobject, 'set_stroke'):\n"
+            "        def _safe_mobj_set_stroke(self, *args, **kwargs):\n"
+            "            for sub in getattr(self, 'submobjects', []):\n"
+            "                if hasattr(sub, 'set_stroke'):\n"
+            "                    try: sub.set_stroke(*args, **kwargs)\n"
+            "                    except Exception: pass\n"
+            "            return self\n"
+            "        Mobject.set_stroke = _safe_mobj_set_stroke\n"
+            "    if not hasattr(Mobject, '_orig_mobj_init_safe'):\n"
+            "        _orig_mobj_init = Mobject.__init__\n"
+            "        def _safe_mobj_init(self, *args, **kwargs):\n"
+            "            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}\n"
+            "            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}\n"
+            "            res = _orig_mobj_init(self, *args, **clean_kw)\n"
+            "            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):\n"
+            "                try: self.set_opacity(kwargs['opacity'])\n"
+            "                except Exception: pass\n"
+            "            return res\n"
+            "        Mobject._orig_mobj_init_safe = True\n"
+            "        Mobject.__init__ = _safe_mobj_init\n"
+            "    if not hasattr(VMobject, '_orig_set_stroke_safe'):\n"
+            "        _orig_set_stroke = VMobject.set_stroke\n"
+            "        def _safe_set_stroke(self, *args, **kwargs):\n"
+            "            valid_stroke_params = {'color', 'width', 'opacity', 'background'}\n"
+            "            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}\n"
+            "            if 'z_index' in kwargs:\n"
+            "                try: self.set_z_index(kwargs['z_index'])\n"
+            "                except Exception: pass\n"
+            "            return _orig_set_stroke(self, *args, **clean_kw)\n"
+            "        VMobject._orig_set_stroke_safe = True\n"
+            "        VMobject.set_stroke = _safe_set_stroke\n"
+            "except Exception:\n"
+            "    pass\n"
+            "YELLOW = globals().get('YELLOW', '#DDB945')\n"
+            "WHITE = globals().get('WHITE', '#FFFFFF')\n"
+            "BLACK = globals().get('BLACK', '#404040')\n"
+            "RED = globals().get('RED', '#E58F6D')\n"
+            "BLUE = globals().get('BLUE', '#62B7E4')\n"
+            "GREEN = globals().get('GREEN', '#8ECDB7')\n"
             "_orig_anim_safe_defined = True\n"
         )
         if "from manim import *" in sanitized:
@@ -577,6 +670,16 @@ def sanitize_manim_code(code: str, script_path: str = None) -> str:
         'd3 = VGroup(MathTex("S", color=C_DARK_BLUE, font_size=16), CrispText("is Extraneous Design Clutter',
         sanitized
     )
+
+    # Strip empty add_updater calls: mob.add_updater()
+    sanitized = re.sub(r'^[ ]{4,12}[a-zA-Z0-9_]+\.add_updater\(\s*\)\s*\n', '', sanitized, flags=re.M)
+    # Strip target_mode parameter from animations (e.g. FadeOut(..., target_mode="horizontal"))
+    sanitized = re.sub(r',\s*target_mode=[\"\'][^\"\']*[\"\']', '', sanitized)
+    # Strip corner_radius accidentally passed to set_stroke(...)
+    sanitized = re.sub(r'(\.set_stroke\([^)]*),\s*corner_radius=[^,)]+', r'\1', sanitized)
+    # Fix .center used as coordinate attribute instead of method call .get_center()
+    sanitized = re.sub(r'(\b(?:self|[a-zA-Z0-9_]+))\.(center)\b(?!\s*\()(\s*[\+\-\,\)])', r'\1.get_center()\3', sanitized)
+    sanitized = re.sub(r'\.move_to\(((?:self|[a-zA-Z0-9_]+))\.(center)\b(?!\s*\()\)', r'.move_to(\1.get_center())', sanitized)
 
 
     # -------------------------------------------------------------------------
@@ -693,6 +796,8 @@ def sanitize_manim_code(code: str, script_path: str = None) -> str:
     # -------------------------------------------------------------------------
     sanitized = re.sub(r'try:\s*\n\s*except[^\n]*:\s*\n(?:\s*try:[\s\S]*?except[^\n]*:\s*\n)?(?:\s*class InstrumentedScene[\s\S]*?pass\s*\n|\s*InstrumentedScene\s*=\s*[^\n]+\n|\s*pass\s*\n)', '', sanitized)
     sanitized = re.sub(r'try:\s*\n\s*except[^\n]*:\s*\n\s*pass\s*\n', '', sanitized)
+    sanitized = re.sub(r'(?m)^\s*(?:from\s+manim_slides[^\n]*|import\s+manim_slides[^\n]*)', '', sanitized)
+    sanitized = re.sub(r'self\.play\(\s*run_time\s*=\s*([0-9.]+)\s*\)', r'self.wait(\1)', sanitized)
 
     # -------------------------------------------------------------------------
     # 5c. Safe InstrumentedScene handling & import cleanup
@@ -2437,16 +2542,30 @@ def sanitize_manim_code(code: str, script_path: str = None) -> str:
         if not re.search(r'\btitle_group\s*=', sanitized):
             sanitized = re.sub(r'^[ ]{4,12}self\.remove\(title_group\)\s*\n', '', sanitized, flags=re.M)
 
-        # 5b-2. Ensure any referenced new_title_group<N> is defined before usage
-        for ntv in set(re.findall(r'\b(new_title_group\d*)\b', sanitized)):
+        # 5b-2. Ensure any referenced new_title_group<N>, new_title_step<N>, step<N>_title is healed
+        for ntv in set(re.findall(r'\b(new_title\w*|step\d+_title\w*)\b', sanitized)):
             if not re.search(rf'^[ ]*{ntv}\s*=', sanitized, re.M):
-                t_title = canonical_title or "Section Title"
+                # If it's merely assigned to current_title, e.g. current_title = ntv, and preceded by FadeOut, purge that redundant block
                 sanitized = re.sub(
-                    rf'([ ]{{4,12}})(?=[^\n]*\b{ntv}\b)',
-                    rf'\1{ntv} = create_title("{t_title}")\n\1',
+                    rf'^[ ]{{4,12}}self\.play\(FadeOut\([^)]+\)[^\n]*\)\s*\n[ ]{{4,12}}current_title(?:_group)?\s*=\s*{ntv}\s*\n',
+                    '',
                     sanitized,
-                    count=1
+                    flags=re.M
                 )
+                sanitized = re.sub(
+                    rf'^[ ]{{4,12}}current_title(?:_group)?\s*=\s*{ntv}\s*\n',
+                    '',
+                    sanitized,
+                    flags=re.M
+                )
+                if re.search(rf'\b{ntv}\b', sanitized):
+                    t_title = canonical_title or "Section Title"
+                    sanitized = re.sub(
+                        rf'([ ]{{4,12}})(?=[^\n]*\b{ntv}\b)',
+                        rf'\1{ntv} = create_title("{t_title}")\n\1',
+                        sanitized,
+                        count=1
+                    )
 
         # 5b. Title deduplication is handled cleanly per-step in 5d
 
@@ -2533,11 +2652,14 @@ def sanitize_manim_code(code: str, script_path: str = None) -> str:
                     m_pre_hdr = re.search(r'^[ ]{4,12}([a-zA-Z0-9_,\s]+?(?:header|title)[a-zA-Z0-9_,\s]*)\s*=\s*(?:self\.)?(?:create_title|create_slide_title|create_header_title|create_header)\(', pre_code, re.M)
                     if m_pre_hdr:
                         hdr_var = m_pre_hdr.group(1).split(',')[0].strip()
-                        if re.search(r'^[ ]{4,12}[a-zA-Z0-9_]*title[a-zA-Z0-9_]*\s*=\s*(?:self\.)?(?:create_title|create_slide_title)\(', s_code, re.M):
-                            s_code = re.sub(r'^[ ]{4,12}[a-zA-Z0-9_]*title[a-zA-Z0-9_]*\s*=\s*(?:self\.)?(?:create_title|create_slide_title)\([^\n]+\n', '', s_code, flags=re.M)
-                            s_code = re.sub(r'^[ ]{4,12}self\.play\(FadeIn\([a-zA-Z0-9_]*title[a-zA-Z0-9_]*[^\)]*\)[^\n]*\)\s*\n', '', s_code, flags=re.M)
-                            s_code = re.sub(r'\bFadeIn\([a-zA-Z0-9_]*title[a-zA-Z0-9_]*[^\)]*\),?\s*', '', s_code)
-                            title_defs = list(re.finditer(title_pattern, s_code, re.M))
+                        m_step1_titles = list(re.finditer(r'^[ ]{4,12}([a-zA-Z0-9_]*title[a-zA-Z0-9_]*)\s*=\s*(?:self\.)?(?:create_title|create_slide_title)\(', s_code, re.M))
+                        for m_st in m_step1_titles:
+                            del_var = m_st.group(1).split(',')[0].strip()
+                            s_code = re.sub(rf'^[ ]{{4,12}}{del_var}\s*=\s*(?:self\.)?(?:create_title|create_slide_title)\([^\n]+\n', '', s_code, flags=re.M)
+                            s_code = re.sub(rf'^[ ]{{4,12}}self\.play\(FadeIn\({del_var}[^\)]*\)[^\n]*\)\s*\n', '', s_code, flags=re.M)
+                            s_code = re.sub(rf'\bFadeIn\({del_var}[^\)]*\),?\s*', '', s_code)
+                            s_code = re.sub(rf'\b{del_var}\b', hdr_var, s_code)
+                        title_defs = list(re.finditer(title_pattern, s_code, re.M))
 
                     if len(title_defs) > 1:
                         rich_indices = []
@@ -3084,7 +3206,7 @@ def repair_code_with_llm(
     error_output: str,
     filename: str,
     google_api_key: str,
-    model: str = "gemini-3.5-flash"
+    model: str = "gemini-3.8-flash"
 ) -> str | None:
     """
     Attempts to repair broken Manim code using Gemini, compiling and sanitizing the result.
@@ -3099,10 +3221,10 @@ def repair_code_with_llm(
 
     prompt = build_repair_prompt(source_code, error_line, error_message, error_output)
 
-    clean_model = "gemini-3.5-flash" if model in ["gemini-2.5-flash", "gemini-3.5-flash", None] else model
+    clean_model = "gemini-3.8-flash" if model in ["gemini-3.8-flash", "gemini-3.8-flash", "gemini-3.8-flash", None] else model
     models_to_try = [clean_model]
-    if "gemini-3.5-flash" not in models_to_try:
-        models_to_try.append("gemini-3.5-flash")
+    if "gemini-3.8-flash" not in models_to_try:
+        models_to_try.append("gemini-3.8-flash")
 
     for try_model in models_to_try:
         try:

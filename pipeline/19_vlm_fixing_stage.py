@@ -12,7 +12,7 @@ PIPELINE STAGE 19: VLM TIMESTAMPED FIX GENERATOR
      Acts as the multimodal reasoning bridge between visual QA analysis and code
      refactoring. Takes 2 representative visual keyframes per section (peak error
      action frame + settled composition frame), cumulative section timestamps (M:SS),
-     error insights, and the existing Manim code. Calls Gemini 3.5 Flash to synthesize
+     error insights, and the existing Manim code. Calls Gemini 3.8 Flash to synthesize
      concrete, timestamped physical fixing directives (e.g., "0:40 <directive>", "1:23 <directive>")
      that Stage 20 uses to repair code.
 
@@ -65,7 +65,7 @@ PIPELINE STAGE 19: VLM TIMESTAMPED FIX GENERATOR
      * Settled composition frame.
      * Automatically extracts keyframes via FFmpeg if snapshot images are missing.
    - Step 3: Computes exact cumulative timestamps (M:SS) from CGI_Input.json for each section.
-   - Step 4: Dispatches multimodal prompt to Gemini 3.5 Flash combining:
+   - Step 4: Dispatches multimodal prompt to Gemini 3.8 Flash combining:
      * The 2 screenshot images.
      * Code context from manim_extracted_codes/.
      * Cumulative M:SS section timestamp.
@@ -127,7 +127,7 @@ from code_sanitizer import is_executive_topic, get_visual_archetype
 from google import genai
 from google.genai import types
 
-MODEL_NAME = "gemini-3.5-flash"
+MODEL_NAME = "gemini-3.8-flash"
 MAX_RETRIES = 3
 RETRY_BACKOFF_SECONDS = 5
 
@@ -430,7 +430,7 @@ class VLMTimestampedFixStage:
 
     def build_vlm_fix_prompt(self, scene_number, section_timings, insights_by_sec, prior_suggestions, code_content, base_folder=None, theme=None, manifest_data=None):
         """
-        Builds the multimodal prompt instructing Gemini 3.5 Flash to identify layout errors
+        Builds the multimodal prompt instructing Gemini 3.8 Flash to identify layout errors
         and synthesize fixing instructions in the exact timestamped format:
           0:40 <actionable visual repair instructions...>
           1:23 <actionable visual repair instructions...>

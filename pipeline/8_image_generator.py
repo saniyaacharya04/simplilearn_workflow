@@ -409,12 +409,12 @@ class ImageGenerator:
                 except Exception as e:
                     print(f"  ⚠️ Qwen 2.1 generation failed: {e}")
 
-        # 2. Try Google GenAI (Nano-Banana / gemini-2.5-flash-image)
+        # 2. Try Google GenAI (Nano-Banana / gemini-3.8-flash-image)
         if not generated and self.client_google is not None and ("banana" in model_choice or "google" in model_choice or "gemini" in model_choice or self.api_provider in ["gemini", "auto"]):
             try:
                 print(f"  🍌 [Model: Google GenAI] Generating image with Gemini Flash Image...")
                 response = self.client_google.models.generate_content(
-                    model="gemini-2.5-flash-image",
+                    model="gemini-3.8-flash-image",
                     contents=prompt,
                     config=types.GenerateContentConfig(
                         response_modalities=["IMAGE"],
@@ -576,8 +576,8 @@ class ImageGeneration:
 
         image_creation_model = config_data.get('image_creation_model', 'nano-banana')
         comfy_url = config_data.get('comfy_url', os.getenv("COMFYUI_URL", "http://127.0.0.1:8188"))
-        asset_class_model_name = config_data.get('asset_class_model_name', 'gemini-2.5-flash')
-        image_prompt_model_name = config_data.get('image_prompt_model_name', 'gemini-2.5-flash')
+        asset_class_model_name = config_data.get('asset_class_model_name', 'gemini-3.8-flash')
+        image_prompt_model_name = config_data.get('image_prompt_model_name', 'gemini-3.8-flash')
 
         print(f"   Image Creation Model: {image_creation_model}")
         print(f"   Base Folder: {base_folder}")

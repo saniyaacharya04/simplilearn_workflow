@@ -180,8 +180,8 @@ class SuggestCorrections:
         """
         print(f"  [Simulated] Running correction_suggestions for {topic_id} using keys: {self.google_api_key[:5]}... / {self.claude_api_key[:5]}...")
         
-        guideline_model_name = config_data.get('jazzy_model_name', 'gemini-2.5-flash')
-        asset_class_model_name = config_data.get('asset_class_model_name', 'gemini-2.5-flash')
+        guideline_model_name = config_data.get('jazzy_model_name', 'gemini-3.8-flash')
+        asset_class_model_name = config_data.get('asset_class_model_name', 'gemini-3.8-flash')
 
         base_folder = config_data['base_folder']
         meta_dir = os.path.join(base_folder, "metadata_blueprints")
@@ -205,7 +205,7 @@ class SuggestCorrections:
                 asset_classification_output_file = str(cand)
                 break
         correction_vendor = config_data.get("correction_vendor", "google")
-        correction_model_name = config_data.get("correction_model_name", "gemini-2.5-flash")
+        correction_model_name = config_data.get("correction_model_name", "gemini-3.8-flash")
 
         specific_suggestions_folder = f"{base_folder}/specific_suggestions"
         os.makedirs(specific_suggestions_folder,exist_ok=True)
@@ -568,7 +568,7 @@ class SuggestCorrections:
             formatted_system_prompt = system_prompt
 
             if correction_vendor=="google":
-                print(f"Using google's model of gemini-3.5-flash")
+                print(f"Using google's model of {correction_model_name}")
                 full_prompt = f"{formatted_system_prompt}\n\nUser Query: {formatted_user_prompt}"
                 model_variant = f"models/{correction_model_name}" 
                 model = genai.GenerativeModel(model_variant)

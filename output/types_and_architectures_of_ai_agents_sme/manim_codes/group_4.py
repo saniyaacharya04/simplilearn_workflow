@@ -84,8 +84,83 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
+        if not hasattr(_scene_cls, '_orig_play_safe'):
+            _orig_play = _scene_cls.play
+            def _make_safe_play():
+                def _safe_play(self, *args, **kwargs):
+                    if len(args) == 0:
+                        rt = kwargs.get('run_time', 0.5)
+                        return self.wait(rt)
+                    return _orig_play(self, *args, **kwargs)
+                return _safe_play
+            _scene_cls._orig_play_safe = True
+            _scene_cls.play = _make_safe_play()
+        if not hasattr(_scene_cls, 'get_time'):
+            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
+try:
+    from manim.utils.color.core import ManimColor
+    if not hasattr(ManimColor, '_orig_eq_safe'):
+        def _safe_color_eq(self, other):
+            if not isinstance(other, ManimColor):
+                try: other = ManimColor(other)
+                except Exception: return False
+            return bool(np.allclose(self._internal_value, other._internal_value))
+        ManimColor._orig_eq_safe = True
+        ManimColor.__eq__ = _safe_color_eq
+except Exception:
+    pass
+try:
+    if not hasattr(Mobject, 'stop_updater'):
+        Mobject.stop_updater = lambda self: self.clear_updaters()
+    if not hasattr(Mobject, 'set_fill'):
+        def _safe_mobj_set_fill(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_fill'):
+                    try: sub.set_fill(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_fill = _safe_mobj_set_fill
+    if not hasattr(Mobject, 'set_stroke'):
+        def _safe_mobj_set_stroke(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_stroke'):
+                    try: sub.set_stroke(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_stroke = _safe_mobj_set_stroke
+    if not hasattr(Mobject, '_orig_mobj_init_safe'):
+        _orig_mobj_init = Mobject.__init__
+        def _safe_mobj_init(self, *args, **kwargs):
+            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
+            res = _orig_mobj_init(self, *args, **clean_kw)
+            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
+                try: self.set_opacity(kwargs['opacity'])
+                except Exception: pass
+            return res
+        Mobject._orig_mobj_init_safe = True
+        Mobject.__init__ = _safe_mobj_init
+    if not hasattr(VMobject, '_orig_set_stroke_safe'):
+        _orig_set_stroke = VMobject.set_stroke
+        def _safe_set_stroke(self, *args, **kwargs):
+            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
+            if 'z_index' in kwargs:
+                try: self.set_z_index(kwargs['z_index'])
+                except Exception: pass
+            return _orig_set_stroke(self, *args, **clean_kw)
+        VMobject._orig_set_stroke_safe = True
+        VMobject.set_stroke = _safe_set_stroke
+except Exception:
+    pass
+YELLOW = globals().get('YELLOW', '#DDB945')
+WHITE = globals().get('WHITE', '#FFFFFF')
+BLACK = globals().get('BLACK', '#404040')
+RED = globals().get('RED', '#E58F6D')
+BLUE = globals().get('BLUE', '#62B7E4')
+GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
 
 try:
@@ -103,6 +178,12 @@ for _k in dir(_rf):
 
 
 # Replaced the simpler global create_pill with the more complex version previously in construct
+
+
+
+
+
+
 
 
 
@@ -226,6 +307,18 @@ except Exception:
     pass
 
 NumberLine.c2p = lambda self, *args: self.n2p(args[0])
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -830,6 +923,96 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.clamp_to_screen = clamp_to_screen
 
 
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         # Assign global helper functions to self for use within the scene
 
 
@@ -975,7 +1158,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         action_group = VGroup(action_box, action_label, gear_icon)
 
         # Connectors (Arrows to/from AI Core)
-        arrow_config = {"buff": 0.1, "stroke_width": 2.5, "max_tip_length_to_length_ratio": 0.15, "color": C_BODY_DARK}
+        arrow_config = {"buff": 0.1, "stroke_width": 2.5, "max_tip_length_to_length_ratio": 0.15} # Removed redundant 'color'
 
         arrow_p_core = Arrow(perception_box.get_bottom(), ai_core.get_top(), **arrow_config, color=C_SKY_BLUE)
         arrow_m_core = Arrow(memory_box.get_left(), ai_core.get_right(), **arrow_config, color=C_SOFT_LILAC)
@@ -1022,7 +1205,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.sync_to(69.06 + 1.0) # Arbitrary sync point after previous narration ends
 
         # Highlight Perception pillar
-        perception_highlight = perception_group.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5, corner_radius=pillar_corner_radius)
+        perception_highlight = perception_group.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
         self.play(Create(perception_highlight), run_time=0.6)
 
         # Add details about Perception
@@ -1057,9 +1240,9 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
             run_time=1.0
         )
         self.play(
-            MoveAlongPath(data_dot1, stream_path1, rate_func=ease_out_cubic, run_time=1.5), # Fixed rate_func
-            MoveAlongPath(data_dot2, stream_path2, rate_func=ease_out_cubic, run_time=1.5), # Fixed rate_func
-            MoveAlongPath(data_dot3, stream_path3, rate_func=ease_out_cubic, run_time=1.5), # Fixed rate_func
+            MoveAlongPath(data_dot1, stream_path1, rate_func=ease_out_cubic, run_time=1.5),
+            MoveAlongPath(data_dot2, stream_path2, rate_func=ease_out_cubic, run_time=1.5),
+            MoveAlongPath(data_dot3, stream_path3, rate_func=ease_out_cubic, run_time=1.5),
             FadeIn(data_dot1, data_dot2, data_dot3),
             run_time=1.5
         )
@@ -1076,7 +1259,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.sync_to(69.06 + 1.0 + 8.0) # Arbitrary sync point
 
         # Highlight Memory pillar
-        memory_highlight = memory_group.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5, corner_radius=pillar_corner_radius)
+        memory_highlight = memory_group.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
         self.play(Create(memory_highlight), run_time=0.6)
 
         # Add details for Memory
@@ -1095,7 +1278,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Animate data flowing into memory from core
         data_flow_dot = Dot(color=C_SOFT_LILAC, radius=dot_radius).move_to(ai_core.get_right())
         path_core_to_memory = Line(ai_core.get_right(), memory_box.get_left())
-        self.play(MoveAlongPath(data_flow_dot, path_core_to_memory, rate_func=ease_out_cubic, run_time=1.0)) # Fixed rate_func
+        self.play(MoveAlongPath(data_flow_dot, path_core_to_memory, rate_func=ease_out_cubic, run_time=1.0))
         self.remove(data_flow_dot)
 
         self.wait(2.0)
@@ -1109,7 +1292,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.sync_to(69.06 + 1.0 + 8.0 + 8.0) # Arbitrary sync point
 
         # Highlight Reasoning pillar
-        reasoning_highlight = reasoning_group.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5, corner_radius=pillar_corner_radius)
+        reasoning_highlight = reasoning_group.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
         self.play(Create(reasoning_highlight), run_time=0.6)
 
         # Add details for Reasoning
@@ -1130,7 +1313,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         neural_pulse_dot = Dot(color=C_LAVENDER_PERIWINKLE, radius=dot_radius).move_to(neural_node1.get_center())
         path_nodes = [neural_node1.get_center(), brain_center, neural_node2.get_center()]
         neural_path = VMobject().set_points_as_corners(path_nodes)
-        self.play(MoveAlongPath(neural_pulse_dot, neural_path, rate_func=ease_out_cubic, run_time=1.0)) # Fixed rate_func
+        self.play(MoveAlongPath(neural_pulse_dot, neural_path, rate_func=ease_out_cubic, run_time=1.0))
         self.remove(neural_pulse_dot)
 
         self.wait(2.0)
@@ -1144,7 +1327,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.sync_to(69.06 + 1.0 + 8.0 + 8.0 + 8.0) # Arbitrary sync point
 
         # Highlight Action pillar
-        action_highlight = action_group.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5, corner_radius=pillar_corner_radius)
+        action_highlight = action_group.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
         self.play(Create(action_highlight), run_time=0.6)
 
         # Add details for Action
@@ -1164,7 +1347,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Animate action dispatch from core to action box
         action_dot = Dot(color=C_WARM_AMBER, radius=dot_radius).move_to(ai_core.get_left())
         path_core_to_action = Line(ai_core.get_left(), action_box.get_right())
-        self.play(MoveAlongPath(action_dot, path_core_to_action, rate_func=ease_out_cubic, run_time=1.0)) # Fixed rate_func
+        self.play(MoveAlongPath(action_dot, path_core_to_action, rate_func=ease_out_cubic, run_time=1.0))
         self.remove(action_dot)
 
         self.wait(2.0)
@@ -1180,7 +1363,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Highlight the entire system (all pillars and core)
         system_highlight_perimeter = VGroup(
             perception_box, memory_box, reasoning_box, action_box, ai_core
-        ).copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5, corner_radius=pillar_corner_radius)
+        ).copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
         
         self.play(Create(system_highlight_perimeter), run_time=1.0)
 

@@ -532,13 +532,13 @@ class CodeGenerator:
         print(f"  [Simulated] Running generate_code for {topic_id} using keys: {self.google_api_key[:5]}... / {self.claude_api_key[:5]}...")
         
         base_folder = config_data.get('base_folder', os.getcwd())
-        asset_class_model_name = config_data.get('asset_class_model_name', 'gemini-2.5-flash')
-        asset_builder_model_name = config_data.get('asset_builder_model_name', 'gemini-2.5-flash')
+        asset_class_model_name = config_data.get('asset_class_model_name', 'gemini-3.8-flash')
+        asset_builder_model_name = config_data.get('asset_builder_model_name', 'gemini-3.8-flash')
 
         scene_coding_vendor = config_data.get('scene_coding_vendor', 'google')
-        scene_coding_model_name = config_data.get('scene_coding_model_name', 'gemini-2.5-flash')
+        scene_coding_model_name = config_data.get('scene_coding_model_name', 'gemini-3.8-flash')
         guideline_vendor = config_data.get('styling_vendor', 'google')
-        guideline_model_name = config_data.get('styling_model_name', 'gemini-2.5-flash')
+        guideline_model_name = config_data.get('styling_model_name', 'gemini-3.8-flash')
         theme = config_data.get('theme', 'dynamic_learning')
         clean_lesson_title = config_data.get('lesson_title') or config_data.get('topic_name') or topic_id.replace('_', ' ').title()
 
@@ -1682,11 +1682,11 @@ class CodeGenerator:
                     except Exception as e:
                         print(f"\n    -> [API Attempt {attempt}/{max_retries}] Notice: {e}")
                         if attempt == max_retries:
-                            if target_model != "gemini-2.5-flash":
-                                print(f"    -> Falling back to gemini-2.5-flash for Scene {group}...")
+                            if target_model != "gemini-3.8-flash":
+                                print(f"    -> Falling back to gemini-3.8-flash for Scene {group}...")
                                 try:
                                     fallback_resp = google_client.models.generate_content(
-                                        model="gemini-2.5-flash",
+                                        model="gemini-3.8-flash",
                                         contents=full_prompt,
                                         config=types.GenerateContentConfig(temperature=0.7, max_output_tokens=30000),
                                     )
@@ -1722,11 +1722,11 @@ class CodeGenerator:
                 except Exception as e:
                     print(f"    -> [Claude API Notice] {e}")
                     if google_client and hasattr(google_client, 'models'):
-                        print(f"    -> Falling back to Gemini (gemini-2.5-flash) for Scene {group}...")
+                        print(f"    -> Falling back to Gemini (gemini-3.8-flash) for Scene {group}...")
                         try:
                             full_prompt = f"{formatted_system_prompt}\n\nUser Query: {formatted_user_prompt}"
                             response = google_client.models.generate_content(
-                                model="gemini-2.5-flash",
+                                model="gemini-3.8-flash",
                                 contents=full_prompt,
                             )
                             generated_result = response.text
@@ -2210,11 +2210,11 @@ class BalanceScale(VGroup):
         config_data.update({
             "base_folder": str(folder),
             "asset_class_model_name": config_data.get("asset_class_model_name", "gemini-3.8-flash"),
-            "asset_builder_model_name": config_data.get("asset_builder_model_name", "gemini-2.5-flash"),
+            "asset_builder_model_name": config_data.get("asset_builder_model_name", "gemini-3.8-flash"),
             "scene_coding_vendor": config_data.get("scene_coding_vendor", vendor),
             "scene_coding_model_name": model_name if model_name != "gemini-3.8-flash" else config_data.get("scene_coding_model_name", "gemini-3.8-flash"),
             "styling_vendor": config_data.get("styling_vendor", "google"),
-            "styling_model_name": config_data.get("styling_model_name", "gemini-3.5-flash"),
+            "styling_model_name": config_data.get("styling_model_name", "gemini-3.8-flash"),
             "theme": config_data.get("theme", "dynamic"),
             "force": force
         })

@@ -1,50 +1,16 @@
+C_BRAND_BLUE = "#2C81FE"
+C_LIGHT_BLUE = "#62B7E4"
+C_PURPLE = "#9B99C7"
+C_RED = "#E58F6D"
+C_WHITE = "#FFFFFF"
+C_BLACK = "#404040"
+C_NAVY_DARK = "#404040"
 C_DARK_BLUE = "#1E293B"
 C_YELLOW = "#DDB945"
 import os
 import re
 SME_LAYOUT = '70'
 from manim import *
-class NullMobject(VGroup):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*[VMobject() for _ in range(15)])
-        self.set_opacity(0)
-    def __getitem__(self, val):
-        if isinstance(val, int) and val >= len(self.submobjects):
-            return VMobject()
-        return super().__getitem__(val)
-    def get_center(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_top(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_bottom(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_left(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_right(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-
-try:
-    if not hasattr(VGroup, '_orig_add_safe'):
-        VGroup._orig_add_safe = VGroup.add
-        def _safe_vg_add(self, *mobs):
-            cleaned = []
-            for m in mobs:
-                if isinstance(m, VMobject):
-                    cleaned.append(m)
-                elif hasattr(m, 'submobjects'):
-                    for sub in m.submobjects:
-                        if isinstance(sub, VMobject):
-                            cleaned.append(sub)
-            return VGroup._orig_add_safe(self, *cleaned)
-        VGroup.add = _safe_vg_add
-except Exception:
-    pass
-
 # Dynamic Animation Safety Preamble
 for _anim_cls in (FadeIn, FadeOut, Create, Write):
     try:
@@ -96,9 +62,88 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
+        if not hasattr(_scene_cls, '_orig_play_safe'):
+            _orig_play = _scene_cls.play
+            def _make_safe_play():
+                def _safe_play(self, *args, **kwargs):
+                    if len(args) == 0:
+                        rt = kwargs.get('run_time', 0.5)
+                        return self.wait(rt)
+                    return _orig_play(self, *args, **kwargs)
+                return _safe_play
+            _scene_cls._orig_play_safe = True
+            _scene_cls.play = _make_safe_play()
+        if not hasattr(_scene_cls, 'get_time'):
+            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
+try:
+    from manim.utils.color.core import ManimColor
+    if not hasattr(ManimColor, '_orig_eq_safe'):
+        def _safe_color_eq(self, other):
+            if not isinstance(other, ManimColor):
+                try: other = ManimColor(other)
+                except Exception: return False
+            return bool(np.allclose(self._internal_value, other._internal_value))
+        ManimColor._orig_eq_safe = True
+        ManimColor.__eq__ = _safe_color_eq
+except Exception:
+    pass
+try:
+    if not hasattr(Mobject, 'stop_updater'):
+        Mobject.stop_updater = lambda self: self.clear_updaters()
+    if not hasattr(Mobject, 'set_fill'):
+        def _safe_mobj_set_fill(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_fill'):
+                    try: sub.set_fill(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_fill = _safe_mobj_set_fill
+    if not hasattr(Mobject, 'set_stroke'):
+        def _safe_mobj_set_stroke(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_stroke'):
+                    try: sub.set_stroke(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_stroke = _safe_mobj_set_stroke
+    if not hasattr(Mobject, '_orig_mobj_init_safe'):
+        _orig_mobj_init = Mobject.__init__
+        def _safe_mobj_init(self, *args, **kwargs):
+            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
+            res = _orig_mobj_init(self, *args, **clean_kw)
+            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
+                try: self.set_opacity(kwargs['opacity'])
+                except Exception: pass
+            return res
+        Mobject._orig_mobj_init_safe = True
+        Mobject.__init__ = _safe_mobj_init
+    if not hasattr(VMobject, '_orig_set_stroke_safe'):
+        _orig_set_stroke = VMobject.set_stroke
+        def _safe_set_stroke(self, *args, **kwargs):
+            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
+            if 'z_index' in kwargs:
+                try: self.set_z_index(kwargs['z_index'])
+                except Exception: pass
+            return _orig_set_stroke(self, *args, **clean_kw)
+        VMobject._orig_set_stroke_safe = True
+        VMobject.set_stroke = _safe_set_stroke
+except Exception:
+    pass
+YELLOW = globals().get('YELLOW', '#DDB945')
+WHITE = globals().get('WHITE', '#FFFFFF')
+BLACK = globals().get('BLACK', '#404040')
+RED = globals().get('RED', '#E58F6D')
+BLUE = globals().get('BLUE', '#62B7E4')
+GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
+
+# Dynamic Animation Safety Preamble (removed as it's non-standard and causes issues)
+
+# VGroup.add safety patch (removed as it's non-standard and overly restrictive)
 
 NumberLine.c2p = lambda self, *args: self.n2p(args[0])
 try:
@@ -110,6 +155,131 @@ import manim.utils.rate_functions as _rf
 for _k in dir(_rf):
     if not _k.startswith("_"):
         globals()[_k] = getattr(_rf, _k)
+
+
+
+
+
+
+
+
+def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
+    if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
+        pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
+        pad_y = max(pad_y, getattr(frame_mobject, 'height', 0) * 0.22)
+    if hasattr(frame_mobject, 'width') and hasattr(target_mobject, 'width'):
+        max_w = frame_mobject.width - (pad_x * 2)
+        if max_w > 0 and target_mobject.width > max_w:
+            ratio = max_w / target_mobject.width
+            needed_w = target_mobject.width + (pad_x * 2)
+            if hasattr(frame_mobject, 'stretch_to_fit_width') and needed_w <= 6.2:
+                frame_mobject.stretch_to_fit_width(needed_w)
+            elif ratio < 0.88:
+                if hasattr(target_mobject, 'scale_to_fit_width'):
+                    target_mobject.scale_to_fit_width(target_mobject.width * 0.88)
+            else:
+                target_mobject.scale_to_fit_width(max_w)
+    if hasattr(frame_mobject, 'height') and hasattr(target_mobject, 'height'):
+        req_h = target_mobject.height + (pad_y * 2)
+        if req_h > frame_mobject.height:
+            frame_mobject.stretch_to_fit_height(req_h)
+    target_mobject.move_to(frame_mobject.get_center())
+    return target_mobject
+
+def safe_image(img_path, width=3.0, height=None):
+    if os.path.exists(str(img_path)):
+        try:
+            im = ImageMobject(str(img_path))
+            if width: im.scale_to_fit_width(width)
+            if height: im.scale_to_fit_height(height)
+            return im
+        except Exception:
+            pass
+    box = RoundedRectangle(width=width or 3.0, height=height or 2.0, corner_radius=0.074, fill_color='#F8FAFC', fill_opacity=0.9, stroke_color='#CBD5E1', stroke_width=1.5)
+    lbl = CrispText('Asset Image', font_size=12, color='#404040').move_to(box)
+    return VGroup(box, lbl)
+
+def create_pill(*args, **kwargs):
+    bg_color = kwargs.get('bg_color', globals().get('C_DARK_BLUE', '#1E293B'))
+    text_color = kwargs.get('text_color', globals().get('C_WHITE', '#FFFFFF'))
+    font_size = kwargs.get('font_size', 12)
+    texts = [str(a) for a in args if isinstance(a, (str, int, float)) and not str(a).startswith('#') and str(a) not in ('WHITE', 'BLACK')]
+    text_content = texts[0] if texts else 'Badge'
+    txt = CrispText(text_content, font_size=font_size, color=text_color, weight='BOLD')
+    bg = RoundedRectangle(width=max(txt.width + 0.4, 1.2), height=max(txt.height + 0.2, 0.4), corner_radius=0.15, fill_color=bg_color, fill_opacity=1.0, stroke_width=0)
+    txt.move_to(bg)
+    fit_into_box(txt, bg, pad_x=0.2, pad_y=0.08)
+    grp = VGroup(bg, txt)
+    grp.set_z_index(20)
+    return grp
+
+def create_checkmark(*args, **kwargs):
+    c = kwargs.get('color', globals().get('C_STEEL_BLUE', '#7EA2C8'))
+    for a in args:
+        if isinstance(a, str) and (a.startswith('#') or a in globals()):
+            c = a
+    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
+    if isinstance(sz, (int, float)) and sz > 1.0:
+        sz = sz / 60.0
+    sw = kwargs.get('stroke_width', 3.5)
+    p1 = ORIGIN
+    p2 = p1 + RIGHT * (sz * 0.42) + DOWN * (sz * 0.55)
+    p3 = p2 + RIGHT * (sz * 0.95) + UP * (sz * 1.15)
+    l1 = Line(p1, p2, color=c, stroke_width=sw)
+    l2 = Line(p2, p3, color=c, stroke_width=sw)
+    g = VGroup(l1, l2)
+    g.center()
+    return g
+
+def create_crossmark(*args, **kwargs):
+    c = kwargs.get('color', globals().get('C_CORAL', '#E58F6D'))
+    for a in args:
+        if isinstance(a, str) and (a.startswith('#') or a in globals()):
+            c = a
+    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
+    if isinstance(sz, (int, float)) and sz > 1.0:
+        sz = sz / 60.0
+    sw = kwargs.get('stroke_width', 3.5)
+    l1 = Line(ORIGIN, RIGHT * (sz * 0.8) + UP * (sz * 0.8), color=c, stroke_width=sw)
+    l2 = Line(ORIGIN + UP * (sz * 0.8), RIGHT * (sz * 0.8), color=c, stroke_width=sw)
+    g = VGroup(l1, l2)
+    g.center()
+    return g
+
+class NullMobject(VGroup):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*[VMobject() for _ in range(15)])
+        self.set_opacity(0)
+    def __getitem__(self, val):
+        if isinstance(val, int) and val >= len(self.submobjects):
+            return VMobject()
+        return super().__getitem__(val)
+    def get_center(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_top(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_bottom(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_left(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_right(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -225,89 +395,6 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
-    if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
-        pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
-        pad_y = max(pad_y, getattr(frame_mobject, 'height', 0) * 0.22)
-    if hasattr(frame_mobject, 'width') and hasattr(target_mobject, 'width'):
-        max_w = frame_mobject.width - (pad_x * 2)
-        if max_w > 0 and target_mobject.width > max_w:
-            ratio = max_w / target_mobject.width
-            needed_w = target_mobject.width + (pad_x * 2)
-            if hasattr(frame_mobject, 'stretch_to_fit_width') and needed_w <= 6.2:
-                frame_mobject.stretch_to_fit_width(needed_w)
-            elif ratio < 0.88:
-                if hasattr(target_mobject, 'scale_to_fit_width'):
-                    target_mobject.scale_to_fit_width(target_mobject.width * 0.88)
-            else:
-                target_mobject.scale_to_fit_width(max_w)
-    if hasattr(frame_mobject, 'height') and hasattr(target_mobject, 'height'):
-        req_h = target_mobject.height + (pad_y * 2)
-        if req_h > frame_mobject.height:
-            frame_mobject.stretch_to_fit_height(req_h)
-    target_mobject.move_to(frame_mobject.get_center())
-    return target_mobject
-
-def safe_image(img_path, width=3.0, height=None):
-    if os.path.exists(str(img_path)):
-        try:
-            im = ImageMobject(str(img_path))
-            if width: im.scale_to_fit_width(width)
-            if height: im.scale_to_fit_height(height)
-            return im
-        except Exception:
-            pass
-    box = RoundedRectangle(width=width or 3.0, height=height or 2.0, corner_radius=0.074, fill_color='#F8FAFC', fill_opacity=0.9, stroke_color='#CBD5E1', stroke_width=1.5)
-    lbl = CrispText('Asset Image', font_size=12, color='#404040').move_to(box)
-    return VGroup(box, lbl)
-
-def create_pill(*args, **kwargs):
-    bg_color = kwargs.get('bg_color', globals().get('C_DARK_BLUE', '#1E293B'))
-    text_color = kwargs.get('text_color', globals().get('C_WHITE', '#FFFFFF'))
-    font_size = kwargs.get('font_size', 12)
-    texts = [str(a) for a in args if isinstance(a, (str, int, float)) and not str(a).startswith('#') and str(a) not in ('WHITE', 'BLACK')]
-    text_content = texts[0] if texts else 'Badge'
-    txt = CrispText(text_content, font_size=font_size, color=text_color, weight='BOLD')
-    bg = RoundedRectangle(width=max(txt.width + 0.4, 1.2), height=max(txt.height + 0.2, 0.4), corner_radius=0.15, fill_color=bg_color, fill_opacity=1.0, stroke_width=0)
-    txt.move_to(bg)
-    fit_into_box(txt, bg, pad_x=0.2, pad_y=0.08)
-    grp = VGroup(bg, txt)
-    grp.set_z_index(20)
-    return grp
-
-def create_checkmark(*args, **kwargs):
-    c = kwargs.get('color', globals().get('C_STEEL_BLUE', '#7EA2C8'))
-    for a in args:
-        if isinstance(a, str) and (a.startswith('#') or a in globals()):
-            c = a
-    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
-    if isinstance(sz, (int, float)) and sz > 1.0:
-        sz = sz / 60.0
-    sw = kwargs.get('stroke_width', 3.5)
-    p1 = ORIGIN
-    p2 = p1 + RIGHT * (sz * 0.42) + DOWN * (sz * 0.55)
-    p3 = p2 + RIGHT * (sz * 0.95) + UP * (sz * 1.15)
-    l1 = Line(p1, p2, color=c, stroke_width=sw)
-    l2 = Line(p2, p3, color=c, stroke_width=sw)
-    g = VGroup(l1, l2)
-    g.center()
-    return g
-
-def create_crossmark(*args, **kwargs):
-    c = kwargs.get('color', globals().get('C_CORAL', '#E58F6D'))
-    for a in args:
-        if isinstance(a, str) and (a.startswith('#') or a in globals()):
-            c = a
-    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
-    if isinstance(sz, (int, float)) and sz > 1.0:
-        sz = sz / 60.0
-    sw = kwargs.get('stroke_width', 3.5)
-    l1 = Line(ORIGIN, RIGHT * (sz * 0.8) + UP * (sz * 0.8), color=c, stroke_width=sw)
-    l2 = Line(ORIGIN + UP * (sz * 0.8), RIGHT * (sz * 0.8), color=c, stroke_width=sw)
-    g = VGroup(l1, l2)
-    g.center()
-    return g
-
 class PulsingShockwaves(VGroup):
     def __init__(self, center, color="#E6A157", max_radius=1.1, num_rings=3, **kwargs):
         super().__init__(**kwargs)
@@ -364,8 +451,10 @@ class NeuralHaloPulses(VGroup):
         self.add_updater(update_halo)
 
 class DynamicRadarSweep(VGroup):
-    def __init__(self, center, radius=1.0, color="#62B7E4", speed=3.0, **kwargs):
+    def __init__(self, center=ORIGIN, radius=1.0, color="#62B7E4", speed=3.0, **kwargs):
         super().__init__(**kwargs)
+        if center is None:
+            center = ORIGIN
         self.center_pt = np.array(center)
         self.radius = radius
         self.speed = speed
@@ -444,7 +533,7 @@ class BalanceScale(VGroup):
 
 from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
-from manim_slides.instrumented_scene import InstrumentedScene
+# Removed: from manim_slides.instrumented_scene import InstrumentedScene
 
 # --- Global Constants and Helper Functions (as if from template_utils or global scope) ---
 # Canvas Theme & Colors
@@ -471,27 +560,28 @@ HIGHLIGHT_COLOR = "#F78908" # Warm Orange for focus highlights
 
 
 # --- Custom Vector Assets (simplified for this example, mimicking kinetic standards) ---
-class DynamicRadarSweep(VGroup):
-    def __init__(self, radius=1.0, color=C_SKY_BLUE, **kwargs):
-        super().__init__(**kwargs)
-        self.radius = radius
-        self.color = color
+# Removed duplicate DynamicRadarSweep class definition
+# class DynamicRadarSweep(VGroup):
+#     def __init__(self, radius=1.0, color=C_SKY_BLUE, **kwargs):
+#         super().__init__(**kwargs)
+#         self.radius = radius
+#         self.color = color
         
-        # Base circle and radiating rings
-        self.circle = Circle(radius=self.radius, stroke_color=self.color, stroke_width=2).set_fill(self.color, opacity=0.1)
-        self.scan_line = Line(ORIGIN, self.radius * RIGHT, stroke_color=self.color, stroke_width=3)
-        self.scan_line.rotate(PI/4, about_point=ORIGIN) # Initial angle
+#         # Base circle and radiating rings
+#         self.circle = Circle(radius=self.radius, stroke_color=self.color, stroke_width=2).set_fill(self.color, opacity=0.1)
+#         self.scan_line = Line(ORIGIN, self.radius * RIGHT, stroke_color=self.color, stroke_width=3)
+#         self.scan_line.rotate(PI/4, about_point=ORIGIN) # Initial angle
         
-        self.add(self.circle, self.scan_line)
+#         self.add(self.circle, self.scan_line)
 
-    def _update_sweep(self, mob, dt):
-        mob.submobjects[1].rotate(0.5 * dt) # Rotate the scan line
+#     def _update_sweep(self, mob, dt):
+#         mob.submobjects[1].rotate(0.5 * dt) # Rotate the scan line
 
-    def add_updater(self, *args, **kwargs):
-        super().add_updater(self._update_sweep)
+#     def add_updater(self, *args, **kwargs):
+#         super().add_updater(self._update_sweep)
 
-    def stop_updater(self):
-        self.remove_updater(self._update_sweep)
+#     def stop_updater(self):
+#         self.remove_updater(self._update_sweep)
 
 class DatabaseStack(VGroup):
     def __init__(self, num_disks=3, disk_radius=1.0, disk_height=0.2, color=C_MINT, **kwargs):
@@ -505,11 +595,12 @@ class DatabaseStack(VGroup):
         self.original_heights = []
         self.original_widths = []
         for i in range(self.num_disks):
-            cylinder = Cylinder(radius=self.disk_radius, height=self.disk_height, color=self.color, fill_opacity=0.3, stroke_color=self.color, stroke_width=2)
-            cylinder.set_z_index(-i) # Stack order
-            disks.add(cylinder)
-            self.original_heights.append(cylinder.get_height())
-            self.original_widths.append(cylinder.get_width())
+            # Replaced Cylinder with Ellipse for 2D scene compatibility
+            disk = Ellipse(width=2*self.disk_radius, height=self.disk_height, color=self.color, fill_opacity=0.3, stroke_color=self.color, stroke_width=2)
+            disk.set_z_index(-i) # Stack order
+            disks.add(disk)
+            self.original_heights.append(disk.get_height())
+            self.original_widths.append(disk.get_width())
 
         disks.arrange(DOWN, buff=self.disk_height * 0.8) # Stack them closely
         self.add(disks)
@@ -529,50 +620,50 @@ class DatabaseStack(VGroup):
     def stop_updater(self):
         self.remove_updater(self._update_pulse)
 
+# Removed duplicate NeuralHaloPulses class definition
+# class NeuralHaloPulses(VGroup):
+#     def __init__(self, core_radius=0.3, num_rings=3, max_radius=1.5, pulse_speed=1.0, color=C_LAVENDER, **kwargs):
+#         super().__init__(**kwargs)
+#         self.core_radius = core_radius
+#         self.num_rings = num_rings
+#         self.max_radius = max_radius
+#         self.pulse_speed = pulse_speed
+#         self.color = color
 
-class NeuralHaloPulses(VGroup):
-    def __init__(self, core_radius=0.3, num_rings=3, max_radius=1.5, pulse_speed=1.0, color=C_LAVENDER, **kwargs):
-        super().__init__(**kwargs)
-        self.core_radius = core_radius
-        self.num_rings = num_rings
-        self.max_radius = max_radius
-        self.pulse_speed = pulse_speed
-        self.color = color
+#         self.core = Circle(radius=self.core_radius, color=self.color, fill_opacity=0.6, stroke_width=0)
+#         self.add(self.core)
 
-        self.core = Circle(radius=self.core_radius, color=self.color, fill_opacity=0.6, stroke_width=0)
-        self.add(self.core)
+#         self.rings = VGroup()
+#         self.ring_trackers = []
+#         for i in range(self.num_rings):
+#             ring = Circle(radius=self.core_radius, stroke_color=self.color, stroke_width=2, fill_opacity=0)
+#             self.rings.add(ring)
+#             self.ring_trackers.append(ValueTracker(i * (self.max_radius / self.num_rings) / self.num_rings)) # Staggered start
 
-        self.rings = VGroup()
-        self.ring_trackers = []
-        for i in range(self.num_rings):
-            ring = Circle(radius=self.core_radius, stroke_color=self.color, stroke_width=2, fill_opacity=0)
-            self.rings.add(ring)
-            self.ring_trackers.append(ValueTracker(i * (self.max_radius / self.num_rings) / self.num_rings)) # Staggered start
+#         self.add(self.rings)
 
-        self.add(self.rings)
+#     def _update_pulses(self, mob, dt):
+#         for i, tracker in enumerate(self.ring_trackers):
+#             current_radius = tracker.get_value()
+#             current_radius += self.pulse_speed * dt
 
-    def _update_pulses(self, mob, dt):
-        for i, tracker in enumerate(self.ring_trackers):
-            current_radius = tracker.get_value()
-            current_radius += self.pulse_speed * dt
+#             if current_radius > self.max_radius:
+#                 current_radius = self.core_radius # Reset to core radius
 
-            if current_radius > self.max_radius:
-                current_radius = self.core_radius # Reset to core radius
-
-            tracker.set_value(current_radius)
+#             tracker.set_value(current_radius)
             
-            ring = self.rings[i]
-            ring.set_width(current_radius * 2) # Set width to diameter
+#             ring = self.rings[i]
+#             ring.set_width(current_radius * 2) # Set width to diameter
             
-            # Fade out as it expands
-            opacity = 1 - (current_radius - self.core_radius) / (self.max_radius - self.core_radius)
-            ring.set_stroke(opacity=max(0, opacity), color=self.color)
+#             # Fade out as it expands
+#             opacity = 1 - (current_radius - self.core_radius) / (self.max_radius - self.core_radius)
+#             ring.set_stroke(opacity=max(0, opacity), color=self.color)
 
-    def add_updater(self, *args, **kwargs):
-        super().add_updater(self._update_pulses)
+#     def add_updater(self, *args, **kwargs):
+#         super().add_updater(self._update_pulses)
 
-    def stop_updater(self):
-        self.remove_updater(self._update_pulses)
+#     def stop_updater(self):
+#         self.remove_updater(self._update_pulses)
 
 class ActionDispatchHub(VGroup):
     def __init__(self, gear_radius=1.0, color=C_AMBER, **kwargs):
@@ -607,6 +698,9 @@ class ActionDispatchHub(VGroup):
 
 
 class FinalScene(InstrumentedScene, MovingCameraScene):
+    def get_time(self):
+        return getattr(getattr(self, 'renderer', None), 'time', 0.0)
+
     def construct(self):
         self.camera.background_color = C_BACKGROUND
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
@@ -911,6 +1005,119 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.clamp_to_screen = clamp_to_screen
 
 
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # Removed duplicate create_header definition
+        # def create_header(*args, **kwargs):
+        #     return create_title(*args, **kwargs)
+
+
         # SME Layout 70% constraint: Content area x ∈ [-0.80, +6.40]
         content_safe_x_min = -0.80
         content_safe_x_max = 6.40
@@ -935,7 +1142,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         first_pillar_x = content_center_x - total_pillars_width / 2 + pillar_width / 2
         
         # Pillar 1: Perception
-        perception_label = CrispText("Perception", target_height=0.21, weight=BOLD, color=C_HEADER) # Approx 18-20pt
+        perception_label = CrispText("Perception", size=6, weight=BOLD, color=C_HEADER) # Changed target_height to size
         perception_base = RoundedRectangle(width=pillar_width, height=pillar_height, corner_radius=0.1, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=C_SKY_BLUE, stroke_width=2)
         perception_radar = DynamicRadarSweep(radius=pillar_width * 0.4, color=C_SKY_BLUE)
         
@@ -946,7 +1153,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         perception_pillar.move_to(RIGHT * first_pillar_x + DOWN * 0.3) # Adjust y position slightly lower
 
         # Pillar 2: Memory
-        memory_label = CrispText("Memory", target_height=0.21, weight=BOLD, color=C_HEADER)
+        memory_label = CrispText("Memory", size=6, weight=BOLD, color=C_HEADER) # Changed target_height to size
         memory_base = RoundedRectangle(width=pillar_width, height=pillar_height, corner_radius=0.1, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=C_MINT, stroke_width=2)
         memory_db = DatabaseStack(disk_radius=pillar_width * 0.4, disk_height=0.15, num_disks=4, color=C_MINT)
         
@@ -957,10 +1164,10 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         memory_pillar.next_to(perception_pillar, RIGHT, buff=pillar_buff)
 
         # Pillar 3: Reasoning
-        reasoning_label = CrispText("Reasoning", target_height=0.21, weight=BOLD, color=C_HEADER)
+        reasoning_label = CrispText("Reasoning", size=6, weight=BOLD, color=C_HEADER) # Changed target_height to size
+        reasoning_halo = NeuralHaloPulses(center=ORIGIN, core_radius=pillar_width * 0.15, max_radius=pillar_width * 0.4, color=C_LAVENDER) # Added center=ORIGIN
         reasoning_base = RoundedRectangle(width=pillar_width, height=pillar_height, corner_radius=0.1, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=C_LAVENDER, stroke_width=2)
-        reasoning_halo = NeuralHaloPulses(core_radius=pillar_width * 0.15, max_radius=pillar_width * 0.4, color=C_LAVENDER)
-        
+
         reasoning_label.next_to(reasoning_base.get_bottom(), UP, buff=0.2)
         reasoning_halo.move_to(reasoning_base.get_center() + UP * 0.3)
         
@@ -968,7 +1175,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         reasoning_pillar.next_to(memory_pillar, RIGHT, buff=pillar_buff)
 
         # Pillar 4: Action
-        action_label = CrispText("Action", target_height=0.21, weight=BOLD, color=C_HEADER)
+        action_label = CrispText("Action", size=6, weight=BOLD, color=C_HEADER) # Changed target_height to size
         action_base = RoundedRectangle(width=pillar_width, height=pillar_height, corner_radius=0.1, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=C_AMBER, stroke_width=2)
         action_hub = ActionDispatchHub(gear_radius=pillar_width * 0.4, color=C_AMBER)
         
@@ -1008,11 +1215,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
             run_time=2.0
         )
 
-        # Add updaters for continuous ambient motion
-        perception_radar.add_updater()
-        memory_db.add_updater()
-        reasoning_halo.add_updater()
-        action_hub.add_updater()
+        # Ambient motion handled internally by components
+        # perception_radar, memory_db, reasoning_halo, action_hub
 
         self.sync_to(56.42) # End of narration for Step 1
         self.wait(0.5) # Small pause before next step
@@ -1022,13 +1226,13 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Narration: Reactive (rule-driven) -> Goal-based (planning) -> Utility-based (optimizing)
         
         # Highlight Reasoning pillar
-        reasoning_highlight = reasoning_base.copy().set_fill(opacity=0).set_stroke(color=HIGHLIGHT_COLOR, width=3.5, corner_radius=0.1)
+        reasoning_highlight = reasoning_base.copy().set_fill(opacity=0).set_stroke(color=HIGHLIGHT_COLOR, width=3.5)
         self.play(Create(reasoning_highlight), run_time=0.6)
 
         # Labels for progression
-        reactive_text = CrispText("Reactive (Rule-Driven)", target_height=0.18, color=C_TEXT) # Approx 14-16pt
-        goal_based_text = CrispText("Goal-Based (Planning)", target_height=0.18, color=C_TEXT)
-        utility_based_text = CrispText("Utility-Based (Optimizing)", target_height=0.18, color=C_TEXT)
+        reactive_text = CrispText("Reactive (Rule-Driven)", size=6, color=C_TEXT) # Changed target_height to size
+        goal_based_text = CrispText("Goal-Based (Planning)", size=6, color=C_TEXT) # Changed target_height to size
+        utility_based_text = CrispText("Utility-Based (Optimizing)", size=6, color=C_TEXT) # Changed target_height to size
         
         # Position labels to the right of the Reasoning pillar
         labels_group = VGroup(reactive_text, goal_based_text, utility_based_text).arrange(DOWN, buff=0.2, aligned_edge=LEFT)
@@ -1058,10 +1262,12 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         title_group = new_title_group
 
         # Stop updaters on pillars before fading out
-        perception_radar.stop_updater()
-        memory_db.stop_updater()
-        reasoning_halo.stop_updater()
-        action_hub.stop_updater()
+        # Clear updaters for ambient elements
+        for comp in [perception_radar, memory_db, reasoning_halo, action_hub]:
+            if hasattr(comp, 'stop_updater'):
+                comp.stop_updater()
+            elif hasattr(comp, 'clear_updaters'):
+                comp.clear_updaters()
 
         self.play(FadeOut(pillars_group, shift=DOWN * 0.2), run_time=1.5)
 
@@ -1070,7 +1276,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         
         # Launch button
         launch_button = Circle(radius=0.4, fill_color=C_CORAL, fill_opacity=1.0, stroke_color=C_ROSE, stroke_width=2)
-        button_label = CrispText("Launch", target_height=0.15, weight=BOLD, color="#FFFFFF").move_to(launch_button.get_center())
+        button_label = CrispText("Launch", size=6, weight=BOLD, color="#FFFFFF").move_to(launch_button.get_center()) # Changed target_height to size
         launch_button_grp = VGroup(launch_button, button_label).shift(DOWN * 0.6 + RIGHT * 1.5)
 
         # Terminal screen for output
@@ -1078,7 +1284,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         terminal_screen.next_to(launch_console.get_top(), DOWN, buff=0.3)
         terminal_screen.align_to(launch_console, LEFT).shift(RIGHT * 0.3)
 
-        console_label = CrispText("Demo Simulator", target_height=0.18, weight=BOLD, color=C_STEEL_BLUE).next_to(launch_console.get_top(), DOWN, buff=0.15)
+        console_label = CrispText("Demo Simulator", size=6, weight=BOLD, color=C_STEEL_BLUE).next_to(launch_console.get_top(), DOWN, buff=0.15) # Changed target_height to size
         
         launch_visual = VGroup(launch_console, launch_button_grp, terminal_screen, console_label)
         launch_visual.center().shift(RIGHT * content_center_x).shift(LEFT * launch_visual.get_center()[0]) # Center in content area
@@ -1089,13 +1295,13 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Animate "Launching..." text on terminal screen
         terminal_text_color = C_STEEL_BLUE # Using Steel Blue to avoid green
         
-        launch_text1 = CrispText("Initializing...", target_height=0.16, color=terminal_text_color).to_corner(UL, buff=0.2)
+        launch_text1 = CrispText("Initializing...", size=6, color=terminal_text_color).to_corner(UL, buff=0.2) # Changed target_height to size
         launch_text1.move_to(terminal_screen.get_top() + LEFT * 0.2 + DOWN * 0.2)
         launch_text1.align_to(terminal_screen, LEFT).shift(RIGHT * 0.1)
 
-        launch_text2 = CrispText("Loading Modules...", target_height=0.16, color=terminal_text_color).next_to(launch_text1, DOWN, buff=0.1, aligned_edge=LEFT)
-        launch_text3 = CrispText("Simulating Decision Loops...", target_height=0.16, color=terminal_text_color).next_to(launch_text2, DOWN, buff=0.1, aligned_edge=LEFT)
-        launch_text4 = CrispText("Executing Actions...", target_height=0.16, color=terminal_text_color).next_to(launch_text3, DOWN, buff=0.1, aligned_edge=LEFT)
+        launch_text2 = CrispText("Loading Modules...", size=6, color=terminal_text_color).next_to(launch_text1, DOWN, buff=0.1, aligned_edge=LEFT) # Changed target_height to size
+        launch_text3 = CrispText("Simulating Decision Loops...", size=6, color=terminal_text_color).next_to(launch_text2, DOWN, buff=0.1, aligned_edge=LEFT) # Changed target_height to size
+        launch_text4 = CrispText("Executing Actions...", size=6, color=terminal_text_color).next_to(launch_text3, DOWN, buff=0.1, aligned_edge=LEFT) # Changed target_height to size
         
         launch_texts = VGroup(launch_text1, launch_text2, launch_text3, launch_text4)
         for text_mob in launch_texts:

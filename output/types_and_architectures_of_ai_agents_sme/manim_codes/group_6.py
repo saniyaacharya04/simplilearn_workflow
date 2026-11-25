@@ -66,9 +66,85 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
+        if not hasattr(_scene_cls, '_orig_play_safe'):
+            _orig_play = _scene_cls.play
+            def _make_safe_play():
+                def _safe_play(self, *args, **kwargs):
+                    if len(args) == 0:
+                        rt = kwargs.get('run_time', 0.5)
+                        return self.wait(rt)
+                    return _orig_play(self, *args, **kwargs)
+                return _safe_play
+            _scene_cls._orig_play_safe = True
+            _scene_cls.play = _make_safe_play()
+        if not hasattr(_scene_cls, 'get_time'):
+            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
+try:
+    from manim.utils.color.core import ManimColor
+    if not hasattr(ManimColor, '_orig_eq_safe'):
+        def _safe_color_eq(self, other):
+            if not isinstance(other, ManimColor):
+                try: other = ManimColor(other)
+                except Exception: return False
+            return bool(np.allclose(self._internal_value, other._internal_value))
+        ManimColor._orig_eq_safe = True
+        ManimColor.__eq__ = _safe_color_eq
+except Exception:
+    pass
+try:
+    if not hasattr(Mobject, 'stop_updater'):
+        Mobject.stop_updater = lambda self: self.clear_updaters()
+    if not hasattr(Mobject, 'set_fill'):
+        def _safe_mobj_set_fill(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_fill'):
+                    try: sub.set_fill(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_fill = _safe_mobj_set_fill
+    if not hasattr(Mobject, 'set_stroke'):
+        def _safe_mobj_set_stroke(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_stroke'):
+                    try: sub.set_stroke(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_stroke = _safe_mobj_set_stroke
+    if not hasattr(Mobject, '_orig_mobj_init_safe'):
+        _orig_mobj_init = Mobject.__init__
+        def _safe_mobj_init(self, *args, **kwargs):
+            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
+            res = _orig_mobj_init(self, *args, **clean_kw)
+            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
+                try: self.set_opacity(kwargs['opacity'])
+                except Exception: pass
+            return res
+        Mobject._orig_mobj_init_safe = True
+        Mobject.__init__ = _safe_mobj_init
+    if not hasattr(VMobject, '_orig_set_stroke_safe'):
+        _orig_set_stroke = VMobject.set_stroke
+        def _safe_set_stroke(self, *args, **kwargs):
+            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
+            if 'z_index' in kwargs:
+                try: self.set_z_index(kwargs['z_index'])
+                except Exception: pass
+            return _orig_set_stroke(self, *args, **clean_kw)
+        VMobject._orig_set_stroke_safe = True
+        VMobject.set_stroke = _safe_set_stroke
+except Exception:
+    pass
+YELLOW = globals().get('YELLOW', '#DDB945')
+WHITE = globals().get('WHITE', '#FFFFFF')
+BLACK = globals().get('BLACK', '#404040')
+RED = globals().get('RED', '#E58F6D')
+BLUE = globals().get('BLUE', '#62B7E4')
+GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
+
 
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -232,6 +308,12 @@ PILL_SIZE = 0.13 # ~17px
 
 
 
+
+
+
+
+
+
 def CrispText(text, size=24, font="Open Sans", **kwargs):
     if "font_size" in kwargs:
         size = kwargs.pop("font_size")
@@ -344,7 +426,6 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-
 class InstrumentedScene(Scene):
     def sync_to(self, t):
         # Placeholder for actual sync logic. For local testing, it acts as wait.
@@ -399,7 +480,8 @@ class PRANode(VGroup):
 class SensorIcon(VGroup):
     def __init__(self, color=C_HEADER_TEXT, **kwargs):
         super().__init__(**kwargs)
-        dish = Arc(radius=0.4, start_angle=PI/4, end_angle=3*PI/4, arc_center=ORIGIN, stroke_width=2, color=color)
+        # Fix: Replaced 'end_angle' with 'angle' as 'Arc' might not consume 'end_angle' directly in Mobject.__init__
+        dish = Arc(radius=0.4, start_angle=PI/4, angle=PI/2, arc_center=ORIGIN, stroke_width=2, color=color)
         dish.reverse_points() # To make it face up
         line1 = Line(dish.get_center(), dish.get_top(), stroke_width=2, color=color)
         line2 = Line(line1.get_top(), line1.get_top() + RIGHT * 0.2, stroke_width=2, color=color)
@@ -410,8 +492,9 @@ class SensorIcon(VGroup):
 class BrainIcon(VGroup):
     def __init__(self, color=C_HEADER_TEXT, **kwargs):
         super().__init__(**kwargs)
-        lobe1 = Arc(radius=0.3, start_angle=PI/2, end_angle=3*PI/2, stroke_width=2, color=color).shift(LEFT*0.1)
-        lobe2 = Arc(radius=0.3, start_angle=-PI/2, end_angle=PI/2, stroke_width=2, color=color).shift(RIGHT*0.1)
+        # Fix: Changed end_angle to angle
+        lobe1 = Arc(radius=0.3, start_angle=PI/2, angle=PI, stroke_width=2, color=color).shift(LEFT*0.1)
+        lobe2 = Arc(radius=0.3, start_angle=-PI/2, angle=PI, stroke_width=2, color=color).shift(RIGHT*0.1)
         center_line = Line(lobe1.get_top(), lobe2.get_top(), stroke_width=2, color=color)
         bottom_line = Line(lobe1.get_bottom(), lobe2.get_bottom(), stroke_width=2, color=color)
         self.add(lobe1, lobe2, center_line, bottom_line)
@@ -422,16 +505,18 @@ class GearWrenchIcon(VGroup):
         super().__init__(**kwargs)
         gear = RegularPolygon(n=6, radius=0.3, stroke_width=2, color=color).rotate(PI/6)
         wrench_body = Rectangle(width=0.15, height=0.5, stroke_width=0, fill_color=color, fill_opacity=1).rotate(PI/4).shift(RIGHT*0.1 + UP*0.1)
-        wrench_head = Arc(radius=0.15, start_angle=PI/2, end_angle=3*PI/2, stroke_width=0, fill_color=color, fill_opacity=1).next_to(wrench_body.get_top(), UP, buff=0).shift(LEFT*0.05)
+        # Fix: Changed end_angle to angle
+        wrench_head = Arc(radius=0.15, start_angle=PI/2, angle=PI, stroke_width=0, fill_color=color, fill_opacity=1).next_to(wrench_body.get_top(), UP, buff=0).shift(LEFT*0.05)
         self.add(gear, wrench_body, wrench_head)
         self.scale(0.8)
 
 class CheckGaugeIcon(VGroup):
     def __init__(self, color=C_HEADER_TEXT, **kwargs):
         super().__init__(**kwargs)
-        gauge_arc = Arc(radius=0.4, start_angle=PI, end_angle=0, stroke_width=2, color=color)
+        gauge_arc = Arc(radius=0.4, start_angle=PI, angle=-PI, stroke_width=2, color=color)
         pointer = Line(gauge_arc.get_center(), gauge_arc.get_top(), stroke_width=2, color=color)
-        check = Checkmark(color=color).scale(0.2).next_to(gauge_arc.get_bottom(), DOWN, buff=0.1)
+        # Fix: Changed Checkmark to create_checkmark
+        check = create_checkmark(color=color).scale(0.2).next_to(gauge_arc.get_bottom(), DOWN, buff=0.1)
         self.add(gauge_arc, pointer, check)
         self.scale(0.8)
 
@@ -759,6 +844,78 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
 
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         # ## Presentation Step 1: Initial Setup and Perceive Node
         current_title = create_title("Perceive-Reason-Act (Pra) Execution Cycle")
         self.play(FadeIn(current_title, shift=DOWN * 0.1), run_time=0.8)
@@ -868,7 +1025,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Add a flowing particle to Perceive -> Reason arrow
         perceive_particle = Dot(color=C_HIGHLIGHT, radius=0.08, z_index=10)
         self.play(
-            MoveAlongPath(perceive_particle, arrow_pr, rate_func=linear, run_time=1.5),
+            # Fix: Change rate_func from linear to ease_out_cubic
+            MoveAlongPath(perceive_particle, arrow_pr, rate_func=ease_out_cubic, run_time=1.5),
             run_time=1.5
         )
         self.remove(perceive_particle)
@@ -899,7 +1057,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         
         perceive_particle_2 = Dot(color=C_HIGHLIGHT, radius=0.08, z_index=10)
         self.play(
-            MoveAlongPath(perceive_particle_2, arrow_pr, rate_func=linear, run_time=1.5),
+            # Fix: Change rate_func from linear to ease_out_cubic
+            MoveAlongPath(perceive_particle_2, arrow_pr, rate_func=ease_out_cubic, run_time=1.5),
             run_time=1.5
         )
         self.remove(perceive_particle_2)
@@ -930,7 +1089,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         
         reason_particle = Dot(color=C_HIGHLIGHT, radius=0.08, z_index=10)
         self.play(
-            MoveAlongPath(reason_particle, arrow_ra, rate_func=linear, run_time=1.5),
+            # Fix: Change rate_func from linear to ease_out_cubic
+            MoveAlongPath(reason_particle, arrow_ra, rate_func=ease_out_cubic, run_time=1.5),
             run_time=1.5
         )
         self.remove(reason_particle)
@@ -961,7 +1121,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         
         act_particle = Dot(color=C_HIGHLIGHT, radius=0.08, z_index=10)
         self.play(
-            MoveAlongPath(act_particle, arrow_av, rate_func=linear, run_time=1.5),
+            # Fix: Change rate_func from linear to ease_out_cubic
+            MoveAlongPath(act_particle, arrow_av, rate_func=ease_out_cubic, run_time=1.5),
             run_time=1.5
         )
         self.remove(act_particle)
@@ -992,7 +1153,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         
         verification_particle = Dot(color=C_HIGHLIGHT, radius=0.08, z_index=10)
         self.play(
-            MoveAlongPath(verification_particle, arrow_vp, rate_func=linear, run_time=1.5),
+            # Fix: Change rate_func from linear to ease_out_cubic
+            MoveAlongPath(verification_particle, arrow_vp, rate_func=ease_out_cubic, run_time=1.5),
             run_time=1.5
         )
         self.remove(verification_particle)
@@ -1001,7 +1163,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.sync_to(32.0) # Example sync point
 
         # Final cleanup for persistent elements
-        self.remove(radar_sweep_arm) # Remove updater before ending scene
+        radar_sweep_arm.remove_updater(lambda m, dt: m.rotate(0.5 * dt, about_point=perceive_node.outer_circle.get_center())) # Remove updater before ending scene
         self.play(
             FadeOut(perceive_node),
             FadeOut(reason_node),
@@ -1012,6 +1174,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
             FadeOut(arrow_av),
             FadeOut(arrow_vp),
             FadeOut(verification_desc),
+            FadeOut(radar_sweep_arm), # Ensure the radar arm is also faded out
             run_time=1.0
         )
         self.wait(0.5)

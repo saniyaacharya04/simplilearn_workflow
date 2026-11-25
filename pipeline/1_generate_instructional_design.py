@@ -45,7 +45,7 @@ PIPELINE STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN
    - Step 2: Ingests hook blueprint and clean transcript.
    - Step 3: Dynamically scales scene count (3 to 12 scenes based on duration) and snaps
      semantic boundaries to transcript sentence timestamps (Scene 1 hook <= 18s).
-   - Step 4: Dispatches instructional design prompt to Gemini 3.5 Flash or Claude 3.5 Sonnet.
+   - Step 4: Dispatches instructional design prompt to Gemini 3.8 Flash or Claude 3.5 Sonnet.
    - Step 5: Assigns SME framing layouts strictly per Simplilearn OSL 3.0 rules:
      * Layout 100: Strictly restricted to <= 20 seconds range for opening hook.
      * Layout 70: Left frame (640x920, r=10px, blue band #2C81FE) for objectives/summary.
@@ -2280,7 +2280,7 @@ class InstructionalDesign:
             instructions_dict[sid] = norm_steps
 
         # Determine active model slug from configuration or fallback
-        model_slug = "gemini-3.5-flash"
+        model_slug = "gemini-3.8-flash"
         if getattr(self, "api_provider", "").lower() == "claude" and getattr(self, "claude_model", None):
             model_slug = self.claude_model.replace(":", "-").replace("/", "-")
         elif (topic_dir / "ex_config.json").exists():
@@ -2296,10 +2296,10 @@ class InstructionalDesign:
         # Export companion instruction files
         export_targets = [
             meta_dir / f"instructions_{model_slug}.json",
-            meta_dir / "instructions_gemini-3.5-flash.json",
+            meta_dir / "instructions_gemini-3.8-flash.json",
             meta_dir / "instructions.json",
             topic_dir / f"instructions_{model_slug}.json",
-            topic_dir / "instructions_gemini-3.5-flash.json"
+            topic_dir / "instructions_gemini-3.8-flash.json"
         ]
         for exp_tgt in export_targets:
             try:
@@ -2327,7 +2327,7 @@ class InstructionalDesign:
 
         for raw_tgt in [
             prompt_dir / f"instructions_raw_{model_slug}.txt",
-            prompt_dir / "instructions_raw_gemini-3.5-flash.txt",
+            prompt_dir / "instructions_raw_gemini-3.8-flash.txt",
             topic_dir / f"instructions_raw_{model_slug}.txt"
         ]:
             try:

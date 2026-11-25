@@ -3,7 +3,7 @@ Enterprise Image Generator for Educational Animation Pipeline.
 
 Supports Multiple Generation Engines:
   1. Q-Image (Fast 9-step ComfyUI Turbo UNET with Qwen 3.4B)
-  2. Nano-Banana (Google GenAI nano-banana-pro-preview / gemini-2.5-flash-image)
+  2. Nano-Banana (Google GenAI nano-banana-pro-preview / gemini-3.8-flash-image)
   3. Qwen 2.1 Text-to-Image (T2I) via ComfyUI
   4. Qwen 2.1 Reference-to-Image (R2I) with multimodal conditioning
   5. Integrated Automatic Background Removal via BiRefNet ('image_bg_remover.py')
@@ -311,7 +311,7 @@ def generate_nano_banana(
     target_path = Path(output_path).resolve()
     target_path.parent.mkdir(parents=True, exist_ok=True)
 
-    candidates = [model_name, "nano-banana-pro-preview", "gemini-2.5-flash-image", "gemini-3-pro-image"]
+    candidates = [model_name, "nano-banana-pro-preview", "gemini-3.8-flash-image", "gemini-3-pro-image"]
     seen = set()
     models_to_try = [m for m in candidates if not (m in seen or seen.add(m))]
 

@@ -40,7 +40,7 @@ PIPELINE STAGE 7: PRESENTATION EXPERIENCE PLANNER
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 6_presentation_composer_tracker.json.
    - Step 2: Ingests presentation composition JSON.
-   - Step 3: Invokes Gemini 3.5 Flash using presentation experience system prompts.
+   - Step 3: Invokes Gemini 3.8 Flash using presentation experience system prompts.
    - Step 4: Choreographs presentation step sequences: entrance reveals, active focus states,
      retention anchors, and exit transitions.
    - Step 5: Injects Simplilearn OSL 3.0 dynamic focus highlights: #F78908, 3px stroke,
@@ -588,7 +588,7 @@ class PresentationExperiencePlanner:
         input_folder: Optional[str] = None,
         api_provider: str = "auto",
         api_key: Optional[str] = None,
-        model_name: str = "gemini-3.5-flash",
+        model_name: str = "gemini-3.8-flash",
         **kwargs
     ):
         self.input_tracker_path = input_tracker_path
@@ -678,7 +678,7 @@ class PresentationExperiencePlanner:
                     return resp.text
             except Exception as e:
                 print(f"  [ExperiencePlanner] google.genai notice: {e}. Trying fallback models...")
-                for fallback_m in ["gemini-2.5-flash", "gemini-1.5-flash"]:
+                for fallback_m in ["gemini-3.8-flash", "gemini-1.5-flash"]:
                     try:
                         print(f"    -> [ExperiencePlanner] Trying fallback: {fallback_m}")
                         resp = client.models.generate_content(

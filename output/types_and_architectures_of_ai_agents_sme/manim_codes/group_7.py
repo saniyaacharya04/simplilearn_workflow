@@ -1,3 +1,11 @@
+C_DARK_BLUE = "#1E293B"
+C_BRAND_BLUE = "#2C81FE"
+C_LIGHT_BLUE = "#62B7E4"
+C_PURPLE = "#9B99C7"
+C_YELLOW = "#DDB945"
+C_RED = "#E58F6D"
+C_BLACK = "#404040"
+C_NAVY_DARK = "#404040"
 C_MINT = "#8ECDB7"
 C_LAVENDER = "#9B99C7"
 C_CORAL = "#E58F6D"
@@ -7,47 +15,6 @@ import numpy as np
 SME_LAYOUT = '70'
 from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
-class NullMobject(VGroup):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*[VMobject() for _ in range(15)])
-        self.set_opacity(0)
-    def __getitem__(self, val):
-        if isinstance(val, int) and val >= len(self.submobjects):
-            return VMobject()
-        return super().__getitem__(val)
-    def get_center(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_top(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_bottom(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_left(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_right(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-
-try:
-    if not hasattr(VGroup, '_orig_add_safe'):
-        VGroup._orig_add_safe = VGroup.add
-        def _safe_vg_add(self, *mobs):
-            cleaned = []
-            for m in mobs:
-                if isinstance(m, VMobject):
-                    cleaned.append(m)
-                elif hasattr(m, 'submobjects'):
-                    for sub in m.submobjects:
-                        if isinstance(sub, VMobject):
-                            cleaned.append(sub)
-            return VGroup._orig_add_safe(self, *cleaned)
-        VGroup.add = _safe_vg_add
-except Exception:
-    pass
-
 # Dynamic Animation Safety Preamble
 for _anim_cls in (FadeIn, FadeOut, Create, Write):
     try:
@@ -99,9 +66,209 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
+        if not hasattr(_scene_cls, '_orig_play_safe'):
+            _orig_play = _scene_cls.play
+            def _make_safe_play():
+                def _safe_play(self, *args, **kwargs):
+                    if len(args) == 0:
+                        rt = kwargs.get('run_time', 0.5)
+                        return self.wait(rt)
+                    return _orig_play(self, *args, **kwargs)
+                return _safe_play
+            _scene_cls._orig_play_safe = True
+            _scene_cls.play = _make_safe_play()
+        if not hasattr(_scene_cls, 'get_time'):
+            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
+try:
+    from manim.utils.color.core import ManimColor
+    if not hasattr(ManimColor, '_orig_eq_safe'):
+        def _safe_color_eq(self, other):
+            if not isinstance(other, ManimColor):
+                try: other = ManimColor(other)
+                except Exception: return False
+            return bool(np.allclose(self._internal_value, other._internal_value))
+        ManimColor._orig_eq_safe = True
+        ManimColor.__eq__ = _safe_color_eq
+except Exception:
+    pass
+try:
+    if not hasattr(Mobject, 'stop_updater'):
+        Mobject.stop_updater = lambda self: self.clear_updaters()
+    if not hasattr(Mobject, 'set_fill'):
+        def _safe_mobj_set_fill(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_fill'):
+                    try: sub.set_fill(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_fill = _safe_mobj_set_fill
+    if not hasattr(Mobject, 'set_stroke'):
+        def _safe_mobj_set_stroke(self, *args, **kwargs):
+            for sub in getattr(self, 'submobjects', []):
+                if hasattr(sub, 'set_stroke'):
+                    try: sub.set_stroke(*args, **kwargs)
+                    except Exception: pass
+            return self
+        Mobject.set_stroke = _safe_mobj_set_stroke
+    if not hasattr(Mobject, '_orig_mobj_init_safe'):
+        _orig_mobj_init = Mobject.__init__
+        def _safe_mobj_init(self, *args, **kwargs):
+            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
+            res = _orig_mobj_init(self, *args, **clean_kw)
+            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
+                try: self.set_opacity(kwargs['opacity'])
+                except Exception: pass
+            return res
+        Mobject._orig_mobj_init_safe = True
+        Mobject.__init__ = _safe_mobj_init
+    if not hasattr(VMobject, '_orig_set_stroke_safe'):
+        _orig_set_stroke = VMobject.set_stroke
+        def _safe_set_stroke(self, *args, **kwargs):
+            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
+            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
+            if 'z_index' in kwargs:
+                try: self.set_z_index(kwargs['z_index'])
+                except Exception: pass
+            return _orig_set_stroke(self, *args, **clean_kw)
+        VMobject._orig_set_stroke_safe = True
+        VMobject.set_stroke = _safe_set_stroke
+except Exception:
+    pass
+YELLOW = globals().get('YELLOW', '#DDB945')
+WHITE = globals().get('WHITE', '#FFFFFF')
+BLACK = globals().get('BLACK', '#404040')
+RED = globals().get('RED', '#E58F6D')
+BLUE = globals().get('BLUE', '#62B7E4')
+GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
+
+
+def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
+    if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
+        pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
+        pad_y = max(pad_y, getattr(frame_mobject, 'height', 0) * 0.22)
+    if hasattr(frame_mobject, 'width') and hasattr(target_mobject, 'width'):
+        max_w = frame_mobject.width - (pad_x * 2)
+        if max_w > 0 and target_mobject.width > max_w:
+            ratio = max_w / target_mobject.width
+            needed_w = target_mobject.width + (pad_x * 2)
+            if hasattr(frame_mobject, 'stretch_to_fit_width') and needed_w <= 6.2:
+                frame_mobject.stretch_to_fit_width(needed_w)
+            elif ratio < 0.88:
+                if hasattr(target_mobject, 'scale_to_fit_width'):
+                    target_mobject.scale_to_fit_width(target_mobject.width * 0.88)
+            else:
+                target_mobject.scale_to_fit_width(max_w)
+    if hasattr(frame_mobject, 'height') and hasattr(target_mobject, 'height'):
+        req_h = target_mobject.height + (pad_y * 2)
+        if req_h > frame_mobject.height:
+            frame_mobject.stretch_to_fit_height(req_h)
+    target_mobject.move_to(frame_mobject.get_center())
+    return target_mobject
+
+def safe_image(img_path, width=3.0, height=None):
+    if os.path.exists(str(img_path)):
+        try:
+            im = ImageMobject(str(img_path))
+            if width: im.scale_to_fit_width(width)
+            if height: im.scale_to_fit_height(height)
+            return im
+        except Exception:
+            pass
+    box = RoundedRectangle(width=width or 3.0, height=height or 2.0, corner_radius=0.074, fill_color='#F8FAFC', fill_opacity=0.9, stroke_color='#CBD5E1', stroke_width=1.5)
+    lbl = CrispText('Asset Image', font_size=12, color='#404040').move_to(box)
+    return VGroup(box, lbl)
+
+def create_pill(*args, **kwargs):
+    bg_color = kwargs.get('bg_color', globals().get('C_DARK_BLUE', '#1E293B'))
+    text_color = kwargs.get('text_color', globals().get('C_WHITE', '#FFFFFF'))
+    font_size = kwargs.get('font_size', 12)
+    texts = [str(a) for a in args if isinstance(a, (str, int, float)) and not str(a).startswith('#') and str(a) not in ('WHITE', 'BLACK')]
+    text_content = texts[0] if texts else 'Badge'
+    txt = CrispText(text_content, font_size=font_size, color=text_color, weight='BOLD')
+    bg = RoundedRectangle(width=max(txt.width + 0.4, 1.2), height=max(txt.height + 0.2, 0.4), corner_radius=0.15, fill_color=bg_color, fill_opacity=1.0, stroke_width=0)
+    txt.move_to(bg)
+    fit_into_box(txt, bg, pad_x=0.2, pad_y=0.08)
+    grp = VGroup(bg, txt)
+    grp.set_z_index(20)
+    return grp
+
+def create_checkmark(*args, **kwargs):
+    c = kwargs.get('color', globals().get('C_STEEL_BLUE', '#7EA2C8'))
+    for a in args:
+        if isinstance(a, str) and (a.startswith('#') or a in globals()):
+            c = a
+    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
+    if isinstance(sz, (int, float)) and sz > 1.0:
+        sz = sz / 60.0
+    sw = kwargs.get('stroke_width', 3.5)
+    p1 = ORIGIN
+    p2 = p1 + RIGHT * (sz * 0.42) + DOWN * (sz * 0.55)
+    p3 = p2 + RIGHT * (sz * 0.95) + UP * (sz * 1.15)
+    l1 = Line(p1, p2, color=c, stroke_width=sw)
+    l2 = Line(p2, p3, color=c, stroke_width=sw)
+    g = VGroup(l1, l2)
+    g.center()
+    return g
+
+def create_crossmark(*args, **kwargs):
+    c = kwargs.get('color', globals().get('C_CORAL', '#E58F6D'))
+    for a in args:
+        if isinstance(a, str) and (a.startswith('#') or a in globals()):
+            c = a
+    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
+    if isinstance(sz, (int, float)) and sz > 1.0:
+        sz = sz / 60.0
+    sw = kwargs.get('stroke_width', 3.5)
+    l1 = Line(ORIGIN, RIGHT * (sz * 0.8) + UP * (sz * 0.8), color=c, stroke_width=sw)
+    l2 = Line(ORIGIN + UP * (sz * 0.8), RIGHT * (sz * 0.8), color=c, stroke_width=sw)
+    g = VGroup(l1, l2)
+    g.center()
+    return g
+
+class NullMobject(VGroup):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*[VMobject() for _ in range(15)])
+        self.set_opacity(0)
+    def __getitem__(self, val):
+        if isinstance(val, int) and val >= len(self.submobjects):
+            return VMobject()
+        return super().__getitem__(val)
+    def get_center(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_top(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_bottom(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_left(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_right(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+
+try:
+    if not hasattr(VGroup, '_orig_add_safe'):
+        VGroup._orig_add_safe = VGroup.add
+        def _safe_vg_add(self, *mobs):
+            cleaned = []
+            for m in mobs:
+                if isinstance(m, VMobject):
+                    cleaned.append(m)
+                elif hasattr(m, 'submobjects'):
+                    for sub in m.submobjects:
+                        if isinstance(sub, VMobject):
+                            cleaned.append(sub)
+            return VGroup._orig_add_safe(self, *cleaned)
+        VGroup.add = _safe_vg_add
+except Exception:
+    pass
 
 NumberLine.c2p = lambda self, *args: self.n2p(args[0])
 try:
@@ -134,6 +301,14 @@ C_CORAL_PEACH = "#E58F6D"
 
 
 # Custom CrispText function for consistent typography
+
+
+
+
+
+
+
+
 
 
 def CrispText(text, size=24, font="Open Sans", **kwargs):
@@ -248,95 +423,11 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
-    if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
-        pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
-        pad_y = max(pad_y, getattr(frame_mobject, 'height', 0) * 0.22)
-    if hasattr(frame_mobject, 'width') and hasattr(target_mobject, 'width'):
-        max_w = frame_mobject.width - (pad_x * 2)
-        if max_w > 0 and target_mobject.width > max_w:
-            ratio = max_w / target_mobject.width
-            needed_w = target_mobject.width + (pad_x * 2)
-            if hasattr(frame_mobject, 'stretch_to_fit_width') and needed_w <= 6.2:
-                frame_mobject.stretch_to_fit_width(needed_w)
-            elif ratio < 0.88:
-                if hasattr(target_mobject, 'scale_to_fit_width'):
-                    target_mobject.scale_to_fit_width(target_mobject.width * 0.88)
-            else:
-                target_mobject.scale_to_fit_width(max_w)
-    if hasattr(frame_mobject, 'height') and hasattr(target_mobject, 'height'):
-        req_h = target_mobject.height + (pad_y * 2)
-        if req_h > frame_mobject.height:
-            frame_mobject.stretch_to_fit_height(req_h)
-    target_mobject.move_to(frame_mobject.get_center())
-    return target_mobject
-
-def safe_image(img_path, width=3.0, height=None):
-    if os.path.exists(str(img_path)):
-        try:
-            im = ImageMobject(str(img_path))
-            if width: im.scale_to_fit_width(width)
-            if height: im.scale_to_fit_height(height)
-            return im
-        except Exception:
-            pass
-    box = RoundedRectangle(width=width or 3.0, height=height or 2.0, corner_radius=0.074, fill_color='#F8FAFC', fill_opacity=0.9, stroke_color='#CBD5E1', stroke_width=1.5)
-    lbl = CrispText('Asset Image', font_size=12, color='#404040').move_to(box)
-    return VGroup(box, lbl)
-
-def create_pill(*args, **kwargs):
-    bg_color = kwargs.get('bg_color', globals().get('C_DARK_BLUE', '#1E293B'))
-    text_color = kwargs.get('text_color', globals().get('C_WHITE', '#FFFFFF'))
-    font_size = kwargs.get('font_size', 12)
-    texts = [str(a) for a in args if isinstance(a, (str, int, float)) and not str(a).startswith('#') and str(a) not in ('WHITE', 'BLACK')]
-    text_content = texts[0] if texts else 'Badge'
-    txt = CrispText(text_content, font_size=font_size, color=text_color, weight='BOLD')
-    bg = RoundedRectangle(width=max(txt.width + 0.4, 1.2), height=max(txt.height + 0.2, 0.4), corner_radius=0.15, fill_color=bg_color, fill_opacity=1.0, stroke_width=0)
-    txt.move_to(bg)
-    fit_into_box(txt, bg, pad_x=0.2, pad_y=0.08)
-    grp = VGroup(bg, txt)
-    grp.set_z_index(20)
-    return grp
-
-def create_checkmark(*args, **kwargs):
-    c = kwargs.get('color', globals().get('C_STEEL_BLUE', '#7EA2C8'))
-    for a in args:
-        if isinstance(a, str) and (a.startswith('#') or a in globals()):
-            c = a
-    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
-    if isinstance(sz, (int, float)) and sz > 1.0:
-        sz = sz / 60.0
-    sw = kwargs.get('stroke_width', 3.5)
-    p1 = ORIGIN
-    p2 = p1 + RIGHT * (sz * 0.42) + DOWN * (sz * 0.55)
-    p3 = p2 + RIGHT * (sz * 0.95) + UP * (sz * 1.15)
-    l1 = Line(p1, p2, color=c, stroke_width=sw)
-    l2 = Line(p2, p3, color=c, stroke_width=sw)
-    g = VGroup(l1, l2)
-    g.center()
-    return g
-
-def create_crossmark(*args, **kwargs):
-    c = kwargs.get('color', globals().get('C_CORAL', '#E58F6D'))
-    for a in args:
-        if isinstance(a, str) and (a.startswith('#') or a in globals()):
-            c = a
-    sz = kwargs.get('size', kwargs.get('font_size', 0.22))
-    if isinstance(sz, (int, float)) and sz > 1.0:
-        sz = sz / 60.0
-    sw = kwargs.get('stroke_width', 3.5)
-    l1 = Line(ORIGIN, RIGHT * (sz * 0.8) + UP * (sz * 0.8), color=c, stroke_width=sw)
-    l2 = Line(ORIGIN + UP * (sz * 0.8), RIGHT * (sz * 0.8), color=c, stroke_width=sw)
-    g = VGroup(l1, l2)
-    g.center()
-    return g
-
 class InstrumentedScene(Scene):
     """
     Placeholder for Simplilearn's InstrumentedScene. Defaults to Manim's Scene.
     """
     pass
-
 
 
 class ProcessNode(VGroup):
@@ -404,7 +495,13 @@ class FlowingStream(VGroup):
         """Removes updaters to stop the flow animation."""
         self.remove_updater(self._update_flow)
         for dot in self.dots:
-            dot.remove_updater(dot.updaters[0])
+            if dot.updaters: # Check if updaters exist before trying to remove
+                dot.remove_updater(dot.updaters[0])
+
+
+
+
+
 
 
 class FinalScene(InstrumentedScene, MovingCameraScene):
@@ -712,6 +809,80 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.clamp_to_screen = clamp_to_screen
 
 
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # Assign global helper functions to self for convenience
+
         # SME Layout 70% requires content on the right side of the screen.
         # Safe content workspace: x ∈ [-0.80, +6.40], y ∈ [-3.60, +2.20].
         # Center x for content is approximately (-0.80 + 6.40) / 2 = 2.80
@@ -725,6 +896,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
         ## Presentation Step 1: Architecture Type 1: Simple Reflex / Reactive
         self.play(FadeIn(current_title_group, shift=DOWN*0.1), run_time=0.8)
+        # The previous title FadeIn also handles this, no need to repeat.
         # Narration Text: Direct Condition-Action rules (IF temperature > threshold THEN trip breaker)
         
         # Reactive Agent Components (ProcessNode instances)
@@ -746,10 +918,10 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         arrow2 = Arrow(condition_action_node.box.get_right(), action_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
 
         # Narration-aligned text for explanation
-        narration_text1 = CrispText("Direct Condition-Action rules", size=6.0, weight=NORMAL, color=C_BODY, alignment="left")
+        narration_text1 = CrispText("Direct Condition-Action rules", size=6, weight=NORMAL, color=C_BODY, alignment="left")
         narration_text1.next_to(condition_action_node, UP, buff=0.3).align_to(condition_action_node, LEFT)
 
-        if_then_example = CrispText("If temperature > threshold\nTHEN trip breaker", size=6.0, weight=NORMAL, color=C_TEXT, alignment="left")
+        if_then_example = CrispText("If temperature > threshold\nTHEN trip breaker", size=6, weight=NORMAL, color=C_TEXT, alignment="left")
         if_then_example.next_to(condition_action_node, DOWN, buff=0.3)
         
         # Animate the components
@@ -805,8 +977,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.wait(0.5)
 
         # Highlight Condition-Action Rules for latency
-        highlight_latency = condition_action_node.box.copy().set_fill(opacity=0).set_stroke(color=HIGHLIGHT_COLOR, width=3.5, z_index=5)
-        latency_text = CrispText("Sub-millisecond Latency", size=6.0, weight=BOLD, color=HIGHLIGHT_COLOR)
+        highlight_latency = condition_action_node.box.copy().set_fill(opacity=0).set_stroke(color=HIGHLIGHT_COLOR, width=3.5).set_z_index(5)
+        latency_text = CrispText("Sub-millisecond Latency", size=6, weight=BOLD, color=HIGHLIGHT_COLOR)
         latency_text.next_to(condition_action_node, UP, buff=0.3)
 
         self.play(
@@ -817,7 +989,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.wait(3.0) # Adjusted wait
 
         # Text for memory/deliberation limitation
-        limitation_text = CrispText("Zero Memory or Future Deliberation", size=6.0, weight=NORMAL, color=C_BODY)
+        limitation_text = CrispText("Zero Memory or Future Deliberation", size=6, weight=NORMAL, color=C_BODY)
         limitation_text.next_to(reactive_nodes_group, DOWN, buff=1.0) # Below the entire group
 
         self.play(
@@ -862,18 +1034,18 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Arrows for goal-based connections
         arrow_p_mw = Arrow(perception_node_goal.box.get_right(), model_of_world_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
         arrow_mw_sp = Arrow(model_of_world_node.box.get_right(), search_planning_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
-        arrow_g_sp = CurvedArrow(goals_node.box.get_right(), search_planning_node.box.get_bottom(), angle=-PI/4, buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
+        arrow_g_sp = CurvedArrow(goals_node.box.get_right(), search_planning_node.box.get_bottom(), angle=-PI/4, stroke_color=C_TEXT, tip_length=0.2) # Removed 'buff'
         arrow_sp_a = Arrow(search_planning_node.box.get_right(), action_node_goal.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
 
         # Narration-aligned text for goal-based
-        narration_text3 = CrispText("Incorporates explicit future goals into\ndecision formulation", size=6.0, weight=NORMAL, color=C_BODY, alignment="left")
+        narration_text3 = CrispText("Incorporates explicit future goals into\ndecision formulation", size=6, weight=NORMAL, color=C_BODY, alignment="left")
         narration_text3.next_to(search_planning_node, UP, buff=0.5).align_to(search_planning_node, LEFT)
 
         # Animate transformation from reactive to goal-based
         self.play(
             Transform(perception_node, perception_node_goal),
             Transform(action_node, action_node_goal),
-            FadeOut(condition_action_node, target_mode="horizontal"), # Condition-Action node is removed
+            FadeOut(condition_action_node, shift=RIGHT*0.2), # Condition-Action node is removed
             FadeOut(arrow1),
             FadeOut(arrow2),
             run_time=2.0
@@ -942,7 +1114,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         # Highlight Search & Planning node
         highlight_sp = search_planning_node.box.copy().set_fill(opacity=0).set_stroke(color=HIGHLIGHT_COLOR, width=3.5, z_index=5)
         
-        planning_text = CrispText("Evaluating Multi-step Sequences:\nWill this action lead toward the goal?", size=6.0, weight=NORMAL, color=C_BODY, alignment="left")
+        planning_text = CrispText("Evaluating Multi-step Sequences:\nWill this action lead toward the goal?", size=6, weight=NORMAL, color=C_BODY, alignment="left")
         planning_text.next_to(search_planning_node, DOWN, buff=0.8)
 
         self.play(
@@ -970,7 +1142,6 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.wait(0.5)
 
         # Fade out previous goal-based diagram elements to make way for comparison
-        # (Using FadeOut/FadeIn for comparison rather than complex Transform for clarity)
         self.play(
             FadeOut(perception_node),
             FadeOut(model_of_world_node),
@@ -986,8 +1157,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.wait(0.5)
         
         # Reactive Agent for Comparison Column
-        reactive_col_header = CrispText("Reactive Agent", size=6.0, weight=BOLD, color=C_SKY_BLUE)
-        reactive_col_desc = CrispText("Reflex Speed", size=6.0, weight=SEMIBOLD, color=C_CORAL_PEACH)
+        reactive_col_header = CrispText("Reactive Agent", size=6, weight=BOLD, color=C_SKY_BLUE)
+        reactive_col_desc = CrispText("Reflex Speed", size=6, weight=SEMIBOLD, color=C_CORAL_PEACH)
         
         comp_perception_r = ProcessNode("Perception", fill_color=C_SKY_BLUE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
         comp_ca_r = ProcessNode("Condition-Action", fill_color=C_WARM_AMBER, text_color=C_WHITE, font_size=0.16, width=2.5, height=0.7)
@@ -1001,8 +1172,8 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         reactive_col_content = VGroup(reactive_col_header, reactive_col_desc, reactive_diagram).arrange(DOWN, buff=0.5).align_to(reactive_col_header, LEFT)
 
         # Goal-Based Agent for Comparison Column
-        goal_col_header = CrispText("Goal-Based Agent", size=6.0, weight=BOLD, color=C_STEEL_BLUE)
-        goal_col_desc = CrispText("Deliberative Foresight", size=6.0, weight=SEMIBOLD, color=C_LAVENDER_PERIWINKLE)
+        goal_col_header = CrispText("Goal-Based Agent", size=6, weight=BOLD, color=C_STEEL_BLUE)
+        goal_col_desc = CrispText("Deliberative Foresight", size=6, weight=SEMIBOLD, color=C_LAVENDER_PERIWINKLE)
         
         comp_perception_g = ProcessNode("Perception", fill_color=C_SKY_BLUE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
         comp_model_g = ProcessNode("Model", fill_color=C_STEEL_BLUE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
@@ -1014,13 +1185,13 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         comp_perception_g.move_to(LEFT * 2.0 + UP * 0.5)
         comp_action_g.move_to(RIGHT * 2.0 + UP * 0.5)
         comp_model_g.next_to(comp_perception_g, RIGHT, buff=0.4).shift(UP * 0.5)
-        comp_goals_g.next_to(compmodel_g, DOWN, buff=0.4).align_to(comp_perception_g, LEFT) # Aligned below model
+        comp_goals_g.next_to(comp_model_g, DOWN, buff=0.4).align_to(comp_perception_g, LEFT) # Aligned below model
         comp_sp_g.next_to(comp_goals_g, RIGHT, buff=0.4).align_to(comp_model_g, UP) # Align with model top
         comp_sp_g.move_to(VGroup(comp_model_g, comp_goals_g).get_center() + RIGHT * 1.5) # Re-center SP
 
         comp_arrow_pg = Arrow(comp_perception_g.box.get_right(), comp_model_g.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
         comp_arrow_mg_sp = Arrow(comp_model_g.box.get_right(), comp_sp_g.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
-        comp_arrow_gg_sp = CurvedArrow(comp_goals_g.box.get_right(), comp_sp_g.box.get_bottom(), angle=-PI/4, buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
+        comp_arrow_gg_sp = CurvedArrow(comp_goals_g.box.get_right(), comp_sp_g.box.get_bottom(), angle=-PI/4, stroke_color=C_TEXT, tip_length=0.18) # Removed 'buff'
         comp_arrow_spg_a = Arrow(comp_sp_g.box.get_right(), comp_action_g.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
 
         goal_diagram = VGroup(comp_perception_g, comp_model_g, comp_goals_g, comp_sp_g, comp_action_g,
@@ -1032,7 +1203,7 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         comparison_group.scale_to_fit_width(content_width - 0.4) # Ensure it fits with margins
         comparison_group.move_to(RIGHT * content_center_x + DOWN * 0.3)
 
-        narration_text5 = CrispText("Reflex speed vs. Deliberative foresight\nin enterprise operations", size=6.0, weight=NORMAL, color=C_BODY, alignment="center")
+        narration_text5 = CrispText("Reflex speed vs. Deliberative foresight\nin enterprise operations", size=6, weight=NORMAL, color=C_BODY, alignment="center")
         narration_text5.next_to(comparison_group, DOWN, buff=1.0)
 
         self.play(

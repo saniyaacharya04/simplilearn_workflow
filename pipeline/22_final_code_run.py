@@ -15,10 +15,10 @@ PIPELINE STAGE 22: FINAL RENDER, AUDIO MUXING & QA AUDIT
      loudness (EBU R128) and muxes video with audio via FFmpeg into production MP4s.
      Automatically extracts high-resolution statement transition verification keyframes
      into verification_screenshots/ alongside manifest.json.
-     Performs an automated multimodal VLM QA audit (vlm_qa_report.json) using Gemini 3.5 Flash,
+     Performs an automated multimodal VLM QA audit (vlm_qa_report.json) using Gemini 3.8 Flash,
      auditing Header Clearance, Border Clamping, In-Box Collision, and Legibility.
      CLOSED-LOOP VISUAL SELF-HEALING: If visual layout defects are detected, automatically
-     repairs the code via Gemini 3.5 Flash (repair_visual_defects) while strictly preserving
+     repairs the code via Gemini 3.8 Flash (repair_visual_defects) while strictly preserving
      all self.wait(...) audio synchronization timings, re-renders the scene, re-merges
      audio, updates verification screenshots, and re-audits.
      Automatically mirrors all final deliverables to data_ppt_final_outputs/<TOPIC_NAME>/.
@@ -66,11 +66,11 @@ PIPELINE STAGE 22: FINAL RENDER, AUDIO MUXING & QA AUDIT
      * Extracts PNG keyframe screenshots at every narration statement transition into
        verification_screenshots/group_{n}/ alongside manifest.json.
    - Step 5: Automated Multimodal VLM QA Audit & Closed-Loop Visual Repair:
-     * Audits extracted keyframes using Gemini 3.5 Flash against universal layout rules
+     * Audits extracted keyframes using Gemini 3.8 Flash against universal layout rules
        (Header Clearance, Border Clamping, In-Box Text Collisions, and Legibility).
      * Writes comprehensive audit verdicts to verification_screenshots/group_{n}/vlm_qa_report.json.
      * CLOSED-LOOP SELF-HEALING: If visual defects are detected, automatically triggers
-       repair_visual_defects() using Gemini 3.5 Flash to fix layout issues while strictly
+       repair_visual_defects() using Gemini 3.8 Flash to fix layout issues while strictly
        preserving all self.wait(...) audio sync timings, re-renders the scene, re-merges
        audio, and updates the verification report.
    - Step 6: Automated Production Export:
@@ -587,7 +587,7 @@ class FinalCodeExecution:
     ):
         """
         Closed-loop VLM evaluation on final rendered keyframe screenshots.
-        Sends extracted verification keyframes to Gemini 3.5 Flash Multimodal
+        Sends extracted verification keyframes to Gemini 3.8 Flash Multimodal
         to audit Header Clearance, Margin Clamping, and Text Collision.
         If defects are detected and can_repair is True, automatically repairs
         the code and re-renders the scene across up to max_repair_attempts.
@@ -691,7 +691,7 @@ Provide your evaluation as a concise JSON report with:
         for vlm_ret in range(1, max_vlm_retries + 1):
             try:
                 resp = client.models.generate_content(
-                    model="gemini-3.5-flash",
+                    model="gemini-3.8-flash",
                     contents=contents,
                     config=types.GenerateContentConfig(
                         temperature=0.1,
@@ -929,7 +929,7 @@ CURRENT PYTHON SCRIPT:
             vlm_thinking_level = os.environ.get("VLM_THINKING_LEVEL", "high")
             print(f"🤖 [VLM Self-Healing] Requesting Gemini layout repair for Scene {group_num} (attempt {repair_attempt}/{max_repair_attempts}) with high-thinking mode (thinking_level='{vlm_thinking_level}')...")
             resp = client.models.generate_content(
-                model="gemini-3.5-flash",
+                model="gemini-3.8-flash",
                 contents=contents,
                 config=types.GenerateContentConfig(
                     temperature=0.2,

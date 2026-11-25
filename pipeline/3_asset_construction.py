@@ -42,7 +42,7 @@ PIPELINE STAGE 3: ASSET CONSTRUCTION
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 2_asset_class_output_tracker.json.
    - Step 2: Queries Creative_Assets/ library for reference Manim code implementations.
-   - Step 3: Invokes Gemini 3.5 Flash using CONSTRUCTION_SYSTEM_PROMPT to build detailed
+   - Step 3: Invokes Gemini 3.8 Flash using CONSTRUCTION_SYSTEM_PROMPT to build detailed
      class architectures for each asset.
    - Step 4: Maps bounding boxes to Manim screen coordinate systems based on SME layout:
      * Layout 70: x_min=-1.48, x_max=6.80, y_min=-3.20, y_max=2.20 (anchor RIGHT).
@@ -328,7 +328,7 @@ class AssetConstruction:
         input_folder: Optional[str] = None,
         api_provider: str = "auto",
         api_key: Optional[str] = None,
-        model_name: str = "gemini-3.5-flash",
+        model_name: str = "gemini-3.8-flash",
         **kwargs
     ):
         self.input_tracker_path = input_tracker_path
@@ -386,7 +386,7 @@ class AssetConstruction:
     ) -> Dict[str, Any]:
         """
         Processes all classified assets across scenes, running RAG retrieval
-        and Gemini 3.5 Flash LLM construction synthesis.
+        and Gemini 3.8 Flash LLM construction synthesis.
         """
         scenes = classified_catalog.get("scenes", [])
         constructed_assets: Dict[str, Any] = {
@@ -644,7 +644,7 @@ if __name__ == "__main__":
     parser.add_argument("-b", "--blueprint", default=None, help="Optional storyboard blueprint JSON")
     parser.add_argument("-o", "--output", required=True, help="Output constructed assets JSON")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM API provider")
-    parser.add_argument("-m", "--model", default="gemini-3.5-flash", help="Model name")
+    parser.add_argument("-m", "--model", default="gemini-3.8-flash", help="Model name")
     args = parser.parse_args()
 
     builder = AssetConstruction(

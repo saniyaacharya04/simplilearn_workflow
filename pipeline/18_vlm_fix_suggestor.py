@@ -9,7 +9,7 @@ PIPELINE STAGE 18: VLM REVIEW FEEDBACK (AESTHETIC & STRUCTURAL EVALUATION)
    - Script Name: 18_vlm_fix_suggestor.py
    - Primary Class: SuggestionsFromVLM
    - Pipeline Role:
-     Executes multimodal visual evaluation using Gemini 3.5 Flash on the triangulated
+     Executes multimodal visual evaluation using Gemini 3.8 Flash on the triangulated
      keyframe images produced in Stage 17. Evaluates aesthetic quality, visual balance,
      readability, formula contrast, container padding, and typography hierarchy.
      Outputs structured per-frame aesthetic feedback JSON files with cell-targeted
@@ -56,7 +56,7 @@ PIPELINE STAGE 18: VLM REVIEW FEEDBACK (AESTHETIC & STRUCTURAL EVALUATION)
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 17_generate_triangulation_tracker.json.
    - Step 2: Gathers all triangulated keyframe images and manifest.json for each scene.
-   - Step 3: Sends multimodal prompts to Gemini 3.5 Flash (google.genai):
+   - Step 3: Sends multimodal prompts to Gemini 3.8 Flash (google.genai):
      * Consumes manifest.json to inject the exact code block for the presentation step alongside the grid image.
      * Passes the Set-of-Marks badge legend so the VLM references exact Python variable names.
      * Passes the cellmap and attached issue list.
@@ -108,7 +108,7 @@ load_dotenv()
 
 from google import genai
 from google.genai import types
-MODEL_NAME = "gemini-3.5-flash"
+MODEL_NAME = "gemini-3.8-flash"
 MAX_RETRIES = 3
 RETRY_BACKOFF_SECONDS = 5
 DESIGN_SPEC_MAX_CHARS = 2500
@@ -119,7 +119,7 @@ _SECTION_MARK_RE = re.compile(r"^\s*##\s*Presentation Step\s+(\d+)\b", re.IGNORE
 class SuggestionsFromVLM:
     """
     Stage 18: VLM Review Feedback.
-    Invokes Gemini 3.5 Flash Multimodal on grid-overlaid keyframes to evaluate visual
+    Invokes Gemini 3.8 Flash Multimodal on grid-overlaid keyframes to evaluate visual
     balance, readability, and contrast, emitting structured aesthetic JSON reports.
     """
     def __init__(

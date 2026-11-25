@@ -26,7 +26,7 @@ class HookStorylineCreator:
         """
         
         #model_vendor = "google"
-        #hook_model_name = "gemini-3.5-flash"
+        #hook_model_name = "gemini-3.8-flash"
         model_vendor = "claude"
         hook_model_name = "claude-haiku-4-5-20251001"
 
@@ -268,12 +268,12 @@ class HookStorylineCreator:
 
 if __name__ == "__main__":
     topic_name = "Set Theory"
-    hook_model_name = "gemini-3.5-flash"
+    hook_model_name = "gemini-3.8-flash"
     case_study_plan_file = f"./Comb_case/raw_parameters_{topic_name}_{hook_model_name}.json"
     with open(case_study_plan_file, 'r') as f:
         case_study_plan = json.load(f)
 
-    reference_storyboard_file = f"./instructions_raw_gemini-3.5-flash.txt"
+    reference_storyboard_file = f"./instructions_raw_gemini-3.8-flash.txt"
     with open(reference_storyboard_file, 'r') as f:
         reference_storyboard = f.read()
 

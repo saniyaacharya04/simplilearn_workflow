@@ -151,7 +151,7 @@ Every stage updates an atomic tracker in `ppt_trackers/` using concurrency-safe 
 | **0C. Clean Fillers & Retakes** | `pipeline/0c_clean_fillers_and_retakes.py` | Excises retakes, stumbles, and dead pauses (0.25–0.35s breath target). | `0c_clean_fillers_tracker.json` | `*_clean_transcript.json` |
 | **0D. AV Trimmer** | `pipeline/0d_av_trimmer.py` | Frame-accurate slicing, PTS synchronization, and continuity check. | `0d_av_trimmer_tracker.json` | `*_trimmed.mp4` |
 | **0. Hook Generation** | `pipeline/0_generate_hook.py` | Course introduction splash card and learning objective lead-ins. | `0_hook_output_tracker.json` | `*_hook_blueprint.json` |
-| **1. Instructional Design** | `pipeline/1_generate_instructional_design.py` | 6-step lesson flow with dynamic SME framing (Layout 100/70/20). | `1_instruction_design_output_tracker.json` | `instructions_gemini-3.5-flash.json` |
+| **1. Instructional Design** | `pipeline/1_generate_instructional_design.py` | 6-step lesson flow with dynamic SME framing (Layout 100/70/20). | `1_instruction_design_output_tracker.json` | `instructions_gemini-3.8-flash.json` |
 | **2. Asset Classification** | `pipeline/2_asset_classification.py` | Decomposes scenes into process flows, comparison tables, and node graphs. | `2_asset_class_output_tracker.json` | `asset_classification_gemini-3.8-flash.json` |
 | **3. Asset Construction** | `pipeline/3_asset_construction.py` | Builds concrete procedural elements with ZERO placeholders. | `3_asset_construct_output_tracker.json` | `*_constructed_assets.json` |
 | **4. Image Prompting** | `pipeline/4_image_prompt_generation.py` | Diffusion prompts for 2D flat illustrations (no 3D, no drop shadows). | `4_prompt_images_output_tracker.json` | `image_prompt_gemini-3.8-flash.json` |
@@ -159,7 +159,7 @@ Every stage updates an atomic tracker in `ppt_trackers/` using concurrency-safe 
 | **6. Presentation Composer** | `pipeline/6_presentation_composer.py` | Spatial layout adhering to Layout 70, 20, and 100 safe zones. | `6_presentation_composer_tracker.json` | `enhanced_anim_claude-haiku-4-5-20251001.json` |
 | **7. Experience Planner** | `pipeline/7_presentation_experience_planner.py` | Schedules progressive reveals (Entry -> Settle -> Focus -> Exit). | `7_experience_planner_tracker.json` | `experience_plan_gemini-3.6-flash.json` |
 | **8. Image Generation** | `pipeline/8_image_generator.py` | Multi-engine synthesis (Qwen 2.1 T2I/R2I, Google GenAI, and Simplilearn vector graphics), dual transparent PNG cutout (rembg + color keying), and manifest update. | `8_image_generation_tracker.json` | `images/*` |
-| **9. Styling Generator** | `pipeline/9_styling_generator.py` | Injects Simplilearn OSL 3.0 colors, Open Sans typography, and theme tokens. | `9_styling_output_tracker.json` | `styling_gemini-3.5-flash.json` |
+| **9. Styling Generator** | `pipeline/9_styling_generator.py` | Injects Simplilearn OSL 3.0 colors, Open Sans typography, and theme tokens. | `9_styling_output_tracker.json` | `styling_gemini-3.8-flash.json` |
 | **10. Code Generation** | `pipeline/10_generate_code.py` | Synthesizes Manim Community Python animation scripts. | `10_code_generation_tracker.json` | `manim_codes/group_*.py` |
 | **11. Manim Feedback Run** | `pipeline/11_run_manim_for_feedback.py` | Test-compiles initial Manim scripts and dumps frame bounding boxes. | `11_run_manim_feedback_tracker.json` | `correction_insights/scene_*/` |
 | **12. Feedback Report** | `pipeline/12_generate_feedback_report.py` | Analyzes bounding box collisions, screen clipping, and proximity violations. | `12_generate_feedback_tracker.json` | `correction_insights/scene_*/report.json` |
@@ -291,7 +291,7 @@ All text elements use the [Open Sans](https://fonts.google.com/specimen/Open+San
 Stage 8 (`pipeline/8_image_generator.py`) provides an enterprise multi-engine generation architecture designed for 2D flat educational vector illustrations:
 - **Multiple Generation Engines**:
   * **Qwen 2.1 (T2I & R2I)**: Dispatches diffusion prompts to local/remote ComfyUI instances using `pipeline/helpers/Qwen Image 2.1 Edit.json` with multi-modal conditioning.
-  * **Google GenAI (Nano-Banana / Gemini Flash Image)**: Generates 1:1 square raster illustrations via `gemini-2.5-flash-image`.
+  * **Google GenAI (Nano-Banana / Gemini Flash Image)**: Generates 1:1 square raster illustrations via `gemini-3.8-flash-image`.
   * **High-Fidelity Vector Fallback**: Renders crisp, high-resolution procedural vector illustrations adhering strictly to Simplilearn's executive dark container palette (`#06152B`, `#0A2540`), glowing telemetry badges, and sensor/neural die diagrams.
 - **Dual Transparent Cutout Engine**:
   * High-precision foreground separation using `rembg` (BiRefNet / U2Net).
@@ -396,11 +396,11 @@ The pipeline guarantees 100% schema parity with the benchmark structured present
 
 | Stage Output File | Schema Structure & Key Fields | Status |
 | :--- | :--- | :--- |
-| `instructions_gemini-3.5-flash.json` | Root dict keyed by string scene IDs (`"1"`, `"2"`...), containing `presentation_step_number`, `title`, `narration_statement`, and structured `matching_section` (Purpose, Components, Assets, Evolution, Annotations, Takeaway, Persistence). | Verified |
+| `instructions_gemini-3.8-flash.json` | Root dict keyed by string scene IDs (`"1"`, `"2"`...), containing `presentation_step_number`, `title`, `narration_statement`, and structured `matching_section` (Purpose, Components, Assets, Evolution, Annotations, Takeaway, Persistence). | Verified |
 | `CGI_Input.json` | Root dict keyed by string scene IDs, containing `presentation_step_number`, `title`, `narration_statement`, `matching_section`, and exact scene `run_time`. | Verified |
 | `enhanced_anim_claude-haiku-4-5-20251001.json` | Root dict keyed by string scene IDs, containing spatial composition `matching_section`, `narration_statement`, and `assets`. | Verified |
 | `experience_plan_gemini-3.6-flash.json` | Root dict keyed by string scene IDs, containing temporal reveal & focus highlight `matching_section`, `narration_statement`, and `assets`. | Verified |
-| `styling_gemini-3.5-flash.json` | Root dict keyed by string scene IDs, containing typography, hex tokens, and container specs in `matching_section`. | Verified |
+| `styling_gemini-3.8-flash.json` | Root dict keyed by string scene IDs, containing typography, hex tokens, and container specs in `matching_section`. | Verified |
 | `asset_classification_gemini-3.8-flash.json` | Root dict keyed by string scene IDs, containing `Asset_Suggestion`, `Image_Suggestion`, `narration_statement`, `Image_names`, `image_prompts`, `image_paths`. | Verified |
 | `image_prompt_gemini-3.8-flash.json` | **Shareable Image Prompts**: Root dict mapping `image_1`, `image_2`... to 2D flat vector generation prompts (Simplilearn OSL 3.0 brand colors, zero 3D, zero photorealism). | Verified |
 | `manim_codes/group_*.py` | Executable Manim Community 0.21.0 scene scripts enforcing Open Sans typography, 10-pastel palette, `#F78908` focus highlight, and 10px corner radius. | Verified |

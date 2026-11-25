@@ -26,7 +26,7 @@ class CasePlotter:
         """
         
         model_vendor = "google"
-        hook_model_name = "gemini-3.5-flash"
+        hook_model_name = "gemini-3.8-flash"
 
         if model_vendor=="google":
             genai.configure(api_key=self.google_api_key)

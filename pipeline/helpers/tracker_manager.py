@@ -81,7 +81,7 @@ TRACKER_STAGES = [
         "name": "Instructional Design",
         "input_tracker": "0_hook_output_tracker.json",
         "output_tracker": "1_instruction_design_output_tracker.json",
-        "output_pattern": "instructions_gemini-3.5-flash.json"
+        "output_pattern": "instructions_gemini-3.8-flash.json"
     },
     {
         "phase": "asset_classification",
@@ -145,7 +145,7 @@ TRACKER_STAGES = [
         "name": "Styling Generator",
         "input_tracker": "8_image_generation_tracker.json",
         "output_tracker": "9_styling_output_tracker.json",
-        "output_pattern": "styling_gemini-3.5-flash.json"
+        "output_pattern": "styling_gemini-3.8-flash.json"
     },
     {
         "phase": "manim_code_generation",

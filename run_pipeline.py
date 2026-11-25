@@ -508,11 +508,11 @@ def self_heal_topic_config(topic_folder: str, topic_id: Optional[str] = None, le
     defaults = {
         "theme": "dynamic_learning",
         "scene_coding_vendor": "google",
-        "scene_coding_model_name": "gemini-2.5-flash",
+        "scene_coding_model_name": "gemini-3.8-flash",
         "styling_vendor": "google",
-        "styling_model_name": "gemini-2.5-flash",
+        "styling_model_name": "gemini-3.8-flash",
         "asset_class_vendor": "google",
-        "asset_class_model_name": "gemini-2.5-flash",
+        "asset_class_model_name": "gemini-3.8-flash",
     }
     for k, v in defaults.items():
         if k not in current_data:

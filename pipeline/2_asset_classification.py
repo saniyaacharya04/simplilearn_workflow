@@ -38,7 +38,7 @@ PIPELINE STAGE 2: ASSET CLASSIFICATION
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 1_instruction_design_output_tracker.json.
    - Step 2: Loads storyboard blueprint and parses visual description per scene.
-   - Step 3: Invokes Gemini 3.5 Flash using INSTRUCTIONS_SYSTEM_PROMPT to decompose assets.
+   - Step 3: Invokes Gemini 3.8 Flash using INSTRUCTIONS_SYSTEM_PROMPT to decompose assets.
    - Step 4: Classifies assets into procedural geometric entities vs diffusion illustrations.
    - Step 5: Enforces Simplilearn OSL 3.0 spatial clearance tags:
      * Layout 70: Content canvas constrained to x >= 760px.
@@ -502,7 +502,7 @@ class AssetClassification:
         blueprint_path: Optional[str] = None,
         api_provider: str = "auto",
         api_key: Optional[str] = None,
-        model_name: str = "gemini-3.5-flash",
+        model_name: str = "gemini-3.8-flash",
         **kwargs
     ):
         self.input_tracker_path = input_tracker_path
@@ -555,7 +555,7 @@ class AssetClassification:
         target_audience: str = "Software engineers, technical architects, and enterprise learners"
     ) -> Dict[str, Any]:
         """
-        Executes scene-by-scene LLM classification using Gemini 3.8 / 3.5 Flash
+        Executes scene-by-scene LLM classification using Gemini 3.8 / 3.8 Flash
         with full Simplilearn prompt fidelity and Simplilearn OSL 3.0 safe zones.
         """
         scenes = storyboard_blueprint.get("scenes", [])
@@ -759,7 +759,7 @@ class AssetClassification:
                 os.path.join(topic_dir, f"{topic_id}_storyboard_blueprint.json"),
                 os.path.join(meta_dir, "storyboard_blueprint.json"),
                 os.path.join(topic_dir, "storyboard_blueprint.json"),
-                os.path.join(topic_dir, "instructions_gemini-3.5-flash.json")
+                os.path.join(topic_dir, "instructions_gemini-3.8-flash.json")
             ]
             blueprint_file = None
             for cand in candidates:
@@ -815,7 +815,7 @@ if __name__ == "__main__":
     parser.add_argument("-b", "--blueprint", required=True, help="Input storyboard blueprint JSON")
     parser.add_argument("-o", "--output", required=True, help="Output classified assets JSON")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM API provider")
-    parser.add_argument("-m", "--model", default="gemini-3.5-flash", help="Model name")
+    parser.add_argument("-m", "--model", default="gemini-3.8-flash", help="Model name")
     args = parser.parse_args()
 
     classifier = AssetClassification(

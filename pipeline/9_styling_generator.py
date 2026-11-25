@@ -42,7 +42,7 @@ PIPELINE STAGE 9: STYLING GENERATOR
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 7_experience_planner_tracker.json.
    - Step 2: Loads experience plan and storyboard blueprint.
-   - Step 3: Invokes Gemini 3.5 Flash using STYLING_SYSTEM_PROMPT.
+   - Step 3: Invokes Gemini 3.8 Flash using STYLING_SYSTEM_PROMPT.
    - Step 4: Maps design system tokens onto every visual container, card, icon, and label.
    - Step 5: Enforces high-contrast color constraints (dark slate #1E293B / #404040 text on light
      cards; strictly forbids low-contrast yellow/white text).
@@ -54,8 +54,8 @@ PIPELINE STAGE 9: STYLING GENERATOR
      * {topic_id}_styling_specifications.json:
        Location: output/<TOPIC_NAME>/{topic_id}_styling_specifications.json
        Content: Complete design-token-annotated animation guidelines per scene.
-     * styling_gemini-3.5-flash.json:
-       Location: output/<TOPIC_NAME>/styling_gemini-3.5-flash.json
+     * styling_gemini-3.8-flash.json:
+       Location: output/<TOPIC_NAME>/styling_gemini-3.8-flash.json
        Content: Mirrored copy of styling specifications.
      * Output Tracker:
        Location: ppt_trackers/9_styling_output_tracker.json
@@ -616,7 +616,7 @@ class StylingGenerator:
         input_folder: Optional[str] = None,
         api_provider: str = "auto",
         api_key: Optional[str] = None,
-        model_name: str = "gemini-3.5-flash",
+        model_name: str = "gemini-3.8-flash",
         **kwargs
     ):
         self.input_tracker_path = input_tracker_path
@@ -625,7 +625,7 @@ class StylingGenerator:
         self.claude_api_key = claude_api_key or os.environ.get("CLAUDE_API_KEY")
         self.input_folder = input_folder or "."
         self.api_provider = api_provider.lower()
-        self.model_name = "gemini-2.5-flash" if "3.5" in str(model_name) else model_name
+        self.model_name = "gemini-3.8-flash" if "3.5" in str(model_name) else model_name
         self.api_key = api_key or self.google_api_key or self.claude_api_key or os.environ.get("GEMINI_API_KEY")
 
     def style_scene_local(self, scene: Dict[str, Any], sid: int) -> List[Dict[str, Any]]:
@@ -667,7 +667,7 @@ class StylingGenerator:
         blueprint: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
-        Executes Gemini 3.5 Flash LLM calls to inject full styling specifications
+        Executes Gemini 3.8 Flash LLM calls to inject full styling specifications
         scene-by-scene adhering strictly to Simplilearn OSL 3.0 design system.
         """
         scenes = experience_data.get("scenes", [])
@@ -900,7 +900,7 @@ class StylingGenerator:
                 )
                 # Also save mirrored copy inside meta_dir
                 try:
-                    shutil.copy2(out_styling, os.path.join(meta_dir, "styling_gemini-3.5-flash.json"))
+                    shutil.copy2(out_styling, os.path.join(meta_dir, "styling_gemini-3.8-flash.json"))
                 except Exception:
                     pass
 
@@ -936,7 +936,7 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", required=True, help="Output styling specifications JSON")
     parser.add_argument("-b", "--blueprint", default=None, help="Optional storyboard blueprint JSON")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM API provider")
-    parser.add_argument("-m", "--model", default="gemini-3.5-flash", help="Model name")
+    parser.add_argument("-m", "--model", default="gemini-3.8-flash", help="Model name")
     args = parser.parse_args()
 
     generator = StylingGenerator(
