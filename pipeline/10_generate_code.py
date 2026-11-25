@@ -1461,14 +1461,14 @@ class CodeGenerator:
             # Ingest steps from structured CGI manifest, composition instructions, and legacy instructions
             cgi_scene_steps = structured_cgi.get(group, []) if structured_cgi else []
             legacy_scene_steps = styling_data.get(group, []) if (isinstance(styling_data, dict) and not is_styling_generator_format and group in styling_data) else []
-            # Prioritize the authoritative, cinematic visual choreography from instructions_data (Stage 1 / Instructional Design)
-            # over the flattened, card-based intermediate composition text
-            if instructions_data and str(group) in instructions_data:
+            # Prioritize the authoritative, kinetic vector choreography from enhanced_anim_data (Stage 6)
+            # which defines authentic dynamic diagrams, particle conduits, and loops without container cards
+            if enhanced_anim_data and str(group) in enhanced_anim_data:
+                legacy_scene_steps = enhanced_anim_data[str(group)]
+            elif instructions_data and str(group) in instructions_data:
                 legacy_scene_steps = instructions_data[str(group)]
             elif comp_scene and comp_scene.get("instructions"):
                 legacy_scene_steps = comp_scene.get("instructions", [])
-            elif enhanced_anim_data and str(group) in enhanced_anim_data:
-                legacy_scene_steps = enhanced_anim_data[str(group)]
 
             num_steps = max(len(cgi_scene_steps), len(legacy_scene_steps), 1)
             for i in range(num_steps):
@@ -1579,10 +1579,20 @@ class CodeGenerator:
             if os.environ.get("SKIP_IMAGES") != "1":
                 img_dir = os.path.join(base_folder, "images")
                 if os.path.exists(img_dir):
-                    scene_img_matches = sorted(
-                        glob.glob(os.path.join(img_dir, f"scene_{group}_*.png")) +
-                        glob.glob(os.path.join(img_dir, f"scene_{group}_*.jpg"))
-                    )
+                    group_int = int(group) if str(group).isdigit() else None
+                    scene_patterns = [
+                        f"scene_{group}_*.png", f"scene_{group}_*.jpg",
+                        f"s{group}_*.png", f"s{group}_*.jpg",
+                    ]
+                    if group_int is not None:
+                        scene_patterns.extend([
+                            f"s{group_int:02d}_*.png", f"s{group_int:02d}_*.jpg",
+                            f"scene_{group_int:02d}_*.png", f"scene_{group_int:02d}_*.jpg",
+                        ])
+                    scene_img_matches = []
+                    for pat in scene_patterns:
+                        scene_img_matches.extend(glob.glob(os.path.join(img_dir, pat)))
+                    scene_img_matches = sorted(list(set(scene_img_matches)))
                     for simg in scene_img_matches:
                         simg_name = os.path.splitext(os.path.basename(simg))[0]
                         if simg_name not in image_details:
