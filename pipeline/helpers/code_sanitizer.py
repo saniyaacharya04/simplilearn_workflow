@@ -31,7 +31,7 @@ from pathlib import Path
 def is_executive_topic(base_folder: str = None, topic_id: str = None) -> bool:
     """
     Checks if a topic is an executive higher-ed presentation.
-    Guarantees that all executive presentation videos maintain their exact 2-column executive standard.
+    Guarantees that all executive presentation videos maintain their exact executive standard.
     """
     if topic_id and ("EXEC" in str(topic_id).upper() or "SIMPLILEARN" in str(topic_id).upper()):
         return True
@@ -56,7 +56,7 @@ def is_executive_topic(base_folder: str = None, topic_id: str = None) -> bool:
 def get_visual_archetype(base_folder: str = None, topic_id: str = None, code_content: str = "") -> str:
     """
     Dynamically identifies the visual archetype of the video:
-    - 'executive': Standard 2-column executive container architecture.
+    - 'executive': Standard executive visual architecture.
     - 'k12_education': Engaging open-canvas storytelling for K-12.
     - 'stem_math': Coordinate axes, geometry, calculus, and scientific proofs.
     - 'process_flow': Node-link pipelines, state machines, tree architectures.

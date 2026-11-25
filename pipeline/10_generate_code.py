@@ -824,10 +824,10 @@ class CodeGenerator:
           * NEVER force text to fit or stretch across the width of a box using `.scale_to_fit_width(...)`. Scaling text causes jarring font disparities across sibling cards.
           * ALL related boxes, cards, flowchart shapes, comparison columns, metric blocks, and table cells MUST maintain a single UNIFORM font size (STRICTLY font_size=18 to 22, matching across all items; NEVER below 16!).
           * MULTI-LINE WRAPPING MANDATE: Whenever text exceeds the container's horizontal budget (over 28-34 characters depending on card width), insert explicit newline linebreaks (`\n`) so text wraps across 2 or 3 balanced lines while preserving base font size.
-          * BOX HEIGHT EXPANSION: Container cards must dynamically expand height to fit wrapped text:
-            `box_h = max(default_h, text_mob.height + 2 * pad_y)`
-            Boxes with longer text must be taller, NEVER smaller or compressed in font size!
-          * ZERO SCALING ON TEXT: Never call `.scale_to_fit_width(...)` on text objects inside containers.
+          * MICRO-PILL HEIGHT EXPANSION: Badges and micro-pills must dynamically size height and width to fit text:
+            `pill_h = max(default_h, text_mob.height + 2 * pad_y)`
+            Never scale text to fit; keep typography crisp. Do NOT create full-screen or half-screen slide cards or box containers for diagrams!
+          * ZERO SCALING ON TEXT: Never call `.scale_to_fit_width(...)` on text objects.
 
         - EXECUTIVE TYPOGRAPHY HIERARCHY:
           * Slide Super-Title: 32pt to 36pt bold at top.

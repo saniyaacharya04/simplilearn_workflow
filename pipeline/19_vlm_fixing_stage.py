@@ -490,36 +490,32 @@ class VLMTimestampedFixStage:
             lines.append(code_content)  # provide full code context for complete variable and structure references
             lines.append("==================================================\n")
 
-        # Select archetype-specific layout rules (Executive rules remain 100% exact and unchanged)
+        # Select archetype-specific layout rules (Strict Prohibition of Static PPT Cards & Two-Column Splits)
         if archetype == "executive":
             rules_1_and_2 = """
-1. RECOMMENDED TWO-COLUMN AUDIT DISCIPLINE (LEFT CONTEXT + RIGHT GRAPHIC):
-   For presentation steps where narrative context and graphics coexist, audit both areas for visual balance:
-   - LEFT COLUMN AUDIT:
-     * Check for uncontained/sparse text strings: When statements, takeaways, principles, or parameter lists appear bare or unstyled, consider directing encapsulation into rounded sub-panels (`create_yellow_card`, `create_card`, or `create_colored_card`).
-     * Check for dead/empty whitespace: If the left container looks sparse or empty, direct expanding card heights, adding descriptive sub-labels, or adjusting vertical buffering so elements span the container gracefully.
-     * Check margins: Ensure text and cards do not collide with or poke outside container borders.
-   - RIGHT COLUMN AUDIT:
-     * Check spatial bounds: Right-column elements must stay strictly within x in [-0.6, 6.8]. Total width should not exceed 7.0 units!
-     * Check side-by-side diagrams: When two structures are placed side-by-side in the right column, scale them appropriately (width <= 3.2 each) with a compact buffer (buff=0.35 to 0.50). Avoid huge buffers like buff=2.0 that push elements across into the left column!
-     * Check connectors & labels: Arrows must terminate cleanly at node perimeters without piercing centers or colliding with text.
+1. OPEN-CANVAS DYNAMIC VECTOR & DIAGRAM AUDIT DISCIPLINE (ZERO PPT CARDS / ZERO TWO-COLUMN SPLIT):
+   Audit the scene for authentic, dynamic vector mechanisms and open-canvas diagrams:
+   - STRICT PROHIBITION OF TWO-COLUMN & CARD BOXES:
+     * Strictly DO NOT recommend dividing the canvas into rigid [Left Column Anchor] and [Right Column Explanation Workspace] divisions!
+     * Strictly DO NOT recommend encapsulating statements into stacked rectangular cards (`create_yellow_card`, `create_card`) or PowerPoint-style bullet boxes!
+     * If a scene suffers from static slide cards or rectangular boxes, direct removing the container boxes and letting the living vector mechanism breathe directly in open canvas space.
+   - VECTOR MECHANISMS & DYNAMIC DIAGRAMS AUDIT:
+     * Check that central focal mechanisms (e.g. balance scales, neural cores, dials, flow conduits, state loops) are clearly visible, properly scaled, and centered.
+     * Check spatial bounds: In Layout 70, elements must stay within x in [-0.8, 6.4], y in [-3.2, 2.2]. In full-canvas scenes, x in [-6.4, 6.4].
+     * Check connectors & conduits: Conduits, arrows, and particle paths must connect cleanly to node perimeters without piercing centers or colliding with text.
 
-2. DUAL-CONTAINER ARCHITECTURE & BREATHING MARGINS:
-   - When narrative concepts and visual illustrations coexist, organize the composition cleanly into structured containers.
-   - Enforce page-edge clearance: Neither boxes nor internal content should touch outer screen edges. Maintain generous breathing room above the bottom margin (keep content strictly above DOWN * 3.3).
-   - Ensure containers are balanced in height, aligned horizontally, and use consistent rounded corner styling.
+2. OPEN-CANVAS SPATIAL CLEARANCE & BALANCED MARGINS:
+   - Allow diagrams and visual mechanisms full breathing room across the content arena without encasing them in border boxes.
+   - Enforce page-edge clearance: Neither visual mechanisms nor labels should touch outer screen edges. Maintain generous breathing room above the bottom margin (keep content strictly above DOWN * 3.3).
+   - Ensure multi-element groups maintain uniform scaling and harmonic spacing.
 """
             rule_4 = """
-4. RECOMMENDED STATEMENT ENCAPSULATION & SUB-PANEL CARDS (EXECUTIVE POLISH GUIDELINES):
-   - RECOMMENDATION, NOT RIGID MANDATE: Encapsulating statements into sub-panel cards is a powerful polish technique for lists, parameters, comparison rows, and key takeaways. Use your visual intelligence to decide when encapsulation enhances clarity versus when an open, mathematical, or diagram-first presentation is more natural.
-   - SUB-PANELS / CARDS (WHEN APPROPRIATE): Encapsulate distinct points, parameters, or takeaway rows into dedicated rounded cards (e.g. `create_yellow_card`, `create_colored_card`, or `create_card` with width 3.2–3.3, height ~0.52–0.90, corner_radius ~0.10–0.14, and internal horizontal padding 0.18–0.25).
-   - VISUAL HIERARCHY & BADGES:
-     * Inside sub-panels, consider bold lead-in tags (e.g. 'Input: ', 'Source: ', 'Logic: ', 'Strategy: ') with high contrast against the background.
-     * Integrate semantic status badges: Green check badges (`check_badge`) for optimal choices, red cross badges (`cross_badge`) for limitations, or colored pills for variables where helpful.
-   - VERTICAL CARD STACKS:
-     * Group statement cards into a vertical stack: `VGroup(card1, card2, card3).arrange(DOWN, buff=0.12–0.18)` positioned neatly under the panel heading, with `z_index=5` so cards render crisply above container backgrounds.
+4. DIRECT IN-DIAGRAM LABELS & STATUS INDICATORS (STRICT PROHIBITION OF CARD STACKS):
+   - DIRECT ATTACHMENT: Labels and status pills (1-3 words) must attach directly to diagram nodes, conduits, and indicators, never as detached bullet-point cards.
+   - MICRO-PILLS & STATUS BADGES: Use subtle micro-pills (`height=0.45`, `corner_radius=0.074`) with `#FFFFFF` or `#F8FAFC` soft fills and clean 1.5px pastel borders, attached directly to components.
+   - ZERO VERTICAL CARD STACKS: Strictly NEVER direct creating vertical stacks of rectangular cards containing bulleted sentences (`VGroup(card1, card2).arrange(DOWN)`). Deliverables and summaries must be sleek vector indicators (status dials, checkmark rings, metric badges).
    - ACTIONABLE DIRECTIVES:
-     * When a section suffers from naked, scattered text lines that make the layout look unfinished, formulate a concrete directive recommending card encapsulation with explicit dimensions and positioning.
+     * When text is floating awkwardly or colliding with an animation, formulate a concrete directive to adjust label positioning, font size, or attach it cleanly to the focal node with leader lines.
 """
         elif archetype == "k12_education":
             rules_1_and_2 = """

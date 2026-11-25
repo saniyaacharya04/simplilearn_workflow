@@ -648,10 +648,9 @@ class FinalStylingCorrections:
 
         3. CRITICAL MANIM SIZING & SPATIAL RULES:
            - NEVER use `.set_width(w).set_height(h)` in Manim! In Manim, `.set_height()` scales BOTH width and height proportionally, overwriting width! Always set width and height in the constructor: `RoundedRectangle(width=w, height=h, corner_radius=r)` or use `.stretch_to_fit_width(w).stretch_to_fit_height(h)`!
-           - LEFT COLUMN SAFE ZONE: The left column panel spans `x in [-6.4, -2.2]` (width = 4.2). Any vector elements placed in the left panel MUST NOT exceed `width = 3.3`!
-           - RIGHT COLUMN BOUNDARY CLAMP: The right column safe zone spans `x in [-0.6, 6.8]` (width <= 7.4). Any diagram, composite group, or mechanism placed on the right side MUST NEVER cross left of `x = -0.6` or right of `x = 6.8`.
-           - 2-COLUMN SUBPANEL CLAMP: Any sub-mechanism in the right column MUST have `width <= 3.3` each! Never use `width=3.8`!
-           - If a VLM directive asks for a large buffer (e.g. `buff=2.2`) between sub-diagrams, DO NOT apply a huge buffer that pushes elements into the left column! Instead, scale down the sub-diagrams (`.scale(0.68)`), use a safe buffer (`buff=0.35` to `0.5`), and center the entire group at right_col_center (`x ~ 3.1` to `3.4`).
+           - OPEN CANVAS BOUNDARY CLAMP: For Layout 70 scenes, all visual mechanisms, illustrations, and labels must stay strictly within `x in [-0.8, 6.4]` (width <= 7.2) and `y in [-3.2, 1.8]`. For full canvas scenes, stay within `x in [-6.4, 6.4]`.
+           - NO STATIC PPT CARDS: Do NOT place living vector mechanisms or diagrams into rectangular background cards or slide boxes! Let apparatus breathe in open canvas negative space.
+           - SAFE BUFFERS: Maintain clean, compact buffers (`buff=0.3` to `0.5`) between sibling nodes or mechanisms. Avoid massive buffers that push elements off-screen.
 """
         elif archetype == "stem_math":
             ui_architecture_section = """
@@ -775,15 +774,12 @@ class FinalStylingCorrections:
           * CEILING: The executive title & subtitle occupy y in [1.8, 3.8] in the UL corner. Therefore, the top edge of all content panels, dashboards, containers, cards, tables, and diagrams MUST sit strictly at or below y = +1.7 (e.g. `move_to([0, -0.65, 0])`). NEVER allow any content top edge to exceed y = 1.7! If a container has height >= 4.0, position it at y <= -0.65.
           * FLOOR: Elements must stay above y = -3.5 so that brackets, footnotes, and cards are never pushed off the bottom of the screen.
 
-        - LEFT AND RIGHT SIDES CLEANLY DISTINGUISHED (NO BLEEDING / GUTTER RULE):
-          * The 16:9 canvas (14.22 width) MUST maintain a strict two-column spatial boundary with an explicit visual gutter:
-            - Left Column: x in [-6.6, -2.4] (width <= 4.0, centered ~ x = -4.5). Cards width = 3.3.
-            - Visual Gutter: Open buffer zone from x = -2.4 to x = -1.8 (width >= 0.6) with ZERO elements crossing.
-            - Right Column: x in [-1.8, +6.4] (width <= 7.8, centered ~ x = +2.3).
-            - Elements from the left column must NEVER bleed across the gutter into the right column!
-            - Elements in the right column (storefronts, pills, tables) must NEVER exceed x = +6.4 (camera boundary cutoff).
-          * SIDE CALLOUT BUDGET: If a central diagram has callout cards placed to its LEFT or RIGHT, the central diagram width must be <= 7.6 so side tags never clip past |x| = 6.4.
-          * MULTI-COLUMN CONTAINER RULE: Inside cards, tiers, or boxes, NEVER place multiple text items (e.g. tier label AND bullet list) directly at the center with .move_to(bg). Use separate columns: e.g. label on the left, bullet column arranged vertically in the middle, and tags/timestamps on the right, or arrange them horizontally with VGroup(...).arrange(RIGHT).
+        - OPEN CANVAS SPATIAL BOUNDARIES & SCREEN CLEARANCE RULE:
+          * The 16:9 canvas (14.22 width) provides an open instructional arena:
+            - Content Arena: x in [-6.4, +6.4], y in [-3.2, +1.7] (or x in [-0.8, +6.4] for Layout 70).
+            - Strictly DO NOT enforce rigid two-column LHS/RHS splits or stacked rectangular cards!
+            - Elements must NEVER exceed x = +6.4 or x = -6.4 (camera boundary cutoff).
+          * ZERO OVERLAP: Diagrams, node labels, conduits, and status pills must maintain clear visual buffers (buff >= 0.25) and never collide with each other or screen edges.
 
         - EXPLANATORY ANNOTATION TEXT & TAKEAWAYS MANDATE (CLIENT MANDATE):
           * Every presentation step MUST feature informative annotation text, takeaway banners, or explanatory insight callouts (e.g. 1-2 line takeaway pill or card with size=14-16 font) explaining the visual demonstration or formula.

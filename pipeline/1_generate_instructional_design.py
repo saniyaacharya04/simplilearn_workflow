@@ -517,60 +517,25 @@ INSTRUCTIONAL_SYSTEM_PROMPT = """
 
         ---
 
-        TWO-COLUMN INSTRUCTIONAL WORKSPACE
+        OPEN-CANVAS DYNAMIC VECTOR WORKSPACE & FLUID PEDAGOGICAL CHOREOGRAPHY
 
-        Always organize each presentation step strictly using a two-column instructional workspace (Left Column Anchor and Right Column Explanation Workspace). Do NOT abandon the two-column structure for open comparisons, quadrants, or free-flowing single-canvas layouts.
+        STRICT PROHIBITION OF TWO-COLUMN / LHS-RHS SPLITS & STATIC PPT CARDS:
+        • Strictly DO NOT organize presentation steps into rigid [Left Column Anchor] and [Right Column Explanation Workspace] divisions!
+        • Strictly DO NOT create two-column slide cards, floating text box clusters, or PowerPoint-style bullet containers!
+        • The entire canvas is a unified, living instructional arena dedicated to dynamic visual models, authentic vector mechanisms, and kinetic diagrams.
 
-        The columns have distinct instructional roles but both are active teaching surfaces:
-
-        Left column — Instructional Anchor (x ∈ [-6.6, -2.4])
-
-        Use the left column to organize and structure the core idea in an appealing, visually meaningful way.
-
-        It may contain
-        • key ideas
-        • definitions
-        • terminology
-        • rules
-        • principles
-        • process stages
-        • equations
-        • compact diagrams
-        • hierarchies
-        • timelines
-        • numbered concepts
-        • categorized information
-        • important observations
-        • persistent reference structures
-
-        The left column should NOT become a static text list. Use visual hierarchy, grouping, progressive disclosure, typography, compact diagrams and structured information to make the core concept easy to scan and remember.
-
-        Right column — Explanation Workspace (x ∈ [-1.8, 6.6])
-
-        Use the right column for information that explains, demonstrates or develops the anchored idea.
-
-        It may contain
-        • explanations
-        • worked examples
-        • comparisons
-        • mechanisms
-        • applications
-        • supporting diagrams
-        • reasoning
-        • calculations
-        • transformations
-        • causal relationships
-
-        Allow the right column to evolve as the explanation progresses.
-
-        Maintain the left column as the conceptual anchor while allowing either column to evolve when doing so improves understanding.
-
-        When presenting comparisons, quadrants, process flows, or timelines:
-        • Keep the category labels, rules, and anchor criteria strictly in the Left Column Anchor.
-        • Place the comparison cards, quadrant grid, calculations, or flow nodes in the Right Column Explanation Workspace.
-        • Maintain the visual gutter (x ∈ [-2.4, -1.8]) strictly clear.
-
-        To depict any examples of financial analysis, format the financial values like financial statement tables rather than box-formatted text
+        CORE PRINCIPLES OF DYNAMIC PEDAGOGICAL CHOREOGRAPHY:
+        1. Central Living Visual Mechanism:
+           - Focus each scene around an authentic, kinetic vector mechanism or domain illustration (e.g. balance scales, neural cores, chronometer dials, conduit flow manifolds, state loops, circular process trees).
+           - The visual mechanism lives directly in open canvas space. Avoid encasing diagrams into rectangular container boxes or slide cards!
+        2. Direct In-Diagram Cognitive Labels (Zero Detached Text Columns):
+           - Attach concise cognitive labels (1 to 3 words) and status micro-pills directly to the relevant nodes, conduits, and indicators.
+           - NEVER isolate text into a separate left-hand column or bullet list. The explanation belongs directly on the kinetic diagram.
+        3. Purposeful Kinematics & Active Transformations:
+           - Animate data flows using moving packet dots (`MoveAlongPath`), rotating needles, pulsing rings, or state transitions.
+           - Avoid static visual freezes: every spoken narration beat must trigger an active visual transformation on screen.
+        4. Persistent Cognitive Anchoring:
+           - Core structural anchors remain on screen across steps, evolving progressively as the explanation advances without jarring full-screen wipes.
 
         ---
 
@@ -697,9 +662,9 @@ INSTRUCTIONAL_SYSTEM_PROMPT = """
         The on-screen presentation MUST be horizontally centered and uniformly distributed across the canvas below the header:
         • Below the top-left header, the content arena (x in [-6, 6], y in [-3.2, 2.3]) must be balanced with minimal dead white space.
         • NEVER cluster elements into one corner or leave 50-70% of the canvas empty.
-        • Every scene must follow one of two balanced layout paradigms:
-          1. Centered Full-Width Canvas: A clean presentation composition (width 10.5-11.5, height 4.8-5.2) centered at y ≈ -0.3, dedicated entirely to the primary visual model, diagrams, flowcharts, or cards with generous spacing.
-          2. Symmetrical Two-Column Layout: A balanced pair of columns: Left Column = structured cards (width ~5.2), Right Column = visual diagram or model (width ~5.2), centered together as a unified group with clean spacing.
+        • Every scene must follow a balanced open-canvas paradigm:
+          - Centered Full-Width Dynamic Canvas: A clean composition (width 10.5-12.0, height 4.8-5.2) centered at y ≈ -0.3, dedicated entirely to the primary visual model, diagrams, flowcharts, or animated mechanisms with generous breathing room.
+          - Strictly DO NOT force a two-column, LHS/RHS split or cluster of cards. Elements must breathe in open negative space.
         • NO 5-TIER SANDWICHES OR MANDATORY BANNERS: NEVER force top problem/premise banners or bottom takeaway banners around diagrams. Allow the primary visual model full breathing room across the content arena.
         • ZERO OVERLAPPING: Every card, badge, arrow, label, and tag must maintain clear padding (buff >= 0.25) and never overlap arrow paths, borders, or neighboring elements.
 
