@@ -5,7 +5,7 @@ PIPELINE STAGE 0C: CONTENT, FILLER WORDS & RETAKE CLEANER
 ================================================================================
 
 1. STAGE OVERVIEW:
-   - Stage Index: 0c
+   - Stage Index: 0C
    - Script Name: 0c_clean_fillers_and_retakes.py
    - Primary Class: FillerAndRetakeCleaner
    - Pipeline Role:

@@ -1,0 +1,840 @@
+{
+  "1": [
+    {
+      "step_index": 1,
+      "step_number": 1,
+      "presentation_step_number": 1,
+      "title": "Opening Hook & Action Principle",
+      "step_title": "Opening Hook & Action Principle",
+      "dominant_visual_concept": "Kinetic procedural visualization of Opening Hook & Action Principle",
+      "narration_statement": "System that does not just respond, but acts",
+      "narration": "System that does not just respond, but acts",
+      "on_screen_elements": [
+        "Opening Hook & Action Principle",
+        "System that does not just respond, but acts"
+      ],
+      "start_time": 0.0,
+      "end_time": 7.86,
+      "run_time": 7.86,
+      "duration": 7.86,
+      "transition_to_next": "Clean scene exit hold",
+      "matching_section": "Purpose: Explain Opening Hook & Action Principle\nPresentation Components:\n• Step Title: Opening Hook & Action Principle\n• Screen Context: Topic Introduction: Types and Architectures of AI Agents (Step 1)\n• Centerstage Visual Model: Dynamic architectural schematic representing Opening Hook & Action Principle.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Opening Hook & Action Principle.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    }
+  ],
+  "2": [
+    {
+      "step_index": 1,
+      "step_number": 1,
+      "presentation_step_number": 1,
+      "title": "Solara Energy Introduction",
+      "step_title": "Solara Energy Introduction",
+      "dominant_visual_concept": "Kinetic procedural visualization of Solara Energy Introduction",
+      "narration_statement": "Monitoring site performance and goal-driven action sequences",
+      "narration": "Monitoring site performance and goal-driven action sequences",
+      "on_screen_elements": [
+        "Solara Energy Introduction",
+        "Monitoring site performance and goal-driven action sequences"
+      ],
+      "start_time": 7.86,
+      "end_time": 16.46,
+      "run_time": 8.6,
+      "duration": 8.6,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Solara Energy Introduction\nPresentation Components:\n• Step Title: Solara Energy Introduction\n• Screen Context: Core Problem and Operational Context (Step 1)\n• Centerstage Visual Model: Dynamic architectural schematic representing Solara Energy Introduction.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Solara Energy Introduction.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 2,
+      "step_number": 2,
+      "presentation_step_number": 2,
+      "title": "Real-World Action Sequence",
+      "step_title": "Real-World Action Sequence",
+      "dominant_visual_concept": "Kinetic procedural visualization of Real-World Action Sequence",
+      "narration_statement": "Querying data, comparing outputs, flagging anomalies, generating reports",
+      "narration": "Querying data, comparing outputs, flagging anomalies, generating reports",
+      "on_screen_elements": [
+        "Real-World Action Sequence",
+        "Querying data, comparing outputs, flagging anomalies, generating reports"
+      ],
+      "start_time": 16.46,
+      "end_time": 25.06,
+      "run_time": 8.6,
+      "duration": 8.6,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Real-World Action Sequence\nPresentation Components:\n• Step Title: Real-World Action Sequence\n• Screen Context: Core Problem and Operational Context (Step 2)\n• Centerstage Visual Model: Dynamic architectural schematic representing Real-World Action Sequence.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Real-World Action Sequence.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 3,
+      "step_number": 3,
+      "presentation_step_number": 3,
+      "title": "Architectural Diversity",
+      "step_title": "Architectural Diversity",
+      "dominant_visual_concept": "Kinetic procedural visualization of Architectural Diversity",
+      "narration_statement": "Different types built on different architectures for different problems",
+      "narration": "Different types built on different architectures for different problems",
+      "on_screen_elements": [
+        "Architectural Diversity",
+        "Different types built on different architectures for different problems"
+      ],
+      "start_time": 25.05,
+      "end_time": 33.65,
+      "run_time": 8.6,
+      "duration": 8.6,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Architectural Diversity\nPresentation Components:\n• Step Title: Architectural Diversity\n• Screen Context: Core Problem and Operational Context (Step 3)\n• Centerstage Visual Model: Dynamic architectural schematic representing Architectural Diversity.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Architectural Diversity.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 4,
+      "step_number": 4,
+      "presentation_step_number": 4,
+      "title": "Engineering Alignment",
+      "step_title": "Engineering Alignment",
+      "dominant_visual_concept": "Kinetic procedural visualization of Engineering Alignment",
+      "narration_statement": "Matching the right agent architecture to the right operational job",
+      "narration": "Matching the right agent architecture to the right operational job",
+      "on_screen_elements": [
+        "Engineering Alignment",
+        "Matching the right agent architecture to the right operational job"
+      ],
+      "start_time": 33.65,
+      "end_time": 42.24,
+      "run_time": 8.59,
+      "duration": 8.59,
+      "transition_to_next": "Clean scene exit hold",
+      "matching_section": "Purpose: Explain Engineering Alignment\nPresentation Components:\n• Step Title: Engineering Alignment\n• Screen Context: Core Problem and Operational Context (Step 4)\n• Centerstage Visual Model: Dynamic architectural schematic representing Engineering Alignment.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Engineering Alignment.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    }
+  ],
+  "3": [
+    {
+      "step_index": 1,
+      "step_number": 1,
+      "presentation_step_number": 1,
+      "title": "Describe Core Architectural Components",
+      "step_title": "Describe Core Architectural Components",
+      "dominant_visual_concept": "Kinetic procedural visualization of Describe Core Architectural Components",
+      "narration_statement": "Modular anatomy of perception, memory, reasoning, and action",
+      "narration": "Modular anatomy of perception, memory, reasoning, and action",
+      "on_screen_elements": [
+        "Describe Core Architectural Components",
+        "Modular anatomy of perception, memory, reasoning, and action"
+      ],
+      "start_time": 42.24,
+      "end_time": 48.48,
+      "run_time": 6.24,
+      "duration": 6.24,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Describe Core Architectural Components\nPresentation Components:\n• Step Title: Describe Core Architectural Components\n• Screen Context: Topic Learning Objectives (Step 1)\n• Centerstage Visual Model: Dynamic architectural schematic representing Describe Core Architectural Components.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Describe Core Architectural Components.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 2,
+      "step_number": 2,
+      "presentation_step_number": 2,
+      "title": "Explain Agent-Environment Continuous Loop",
+      "step_title": "Explain Agent-Environment Continuous Loop",
+      "dominant_visual_concept": "Kinetic procedural visualization of Explain Agent-Environment Continuous Loop",
+      "narration_statement": "Continuous observation, state update, and environmental feedback",
+      "narration": "Continuous observation, state update, and environmental feedback",
+      "on_screen_elements": [
+        "Explain Agent-Environment Continuous Loop",
+        "Continuous observation, state update, and environmental feedback"
+      ],
+      "start_time": 48.48,
+      "end_time": 54.72,
+      "run_time": 6.24,
+      "duration": 6.24,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Explain Agent-Environment Continuous Loop\nPresentation Components:\n• Step Title: Explain Agent-Environment Continuous Loop\n• Screen Context: Topic Learning Objectives (Step 2)\n• Centerstage Visual Model: Dynamic architectural schematic representing Explain Agent-Environment Continuous Loop.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Explain Agent-Environment Continuous Loop.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 3,
+      "step_number": 3,
+      "presentation_step_number": 3,
+      "title": "Walk Through PRA Execution Cycle",
+      "step_title": "Walk Through PRA Execution Cycle",
+      "dominant_visual_concept": "Kinetic procedural visualization of Walk Through PRA Execution Cycle",
+      "narration_statement": "Perception-Reasoning-Action execution loop driving decisions",
+      "narration": "Perception-Reasoning-Action execution loop driving decisions",
+      "on_screen_elements": [
+        "Walk Through PRA Execution Cycle",
+        "Perception-Reasoning-Action execution loop driving decisions"
+      ],
+      "start_time": 54.72,
+      "end_time": 60.96,
+      "run_time": 6.24,
+      "duration": 6.24,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Walk Through PRA Execution Cycle\nPresentation Components:\n• Step Title: Walk Through PRA Execution Cycle\n• Screen Context: Topic Learning Objectives (Step 3)\n• Centerstage Visual Model: Dynamic architectural schematic representing Walk Through PRA Execution Cycle.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Walk Through PRA Execution Cycle.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 4,
+      "step_number": 4,
+      "presentation_step_number": 4,
+      "title": "Identify Three Main Agent Types",
+      "step_title": "Identify Three Main Agent Types",
+      "dominant_visual_concept": "Kinetic procedural visualization of Identify Three Main Agent Types",
+      "narration_statement": "Reactive, goal-based, and utility-based architectural paradigms",
+      "narration": "Reactive, goal-based, and utility-based architectural paradigms",
+      "on_screen_elements": [
+        "Identify Three Main Agent Types",
+        "Reactive, goal-based, and utility-based architectural paradigms"
+      ],
+      "start_time": 60.96,
+      "end_time": 67.2,
+      "run_time": 6.24,
+      "duration": 6.24,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Identify Three Main Agent Types\nPresentation Components:\n• Step Title: Identify Three Main Agent Types\n• Screen Context: Topic Learning Objectives (Step 4)\n• Centerstage Visual Model: Dynamic architectural schematic representing Identify Three Main Agent Types.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Identify Three Main Agent Types.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 5,
+      "step_number": 5,
+      "presentation_step_number": 5,
+      "title": "Visualize End-to-End Workflow",
+      "step_title": "Visualize End-to-End Workflow",
+      "dominant_visual_concept": "Kinetic procedural visualization of Visualize End-to-End Workflow",
+      "narration_statement": "Complete flow from input to outcome with safety escalation",
+      "narration": "Complete flow from input to outcome with safety escalation",
+      "on_screen_elements": [
+        "Visualize End-to-End Workflow",
+        "Complete flow from input to outcome with safety escalation"
+      ],
+      "start_time": 67.2,
+      "end_time": 73.44,
+      "run_time": 6.24,
+      "duration": 6.24,
+      "transition_to_next": "Clean scene exit hold",
+      "matching_section": "Purpose: Explain Visualize End-to-End Workflow\nPresentation Components:\n• Step Title: Visualize End-to-End Workflow\n• Screen Context: Topic Learning Objectives (Step 5)\n• Centerstage Visual Model: Dynamic architectural schematic representing Visualize End-to-End Workflow.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Visualize End-to-End Workflow.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    }
+  ],
+  "4": [
+    {
+      "step_index": 1,
+      "step_number": 1,
+      "presentation_step_number": 1,
+      "title": "Unified Chassis Overview",
+      "step_title": "Unified Chassis Overview",
+      "dominant_visual_concept": "Kinetic procedural visualization of Unified Chassis Overview",
+      "narration_statement": "Four fundamental components inside every AI agent",
+      "narration": "Four fundamental components inside every AI agent",
+      "on_screen_elements": [
+        "Unified Chassis Overview",
+        "Four fundamental components inside every AI agent"
+      ],
+      "start_time": 73.44,
+      "end_time": 84.95,
+      "run_time": 11.51,
+      "duration": 11.51,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Unified Chassis Overview\nPresentation Components:\n• Step Title: Unified Chassis Overview\n• Screen Context: Four Pillars of AI Agent Architecture (Step 1)\n• Centerstage Visual Model: Dynamic architectural schematic representing Unified Chassis Overview.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Unified Chassis Overview.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 2,
+      "step_number": 2,
+      "presentation_step_number": 2,
+      "title": "Perception Layer",
+      "step_title": "Perception Layer",
+      "dominant_visual_concept": "Kinetic procedural visualization of Perception Layer",
+      "narration_statement": "Sensory ingress: telemetry, API payloads, document streams",
+      "narration": "Sensory ingress: telemetry, API payloads, document streams",
+      "on_screen_elements": [
+        "Perception Layer",
+        "Sensory ingress: telemetry, API payloads, document streams"
+      ],
+      "start_time": 84.95,
+      "end_time": 96.46,
+      "run_time": 11.51,
+      "duration": 11.51,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Perception Layer\nPresentation Components:\n• Step Title: Perception Layer\n• Screen Context: Four Pillars of AI Agent Architecture (Step 2)\n• Centerstage Visual Model: Dynamic architectural schematic representing Perception Layer.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Perception Layer.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 3,
+      "step_number": 3,
+      "presentation_step_number": 3,
+      "title": "Memory Component",
+      "step_title": "Memory Component",
+      "dominant_visual_concept": "Kinetic procedural visualization of Memory Component",
+      "narration_statement": "Short-term operational context and long-term state storage",
+      "narration": "Short-term operational context and long-term state storage",
+      "on_screen_elements": [
+        "Memory Component",
+        "Short-term operational context and long-term state storage"
+      ],
+      "start_time": 96.46,
+      "end_time": 107.97,
+      "run_time": 11.51,
+      "duration": 11.51,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Memory Component\nPresentation Components:\n• Step Title: Memory Component\n• Screen Context: Four Pillars of AI Agent Architecture (Step 3)\n• Centerstage Visual Model: Dynamic architectural schematic representing Memory Component.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Memory Component.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 4,
+      "step_number": 4,
+      "presentation_step_number": 4,
+      "title": "Reasoning Engine",
+      "step_title": "Reasoning Engine",
+      "dominant_visual_concept": "Kinetic procedural visualization of Reasoning Engine",
+      "narration_statement": "Deliberation, LLM cognitive planning, and decision-making logic",
+      "narration": "Deliberation, LLM cognitive planning, and decision-making logic",
+      "on_screen_elements": [
+        "Reasoning Engine",
+        "Deliberation, LLM cognitive planning, and decision-making logic"
+      ],
+      "start_time": 107.97,
+      "end_time": 119.48,
+      "run_time": 11.51,
+      "duration": 11.51,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Reasoning Engine\nPresentation Components:\n• Step Title: Reasoning Engine\n• Screen Context: Four Pillars of AI Agent Architecture (Step 4)\n• Centerstage Visual Model: Dynamic architectural schematic representing Reasoning Engine.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Reasoning Engine.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 5,
+      "step_number": 5,
+      "presentation_step_number": 5,
+      "title": "Action Layer",
+      "step_title": "Action Layer",
+      "dominant_visual_concept": "Kinetic procedural visualization of Action Layer",
+      "narration_statement": "Effectors: tool execution, database updates, actuator dispatch",
+      "narration": "Effectors: tool execution, database updates, actuator dispatch",
+      "on_screen_elements": [
+        "Action Layer",
+        "Effectors: tool execution, database updates, actuator dispatch"
+      ],
+      "start_time": 119.48,
+      "end_time": 130.99,
+      "run_time": 11.51,
+      "duration": 11.51,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Action Layer\nPresentation Components:\n• Step Title: Action Layer\n• Screen Context: Four Pillars of AI Agent Architecture (Step 5)\n• Centerstage Visual Model: Dynamic architectural schematic representing Action Layer.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Action Layer.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 6,
+      "step_number": 6,
+      "presentation_step_number": 6,
+      "title": "Cohesive Integration",
+      "step_title": "Cohesive Integration",
+      "dominant_visual_concept": "Kinetic procedural visualization of Cohesive Integration",
+      "narration_statement": "Inter-pillar synergy enabling autonomous operations",
+      "narration": "Inter-pillar synergy enabling autonomous operations",
+      "on_screen_elements": [
+        "Cohesive Integration",
+        "Inter-pillar synergy enabling autonomous operations"
+      ],
+      "start_time": 130.99,
+      "end_time": 142.5,
+      "run_time": 11.51,
+      "duration": 11.51,
+      "transition_to_next": "Clean scene exit hold",
+      "matching_section": "Purpose: Explain Cohesive Integration\nPresentation Components:\n• Step Title: Cohesive Integration\n• Screen Context: Four Pillars of AI Agent Architecture (Step 6)\n• Centerstage Visual Model: Dynamic architectural schematic representing Cohesive Integration.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Cohesive Integration.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    }
+  ],
+  "5": [
+    {
+      "step_index": 1,
+      "step_number": 1,
+      "presentation_step_number": 1,
+      "title": "The Operational Environment",
+      "step_title": "The Operational Environment",
+      "dominant_visual_concept": "Kinetic procedural visualization of The Operational Environment",
+      "narration_statement": "Dynamic enterprise setting: solar arrays, grid fluctuations, databases",
+      "narration": "Dynamic enterprise setting: solar arrays, grid fluctuations, databases",
+      "on_screen_elements": [
+        "The Operational Environment",
+        "Dynamic enterprise setting: solar arrays, grid fluctuations, databases"
+      ],
+      "start_time": 142.5,
+      "end_time": 157.3,
+      "run_time": 14.8,
+      "duration": 14.8,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain The Operational Environment\nPresentation Components:\n• Step Title: The Operational Environment\n• Screen Context: Continuous Agent-Environment Feedback Loop (Step 1)\n• Centerstage Visual Model: Dynamic architectural schematic representing The Operational Environment.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for The Operational Environment.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 2,
+      "step_number": 2,
+      "presentation_step_number": 2,
+      "title": "Continuous Sensory Observation",
+      "step_title": "Continuous Sensory Observation",
+      "dominant_visual_concept": "Kinetic procedural visualization of Continuous Sensory Observation",
+      "narration_statement": "Agent ingests real-time environmental telemetry",
+      "narration": "Agent ingests real-time environmental telemetry",
+      "on_screen_elements": [
+        "Continuous Sensory Observation",
+        "Agent ingests real-time environmental telemetry"
+      ],
+      "start_time": 157.3,
+      "end_time": 172.1,
+      "run_time": 14.8,
+      "duration": 14.8,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Continuous Sensory Observation\nPresentation Components:\n• Step Title: Continuous Sensory Observation\n• Screen Context: Continuous Agent-Environment Feedback Loop (Step 2)\n• Centerstage Visual Model: Dynamic architectural schematic representing Continuous Sensory Observation.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Continuous Sensory Observation.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 3,
+      "step_number": 3,
+      "presentation_step_number": 3,
+      "title": "Internal State Transformation",
+      "step_title": "Internal State Transformation",
+      "dominant_visual_concept": "Kinetic procedural visualization of Internal State Transformation",
+      "narration_statement": "Updating beliefs and operational context based on observations",
+      "narration": "Updating beliefs and operational context based on observations",
+      "on_screen_elements": [
+        "Internal State Transformation",
+        "Updating beliefs and operational context based on observations"
+      ],
+      "start_time": 172.1,
+      "end_time": 186.9,
+      "run_time": 14.8,
+      "duration": 14.8,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Internal State Transformation\nPresentation Components:\n• Step Title: Internal State Transformation\n• Screen Context: Continuous Agent-Environment Feedback Loop (Step 3)\n• Centerstage Visual Model: Dynamic architectural schematic representing Internal State Transformation.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Internal State Transformation.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 4,
+      "step_number": 4,
+      "presentation_step_number": 4,
+      "title": "Action Impact & Environmental Shift",
+      "step_title": "Action Impact & Environmental Shift",
+      "dominant_visual_concept": "Kinetic procedural visualization of Action Impact & Environmental Shift",
+      "narration_statement": "Agent actions alter the external state of the environment",
+      "narration": "Agent actions alter the external state of the environment",
+      "on_screen_elements": [
+        "Action Impact & Environmental Shift",
+        "Agent actions alter the external state of the environment"
+      ],
+      "start_time": 186.9,
+      "end_time": 201.7,
+      "run_time": 14.8,
+      "duration": 14.8,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Action Impact & Environmental Shift\nPresentation Components:\n• Step Title: Action Impact & Environmental Shift\n• Screen Context: Continuous Agent-Environment Feedback Loop (Step 4)\n• Centerstage Visual Model: Dynamic architectural schematic representing Action Impact & Environmental Shift.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Action Impact & Environmental Shift.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 5,
+      "step_number": 5,
+      "presentation_step_number": 5,
+      "title": "Closed-Loop Convergence",
+      "step_title": "Closed-Loop Convergence",
+      "dominant_visual_concept": "Kinetic procedural visualization of Closed-Loop Convergence",
+      "narration_statement": "Perpetual feedback loop driving convergence toward mission goals",
+      "narration": "Perpetual feedback loop driving convergence toward mission goals",
+      "on_screen_elements": [
+        "Closed-Loop Convergence",
+        "Perpetual feedback loop driving convergence toward mission goals"
+      ],
+      "start_time": 201.7,
+      "end_time": 216.5,
+      "run_time": 14.8,
+      "duration": 14.8,
+      "transition_to_next": "Clean scene exit hold",
+      "matching_section": "Purpose: Explain Closed-Loop Convergence\nPresentation Components:\n• Step Title: Closed-Loop Convergence\n• Screen Context: Continuous Agent-Environment Feedback Loop (Step 5)\n• Centerstage Visual Model: Dynamic architectural schematic representing Closed-Loop Convergence.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Closed-Loop Convergence.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    }
+  ],
+  "6": [
+    {
+      "step_index": 1,
+      "step_number": 1,
+      "presentation_step_number": 1,
+      "title": "Perceive: Telemetry Ingress",
+      "step_title": "Perceive: Telemetry Ingress",
+      "dominant_visual_concept": "Kinetic procedural visualization of Perceive: Telemetry Ingress",
+      "narration_statement": "Extracting structured signals from noisy raw sensory data",
+      "narration": "Extracting structured signals from noisy raw sensory data",
+      "on_screen_elements": [
+        "Perceive: Telemetry Ingress",
+        "Extracting structured signals from noisy raw sensory data"
+      ],
+      "start_time": 216.5,
+      "end_time": 233.4,
+      "run_time": 16.9,
+      "duration": 16.9,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Perceive: Telemetry Ingress\nPresentation Components:\n• Step Title: Perceive: Telemetry Ingress\n• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 1)\n• Centerstage Visual Model: Dynamic architectural schematic representing Perceive: Telemetry Ingress.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Perceive: Telemetry Ingress.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 2,
+      "step_number": 2,
+      "presentation_step_number": 2,
+      "title": "Context Synthesis",
+      "step_title": "Context Synthesis",
+      "dominant_visual_concept": "Kinetic procedural visualization of Context Synthesis",
+      "narration_statement": "Fusing observations with past historical operational memory",
+      "narration": "Fusing observations with past historical operational memory",
+      "on_screen_elements": [
+        "Context Synthesis",
+        "Fusing observations with past historical operational memory"
+      ],
+      "start_time": 233.4,
+      "end_time": 250.3,
+      "run_time": 16.9,
+      "duration": 16.9,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Context Synthesis\nPresentation Components:\n• Step Title: Context Synthesis\n• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 2)\n• Centerstage Visual Model: Dynamic architectural schematic representing Context Synthesis.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Context Synthesis.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 3,
+      "step_number": 3,
+      "presentation_step_number": 3,
+      "title": "Reason: Planning & Selection",
+      "step_title": "Reason: Planning & Selection",
+      "dominant_visual_concept": "Kinetic procedural visualization of Reason: Planning & Selection",
+      "narration_statement": "Formulating viable multi-step execution candidate paths",
+      "narration": "Formulating viable multi-step execution candidate paths",
+      "on_screen_elements": [
+        "Reason: Planning & Selection",
+        "Formulating viable multi-step execution candidate paths"
+      ],
+      "start_time": 250.3,
+      "end_time": 267.2,
+      "run_time": 16.9,
+      "duration": 16.9,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Reason: Planning & Selection\nPresentation Components:\n• Step Title: Reason: Planning & Selection\n• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 3)\n• Centerstage Visual Model: Dynamic architectural schematic representing Reason: Planning & Selection.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Reason: Planning & Selection.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 4,
+      "step_number": 4,
+      "presentation_step_number": 4,
+      "title": "Act: Effector Dispatch",
+      "step_title": "Act: Effector Dispatch",
+      "dominant_visual_concept": "Kinetic procedural visualization of Act: Effector Dispatch",
+      "narration_statement": "Invoking specialized external tools and system APIs",
+      "narration": "Invoking specialized external tools and system APIs",
+      "on_screen_elements": [
+        "Act: Effector Dispatch",
+        "Invoking specialized external tools and system APIs"
+      ],
+      "start_time": 267.2,
+      "end_time": 284.1,
+      "run_time": 16.9,
+      "duration": 16.9,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Act: Effector Dispatch\nPresentation Components:\n• Step Title: Act: Effector Dispatch\n• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 4)\n• Centerstage Visual Model: Dynamic architectural schematic representing Act: Effector Dispatch.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Act: Effector Dispatch.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 5,
+      "step_number": 5,
+      "presentation_step_number": 5,
+      "title": "Verification & State Check",
+      "step_title": "Verification & State Check",
+      "dominant_visual_concept": "Kinetic procedural visualization of Verification & State Check",
+      "narration_statement": "Validating outcome before initiating the subsequent cycle",
+      "narration": "Validating outcome before initiating the subsequent cycle",
+      "on_screen_elements": [
+        "Verification & State Check",
+        "Validating outcome before initiating the subsequent cycle"
+      ],
+      "start_time": 284.1,
+      "end_time": 301.0,
+      "run_time": 16.9,
+      "duration": 16.9,
+      "transition_to_next": "Clean scene exit hold",
+      "matching_section": "Purpose: Explain Verification & State Check\nPresentation Components:\n• Step Title: Verification & State Check\n• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 5)\n• Centerstage Visual Model: Dynamic architectural schematic representing Verification & State Check.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Verification & State Check.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    }
+  ],
+  "7": [
+    {
+      "step_index": 1,
+      "step_number": 1,
+      "presentation_step_number": 1,
+      "title": "Architecture Type 1: Simple Reflex / Reactive",
+      "step_title": "Architecture Type 1: Simple Reflex / Reactive",
+      "dominant_visual_concept": "Kinetic procedural visualization of Architecture Type 1: Simple Reflex / Reactive",
+      "narration_statement": "Direct Condition-Action rules (IF temperature > threshold THEN trip breaker)",
+      "narration": "Direct Condition-Action rules (IF temperature > threshold THEN trip breaker)",
+      "on_screen_elements": [
+        "Architecture Type 1: Simple Reflex / Reactive",
+        "Direct Condition-Action rules (IF temperature > threshold THEN trip breaker)"
+      ],
+      "start_time": 301.0,
+      "end_time": 316.46,
+      "run_time": 15.46,
+      "duration": 15.46,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Architecture Type 1: Simple Reflex / Reactive\nPresentation Components:\n• Step Title: Architecture Type 1: Simple Reflex / Reactive\n• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 1)\n• Centerstage Visual Model: Dynamic architectural schematic representing Architecture Type 1: Simple Reflex / Reactive.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Architecture Type 1: Simple Reflex / Reactive.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 2,
+      "step_number": 2,
+      "presentation_step_number": 2,
+      "title": "Reactive Strengths & Limitations",
+      "step_title": "Reactive Strengths & Limitations",
+      "dominant_visual_concept": "Kinetic procedural visualization of Reactive Strengths & Limitations",
+      "narration_statement": "Sub-millisecond latency but zero memory or future deliberation",
+      "narration": "Sub-millisecond latency but zero memory or future deliberation",
+      "on_screen_elements": [
+        "Reactive Strengths & Limitations",
+        "Sub-millisecond latency but zero memory or future deliberation"
+      ],
+      "start_time": 316.46,
+      "end_time": 331.92,
+      "run_time": 15.46,
+      "duration": 15.46,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Reactive Strengths & Limitations\nPresentation Components:\n• Step Title: Reactive Strengths & Limitations\n• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 2)\n• Centerstage Visual Model: Dynamic architectural schematic representing Reactive Strengths & Limitations.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Reactive Strengths & Limitations.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 3,
+      "step_number": 3,
+      "presentation_step_number": 3,
+      "title": "Architecture Type 2: Goal-Based Agents",
+      "step_title": "Architecture Type 2: Goal-Based Agents",
+      "dominant_visual_concept": "Kinetic procedural visualization of Architecture Type 2: Goal-Based Agents",
+      "narration_statement": "Incorporates explicit future goals into decision formulation",
+      "narration": "Incorporates explicit future goals into decision formulation",
+      "on_screen_elements": [
+        "Architecture Type 2: Goal-Based Agents",
+        "Incorporates explicit future goals into decision formulation"
+      ],
+      "start_time": 331.92,
+      "end_time": 347.38,
+      "run_time": 15.46,
+      "duration": 15.46,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Architecture Type 2: Goal-Based Agents\nPresentation Components:\n• Step Title: Architecture Type 2: Goal-Based Agents\n• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 3)\n• Centerstage Visual Model: Dynamic architectural schematic representing Architecture Type 2: Goal-Based Agents.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Architecture Type 2: Goal-Based Agents.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 4,
+      "step_number": 4,
+      "presentation_step_number": 4,
+      "title": "Search & Planning Mechanisms",
+      "step_title": "Search & Planning Mechanisms",
+      "dominant_visual_concept": "Kinetic procedural visualization of Search & Planning Mechanisms",
+      "narration_statement": "Evaluating multi-step sequences: will this action lead toward the goal?",
+      "narration": "Evaluating multi-step sequences: will this action lead toward the goal?",
+      "on_screen_elements": [
+        "Search & Planning Mechanisms",
+        "Evaluating multi-step sequences: will this action lead toward the goal?"
+      ],
+      "start_time": 347.38,
+      "end_time": 362.84,
+      "run_time": 15.46,
+      "duration": 15.46,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Search & Planning Mechanisms\nPresentation Components:\n• Step Title: Search & Planning Mechanisms\n• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 4)\n• Centerstage Visual Model: Dynamic architectural schematic representing Search & Planning Mechanisms.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Search & Planning Mechanisms.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 5,
+      "step_number": 5,
+      "presentation_step_number": 5,
+      "title": "Architectural Trade-Off Comparison",
+      "step_title": "Architectural Trade-Off Comparison",
+      "dominant_visual_concept": "Kinetic procedural visualization of Architectural Trade-Off Comparison",
+      "narration_statement": "Reflex speed vs. Deliberative foresight in enterprise operations",
+      "narration": "Reflex speed vs. Deliberative foresight in enterprise operations",
+      "on_screen_elements": [
+        "Architectural Trade-Off Comparison",
+        "Reflex speed vs. Deliberative foresight in enterprise operations"
+      ],
+      "start_time": 362.84,
+      "end_time": 378.3,
+      "run_time": 15.46,
+      "duration": 15.46,
+      "transition_to_next": "Clean scene exit hold",
+      "matching_section": "Purpose: Explain Architectural Trade-Off Comparison\nPresentation Components:\n• Step Title: Architectural Trade-Off Comparison\n• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 5)\n• Centerstage Visual Model: Dynamic architectural schematic representing Architectural Trade-Off Comparison.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Architectural Trade-Off Comparison.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    }
+  ],
+  "8": [
+    {
+      "step_index": 1,
+      "step_number": 1,
+      "presentation_step_number": 1,
+      "title": "Architecture Type 3: Utility-Based Agent",
+      "step_title": "Architecture Type 3: Utility-Based Agent",
+      "dominant_visual_concept": "Kinetic procedural visualization of Architecture Type 3: Utility-Based Agent",
+      "narration_statement": "Goes beyond binary goal completion: which action achieves it best?",
+      "narration": "Goes beyond binary goal completion: which action achieves it best?",
+      "on_screen_elements": [
+        "Architecture Type 3: Utility-Based Agent",
+        "Goes beyond binary goal completion: which action achieves it best?"
+      ],
+      "start_time": 378.3,
+      "end_time": 394.94,
+      "run_time": 16.64,
+      "duration": 16.64,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Architecture Type 3: Utility-Based Agent\nPresentation Components:\n• Step Title: Architecture Type 3: Utility-Based Agent\n• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 1)\n• Centerstage Visual Model: Dynamic architectural schematic representing Architecture Type 3: Utility-Based Agent.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Architecture Type 3: Utility-Based Agent.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 2,
+      "step_number": 2,
+      "presentation_step_number": 2,
+      "title": "Multi-Objective Utility Criteria",
+      "step_title": "Multi-Objective Utility Criteria",
+      "dominant_visual_concept": "Kinetic procedural visualization of Multi-Objective Utility Criteria",
+      "narration_statement": "Balancing execution speed, compute cost, and decision confidence",
+      "narration": "Balancing execution speed, compute cost, and decision confidence",
+      "on_screen_elements": [
+        "Multi-Objective Utility Criteria",
+        "Balancing execution speed, compute cost, and decision confidence"
+      ],
+      "start_time": 394.94,
+      "end_time": 411.58,
+      "run_time": 16.64,
+      "duration": 16.64,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Multi-Objective Utility Criteria\nPresentation Components:\n• Step Title: Multi-Objective Utility Criteria\n• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 2)\n• Centerstage Visual Model: Dynamic architectural schematic representing Multi-Objective Utility Criteria.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Multi-Objective Utility Criteria.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 3,
+      "step_number": 3,
+      "presentation_step_number": 3,
+      "title": "Solara Trade-off: Report Scope",
+      "step_title": "Solara Trade-off: Report Scope",
+      "dominant_visual_concept": "Kinetic procedural visualization of Solara Trade-off: Report Scope",
+      "narration_statement": "Full diagnostic report vs. executive summary allocation",
+      "narration": "Full diagnostic report vs. executive summary allocation",
+      "on_screen_elements": [
+        "Solara Trade-off: Report Scope",
+        "Full diagnostic report vs. executive summary allocation"
+      ],
+      "start_time": 411.59,
+      "end_time": 428.23,
+      "run_time": 16.64,
+      "duration": 16.64,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Solara Trade-off: Report Scope\nPresentation Components:\n• Step Title: Solara Trade-off: Report Scope\n• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 3)\n• Centerstage Visual Model: Dynamic architectural schematic representing Solara Trade-off: Report Scope.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Solara Trade-off: Report Scope.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 4,
+      "step_number": 4,
+      "presentation_step_number": 4,
+      "title": "Solara Trade-off: Anomaly Action",
+      "step_title": "Solara Trade-off: Anomaly Action",
+      "dominant_visual_concept": "Kinetic procedural visualization of Solara Trade-off: Anomaly Action",
+      "narration_statement": "Immediate engineer escalation vs. automated telemetry logging",
+      "narration": "Immediate engineer escalation vs. automated telemetry logging",
+      "on_screen_elements": [
+        "Solara Trade-off: Anomaly Action",
+        "Immediate engineer escalation vs. automated telemetry logging"
+      ],
+      "start_time": 428.23,
+      "end_time": 444.87,
+      "run_time": 16.64,
+      "duration": 16.64,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Solara Trade-off: Anomaly Action\nPresentation Components:\n• Step Title: Solara Trade-off: Anomaly Action\n• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 4)\n• Centerstage Visual Model: Dynamic architectural schematic representing Solara Trade-off: Anomaly Action.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Solara Trade-off: Anomaly Action.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 5,
+      "step_number": 5,
+      "presentation_step_number": 5,
+      "title": "Complete Closed-Loop Lifecycle",
+      "step_title": "Complete Closed-Loop Lifecycle",
+      "dominant_visual_concept": "Kinetic procedural visualization of Complete Closed-Loop Lifecycle",
+      "narration_statement": "Goal Ingestion -> Perception -> Reasoning Engine -> Action Execution",
+      "narration": "Goal Ingestion -> Perception -> Reasoning Engine -> Action Execution",
+      "on_screen_elements": [
+        "Complete Closed-Loop Lifecycle",
+        "Goal Ingestion -> Perception -> Reasoning Engine -> Action Execution"
+      ],
+      "start_time": 444.87,
+      "end_time": 461.51,
+      "run_time": 16.64,
+      "duration": 16.64,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Complete Closed-Loop Lifecycle\nPresentation Components:\n• Step Title: Complete Closed-Loop Lifecycle\n• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 5)\n• Centerstage Visual Model: Dynamic architectural schematic representing Complete Closed-Loop Lifecycle.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Complete Closed-Loop Lifecycle.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 6,
+      "step_number": 6,
+      "presentation_step_number": 6,
+      "title": "Feedback Loop & Exit Conditions",
+      "step_title": "Feedback Loop & Exit Conditions",
+      "dominant_visual_concept": "Kinetic procedural visualization of Feedback Loop & Exit Conditions",
+      "narration_statement": "Three termination states: Goal Achieved, Error, or Human Escalation",
+      "narration": "Three termination states: Goal Achieved, Error, or Human Escalation",
+      "on_screen_elements": [
+        "Feedback Loop & Exit Conditions",
+        "Three termination states: Goal Achieved, Error, or Human Escalation"
+      ],
+      "start_time": 461.51,
+      "end_time": 478.15,
+      "run_time": 16.64,
+      "duration": 16.64,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Feedback Loop & Exit Conditions\nPresentation Components:\n• Step Title: Feedback Loop & Exit Conditions\n• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 6)\n• Centerstage Visual Model: Dynamic architectural schematic representing Feedback Loop & Exit Conditions.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Feedback Loop & Exit Conditions.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 7,
+      "step_number": 7,
+      "presentation_step_number": 7,
+      "title": "Responsible Architecture & Escalation",
+      "step_title": "Responsible Architecture & Escalation",
+      "dominant_visual_concept": "Kinetic procedural visualization of Responsible Architecture & Escalation",
+      "narration_statement": "Recognizing confidence limits and routing to human engineers",
+      "narration": "Recognizing confidence limits and routing to human engineers",
+      "on_screen_elements": [
+        "Responsible Architecture & Escalation",
+        "Recognizing confidence limits and routing to human engineers"
+      ],
+      "start_time": 478.16,
+      "end_time": 494.8,
+      "run_time": 16.64,
+      "duration": 16.64,
+      "transition_to_next": "Clean scene exit hold",
+      "matching_section": "Purpose: Explain Responsible Architecture & Escalation\nPresentation Components:\n• Step Title: Responsible Architecture & Escalation\n• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 7)\n• Centerstage Visual Model: Dynamic architectural schematic representing Responsible Architecture & Escalation.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Responsible Architecture & Escalation.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    }
+  ],
+  "9": [
+    {
+      "step_index": 1,
+      "step_number": 1,
+      "presentation_step_number": 1,
+      "title": "Architectural Synthesis",
+      "step_title": "Architectural Synthesis",
+      "dominant_visual_concept": "Kinetic procedural visualization of Architectural Synthesis",
+      "narration_statement": "Four pillars (Perception, Memory, Reasoning, Action) working in harmony",
+      "narration": "Four pillars (Perception, Memory, Reasoning, Action) working in harmony",
+      "on_screen_elements": [
+        "Architectural Synthesis",
+        "Four pillars (Perception, Memory, Reasoning, Action) working in harmony"
+      ],
+      "start_time": 494.8,
+      "end_time": 513.61,
+      "run_time": 18.81,
+      "duration": 18.81,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Architectural Synthesis\nPresentation Components:\n• Step Title: Architectural Synthesis\n• Screen Context: Architectural Synthesis & Hands-On Demo Launch (Step 1)\n• Centerstage Visual Model: Dynamic architectural schematic representing Architectural Synthesis.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Architectural Synthesis.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 2,
+      "step_number": 2,
+      "presentation_step_number": 2,
+      "title": "Progression of Sophistication",
+      "step_title": "Progression of Sophistication",
+      "dominant_visual_concept": "Kinetic procedural visualization of Progression of Sophistication",
+      "narration_statement": "Reactive (rule-driven) -> Goal-based (planning) -> Utility-based (optimizing)",
+      "narration": "Reactive (rule-driven) -> Goal-based (planning) -> Utility-based (optimizing)",
+      "on_screen_elements": [
+        "Progression of Sophistication",
+        "Reactive (rule-driven) -> Goal-based (planning) -> Utility-based (optimizing)"
+      ],
+      "start_time": 513.61,
+      "end_time": 532.42,
+      "run_time": 18.81,
+      "duration": 18.81,
+      "transition_to_next": "Continuous fluid kinetic transition",
+      "matching_section": "Purpose: Explain Progression of Sophistication\nPresentation Components:\n• Step Title: Progression of Sophistication\n• Screen Context: Architectural Synthesis & Hands-On Demo Launch (Step 2)\n• Centerstage Visual Model: Dynamic architectural schematic representing Progression of Sophistication.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for Progression of Sophistication.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    },
+    {
+      "step_index": 3,
+      "step_number": 3,
+      "presentation_step_number": 3,
+      "title": "What Is Next: Hands-On Demo Launch",
+      "step_title": "What Is Next: Hands-On Demo Launch",
+      "dominant_visual_concept": "Kinetic procedural visualization of What Is Next: Hands-On Demo Launch",
+      "narration_statement": "Visualizing live decision loops and execution patterns in real time",
+      "narration": "Visualizing live decision loops and execution patterns in real time",
+      "on_screen_elements": [
+        "What Is Next: Hands-On Demo Launch",
+        "Visualizing live decision loops and execution patterns in real time"
+      ],
+      "start_time": 532.41,
+      "end_time": 551.22,
+      "run_time": 18.81,
+      "duration": 18.81,
+      "transition_to_next": "Clean scene exit hold",
+      "matching_section": "Purpose: Explain What Is Next: Hands-On Demo Launch\nPresentation Components:\n• Step Title: What Is Next: Hands-On Demo Launch\n• Screen Context: Architectural Synthesis & Hands-On Demo Launch (Step 3)\n• Centerstage Visual Model: Dynamic architectural schematic representing What Is Next: Hands-On Demo Launch.\nVisual Evolution: Visual components illuminate and construct dynamically matching spoken narration.\nKey Takeaway: Core operational insight for What Is Next: Hands-On Demo Launch.\nPersistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention."
+    }
+  ]
+}

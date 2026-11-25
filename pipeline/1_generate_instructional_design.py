@@ -43,13 +43,15 @@ PIPELINE STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 0_hook_output_tracker.json.
    - Step 2: Ingests hook blueprint and clean transcript.
-   - Step 3: Decomposes lecture into distinct visual scenes matching target duration and scene counts.
+   - Step 3: Dynamically scales scene count (3 to 12 scenes based on duration) and snaps
+     semantic boundaries to transcript sentence timestamps (Scene 1 hook <= 18s).
    - Step 4: Dispatches instructional design prompt to Gemini 3.5 Flash or Claude 3.5 Sonnet.
    - Step 5: Assigns SME framing layouts strictly per Simplilearn OSL 3.0 rules:
      * Layout 100: Strictly restricted to <= 20 seconds range for opening hook.
      * Layout 70: Left frame (640x920, r=10px, blue band #2C81FE) for objectives/summary.
      * Layout 20: Top-right corner PIP (384x216 at 1496,40) for technical diagrams.
-   - Step 6: Exports reference JSON schemas and structured storyboard blueprint.
+   - Step 6: Exports reference schemas, structured storyboard blueprint, instructions_<model>.json,
+     instructions.json, and raw prompt text companion files in metadata_blueprints/.
    - Step 7: Atomically updates 1_instruction_design_output_tracker.json.
 
 5. OUTPUT SPECIFICATIONS:
@@ -57,6 +59,9 @@ PIPELINE STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN
      * {topic_id}_storyboard_blueprint.json:
        Location: output/<TOPIC_NAME>/{topic_id}_storyboard_blueprint.json
        Content: Master multi-scene presentation storyboard with step breakdowns.
+     * Companion Instructions & Prompt Files:
+       Location: output/<TOPIC_NAME>/metadata_blueprints/ (and prompt_context_and_guidelines/)
+       Content: instructions_<model>.json, instructions.json, instructions_raw_<model>.txt.
      * Reference JSON Schemas:
        Location: output/<TOPIC_NAME>/schemas/
        Content: Extracted validation schemas for downstream stages.
@@ -66,7 +71,7 @@ PIPELINE STAGE 1: INSTRUCTIONAL STORYBOARD DESIGN
 
 6. DOWNSTREAM CONSUMERS:
    - Stage 2 (2_asset_classification.py): Categorizes visual assets specified in the storyboard.
-   - Stage 5 (5_generate_audio.py): Ingests scene narration to build CGI_Input.json.
+   - Stage 5 (5_populate_audio_runtime.py): Ingests scene narration to build CGI_Input.json.
    - Stage 23 (23_sme_post_production.py): Reads SME layout specifications for final composite.
 ================================================================================
 """
@@ -1471,66 +1476,135 @@ class InstructionalDesign:
 
         total_duration = float(segments[-1].get("end", 10.0))
 
-        # Extract all sentences from clean transcript
-        sentences = []
+        # Extract spoken sentences with acoustic timestamps from segments
+        sentences_with_timing = []
         for s in segments:
             t = clean_narration_latex(s.get("text", "")).strip()
-            if len(t) > 5:
-                sentences.append(t)
-        if not sentences:
-            sentences = ["Exploring core agent types and specialized architectural mechanisms."]
+            if len(t) > 3:
+                sentences_with_timing.append({
+                    "text": t,
+                    "start": float(s.get("start", 0.0)),
+                    "end": float(s.get("end", 0.0))
+                })
+
+        if not sentences_with_timing:
+            sentences_with_timing = [{
+                "text": f"Exploring foundational principles and specialized architectures of {lesson_title}.",
+                "start": 0.0,
+                "end": total_duration
+            }]
 
         clean_lesson_title = format_chicago_title(lesson_title)
 
-        # 9-Scene Dynamic Rhythm across total_duration:
-        # Scene 1: Hook Intro (Layout 100, <= 18s)
-        # Scene 2: Core Problem & Operational Context (Layout 70, ~50s)
-        # Scene 3: Learning Objectives (Layout 70, ~55s)
-        # Scene 4: Agent Architectures Overview (Layout 20, ~75s)
-        # Scene 5: Mental Model & Reasoning Loop (Layout 70, ~55s - returns to 70%!)
-        # Scene 6: Practical Tool Execution Demo (Layout 20, ~75s - returns to 20% PIP!)
-        # Scene 7: High-Impact Breakthrough Takeaway (Layout 100, <= 18s - dramatic emphasis!)
-        # Scene 8: Lesson Summary & Best Practices (Layout 70, ~55s)
-        # Scene 9: What Is Next / Future Outlook (Layout 70, ~40s - OSL 3.0 Page 17 standard!)
-
-        # Target durations proportional to actual lecture length
-        if total_duration < 40.0:
-            s1_dur = round(total_duration * 0.12, 2)
-            s7_dur = round(total_duration * 0.12, 2)
+        # ----------------------------------------------------------------------
+        # Fully Dynamic Scene Count & Semantic Boundary Snapping for ANY Video:
+        # Scales naturally from 3 scenes (<2min) to 12 scenes (15min+) without hardcoding.
+        # ----------------------------------------------------------------------
+        if total_duration < 90.0:
+            target_scene_count = 3
+        elif total_duration < 180.0:
+            target_scene_count = 4
+        elif total_duration < 300.0:
+            target_scene_count = 5
+        elif total_duration < 450.0:
+            target_scene_count = 6
+        elif total_duration < 580.0:
+            target_scene_count = max(7, min(9, round(total_duration / 62.0)))
         else:
-            s1_dur = round(min(18.0, max(12.0, total_duration * 0.035)), 2)
-            s7_dur = round(min(18.0, max(12.0, total_duration * 0.035)), 2)
-        remaining = max(1.0, total_duration - (s1_dur + s7_dur))
-        proportions = [0.12, 0.13, 0.18, 0.14, 0.18, 0.14, 0.11]  # 7 remaining scenes
+            target_scene_count = max(8, min(12, round(total_duration / 65.0)))
 
-        t_cuts = [0.0]
-        # Scene 1 end
-        t_cuts.append(s1_dur)
-        # Scenes 2, 3, 4, 5, 6
-        cur = s1_dur
-        for p in proportions[:5]:
-            cur += round(remaining * p, 2)
-            t_cuts.append(cur)
-        # Scene 7 (100% emphasis)
-        cur += s7_dur
-        t_cuts.append(cur)
-        # Scenes 8, 9
-        for p in proportions[5:]:
-            cur += round(remaining * p, 2)
-            t_cuts.append(cur)
-        t_cuts[-1] = total_duration
+        # 1. Dynamic Scene 1 Hook: First complete sentence ending with punctuation <= 18s (Simplilearn rule)
+        s1_end = None
+        for s in sentences_with_timing:
+            s_et = s["end"]
+            t_txt = s["text"]
+            if 4.0 <= s_et <= 18.0 and any(t_txt.endswith(p) for p in [".", "!", "?"]):
+                s1_end = round(s_et, 2)
+        if not s1_end:
+            s1_end = round(min(18.0, max(5.0, total_duration / target_scene_count)), 2)
 
-        # Check for upstream hook_blueprint.json to extract dynamic curriculum structure
+        # 2. Dynamic Learning Objectives Snapping (if present in the first 35% of the video)
+        s_obj_start = None
+        s_obj_end = None
+        for s in sentences_with_timing:
+            s_st = s["start"]
+            s_et = s["end"]
+            t_txt = s["text"]
+            if s_obj_start is None and s_st >= s1_end and s_st <= total_duration * 0.35:
+                if re.search(r"by the end of this|you will be able to|learning objectives|in this module|in this lesson", t_txt, re.I):
+                    s_obj_start = round(s_st, 2)
+            if s_obj_start is not None and s_et > s_obj_start and any(t_txt.endswith(p) for p in [".", "!", "?"]):
+                if s_et - s_obj_start >= 18.0 or re.search(r"let's start|what's inside|first component|begin with|moving into", t_txt, re.I):
+                    s_obj_end = round(s_et, 2)
+                    break
+
+        # 3. Dynamic Outro / Summary / What's Next Snapping in the final 20% of the video
+        s_last_start = None
+        tail_threshold = max(s1_end + 30.0, total_duration - max(40.0, total_duration * 0.18))
+        for s in sentences_with_timing:
+            s_st = s["start"]
+            t_txt = s["text"]
+            if s_st >= tail_threshold:
+                if re.search(r"coming up next|in the next topic|hands-on|in the demo|let's take a look|bring it together|summary|in conclusion|to wrap up", t_txt, re.I):
+                    s_last_start = round(s_st, 2)
+                    break
+        if not s_last_start:
+            s_last_start = round(max(s1_end + 30.0, total_duration - (total_duration / target_scene_count)), 2)
+
+        # 4. Interior Scene Boundary Snapping:
+        # Distributes intermediate cuts evenly and snaps each to the nearest acoustic pause & sentence ending
+        pre_cuts = [0.00, s1_end]
+        if s_obj_start and s_obj_end and s_obj_start > s1_end and s_obj_end < s_last_start:
+            if s_obj_start - s1_end >= 15.0:
+                pre_cuts.append(s_obj_start)
+            pre_cuts.append(s_obj_end)
+            mid_start = s_obj_end
+        else:
+            mid_start = s1_end
+
+        mid_available = max(10.0, s_last_start - mid_start)
+        remaining_scenes = max(1, target_scene_count - len(pre_cuts))
+        mid_step = mid_available / remaining_scenes
+
+        mid_cuts = []
+        for i in range(1, remaining_scenes):
+            ideal_t = mid_start + i * mid_step
+            best_cand = ideal_t
+            min_dist = float("inf")
+            for s in sentences_with_timing:
+                s_et = s["end"]
+                t_txt = s["text"]
+                if any(t_txt.endswith(p) for p in [".", "!", "?"]):
+                    dist = abs(s_et - ideal_t)
+                    if dist < min_dist:
+                        min_dist = dist
+                        best_cand = round(s_et, 2)
+            mid_cuts.append(best_cand)
+
+        raw_cuts = pre_cuts + mid_cuts + [s_last_start, round(total_duration, 2)]
+        t_cuts = sorted(list(dict.fromkeys(raw_cuts)))
+        if t_cuts[-1] < total_duration:
+            t_cuts[-1] = round(total_duration, 2)
+
+        actual_num_scenes = len(t_cuts) - 1
+
+        # Check for upstream hook_blueprint.json to extract curriculum recommendations if available
         hook_bp = None
         topic_dir = Path(self.input_folder) if hasattr(self, "input_folder") and self.input_folder else None
         if topic_dir and topic_dir.exists():
             topic_slug = clean_lesson_title.lower().replace(" ", "_")
+            topic_sub = topic_dir / topic_slug
+            topic_meta = topic_sub / "metadata_blueprints"
             meta_dir = topic_dir / "metadata_blueprints"
             candidates = [
-                meta_dir / "hook_blueprint.json",
+                topic_meta / f"{topic_slug}_hook_blueprint.json",
+                topic_meta / "hook_blueprint.json",
+                topic_sub / f"{topic_slug}_hook_blueprint.json",
+                topic_sub / "hook_blueprint.json",
                 meta_dir / f"{topic_slug}_hook_blueprint.json",
-                topic_dir / "hook_blueprint.json",
-                topic_dir / f"{topic_slug}_hook_blueprint.json"
+                meta_dir / "hook_blueprint.json",
+                topic_dir / f"{topic_slug}_hook_blueprint.json",
+                topic_dir / "hook_blueprint.json"
             ]
             for cand in candidates:
                 if cand.exists():
@@ -1543,107 +1617,129 @@ class InstructionalDesign:
                     except Exception:
                         pass
 
-        scene_configs = []
-        if hook_bp and hook_bp.get("scene_blueprint"):
-            for sc_item in hook_bp["scene_blueprint"]:
-                stype_raw = sc_item.get("scene_type", "concept_explanation").lower().replace(" ", "_")
-                sme_rec = sc_item.get("sme_framing_recommendation", {})
-                layout_val = str(sme_rec.get("layout", "70")).replace("%", "")
-                
-                # Derive title and cards dynamically from scene blueprint
-                focus_title = sc_item.get("concept_focus") or sc_item.get("scene_goal") or f"Core Concepts: {clean_lesson_title}"
-                clean_focus = re.sub(r'^(Static software tools vs|Detail the four|Illustrate the dynamic|Define|Walk through|Explain|Synthesize the|Consolidate)\s+', '', focus_title, flags=re.IGNORECASE).strip()
-                cards_from_bp = []
-                for te in sc_item.get("text_elements", []):
-                    if ":" in te:
-                        c_title, c_body = te.split(":", 1)
-                        cards_from_bp.append({"title": c_title.strip(), "body": c_body.strip(), "accent_color": "#62B7E4"})
-                    else:
-                        cards_from_bp.append({"title": "Key Focus", "body": te.strip(), "accent_color": "#62B7E4"})
-                if not cards_from_bp:
-                    cards_from_bp = [{"title": "Core Mechanism", "body": f"Operational execution of {clean_focus}.", "accent_color": "#62B7E4"}]
-                
-                scene_configs.append((stype_raw, layout_val, f"{clean_focus}:", cards_from_bp, clean_focus))
-        else:
-            # Topic-agnostic dynamic scene breakdown derived from lesson title
-            scene_configs = [
-                ("hook_intro", "100", f"Topic Introduction: {clean_lesson_title}", [
-                    {"title": "Core Mission", "body": f"Master foundational principles and architecture of {clean_lesson_title}.", "accent_color": "#62B7E4"}
-                ], f"Introduction to {clean_lesson_title}"),
-                ("hook_context", "70", "Core Problem and Operational Context:", [
-                    {"title": "Domain Challenge", "body": f"Navigating real-world complexity and environmental demands in {clean_lesson_title}.", "accent_color": "#62B7E4"},
-                    {"title": "System Motivation", "body": "Moving from static workflows to adaptive, autonomous architectures.", "accent_color": "#7EA2C8"}
-                ], "Core Problem and Operational Context"),
-                ("learning_objectives", "70", "By the end of this topic, you will be able to:", [
-                    {"title": "Objective One", "body": f"Analyze core principles and structural paradigms of {clean_lesson_title}.", "accent_color": "#62B7E4"},
-                    {"title": "Objective Two", "body": "Evaluate system trade-offs between reactive and deliberative architectures.", "accent_color": "#7EA2C8"},
-                    {"title": "Objective Three", "body": "Implement robust production workflows with safe escalation boundaries.", "accent_color": "#9B99C7"}
-                ], "Topic Learning Objectives"),
-                ("concept_explanation", "20", f"Architectural Components: {clean_lesson_title}", [
-                    {"title": "Modular Anatomy", "body": "Layered design separating sensory ingress, working memory, reasoning, and action tools.", "accent_color": "#62B7E4"},
-                    {"title": "Execution Pipeline", "body": "Continuously validates environmental inputs and processes state transformations.", "accent_color": "#E6A157"}
-                ], f"Core Architecture: {clean_lesson_title}"),
-                ("mental_model", "70", "Architectural Paradigms and Design Trade-offs:", [
-                    {"title": "Paradigm Contrast", "body": "Balancing immediate reflex rules against multi-step planning loops.", "accent_color": "#62B7E4"},
-                    {"title": "State Persistence", "body": "Anchoring execution decisions in verifiable domain state.", "accent_color": "#7EA2C8"}
-                ], "Architectural Paradigms and Trade-offs"),
-                ("demo_walkthrough", "20", "Practical Execution and Tool Workflow:", [
-                    {"title": "Phase 1: Ingestion", "body": "Initialize runtime environments and establish sensory telemetry connections.", "accent_color": "#62B7E4"},
-                    {"title": "Phase 2: Execution", "body": "Trigger autonomous agent workflow and observe real-time decision logs.", "accent_color": "#7EA2C8"},
-                    {"title": "Phase 3: Verification", "body": "Validate safety constraints and confirm expected completion state.", "accent_color": "#8ECDB7"}
-                ], "Practical Tool Execution Flow"),
-                ("breakthrough_emphasis", "100", "Critical Breakthrough and Architectural Insight:", [
-                    {"title": "Systemic Resilience", "body": "Safe escalation to human operators is responsible architecture, not system failure.", "accent_color": "#62B7E4"}
-                ], "Critical Architectural Insight"),
-                ("summary_takeaways", "70", "Lesson Summary and Best Practices:", [
-                    {"title": "Architectural Alignment", "body": f"Match specialized patterns to specific operational demands in {clean_lesson_title}.", "accent_color": "#62B7E4"},
-                    {"title": "Production Safety", "body": "Always enforce clear confidence thresholds and safe fallback mechanisms.", "accent_color": "#7EA2C8"}
-                ], "Summary and Key Takeaways"),
-                ("whats_next", "70", NEXT_TOPIC_PREFIX, [
-                    {"title": "Upcoming Topic", "body": f"Implementing advanced multi-agent orchestration and production scaling for {clean_lesson_title}.", "accent_color": "#62B7E4"}
-                ], "What Is Next")
-            ]
-
-        # Allocate sentences proportionally across scenes
-        sent_per_scene = max(1, len(sentences) // len(scene_configs))
+        # ----------------------------------------------------------------------
+        # 5. Synthesize Dynamic Scenes Directly from Spoken Content (Zero Hardcoding)
+        # ----------------------------------------------------------------------
+        palette = ["#62B7E4", "#7EA2C8", "#E6A157", "#8ECDB7", "#9B99C7"]
         scenes = []
+        prev_layout = None
+        consecutive_layout_count = 0
 
-        for idx, cfg in enumerate(scene_configs):
-            stype = cfg[0]
-            layout = cfg[1]
-            lead_in = cfg[2]
-            cards = cfg[3]
-            custom_title = cfg[4] if len(cfg) > 4 else None
-
+        for idx in range(actual_num_scenes):
             sid = idx + 1
             st = round(t_cuts[idx], 2)
             et = round(t_cuts[idx + 1], 2)
             dur = round(et - st, 2)
 
-            # Extract narrative segment
-            start_s_idx = idx * sent_per_scene
-            end_s_idx = (idx + 1) * sent_per_scene if idx < len(scene_configs) - 1 else len(sentences)
-            scene_narr = " ".join(sentences[start_s_idx:end_s_idx]) if start_s_idx < len(sentences) else f"Key principles of {clean_lesson_title}."
+            # Collect sentences that fall in this scene's exact acoustic window
+            scene_sents = [
+                s["text"] for s in sentences_with_timing
+                if (s["start"] >= st - 0.2 and s["start"] < et) or (s["end"] > st and s["end"] <= et + 0.2)
+            ]
+            if not scene_sents:
+                scene_sents = [s["text"] for s in sentences_with_timing]
 
-            framing = resolve_dynamic_sme_framing(stype, scene_narr, card_count=len(cards), explicit_layout=layout, duration=dur)
+            scene_narr = " ".join(scene_sents)
 
-            # Derive clean, professional Chicago-style title dynamically
+            # Upstream hook blueprint override if aligned
+            bp_item = hook_bp["scene_blueprint"][idx] if hook_bp and hook_bp.get("scene_blueprint") and idx < len(hook_bp["scene_blueprint"]) else None
+
+            if bp_item:
+                stype = bp_item.get("scene_type", "concept_explanation").lower().replace(" ", "_")
+                explicit_layout = str(bp_item.get("sme_framing_recommendation", {}).get("layout", "70")).replace("%", "")
+                custom_title = bp_item.get("concept_focus") or bp_item.get("scene_goal")
+            else:
+                explicit_layout = None
+                custom_title = None
+                # Content-driven dynamic scene type classification
+                if sid == 1:
+                    stype = "hook_intro"
+                elif sid == actual_num_scenes:
+                    stype = "whats_next" if re.search(r"coming up|next topic|next lesson", scene_narr, re.I) else "summary_takeaways"
+                elif re.search(r"by the end of this|you will be able to|learning objectives|in this topic", scene_narr, re.I):
+                    stype = "learning_objectives"
+                elif re.search(r"demo|hands-on|walkthrough|execute|code|terminal", scene_narr, re.I):
+                    stype = "demo_walkthrough"
+                elif re.search(r"vs|versus|difference|compare|trade-off|contrast", scene_narr, re.I):
+                    stype = "comparative_analysis"
+                elif re.search(r"architecture|component|pillar|pipeline|layer|anatomy", scene_narr, re.I):
+                    stype = "concept_explanation"
+                elif re.search(r"loop|cycle|feedback|perceive|reason|act", scene_narr, re.I):
+                    stype = "mental_model"
+                else:
+                    stype = "concept_deep_dive"
+
+            # Derive clean, professional Chicago-style title dynamically from speech
             if custom_title and not custom_title.lower().startswith("scene "):
                 scene_title = format_chicago_title(custom_title)
+            elif sid == 1:
+                scene_title = format_chicago_title(f"Introduction: {clean_lesson_title}")
+            elif stype == "learning_objectives":
+                scene_title = "Topic Learning Objectives"
+            elif stype == "whats_next":
+                scene_title = "What Is Next & Hands-On Execution"
+            elif stype == "summary_takeaways":
+                scene_title = "Summary & Key Takeaways"
             else:
-                title_map = {
-                    "hook_intro": f"Introduction to {clean_lesson_title}",
-                    "hook_context": "Core Problem and Operational Context",
-                    "learning_objectives": "Topic Learning Objectives",
-                    "concept_explanation": f"Core Architecture: {clean_lesson_title}",
-                    "mental_model": "Architectural Paradigms and Trade-offs",
-                    "demo_walkthrough": "Practical Demonstration and Tool Execution",
-                    "breakthrough_emphasis": "Critical Breakthrough and Architectural Insight",
-                    "summary_takeaways": "Summary and Key Takeaways",
-                    "whats_next": "What Is Next"
-                }
-                scene_title = format_chicago_title(title_map.get(stype, f"Key Concepts: {clean_lesson_title}"))
+                lead_text = scene_sents[0] if scene_sents else clean_lesson_title
+                lead_clean = re.sub(
+                    r'^(In the last topic|In this lesson|In this topic|We will|Let\'s look at|Now let\'s|Let us|We introduced|Detail the|Illustrate the|Walk through|Explain|Define|Synthesize the|Consolidate)\s+',
+                    '', lead_text, flags=re.I
+                ).strip()
+                lead_clause = re.split(r'[.,:;!?]', lead_clean)[0].strip()
+                words = lead_clause.split()
+                if len(words) > 7:
+                    lead_clause = " ".join(words[:6])
+                scene_title = format_chicago_title(lead_clause if len(lead_clause) > 4 else f"{clean_lesson_title} - Section {sid}")
 
+            # Derive cards dynamically from the actual spoken sentences
+            cards = []
+            if bp_item and bp_item.get("text_elements"):
+                for te in bp_item["text_elements"]:
+                    if ":" in te:
+                        c_title, c_body = te.split(":", 1)
+                        cards.append({"title": c_title.strip(), "body": c_body.strip(), "accent_color": palette[len(cards) % len(palette)]})
+                    else:
+                        cards.append({"title": "Key Focus", "body": te.strip(), "accent_color": palette[len(cards) % len(palette)]})
+            
+            if not cards:
+                card_count = min(4, max(2, len(scene_sents)))
+                chunk_size = max(1, len(scene_sents) // card_count)
+                for c_i in range(card_count):
+                    c_sents = scene_sents[c_i * chunk_size : (c_i + 1) * chunk_size] if c_i < card_count - 1 else scene_sents[c_i * chunk_size :]
+                    if not c_sents:
+                        continue
+                    first_sent = c_sents[0]
+                    c_title_clean = re.sub(r'^(In addition|Furthermore|Moreover|At the same time|For example|However|Here)\s*,?\s*', '', first_sent, flags=re.I).strip()
+                    c_words = re.split(r'[.,:;!?]', c_title_clean)[0].split()
+                    c_title = " ".join(c_words[:4]).title() if len(c_words) >= 2 else f"Key Point {c_i + 1}"
+                    c_body = " ".join(c_sents)[:140].strip()
+                    cards.append({
+                        "title": c_title,
+                        "body": c_body,
+                        "accent_color": palette[c_i % len(palette)]
+                    })
+            if not cards:
+                cards = [{"title": "Core Mechanism", "body": scene_narr[:120], "accent_color": "#62B7E4"}]
+
+            # Dynamic SME framing resolution with layout alternation
+            framing = resolve_dynamic_sme_framing(stype, scene_narr, card_count=len(cards), explicit_layout=explicit_layout, duration=dur)
+            layout_chosen = framing["sme_layout"]
+
+            if layout_chosen == prev_layout:
+                consecutive_layout_count += 1
+                if consecutive_layout_count >= 2:
+                    if layout_chosen == "70" and stype in ["concept_explanation", "demo_walkthrough", "concept_deep_dive"]:
+                        layout_chosen = "20"
+                    elif layout_chosen == "20":
+                        layout_chosen = "70"
+                    framing = resolve_dynamic_sme_framing(stype, scene_narr, card_count=len(cards), explicit_layout=layout_chosen, duration=dur)
+                    consecutive_layout_count = 0
+            else:
+                prev_layout = layout_chosen
+                consecutive_layout_count = 0
+
+            lead_in = f"{scene_title}:"
             scene_obj = {
                 "scene_id": sid,
                 "scene_type": stype,
@@ -1852,11 +1948,12 @@ class InstructionalDesign:
             except Exception as e:
                 print(f"[Instructional Design] Claude attempt notice: {e}. Retrying Claude Sonnet with direct JSON instruction...")
                 try:
-                    resp = client.messages.create(
+                    with client.messages.stream(
                         model=self.claude_model,
-                        max_tokens=24000,
+                        max_tokens=8192,
                         messages=[{"role": "user", "content": full_call_prompt + "\n\nCRITICAL: Return strictly valid JSON only adhering to the specified schema without preamble."}],
-                    )
+                    ) as stream:
+                        resp = stream.get_final_message()
                     resp_text = "".join(b.text for b in resp.content if b.type == "text")
                     parsed = parse_input_to_json(resp_text)
                     if "scenes" in parsed and len(parsed["scenes"]) >= 5:
@@ -1872,14 +1969,15 @@ class InstructionalDesign:
             try:
                 import google.generativeai as genai
                 genai.configure(api_key=google_key, transport="rest")
-                model = genai.GenerativeModel("models/gemini-2.5-flash")
+                model = genai.GenerativeModel("gemini-2.0-flash")
                 full_call_prompt = f"{formatted_system_prompt}\n\nUser Query: {formatted_user_prompt}\n\nCRITICAL: Return strictly valid JSON adhering to the specified schema without markdown fences or commentary."
                 resp = model.generate_content(
                     full_call_prompt,
                     generation_config=genai.GenerationConfig(
                         temperature=0.7,
-                        max_output_tokens=30000
-                    )
+                        max_output_tokens=16000
+                    ),
+                    request_options={"timeout": 45}
                 )
                 parsed = parse_input_to_json(resp.text)
                 if "scenes" in parsed and len(parsed["scenes"]) >= 3:
@@ -2064,9 +2162,7 @@ class InstructionalDesign:
             base_name = Path(transcript_path).stem.replace("_clean_transcript", "").replace("_transcript", "")
             lesson_title = base_name.replace("_", " ").replace("-", " ").title()
 
-        blueprint = self.generate_instructions(transcript_data, lesson_title)
-
-        # Check for perfected Master storyboard preservation
+        # Check for perfected Master storyboard preservation FIRST
         meta_dir = Path(output_path).parent
         topic_id = Path(output_path).stem.replace("_storyboard_blueprint", "").replace("_blueprint", "")
         master_bp_cands = [
@@ -2087,6 +2183,9 @@ class InstructionalDesign:
                         break
                 except Exception:
                     pass
+
+        if not master_found:
+            blueprint = self.generate_instructions(transcript_data, lesson_title)
 
         # Check for perfected Scene 3 storyboard preservation
         scene3_candidates = [
@@ -2152,6 +2251,90 @@ class InstructionalDesign:
         out_file.parent.mkdir(parents=True, exist_ok=True)
         with open(out_file, "w", encoding="utf-8") as f:
             json.dump(blueprint, f, indent=2, ensure_ascii=False)
+
+        # ----------------------------------------------------------------------
+        # Automatically export instructions_<model>.json and raw txt companion files
+        # ----------------------------------------------------------------------
+        if out_file.parent.name == "metadata_blueprints":
+            meta_dir = out_file.parent
+            topic_dir = meta_dir.parent
+        else:
+            topic_dir = out_file.parent
+            meta_dir = topic_dir / "metadata_blueprints"
+            meta_dir.mkdir(parents=True, exist_ok=True)
+
+        instructions_dict = {}
+        for idx, sc in enumerate(blueprint.get("scenes", []), 1):
+            sid = str(sc.get("scene_number") or sc.get("scene_id") or sc.get("scene_index") or idx)
+            raw_steps = sc.get("presentation_steps") or sc.get("steps") or []
+            norm_steps = []
+            for s_i, st in enumerate(raw_steps, 1):
+                step_obj = dict(st)
+                if "presentation_step_number" not in step_obj:
+                    step_obj["presentation_step_number"] = str(step_obj.get("step_number", s_i))
+                if "narration_statement" not in step_obj and "narration" in step_obj:
+                    step_obj["narration_statement"] = step_obj["narration"]
+                if "title" not in step_obj and "step_title" in step_obj:
+                    step_obj["title"] = step_obj["step_title"]
+                norm_steps.append(step_obj)
+            instructions_dict[sid] = norm_steps
+
+        # Determine active model slug from configuration or fallback
+        model_slug = "gemini-3.5-flash"
+        if getattr(self, "api_provider", "").lower() == "claude" and getattr(self, "claude_model", None):
+            model_slug = self.claude_model.replace(":", "-").replace("/", "-")
+        elif (topic_dir / "ex_config.json").exists():
+            try:
+                with open(topic_dir / "ex_config.json", "r", encoding="utf-8") as ecf:
+                    ec_data = json.load(ecf)
+                    cfg_model = ec_data.get("storyline_model_name") or ec_data.get("hook_model_name")
+                    if cfg_model:
+                        model_slug = cfg_model.replace(":", "-").replace("/", "-")
+            except Exception:
+                pass
+
+        # Export companion instruction files
+        export_targets = [
+            meta_dir / f"instructions_{model_slug}.json",
+            meta_dir / "instructions_gemini-3.5-flash.json",
+            meta_dir / "instructions.json",
+            topic_dir / f"instructions_{model_slug}.json",
+            topic_dir / "instructions_gemini-3.5-flash.json"
+        ]
+        for exp_tgt in export_targets:
+            try:
+                with open(exp_tgt, "w", encoding="utf-8") as f:
+                    json.dump(instructions_dict, f, indent=2, ensure_ascii=False)
+            except Exception as e:
+                print(f"[Notice] Failed to write instructions file {exp_tgt}: {e}")
+
+        # Export raw text prompt instructions
+        prompt_dir = topic_dir / "prompt_context_and_guidelines"
+        prompt_dir.mkdir(parents=True, exist_ok=True)
+        raw_txt_lines = []
+        for sid, steps in instructions_dict.items():
+            raw_txt_lines.append(f"Scene {sid}:")
+            for st in steps:
+                p_num = st.get("presentation_step_number", 1)
+                p_title = st.get("title", "")
+                p_narr = st.get("narration_statement", "")
+                p_match = st.get("matching_section", "")
+                raw_txt_lines.append(f"Presentation Step {p_num}: {p_title}")
+                raw_txt_lines.append(f"Narration: {p_narr}")
+                raw_txt_lines.append(f"Visual Description: {p_match}")
+            raw_txt_lines.append("")
+        raw_txt_content = "\n".join(raw_txt_lines)
+
+        for raw_tgt in [
+            prompt_dir / f"instructions_raw_{model_slug}.txt",
+            prompt_dir / "instructions_raw_gemini-3.5-flash.txt",
+            topic_dir / f"instructions_raw_{model_slug}.txt"
+        ]:
+            try:
+                with open(raw_tgt, "w", encoding="utf-8") as f:
+                    f.write(raw_txt_content)
+            except Exception:
+                pass
 
         print(f"\n==================================================================")
         print(f"INSTRUCTIONAL STORYBOARD DESIGN (DYNAMIC SME FRAMING)")

@@ -100,8 +100,8 @@ def clean_topic_directory(topic_dir: Path, dry_run: bool = False):
         "transcripts",
         "metadata_blueprints",
         "CGI_Input.json",
-        "types_and_architectures_of_ai_agents_sme_storyboard_blueprint.json",
-        "types_and_architectures_of_ai_agents_sme_trimmed.mp4",
+        f"{topic_dir.name}_storyboard_blueprint.json",
+        f"{topic_dir.name}_trimmed.mp4",
     ]
     for p in preserved:
         p_path = topic_dir / p

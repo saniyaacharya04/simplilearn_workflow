@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 18: VLM REVIEW FEEDBACK (AESTHETIC & STRUCTURAL EVALUATION)
@@ -25,7 +26,7 @@ PIPELINE STAGE 18: VLM REVIEW FEEDBACK (AESTHETIC & STRUCTURAL EVALUATION)
      * Stage 6 (6_presentation_composer.py):
        - How: Ingests enhanced_animation_instructions_<model>.json.
        - Purpose: Retrieves original intended spatial design specifications.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json.
        - Purpose: Correlates frames with narration sections.
    - Input Tracker: ppt_trackers/17_generate_triangulation_tracker.json

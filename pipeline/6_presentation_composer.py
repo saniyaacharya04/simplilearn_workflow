@@ -29,7 +29,7 @@ PIPELINE STAGE 6: PRESENTATION COMPOSER
      * Stage 3 (3_asset_construction.py):
        - How: Ingests {topic_id}_constructed_assets.json.
        - Purpose: Supplies class-based geometric asset construction blueprints.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json via 5_audio_output_tracker.json.
        - Purpose: Supplies step duration budgets.
    - Input Tracker: ppt_trackers/5_audio_output_tracker.json

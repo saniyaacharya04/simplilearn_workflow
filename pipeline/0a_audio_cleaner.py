@@ -5,7 +5,7 @@ PIPELINE STAGE 0A: AUDIO CLEANER & EBU R128 LOUDNESS NORMALIZER
 ================================================================================
 
 1. STAGE OVERVIEW:
-   - Stage Index: 0a
+   - Stage Index: 0A
    - Script Name: 0a_audio_cleaner.py
    - Primary Class: AudioCleaner (CLI Subprocess Module)
    - Pipeline Role:

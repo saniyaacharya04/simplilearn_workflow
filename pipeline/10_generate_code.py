@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 10: MANIM CODE GENERATION
@@ -22,7 +23,7 @@ PIPELINE STAGE 10: MANIM CODE GENERATION
        - How: Ingests styling_instructions_<model>.json via 9_styling_output_tracker.json.
        - Purpose: Provides exact hex color palettes, font sizes, container dimensions,
          and visual hierarchy for each scene element.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json.
        - Purpose: Matches code animation sections to audio durations and statement keys.
      * Stage 2 (2_asset_classification.py):

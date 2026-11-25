@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 12: FEEDBACK REPORT GENERATION
@@ -21,7 +22,7 @@ PIPELINE STAGE 12: FEEDBACK REPORT GENERATION
        - How: Analyzes snapshot JSONs in correction_insights/scene_{group}/ via
          11_run_manim_feedback_tracker.json.
        - Purpose: Reads coordinates, widths, heights, and center points of all rendered mobjects.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json.
        - Purpose: Maps timestamped snapshots back to presentation section indices.
    - Input Tracker: ppt_trackers/11_run_manim_feedback_tracker.json

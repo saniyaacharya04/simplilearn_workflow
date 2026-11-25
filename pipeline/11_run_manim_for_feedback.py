@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 11: MANIM FEEDBACK RUN (FIRST-PASS COMPILE & DIAGNOSTICS)
@@ -21,7 +22,7 @@ PIPELINE STAGE 11: MANIM FEEDBACK RUN (FIRST-PASS COMPILE & DIAGNOSTICS)
        - How: Ingests initial Manim scripts from manim_codes/group_{n}.py via
          10_code_generation_tracker.json.
        - Purpose: Compiles the generated Python code to verify syntax and runtime stability.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json.
        - Purpose: Verifies section runtimes and scene counts.
    - Input Tracker: ppt_trackers/10_code_generation_tracker.json
@@ -677,7 +678,6 @@ Code:
                 teacher_video = None
                 teacher_candidates = [
                     os.path.join(base_folder, f"{topic_id}_trimmed.mp4"),
-                    os.path.join(base_folder, "types_and_architectures_of_ai_agents_sme_trimmed.mp4"),
                     config_data.get("trimmed_teacher_video"),
                     config_data.get("teacher_video"),
                     config_data.get("trainer_video"),
@@ -685,7 +685,6 @@ Code:
                     os.path.join(base_folder, "trimmed_teacher.mp4"),
                     os.path.join(base_folder, "teacher_video.mp4"),
                     os.path.join(base_folder, "teacher.mp4"),
-                    os.path.join(base_folder, "2.02_Basic_Prompting_Techniques.mp4"),
                 ]
                 for c in teacher_candidates:
                     if c and os.path.exists(c):
@@ -738,12 +737,10 @@ Code:
                             break
 
                 if not blueprint_json:
-                    # Check Intermediate stages outputs or Audio_Time
                     for fallback in [
-                        str(workspace_dir / "output" / "5min_test_run" / "types_and_architectures_of_ai_agents_sme_storyboard_blueprint.json"),
-                        str(workspace_dir / "output" / "types_and_architectures_of_ai_agents_sme" / "types_and_architectures_of_ai_agents_sme_storyboard_blueprint.json"),
-                        r"D:\Kplor\Simplilearn\Intermediate stages outputs\types_and_architectures_of_ai_agents_sme_storyboard_blueprint.json",
-                        r"D:\Kplor\Simplilearn\Audio_Time\sample_storyboard.json",
+                        os.path.join(base_folder, f"{topic_id}_storyboard_blueprint.json"),
+                        os.path.join(base_folder, "metadata_blueprints", f"{topic_id}_storyboard_blueprint.json"),
+                        os.path.join(base_folder, "metadata_blueprints", "storyboard_blueprint.json"),
                     ]:
                         if os.path.exists(fallback):
                             blueprint_json = os.path.abspath(fallback)

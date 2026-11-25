@@ -48,7 +48,8 @@ PIPELINE STAGE 23: POST-PRODUCTION SME ASSEMBLY & OUTRO ENGINE
 
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 22_final_render_tracker.json.
-   - Step 2: Ingests storyboard blueprint to extract scene layout sequence.
+   - Step 2: Ingests storyboard blueprint to extract scene layout sequence and auto-resolves
+     missing scene start_time/end_time from Whisper timestamps or clean transcript if missing.
    - Step 3: For each scene, renders the appropriate SME composite:
      * Layout 100: Presenter video full-screen 1920x1080 (strictly <= 20.0s).
      * Layout 70: Presenter video cropped to 640x920 inside rounded mask (r=10px),
@@ -505,11 +506,9 @@ def assemble_sme_lesson_from_blueprint(
     audio_int_dir.mkdir(parents=True, exist_ok=True)
     print(f"\n[SME Integration] Assembling {len(scenes)} scenes from instructional blueprint (Duration: {actual_duration:.2f}s)...")
 
-    # Auto-resolve missing or desynced scene start_time and end_time from Whisper timestamps/transcript
+    # Auto-resolve missing scene start_time and end_time from Whisper timestamps/transcript ONLY if missing
     missing_times = any(s.get("start_time") is None or s.get("end_time") is None for s in scenes)
-    sum_dur = sum(float(s.get("duration", 0.0) or 0.0) for s in scenes)
-    duration_drift = abs(sum_dur - actual_duration) > 2.0
-    if missing_times or duration_drift:
+    if missing_times:
         ts_candidates = list((out_folder / "metadata_blueprints").glob("*timestamps*.json")) + \
                         list((out_folder / "metadata_blueprints").glob("*clean_transcript*.json")) + \
                         list(out_folder.glob("*timestamps*.json")) + \
@@ -931,7 +930,6 @@ class SMEPostProduction:
             teacher_video = None
             for cand in [
                 topic_dir / f"{topic_id}_trimmed.mp4",
-                topic_dir / "types_and_architectures_of_ai_agents_sme_trimmed.mp4",
                 Path("input") / f"{topic_id}.mp4",
                 Path("media") / f"{topic_id}.mp4",
             ]:

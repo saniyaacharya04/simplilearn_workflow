@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 22: FINAL RENDER, AUDIO MUXING & QA AUDIT
@@ -29,7 +30,7 @@ PIPELINE STAGE 22: FINAL RENDER, AUDIO MUXING & QA AUDIT
        - How: Ingests time-synchronized Manim scripts from manim_time_synced_code/group_{group}.py
          via 21_timing_adjustment_tracker.json.
        - Purpose: Executes final synchronized rendering.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests synthesized narration WAV files from audio_elements/ and CGI_Input.json.
        - Purpose: Audio tracks to normalize and mux with rendered video.
    - Input Tracker: ppt_trackers/21_timing_adjustment_tracker.json

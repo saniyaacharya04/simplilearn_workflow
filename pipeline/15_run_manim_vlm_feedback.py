@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 15: MANIM VLM FEEDBACK RUN (RENDER KEYFRAME SNAPSHOTS)
@@ -21,7 +22,7 @@ PIPELINE STAGE 15: MANIM VLM FEEDBACK RUN (RENDER KEYFRAME SNAPSHOTS)
        - How: Ingests corrected and instrumented Manim scripts in manim_extracted_codes/group_{n}.py
          via 14_corrections_implement_tracker.json.
        - Purpose: Executes the corrected code to capture step keyframes and validation videos.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json.
        - Purpose: References timing boundaries to ensure all step transitions are captured.
    - Input Tracker: ppt_trackers/14_corrections_implement_tracker.json

@@ -5,7 +5,7 @@ PIPELINE STAGE 0D: SYNCHRONOUS AUDIO & VIDEO TRIMMER
 ================================================================================
 
 1. STAGE OVERVIEW:
-   - Stage Index: 0d
+   - Stage Index: 0D
    - Script Name: 0d_av_trimmer.py
    - Primary Class: SynchronousAVTrimmer
    - Pipeline Role:

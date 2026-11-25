@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 19: VLM TIMESTAMPED FIX GENERATOR
@@ -29,7 +30,7 @@ PIPELINE STAGE 19: VLM TIMESTAMPED FIX GENERATOR
      * Stage 14 (14_implement_corrections.py):
        - How: Ingests corrected Manim code manim_extracted_codes/group_{group}.py.
        - Purpose: Provides the exact Python code context for LLM code repair reasoning.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json.
        - Purpose: Computes cumulative section timestamps in exact M:SS format.
      * Stage 15/17 Visual Keyframes:
@@ -74,7 +75,8 @@ PIPELINE STAGE 19: VLM TIMESTAMPED FIX GENERATOR
            "1:23 Set MathTex color to C_TEXT (#404040) for contrast on white panel"
    - Step 6: Saves directives to vlm_fixing_stage/scene_{group}_timestamped_fixes.txt
      and mirrors in correction_insights/scene_{group}/.
-   - Step 7: Atomically updates 19_vlm_fixing_stage_tracker.json.
+   - Step 7: Atomically updates 19_vlm_fixing_stage_tracker.json and invalidates downstream stages
+     (20_eng_corrections_tracker.json, 21_timing_adjustment_tracker.json, 22_final_render_tracker.json).
 
 5. OUTPUT SPECIFICATIONS:
    - What is generated as output:

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 16: GENERATE VLM FEEDBACK REPORT
@@ -21,7 +22,7 @@ PIPELINE STAGE 16: GENERATE VLM FEEDBACK REPORT
        - How: Ingests snapshot JSON files from correction_insights_vlm/scene_{group}/
          via 15_run_manim_vlm_feedback_tracker.json.
        - Purpose: Reads coordinates, bounding boxes, and object names captured during render.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json.
        - Purpose: Maps snapshots to exact presentation section numbers.
    - Input Tracker: ppt_trackers/15_run_manim_vlm_feedback_tracker.json

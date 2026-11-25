@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 17: VISUAL TRIANGULATION (GRID & SET-OF-MARKS OVERLAYS)
@@ -25,7 +26,7 @@ PIPELINE STAGE 17: VISUAL TRIANGULATION (GRID & SET-OF-MARKS OVERLAYS)
        - Purpose: Keyframe images to annotate with grids and marks.
      * Stage 14/15 Videos (manim_extracted_videos/):
        - How: Direct FFmpeg extraction fallback if PNG snapshots are missing or corrupted.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json for timestamp correlation.
    - Input Tracker: ppt_trackers/16_generate_vlm_feedback_tracker.json
 

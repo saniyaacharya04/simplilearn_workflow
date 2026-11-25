@@ -1,18 +1,53 @@
-C_DARK_BLUE = "#1E293B"
-C_BRAND_BLUE = "#2C81FE"
-C_LIGHT_BLUE = "#62B7E4"
-C_PURPLE = "#9B99C7"
-C_YELLOW = "#DDB945"
-C_RED = "#E58F6D"
-C_WHITE = "#FFFFFF"
-C_BLACK = "#404040"
-C_NAVY_DARK = "#404040"
+C_MINT = "#8ECDB7"
+C_LAVENDER = "#9B99C7"
+C_CORAL = "#E58F6D"
 import os
 import re
 import numpy as np
-SME_LAYOUT = '20'
+SME_LAYOUT = '70'
 from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
+class NullMobject(VGroup):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*[VMobject() for _ in range(15)])
+        self.set_opacity(0)
+    def __getitem__(self, val):
+        if isinstance(val, int) and val >= len(self.submobjects):
+            return VMobject()
+        return super().__getitem__(val)
+    def get_center(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_top(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_bottom(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_left(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+    def get_right(self):
+        import numpy as np
+        return np.array([0.0, 0.0, 0.0])
+
+try:
+    if not hasattr(VGroup, '_orig_add_safe'):
+        VGroup._orig_add_safe = VGroup.add
+        def _safe_vg_add(self, *mobs):
+            cleaned = []
+            for m in mobs:
+                if isinstance(m, VMobject):
+                    cleaned.append(m)
+                elif hasattr(m, 'submobjects'):
+                    for sub in m.submobjects:
+                        if isinstance(sub, VMobject):
+                            cleaned.append(sub)
+            return VGroup._orig_add_safe(self, *cleaned)
+        VGroup.add = _safe_vg_add
+except Exception:
+    pass
+
 # Dynamic Animation Safety Preamble
 for _anim_cls in (FadeIn, FadeOut, Create, Write):
     try:
@@ -68,7 +103,151 @@ for _scene_cls in (Scene, MovingCameraScene):
         pass
 _orig_anim_safe_defined = True
 
+NumberLine.c2p = lambda self, *args: self.n2p(args[0])
+try:
+    from manim.utils.rate_functions import *
+except Exception:
+    pass
 
+# Global constants for styling (OSL 3.0 & Styling Generator Compliance)
+C_BG = "#F0F4F8"  # Modern Soft Light Slate Canvas
+C_TITLE = "#0F172A"  # Dark Slate for titles
+C_HEADER = "#1E293B"  # Darker Slate for headers
+C_BODY = "#334155"  # Slate for body text
+C_TEXT = "#404040"  # Primary Dark Charcoal for general text
+HIGHLIGHT_COLOR = "#F78908"  # Warm Orange for focus highlights
+C_WHITE = "#FFFFFF"
+C_SOFT_CARD = "#F8FAFC"  # Soft card background
+C_STROKE_LIGHT = "#E2E8F0"  # Light gray for card borders
+
+# Approved 10-color infographic pastel palette (subset used in this scene)
+C_SKY_BLUE = "#62B7E4"
+C_STEEL_BLUE = "#7EA2C8"
+C_LAVENDER_PERIWINKLE = "#9B99C7"
+C_MINT_SEAFOAM = "#8ECDB7"
+C_WARM_AMBER = "#E6A157"
+C_MUSTARD_YELLOW = "#DDB945"
+C_CORAL_PEACH = "#E58F6D"
+# C_WARM_TAN = "#B88968"
+# C_DUSTY_ROSE = "#D98CA1"
+# C_SOFT_LILAC = "#C1A5C6"
+
+
+# Custom CrispText function for consistent typography
+
+
+def CrispText(text, size=24, font="Open Sans", **kwargs):
+    if "font_size" in kwargs:
+        size = kwargs.pop("font_size")
+    try:
+        size = float(size)
+    except (ValueError, TypeError):
+        size = 24.0
+    if 0.0 < size <= 1.0:
+        if size >= 0.28:
+            size = 26.0
+        elif size >= 0.19:
+            size = 18.0
+        elif size >= 0.14:
+            size = 14.0
+        else:
+            size = 12.0
+    elif size < 4.0:
+        size = 5.0
+    align = kwargs.pop("align", "center")
+    autowrap_val = kwargs.pop("autowrap", kwargs.pop("wrap", None))
+    disable_wrap_val = kwargs.pop("disable_wrap", kwargs.pop("disable_autowrap", False))
+    max_w_param = kwargs.pop("max_width", kwargs.pop("wrap_width", None))
+    for bad_k in ("alignment", "max_len", "line_spacing", "title_size", "item_size"):
+        kwargs.pop(bad_k, None)
+    slant_val = kwargs.pop("slant", NORMAL)
+    weight_val = kwargs.pop("weight", NORMAL)
+    if isinstance(weight_val, str):
+        weight_clean = weight_val.upper().replace("-", "").replace("_", "").replace(" ", "")
+        if weight_clean == "REGULAR":
+            weight_val = NORMAL
+        elif weight_clean in ("SEMIBOLD", "SEMI_BOLD"):
+            weight_val = SEMIBOLD
+        elif weight_clean == "BOLD":
+            weight_val = BOLD
+        elif weight_clean == "LIGHT":
+            weight_val = LIGHT
+        elif weight_clean in ("NORMAL", "BOOK"):
+            weight_val = NORMAL
+        else:
+            weight_val = NORMAL
+    color_val = kwargs.pop("color", None)
+    if color_val is None:
+        color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
+    elif str(color_val).upper() in ("#F9C72C", "C_YELLOW", "YELLOW", "#FFF9E6", "#FFFF00", "#0B3C5D", "#06152B", "#0A2540", "#1D3557", "NAVY", "C_NAVY", "C_NAVY_DARK"):
+        color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
+    raw_str = str(text)
+    _acronyms = {"AI", "RAM", "DB", "API", "LLM", "CPU", "GPU", "UI", "OSL", "ML", "OST", "VDB", "JSON", "HTTP", "REST", "SQL", "SME", "PIP", "HD", "FHD"}
+    import re as _re
+    def _tc_sub(m):
+        w = m.group(0)
+        return w if w in _acronyms else w.capitalize()
+    raw_str = _re.sub(r"\b[A-Z]{2,}\b", _tc_sub, raw_str)
+    NL = chr(10)
+    split_lines = [l for l in raw_str.split(NL)] if NL in raw_str else ([l for l in raw_str.split(r"\\n")] if r"\\n" in raw_str else None)
+    if split_lines is None:
+        should_autowrap = False
+        wrap_target_chars = 34
+        if max_w_param is not None:
+            try:
+                mw = float(max_w_param)
+                wrap_target_chars = max(16, int(mw / (size * 0.0082)))
+                should_autowrap = (" " in raw_str and len(raw_str) > wrap_target_chars)
+            except Exception:
+                pass
+        if not should_autowrap:
+            if autowrap_val is True:
+                should_autowrap = True
+                wrap_target_chars = 34
+            elif autowrap_val is False or disable_wrap_val:
+                should_autowrap = False
+            else:
+                should_autowrap = (len(raw_str) > 36 and " " in raw_str and size <= 16)
+                wrap_target_chars = 34
+        if should_autowrap:
+            words = raw_str.split()
+            lines = []
+            curr_line = []
+            curr_len = 0
+            for w in words:
+                sep = 1 if curr_line else 0
+                if curr_len + len(w) + sep > wrap_target_chars:
+                    if curr_line:
+                        lines.append(" ".join(curr_line))
+                    curr_line = [w]
+                    curr_len = len(w)
+                else:
+                    curr_line.append(w)
+                    curr_len += len(w) + sep
+            if curr_line:
+                lines.append(" ".join(curr_line))
+            split_lines = lines
+        else:
+            split_lines = [raw_str]
+    clean_kwargs = {k: v for k, v in kwargs.items() if k in ("tab_width", "t2c", "t2f", "t2s", "t2w", "l2g", "gradient", "fill_opacity", "stroke_width", "stroke_color")}
+    if len(split_lines) > 1:
+        line_mobs = [Text(l, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs) for l in split_lines]
+        aligned_edge = ORIGIN if align == "center" else (LEFT if align == "left" else RIGHT)
+        mob = VGroup(*line_mobs).arrange(DOWN, buff=0.18, aligned_edge=aligned_edge).scale(0.25)
+    else:
+        mob = Text(raw_str, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs).scale(0.25)
+    orig_scale = mob.scale_to_fit_width
+    def safe_scale_width(tw):
+        if hasattr(mob, "width") and mob.width > 0:
+            ratio = tw / mob.width
+            if ratio > 1.0:
+                return mob
+            if ratio < 0.88:
+                ratio = 0.88
+            return orig_scale(mob.width * ratio)
+        return orig_scale(tw)
+    mob.scale_to_fit_width = safe_scale_width
+    return mob
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
         pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -152,186 +331,85 @@ def create_crossmark(*args, **kwargs):
     g.center()
     return g
 
-class NullMobject(VGroup):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*[VMobject() for _ in range(15)])
-        self.set_opacity(0)
-    def __getitem__(self, val):
-        if isinstance(val, int) and val >= len(self.submobjects):
-            return VMobject()
-        return super().__getitem__(val)
-    def get_center(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_top(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_bottom(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_left(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-    def get_right(self):
-        import numpy as np
-        return np.array([0.0, 0.0, 0.0])
-
-try:
-    if not hasattr(VGroup, '_orig_add_safe'):
-        VGroup._orig_add_safe = VGroup.add
-        def _safe_vg_add(self, *mobs):
-            cleaned = []
-            for m in mobs:
-                if isinstance(m, VMobject):
-                    cleaned.append(m)
-                elif hasattr(m, 'submobjects'):
-                    for sub in m.submobjects:
-                        if isinstance(sub, VMobject):
-                            cleaned.append(sub)
-            return VGroup._orig_add_safe(self, *cleaned)
-        VGroup.add = _safe_vg_add
-except Exception:
+class InstrumentedScene(Scene):
+    """
+    Placeholder for Simplilearn's InstrumentedScene. Defaults to Manim's Scene.
+    """
     pass
 
-NumberLine.c2p = lambda self, *args: self.n2p(args[0])
-try:
-    from manim.utils.rate_functions import *
-except Exception:
-    pass
-
-# Safe fallback for instrumentation harness
-try:
-    from manim_instrumentation import InstrumentedScene
-except ImportError:
-    class InstrumentedScene:
-        pass
-
-# Fallback for CrispText if not injected into global scope
-if "CrispText" not in globals():
 
 
+class ProcessNode(VGroup):
+    """
+    A custom Mobject for a process node, consisting of a rounded rectangle and centered text.
+    Dynamically adjusts size based on text content.
+    """
+    def __init__(self, text, fill_color=C_SOFT_CARD, stroke_color=C_STROKE_LIGHT, text_color=C_TEXT,
+                 corner_radius=0.15, width=2.5, height=1.0, font_size=0.18, **kwargs):
+        super().__init__(**kwargs)
+        self.text_obj = CrispText(text, size=font_size, weight=SEMIBOLD, color=text_color)
+        
+        # Adjust width and height based on text content, ensuring minimums
+        padding_x = 0.8  # Horizontal padding
+        padding_y = 0.4  # Vertical padding
+        actual_width = max(width, self.text_obj.width + padding_x)
+        actual_height = max(height, self.text_obj.height + padding_y)
+
+        self.box = RoundedRectangle(
+            width=actual_width,
+            height=actual_height,
+            corner_radius=corner_radius,
+            fill_color=fill_color,
+            fill_opacity=1.0,
+            stroke_color=stroke_color,
+            stroke_width=2,
+            z_index=1  # Ensure it's above lines/arrows
+        )
+        self.add(self.box, self.text_obj)
 
 
+class FlowingStream(VGroup):
+    """
+    Creates a stream of dots flowing along a given path, simulating data flow.
+    Uses updaters for continuous motion.
+    """
+    def __init__(self, path, num_dots=5, dot_radius=0.05, dot_color=HIGHLIGHT_COLOR, flow_speed=0.5, **kwargs):
+        super().__init__(**kwargs)
+        self.path = path
+        self.num_dots = num_dots
+        self.flow_speed = flow_speed
+        self.dots = VGroup()
+        self.trackers = []
+
+        for i in range(num_dots):
+            # Start dots at different points along the path for a continuous stream effect
+            tracker = ValueTracker(i / num_dots)
+            dot = Dot(radius=dot_radius, color=dot_color, z_index=3)
+            # Add updater to each dot to move it along the path
+            dot.add_updater(lambda m, t=tracker: m.move_to(path.point_from_proportion(t.get_value())))
+            self.dots.add(dot)
+            self.trackers.append(tracker)
+        
+        self.add(self.dots)
+        self.add_updater(self._update_flow)
+
+    def _update_flow(self, mob, dt):
+        """Updates the position of each dot along the path."""
+        for tracker in mob.trackers:
+            current_prop = tracker.get_value()
+            new_prop = (current_prop + mob.flow_speed * dt) % 1.0  # Loop the flow
+            tracker.set_value(new_prop)
+
+    def stop_flow(self):
+        """Removes updaters to stop the flow animation."""
+        self.remove_updater(self._update_flow)
+        for dot in self.dots:
+            dot.remove_updater(dot.updaters[0])
 
 
-
-
-    def CrispText(text, size=24, font="Open Sans", **kwargs):
-        if "font_size" in kwargs:
-            size = kwargs.pop("font_size")
-        try:
-            size = float(size)
-        except (ValueError, TypeError):
-            size = 24.0
-        if 0.0 < size <= 1.0:
-            if size >= 0.28:
-                size = 26.0
-            elif size >= 0.19:
-                size = 18.0
-            elif size >= 0.14:
-                size = 14.0
-            else:
-                size = 12.0
-        elif size < 4.0:
-            size = 5.0
-        align = kwargs.pop("align", "center")
-        autowrap_val = kwargs.pop("autowrap", kwargs.pop("wrap", None))
-        disable_wrap_val = kwargs.pop("disable_wrap", kwargs.pop("disable_autowrap", False))
-        max_w_param = kwargs.pop("max_width", kwargs.pop("wrap_width", None))
-        for bad_k in ("alignment", "max_len", "line_spacing", "title_size", "item_size"):
-            kwargs.pop(bad_k, None)
-        slant_val = kwargs.pop("slant", NORMAL)
-        weight_val = kwargs.pop("weight", NORMAL)
-        if isinstance(weight_val, str):
-            weight_clean = weight_val.upper().replace("-", "").replace("_", "").replace(" ", "")
-            if weight_clean == "REGULAR":
-                weight_val = NORMAL
-            elif weight_clean in ("SEMIBOLD", "SEMI_BOLD"):
-                weight_val = SEMIBOLD
-            elif weight_clean == "BOLD":
-                weight_val = BOLD
-            elif weight_clean == "LIGHT":
-                weight_val = LIGHT
-            elif weight_clean in ("NORMAL", "BOOK"):
-                weight_val = NORMAL
-            else:
-                weight_val = NORMAL
-        color_val = kwargs.pop("color", None)
-        if color_val is None:
-            color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
-        elif str(color_val).upper() in ("#F9C72C", "C_YELLOW", "YELLOW", "#FFF9E6", "#FFFF00", "#0B3C5D", "#06152B", "#0A2540", "#1D3557", "NAVY", "C_NAVY", "C_NAVY_DARK"):
-            color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
-        raw_str = str(text)
-        _acronyms = {"AI", "RAM", "DB", "API", "LLM", "CPU", "GPU", "UI", "OSL", "ML", "OST", "VDB", "JSON", "HTTP", "REST", "SQL", "SME", "PIP", "HD", "FHD"}
-        import re as _re
-        def _tc_sub(m):
-            w = m.group(0)
-            return w if w in _acronyms else w.capitalize()
-        raw_str = _re.sub(r"\b[A-Z]{2,}\b", _tc_sub, raw_str)
-        NL = chr(10)
-        split_lines = [l for l in raw_str.split(NL)] if NL in raw_str else ([l for l in raw_str.split(r"\\n")] if r"\\n" in raw_str else None)
-        if split_lines is None:
-            should_autowrap = False
-            wrap_target_chars = 34
-            if max_w_param is not None:
-                try:
-                    mw = float(max_w_param)
-                    wrap_target_chars = max(16, int(mw / (size * 0.0082)))
-                    should_autowrap = (" " in raw_str and len(raw_str) > wrap_target_chars)
-                except Exception:
-                    pass
-            if not should_autowrap:
-                if autowrap_val is True:
-                    should_autowrap = True
-                    wrap_target_chars = 34
-                elif autowrap_val is False or disable_wrap_val:
-                    should_autowrap = False
-                else:
-                    should_autowrap = (len(raw_str) > 36 and " " in raw_str and size <= 16)
-                    wrap_target_chars = 34
-            if should_autowrap:
-                words = raw_str.split()
-                lines = []
-                curr_line = []
-                curr_len = 0
-                for w in words:
-                    sep = 1 if curr_line else 0
-                    if curr_len + len(w) + sep > wrap_target_chars:
-                        if curr_line:
-                            lines.append(" ".join(curr_line))
-                        curr_line = [w]
-                        curr_len = len(w)
-                    else:
-                        curr_line.append(w)
-                        curr_len += len(w) + sep
-                if curr_line:
-                    lines.append(" ".join(curr_line))
-                split_lines = lines
-            else:
-                split_lines = [raw_str]
-        clean_kwargs = {k: v for k, v in kwargs.items() if k in ("tab_width", "t2c", "t2f", "t2s", "t2w", "l2g", "gradient", "fill_opacity", "stroke_width", "stroke_color")}
-        if len(split_lines) > 1:
-            line_mobs = [Text(l, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs) for l in split_lines]
-            aligned_edge = ORIGIN if align == "center" else (LEFT if align == "left" else RIGHT)
-            mob = VGroup(*line_mobs).arrange(DOWN, buff=0.18, aligned_edge=aligned_edge).scale(0.25)
-        else:
-            mob = Text(raw_str, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs).scale(0.25)
-        orig_scale = mob.scale_to_fit_width
-        def safe_scale_width(tw):
-            if hasattr(mob, "width") and mob.width > 0:
-                ratio = tw / mob.width
-                if ratio > 1.0:
-                    return mob
-                if ratio < 0.88:
-                    ratio = 0.88
-                return orig_scale(mob.width * ratio)
-            return orig_scale(tw)
-        mob.scale_to_fit_width = safe_scale_width
-        return mob
 class FinalScene(InstrumentedScene, MovingCameraScene):
     def construct(self):
-        # 1. Canvas Background Setup (Modern Soft Light Slate Canvas)
-        self.camera.background_color = "#F0F4F8"
+        self.camera.background_color = C_BG
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
                 pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -634,432 +712,377 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.clamp_to_screen = clamp_to_screen
 
 
+        # SME Layout 70% requires content on the right side of the screen.
+        # Safe content workspace: x ∈ [-0.80, +6.40], y ∈ [-3.60, +2.20].
+        # Center x for content is approximately (-0.80 + 6.40) / 2 = 2.80
+        content_center_x = 2.80
+        content_width = 6.40 - (-0.80)  # Total width is 7.2 units
 
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
+        # Initialize scene title
+        current_title_group = create_title("Architecture Types 1 & 2: Reactive vs Goal-Based Agents", layout="70")
+        self.play(FadeIn(current_title_group, shift=UP * 0.1), run_time=0.8)
+        self.wait(0.5)
 
+        ## Presentation Step 1: Architecture Type 1: Simple Reflex / Reactive
+        self.play(FadeIn(current_title_group, shift=DOWN*0.1), run_time=0.8)
+        # Narration Text: Direct Condition-Action rules (IF temperature > threshold THEN trip breaker)
+        
+        # Reactive Agent Components (ProcessNode instances)
+        perception_node = ProcessNode("Perception", fill_color=C_SKY_BLUE, text_color=C_WHITE, font_size=0.18, width=2.0)
+        condition_action_node = ProcessNode("Condition-Action Rules", fill_color=C_WARM_AMBER, text_color=C_WHITE, font_size=0.18, width=3.5)
+        action_node = ProcessNode("Action", fill_color=C_MINT_SEAFOAM, text_color=C_WHITE, font_size=0.18, width=2.0)
 
+        # Arrange nodes horizontally within the content safe area
+        reactive_nodes_group = VGroup(perception_node, condition_action_node, action_node).arrange(RIGHT, buff=0.8)
+        reactive_nodes_group.move_to(RIGHT * content_center_x + DOWN * 0.5)
+        
+        # Ensure the group fits within the allowed width
+        if reactive_nodes_group.width > content_width:
+            reactive_nodes_group.scale_to_fit_width(content_width - 0.2)
+            reactive_nodes_group.move_to(RIGHT * content_center_x + DOWN * 0.5)
 
+        # Arrows connecting the nodes
+        arrow1 = Arrow(perception_node.box.get_right(), condition_action_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
+        arrow2 = Arrow(condition_action_node.box.get_right(), action_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
 
+        # Narration-aligned text for explanation
+        narration_text1 = CrispText("Direct Condition-Action rules", size=6.0, weight=NORMAL, color=C_BODY, alignment="left")
+        narration_text1.next_to(condition_action_node, UP, buff=0.3).align_to(condition_action_node, LEFT)
 
-
-
-
-
-
-
-
-
-
-
-
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        # Safe boundaries & coordinates
-        # 20% SME PiP is reserved in top-right: x >= +3.5, y >= +1.8
-        # Main presentation content area sits strictly below y <= 1.80
-
-        # Colors from the approved 10-pastel infographic palette
-        C_SKY_BLUE = "#62B7E4"
-        C_STEEL_BLUE = "#7EA2C8"
-        C_LAVENDER = "#9B99C7"
-        C_MINT = "#8ECDB7"
-        C_AMBER = "#E6A157"
-        C_MUSTARD = "#DDB945"
-        C_CORAL = "#E58F6D"
-        C_ROSE = "#D98CA1"
-        C_LILAC = "#C1A5C6"
-        C_HIGHLIGHT = "#F78908"
-        C_ALERT = "#E55353"
-        C_TITLE = "#0F172A"
-        C_TEXT = "#404040"
-        C_MUTED = "#64748B"
-        C_CARD_BG = "#FFFFFF"
-        C_CARD_STROKE = "#CBD5E1"
-
-
-        # =========================================================================
-        # PRESENTATION STEP 1: Introduction of Three Agent Types
-        # =========================================================================
-        ## Presentation Step 1
-
-        title_group = create_title(
-            "Types of Agents: Reactive & Goal-Based",
-            "Foundational architectures tailored for specific operational complexities"
+        if_then_example = CrispText("If temperature > threshold\nTHEN trip breaker", size=6.0, weight=NORMAL, color=C_TEXT, alignment="left")
+        if_then_example.next_to(condition_action_node, DOWN, buff=0.3)
+        
+        # Animate the components
+        self.play(
+            GrowFromCenter(perception_node),
+            run_time=1.5
         )
-        self.play(FadeIn(title_group, shift=DOWN * 0.15), run_time=1.0)
+        self.wait(1.0) # Adjusted wait
+        self.play(
+            Create(arrow1),
+            GrowFromCenter(condition_action_node),
+            FadeIn(narration_text1, shift=UP * 0.1),
+            run_time=2.0
+        )
+        self.wait(1.0) # Adjusted wait
+        self.play(
+            FadeIn(if_then_example, shift=UP * 0.1),
+            run_time=2.0
+        )
+        self.wait(1.0) # Adjusted wait
+        self.play(
+            Create(arrow2),
+            GrowFromCenter(action_node),
+            run_time=1.5
+        )
+        self.wait(1.0) # Adjusted wait
 
-        # Build 3 Architectural Pillar Slots horizontally
-        # Total available width: x in [-6.2, +6.2], below y <= 1.8
-        slot_w = 3.95
-        slot_h = 4.85
-        slot_y = -0.95
-        slot_centers = [-4.15, 0.0, 4.15]
+        # Kinetic element: data flowing through the reactive agent (continuous updater)
+        flow_path_reactive_combined = VMobject()
+        flow_path_reactive_combined.set_points_as_corners([
+            perception_node.box.get_right(),
+            condition_action_node.box.get_left(),
+            condition_action_node.box.get_right(),
+            action_node.box.get_left()
+        ])
+        
+        reactive_stream = FlowingStream(flow_path_reactive_combined, num_dots=4, dot_color=HIGHLIGHT_COLOR, flow_speed=0.7)
+        self.add(reactive_stream)
+        self.wait(10.0) # Extended wait for narration to cover the concept
 
-        # Slot 1: Reactive
-        slot1_rect = RoundedRectangle(
-            width=slot_w, height=slot_h, corner_radius=0.18,
-            fill_color=C_CARD_BG, fill_opacity=0.95, stroke_color=C_CARD_STROKE, stroke_width=1.5
-        ).move_to([slot_centers[0], slot_y, 0])
-        slot1_pill = RoundedRectangle(
-            width=2.8, height=0.48, corner_radius=0.24,
-            fill_color=C_SKY_BLUE, fill_opacity=0.18, stroke_color=C_SKY_BLUE, stroke_width=1.8
-        ).move_to([slot_centers[0], slot_y + slot_h/2 - 0.42, 0])
-        slot1_title = CrispText("Reactive Agent", size=16, weight=BOLD, color=C_TITLE).move_to(slot1_pill)
-        slot1_sub = CrispText("Rule-Driven Reflex", size=12, weight=NORMAL, color=C_MUTED).next_to(slot1_pill, DOWN, buff=0.14)
-        slot1_group = VGroup(slot1_rect, slot1_pill, slot1_title, slot1_sub)
+        ## Presentation Step 2: Reactive Strengths & Limitations
+        # Narration Text: Sub-millisecond latency but zero memory or future deliberation
+        
+        # Morph title for the new step
+        new_title_group_step2 = create_title("Reactive Strengths & Limitations", layout="70")
+        self.play(
+            ReplacementTransform(current_title_group, new_title_group_step2),
+            FadeOut(narration_text1, shift=DOWN * 0.1),
+            FadeOut(if_then_example, shift=DOWN * 0.1),
+            run_time=0.6
+        )
+        current_title_group = new_title_group_step2
+        self.wait(0.5)
 
-        # Slot 2: Goal-Based
-        slot2_rect = RoundedRectangle(
-            width=slot_w, height=slot_h, corner_radius=0.18,
-            fill_color=C_CARD_BG, fill_opacity=0.95, stroke_color=C_CARD_STROKE, stroke_width=1.5
-        ).move_to([slot_centers[1], slot_y, 0])
-        slot2_pill = RoundedRectangle(
-            width=2.8, height=0.48, corner_radius=0.24,
-            fill_color=C_AMBER, fill_opacity=0.18, stroke_color=C_AMBER, stroke_width=1.8
-        ).move_to([slot_centers[1], slot_y + slot_h/2 - 0.42, 0])
-        slot2_title = CrispText("Goal-Based Agent", size=16, weight=BOLD, color=C_TITLE).move_to(slot2_pill)
-        slot2_sub = CrispText("Planned Outcomes", size=12, weight=NORMAL, color=C_MUTED).next_to(slot2_pill, DOWN, buff=0.14)
-        slot2_group = VGroup(slot2_rect, slot2_pill, slot2_title, slot2_sub)
+        # Highlight Condition-Action Rules for latency
+        highlight_latency = condition_action_node.box.copy().set_fill(opacity=0).set_stroke(color=HIGHLIGHT_COLOR, width=3.5, z_index=5)
+        latency_text = CrispText("Sub-millisecond Latency", size=6.0, weight=BOLD, color=HIGHLIGHT_COLOR)
+        latency_text.next_to(condition_action_node, UP, buff=0.3)
 
-        # Slot 3: Utility-Based (Preview/Subdued)
-        slot3_rect = RoundedRectangle(
-            width=slot_w, height=slot_h, corner_radius=0.18,
-            fill_color=C_CARD_BG, fill_opacity=0.75, stroke_color=C_CARD_STROKE, stroke_width=1.5
-        ).move_to([slot_centers[2], slot_y, 0])
-        slot3_pill = RoundedRectangle(
-            width=2.8, height=0.48, corner_radius=0.24,
-            fill_color=C_LILAC, fill_opacity=0.18, stroke_color=C_LILAC, stroke_width=1.8
-        ).move_to([slot_centers[2], slot_y + slot_h/2 - 0.42, 0])
-        slot3_title = CrispText("Utility-Based Agent", size=16, weight=BOLD, color=C_TITLE).move_to(slot3_pill)
-        slot3_sub = CrispText("Optimized Trade-Offs", size=12, weight=NORMAL, color=C_MUTED).next_to(slot3_pill, DOWN, buff=0.14)
-        slot3_preview = CrispText("Deliberates on Best Path", size=13, weight=NORMAL, color=C_MUTED).move_to([slot_centers[2], slot_y - 0.2, 0])
-        slot3_tag = RoundedRectangle(
-            width=1.9, height=0.36, corner_radius=0.18,
-            fill_color="#F1F5F9", fill_opacity=1.0, stroke_color=C_CARD_STROKE, stroke_width=1.2
-        ).next_to(slot3_preview, DOWN, buff=0.25)
-        slot3_tag_txt = CrispText("Upcoming Topic", size=11, weight=BOLD, color=C_MUTED).move_to(slot3_tag)
-        slot3_group = VGroup(slot3_rect, slot3_pill, slot3_title, slot3_sub, slot3_preview, slot3_tag, slot3_tag_txt)
+        self.play(
+            Create(highlight_latency),
+            FadeIn(latency_text, shift=UP * 0.1),
+            run_time=1.5
+        )
+        self.wait(3.0) # Adjusted wait
 
-        # Sequential reveal of the three architectural options
-        self.play(FadeIn(slot1_group, shift=UP * 0.2), run_time=0.9)
-        self.play(FadeIn(slot2_group, shift=UP * 0.2), run_time=0.9)
-        self.play(FadeIn(slot3_group, shift=UP * 0.2), run_time=0.9)
+        # Text for memory/deliberation limitation
+        limitation_text = CrispText("Zero Memory or Future Deliberation", size=6.0, weight=NORMAL, color=C_BODY)
+        limitation_text.next_to(reactive_nodes_group, DOWN, buff=1.0) # Below the entire group
 
-        # Highlight Slot 1 (Reactive) to transition into Step 2
-        slot1_highlight = slot1_rect.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
-        self.play(Create(slot1_highlight), run_time=0.8)
-        self.wait(1.5)
+        self.play(
+            FadeOut(highlight_latency),
+            FadeOut(latency_text, shift=DOWN * 0.1),
+            FadeIn(limitation_text, shift=UP * 0.1),
+            run_time=1.5
+        )
+        self.wait(5.0) # Adjusted wait
 
-        # Ambient breath on highlight
-        self.play(slot1_highlight.animate.set_stroke(opacity=0.6, width=2.5), run_time=1.2)
-        self.play(slot1_highlight.animate.set_stroke(opacity=1.0, width=3.5), run_time=1.2)
+        ## Presentation Step 3: Architecture Type 2: Goal-Based Agents
+        # Narration Text: Incorporates explicit future goals into decision formulation
+        
+        # Stop reactive stream and remove it
+        reactive_stream.stop_flow()
+        self.remove(reactive_stream)
+
+        # Morph title for the new step
+        new_title_group_step3 = create_title("Architecture Type 2: Goal-Based Agents", layout="70")
+        self.remove(new_title_group_step2)
+        self.play(
+            ReplacementTransform(current_title_group, new_title_group_step3),
+            FadeOut(limitation_text, shift=DOWN * 0.1),
+            run_time=0.6
+        )
+        current_title_group = new_title_group_step3
+        self.wait(0.5)
+
+        # Define new positions for existing nodes and new nodes for Goal-Based architecture
+        perception_node_goal = perception_node.copy().move_to(RIGHT * (content_center_x - 3.0) + UP * 0.5)
+        action_node_goal = action_node.copy().move_to(RIGHT * (content_center_x + 3.0) + UP * 0.5)
+
+        model_of_world_node = ProcessNode("Model of World", fill_color=C_STEEL_BLUE, text_color=C_WHITE, font_size=0.18, width=2.5)
+        goals_node = ProcessNode("Goals", fill_color=C_LAVENDER_PERIWINKLE, text_color=C_WHITE, font_size=0.18, width=1.5)
+        search_planning_node = ProcessNode("Search & Planning", fill_color=C_MUSTARD_YELLOW, text_color=C_WHITE, font_size=0.18, width=3.0)
+
+        # Arrange internal nodes for goal-based architecture
+        model_of_world_node.move_to(RIGHT * (content_center_x - 0.5) + UP * 1.0)
+        goals_node.next_to(model_of_world_node, DOWN, buff=0.8).shift(LEFT * 0.5) # Below Model, slightly left
+        search_planning_node.next_to(goals_node, RIGHT, buff=0.8).align_to(model_of_world_node, DOWN) # Aligned with goals, to the right
+
+        # Arrows for goal-based connections
+        arrow_p_mw = Arrow(perception_node_goal.box.get_right(), model_of_world_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
+        arrow_mw_sp = Arrow(model_of_world_node.box.get_right(), search_planning_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
+        arrow_g_sp = CurvedArrow(goals_node.box.get_right(), search_planning_node.box.get_bottom(), angle=-PI/4, buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
+        arrow_sp_a = Arrow(search_planning_node.box.get_right(), action_node_goal.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
+
+        # Narration-aligned text for goal-based
+        narration_text3 = CrispText("Incorporates explicit future goals into\ndecision formulation", size=6.0, weight=NORMAL, color=C_BODY, alignment="left")
+        narration_text3.next_to(search_planning_node, UP, buff=0.5).align_to(search_planning_node, LEFT)
+
+        # Animate transformation from reactive to goal-based
+        self.play(
+            Transform(perception_node, perception_node_goal),
+            Transform(action_node, action_node_goal),
+            FadeOut(condition_action_node, target_mode="horizontal"), # Condition-Action node is removed
+            FadeOut(arrow1),
+            FadeOut(arrow2),
+            run_time=2.0
+        )
+        self.wait(1.0) # Adjusted wait
+        self.play(
+            GrowFromCenter(model_of_world_node),
+            Create(arrow_p_mw),
+            run_time=1.5
+        )
+        self.wait(1.0) # Adjusted wait
+        self.play(
+            GrowFromCenter(goals_node),
+            GrowFromCenter(search_planning_node),
+            Create(arrow_g_sp),
+            Create(arrow_mw_sp),
+            FadeIn(narration_text3, shift=UP * 0.1),
+            run_time=2.5
+        )
+        self.wait(1.0) # Adjusted wait
+        self.play(
+            Create(arrow_sp_a),
+            run_time=1.0
+        )
+        self.wait(5.0) # Extended wait for narration
+
+        # Kinetic element: data flowing through the goal-based agent
+        path_points_goal = [
+            perception_node_goal.box.get_right(),
+            arrow_p_mw.get_end(),
+            model_of_world_node.box.get_right(),
+            arrow_mw_sp.get_end(),
+            search_planning_node.box.get_right(),
+            arrow_sp_a.get_end()
+        ]
+        goal_based_stream_main = FlowingStream(VMobject().set_points_as_corners(path_points_goal), num_dots=4, dot_color=HIGHLIGHT_COLOR, flow_speed=0.5)
+
+        path_points_goal_curved = [
+            goals_node.box.get_right(),
+            arrow_g_sp.get_end()
+        ]
+        goal_based_stream_goals = FlowingStream(VMobject().set_points_as_corners(path_points_goal_curved), num_dots=2, dot_color=C_LAVENDER_PERIWINKLE, flow_speed=0.4)
+        
+        self.add(goal_based_stream_main, goal_based_stream_goals)
+        self.wait(5.0) # Extended wait
+
+        ## Presentation Step 4: Search & Planning Mechanisms
+        # Narration Text: Evaluating multi-step sequences: will this action lead toward the goal?
+        
+        # Stop goal-based streams and remove them
+        goal_based_stream_main.stop_flow()
+        goal_based_stream_goals.stop_flow()
+        self.remove(goal_based_stream_main, goal_based_stream_goals)
+
+        # Morph title for the new step
+        new_title_group_step4 = create_title("Search & Planning Mechanisms", layout="70")
+        self.remove(new_title_group_step3)
+        self.play(
+            ReplacementTransform(current_title_group, new_title_group_step4),
+            FadeOut(narration_text3, shift=DOWN * 0.1),
+            run_time=0.6
+        )
+        current_title_group = new_title_group_step4
+        self.wait(0.5)
+
+        # Highlight Search & Planning node
+        highlight_sp = search_planning_node.box.copy().set_fill(opacity=0).set_stroke(color=HIGHLIGHT_COLOR, width=3.5, z_index=5)
+        
+        planning_text = CrispText("Evaluating Multi-step Sequences:\nWill this action lead toward the goal?", size=6.0, weight=NORMAL, color=C_BODY, alignment="left")
+        planning_text.next_to(search_planning_node, DOWN, buff=0.8)
+
+        self.play(
+            Create(highlight_sp),
+            FadeIn(planning_text, shift=UP * 0.1),
+            run_time=2.0
+        )
+        self.wait(7.0) # Extended wait for narration
+        self.play(
+            FadeOut(highlight_sp),
+            FadeOut(planning_text, shift=DOWN * 0.1),
+            run_time=1.0
+        )
+        self.wait(0.5)
+
+        ## Presentation Step 5: Architectural Trade-Off Comparison
+        # Narration Text: Reflex speed vs. Deliberative foresight in enterprise operations
+        
+        # Morph title for the new step
+        new_title_group_step5 = create_title("Architectural Trade-Off Comparison", layout="70")
+        self.remove(new_title_group_step4)
+        self.play(FadeOut(current_title_group), run_time=0.35)
+        self.play(FadeIn(new_title_group_step5, shift=DOWN * 0.1), run_time=0.45)
+        current_title_group = new_title_group_step5
+        self.wait(0.5)
+
+        # Fade out previous goal-based diagram elements to make way for comparison
+        # (Using FadeOut/FadeIn for comparison rather than complex Transform for clarity)
+        self.play(
+            FadeOut(perception_node),
+            FadeOut(model_of_world_node),
+            FadeOut(goals_node),
+            FadeOut(search_planning_node),
+            FadeOut(action_node),
+            FadeOut(arrow_p_mw),
+            FadeOut(arrow_mw_sp),
+            FadeOut(arrow_g_sp),
+            FadeOut(arrow_sp_a),
+            run_time=1.5
+        )
+        self.wait(0.5)
+        
+        # Reactive Agent for Comparison Column
+        reactive_col_header = CrispText("Reactive Agent", size=6.0, weight=BOLD, color=C_SKY_BLUE)
+        reactive_col_desc = CrispText("Reflex Speed", size=6.0, weight=SEMIBOLD, color=C_CORAL_PEACH)
+        
+        comp_perception_r = ProcessNode("Perception", fill_color=C_SKY_BLUE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
+        comp_ca_r = ProcessNode("Condition-Action", fill_color=C_WARM_AMBER, text_color=C_WHITE, font_size=0.16, width=2.5, height=0.7)
+        comp_action_r = ProcessNode("Action", fill_color=C_MINT_SEAFOAM, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
+
+        comp_reactive_group = VGroup(comp_perception_r, comp_ca_r, comp_action_r).arrange(RIGHT, buff=0.4)
+        comp_arrow_r1 = Arrow(comp_perception_r.box.get_right(), comp_ca_r.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
+        comp_arrow_r2 = Arrow(comp_ca_r.box.get_right(), comp_action_r.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
+        
+        reactive_diagram = VGroup(comp_reactive_group, comp_arrow_r1, comp_arrow_r2)
+        reactive_col_content = VGroup(reactive_col_header, reactive_col_desc, reactive_diagram).arrange(DOWN, buff=0.5).align_to(reactive_col_header, LEFT)
+
+        # Goal-Based Agent for Comparison Column
+        goal_col_header = CrispText("Goal-Based Agent", size=6.0, weight=BOLD, color=C_STEEL_BLUE)
+        goal_col_desc = CrispText("Deliberative Foresight", size=6.0, weight=SEMIBOLD, color=C_LAVENDER_PERIWINKLE)
+        
+        comp_perception_g = ProcessNode("Perception", fill_color=C_SKY_BLUE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
+        comp_model_g = ProcessNode("Model", fill_color=C_STEEL_BLUE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
+        comp_goals_g = ProcessNode("Goals", fill_color=C_LAVENDER_PERIWINKLE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
+        comp_sp_g = ProcessNode("Search & Planning", fill_color=C_MUSTARD_YELLOW, text_color=C_WHITE, font_size=0.16, width=2.5, height=0.7)
+        comp_action_g = ProcessNode("Action", fill_color=C_MINT_SEAFOAM, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
+
+        # Arrange goal-based components more compactly for comparison
+        comp_perception_g.move_to(LEFT * 2.0 + UP * 0.5)
+        comp_action_g.move_to(RIGHT * 2.0 + UP * 0.5)
+        comp_model_g.next_to(comp_perception_g, RIGHT, buff=0.4).shift(UP * 0.5)
+        comp_goals_g.next_to(compmodel_g, DOWN, buff=0.4).align_to(comp_perception_g, LEFT) # Aligned below model
+        comp_sp_g.next_to(comp_goals_g, RIGHT, buff=0.4).align_to(comp_model_g, UP) # Align with model top
+        comp_sp_g.move_to(VGroup(comp_model_g, comp_goals_g).get_center() + RIGHT * 1.5) # Re-center SP
+
+        comp_arrow_pg = Arrow(comp_perception_g.box.get_right(), comp_model_g.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
+        comp_arrow_mg_sp = Arrow(comp_model_g.box.get_right(), comp_sp_g.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
+        comp_arrow_gg_sp = CurvedArrow(comp_goals_g.box.get_right(), comp_sp_g.box.get_bottom(), angle=-PI/4, buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
+        comp_arrow_spg_a = Arrow(comp_sp_g.box.get_right(), comp_action_g.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
+
+        goal_diagram = VGroup(comp_perception_g, comp_model_g, comp_goals_g, comp_sp_g, comp_action_g,
+                              comp_arrow_pg, comp_arrow_mg_sp, comp_arrow_gg_sp, comp_arrow_spg_a)
+        goal_col_content = VGroup(goal_col_header, goal_col_desc, goal_diagram).arrange(DOWN, buff=0.5).align_to(goal_col_header, LEFT)
+
+        # Arrange both columns side-by-side in the content area
+        comparison_group = VGroup(reactive_col_content, goal_col_content).arrange(RIGHT, buff=1.5)
+        comparison_group.scale_to_fit_width(content_width - 0.4) # Ensure it fits with margins
+        comparison_group.move_to(RIGHT * content_center_x + DOWN * 0.3)
+
+        narration_text5 = CrispText("Reflex speed vs. Deliberative foresight\nin enterprise operations", size=6.0, weight=NORMAL, color=C_BODY, alignment="center")
+        narration_text5.next_to(comparison_group, DOWN, buff=1.0)
+
+        self.play(
+            FadeIn(reactive_col_content, shift=LEFT * 0.5),
+            FadeIn(goal_col_content, shift=RIGHT * 0.5),
+            run_time=2.0
+        )
+        self.wait(0.5)
+        self.play(
+            FadeIn(narration_text5, shift=UP * 0.1),
+            run_time=1.5
+        )
+        self.wait(5.0) # Extended wait for narration
+
+        # Add continuous flow to the comparison diagrams
+        comp_reactive_flow_path = VMobject()
+        comp_reactive_flow_path.set_points_as_corners([
+            comp_perception_r.box.get_right(), comp_ca_r.box.get_left(),
+            comp_ca_r.box.get_right(), comp_action_r.box.get_left()
+        ])
+        comp_reactive_stream = FlowingStream(comp_reactive_flow_path, num_dots=3, dot_color=HIGHLIGHT_COLOR, flow_speed=0.6)
+        self.add(comp_reactive_stream)
+
+        comp_goal_main_flow_path = VMobject()
+        comp_goal_main_flow_path.set_points_as_corners([
+            comp_perception_g.box.get_right(), comp_model_g.box.get_left(),
+            comp_model_g.box.get_right(), comp_sp_g.box.get_left(),
+            comp_sp_g.box.get_right(), comp_action_g.box.get_left()
+        ])
+        comp_goal_main_stream = FlowingStream(comp_goal_main_flow_path, num_dots=4, dot_color=HIGHLIGHT_COLOR, flow_speed=0.5)
+
+        comp_goal_goals_flow_path = VMobject()
+        comp_goal_goals_flow_path.set_points_as_corners([
+            comp_goals_g.box.get_right(), comp_arrow_gg_sp.get_end()
+        ])
+        comp_goal_goals_stream = FlowingStream(comp_goal_goals_flow_path, num_dots=2, dot_color=C_LAVENDER_PERIWINKLE, flow_speed=0.4)
+        self.add(comp_goal_main_stream, comp_goal_goals_stream)
+
+        self.wait(10.0) # Final wait to let the streams flow during narration
+
+        # Clean up all mobjects at the end of the scene
+        self.play(
+            FadeOut(current_title_group),
+            FadeOut(reactive_col_content),
+            FadeOut(goal_col_content),
+            FadeOut(narration_text5),
+            run_time=1.0
+        )
+        comp_reactive_stream.stop_flow()
+        comp_goal_main_stream.stop_flow()
+        comp_goal_goals_stream.stop_flow()
+        self.remove(comp_reactive_stream, comp_goal_main_stream, comp_goal_goals_stream)
         self.wait(1.0)
-
-        # =========================================================================
-        # PRESENTATION STEP 2: Reactive Agent: Rule-Driven Reflex
-        # =========================================================================
-        ## Presentation Step 2
-
-        new_title = create_title(
-            "Reactive Agent: Rule-Driven",
-            "Immediate condition-action switch without state or deliberation"
-        )
-        self.play(FadeOut(title_group), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45)
-        title_group = new_title
-
-        # Build Reactive Mechanism Inside Slot 1
-        # Center x = -4.15, y in [-3.0, +1.0]
-        # Top limitation badges: "No Memory" & "No Plan"
-        badge_no_mem = VGroup(
-            RoundedRectangle(width=1.55, height=0.36, corner_radius=0.18, fill_color="#FEE2E2", fill_opacity=0.9, stroke_color="#FCA5A5", stroke_width=1.2),
-            CrispText("No Memory", size=11, weight=BOLD, color=C_ALERT)
-        )
-        badge_no_mem[1].move_to(badge_no_mem[0])
-        badge_no_mem.move_to([slot_centers[0] - 0.95, slot_y + 0.95, 0])
-
-        badge_no_plan = VGroup(
-            RoundedRectangle(width=1.55, height=0.36, corner_radius=0.18, fill_color="#FEE2E2", fill_opacity=0.9, stroke_color="#FCA5A5", stroke_width=1.2),
-            CrispText("No Plan", size=11, weight=BOLD, color=C_ALERT)
-        )
-        badge_no_plan[1].move_to(badge_no_plan[0])
-        badge_no_plan.move_to([slot_centers[0] + 0.95, slot_y + 0.95, 0])
-
-        self.play(
-            FadeIn(badge_no_mem, shift=DOWN * 0.1),
-            FadeIn(badge_no_plan, shift=DOWN * 0.1),
-            run_time=0.8
-        )
-
-        # Mechanism Stage 1: Sensor & Condition
-        sensor_box = RoundedRectangle(
-            width=3.2, height=0.68, corner_radius=0.14,
-            fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=C_SKY_BLUE, stroke_width=1.5
-        ).move_to([slot_centers[0], slot_y + 0.35, 0])
-        sensor_lbl = CrispText("Input Condition", size=11, weight=NORMAL, color=C_MUTED).move_to(sensor_box.get_top() + DOWN * 0.14)
-        sensor_val = CrispText("Output < 8% Threshold", size=13, weight=BOLD, color=C_TITLE).move_to(sensor_box.get_bottom() + UP * 0.17)
-        sensor_grp = VGroup(sensor_box, sensor_lbl, sensor_val)
-
-        # Mechanism Stage 2: Rule Engine
-        rule_box = RoundedRectangle(
-            width=3.2, height=0.68, corner_radius=0.14,
-            fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=C_STEEL_BLUE, stroke_width=1.5
-        ).move_to([slot_centers[0], slot_y - 0.65, 0])
-        rule_lbl = CrispText("Rule Engine", size=11, weight=NORMAL, color=C_MUTED).move_to(rule_box.get_top() + DOWN * 0.14)
-        rule_val = CrispText("If Drop > 8% -> Trigger Alert", size=12, weight=BOLD, color=C_TITLE).move_to(rule_box.get_bottom() + UP * 0.17)
-        rule_grp = VGroup(rule_box, rule_lbl, rule_val)
-
-        # Mechanism Stage 3: Instant Action
-        action_box = RoundedRectangle(
-            width=3.2, height=0.68, corner_radius=0.14,
-            fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=C_CORAL, stroke_width=1.5
-        ).move_to([slot_centers[0], slot_y - 1.65, 0])
-        action_lbl = CrispText("Instant Action", size=11, weight=NORMAL, color=C_MUTED).move_to(action_box.get_top() + DOWN * 0.14)
-        action_val = CrispText("Send Notification: Site 12", size=12, weight=BOLD, color=C_ALERT).move_to(action_box.get_bottom() + UP * 0.17)
-        action_grp = VGroup(action_box, action_lbl, action_val)
-
-        # Directed signal arrows connecting them
-        arr1 = Arrow(sensor_box.get_bottom(), rule_box.get_top(), buff=0.08, stroke_width=2.5, max_tip_length_to_length_ratio=0.25, color=C_SKY_BLUE)
-        arr2 = Arrow(rule_box.get_bottom(), action_box.get_top(), buff=0.08, stroke_width=2.5, max_tip_length_to_length_ratio=0.25, color=C_CORAL)
-
-        self.play(FadeIn(sensor_grp, shift=DOWN * 0.1), run_time=0.7)
-        self.play(Create(arr1), FadeIn(rule_grp, shift=DOWN * 0.1), run_time=0.7)
-        self.play(Create(arr2), FadeIn(action_grp, shift=DOWN * 0.1), run_time=0.7)
-
-        # Kinetic signal pulse passing down the chain
-        pulse_dot = Dot(radius=0.1, color=C_HIGHLIGHT).move_to(sensor_box.get_bottom())
-        self.play(
-            MoveAlongPath(pulse_dot, arr1, rate_func=linear, run_time=0.4)
-        )
-        self.play(
-            rule_box.animate.set_stroke(color=C_HIGHLIGHT, width=2.8),
-            run_time=0.2
-        )
-        self.play(
-            MoveAlongPath(pulse_dot, arr2, rate_func=linear, run_time=0.4)
-        )
-        self.play(
-            action_box.animate.set_stroke(color=C_ALERT, width=2.8),
-            FadeOut(pulse_dot),
-            run_time=0.3
-        )
-        self.play(
-            rule_box.animate.set_stroke(color=C_STEEL_BLUE, width=1.5),
-            action_box.animate.set_stroke(color=C_CORAL, width=1.5),
-            run_time=0.4
-        )
-
-        # Pros and Cons evaluation tags: Fast & Predictable vs Limited
-        pro_pill = RoundedRectangle(
-            width=2.8, height=0.36, corner_radius=0.18,
-            fill_color="#E6F4EA", fill_opacity=0.9, stroke_color=C_MINT, stroke_width=1.5
-        ).move_to([slot_centers[0], slot_y - 2.22, 0])
-        pro_txt = CrispText("Fast & Predictable Execution", size=11, weight=BOLD, color="#2D6A4F").move_to(pro_pill)
-        pro_grp = VGroup(pro_pill, pro_txt)
-
-        self.play(FadeIn(pro_grp, shift=UP * 0.1), run_time=0.7)
-        self.wait(1.5)
-
-        # Flash Limited / Trade-off callout
-        con_pill = RoundedRectangle(
-            width=2.8, height=0.36, corner_radius=0.18,
-            fill_color="#FEE2E2", fill_opacity=0.95, stroke_color=C_ALERT, stroke_width=1.5
-        ).move_to([slot_centers[0], slot_y - 2.22, 0])
-        con_txt = CrispText("Limited: No Cause Investigation", size=11, weight=BOLD, color=C_ALERT).move_to(con_pill)
-        con_grp = VGroup(con_pill, con_txt)
-
-        self.play(ReplacementTransform(pro_grp, con_grp), run_time=0.8)
-        self.wait(2.0)
-
-        # =========================================================================
-        # PRESENTATION STEP 3: Goal-Based Agent: Planned Outcomes
-        # =========================================================================
-        ## Presentation Step 3
-
-        new_title_3 = create_title(
-            "Goal-Based Agent: Planned Outcomes",
-            "Deliberate path search and evidence evaluation to achieve a target outcome"
-        )
-        self.remove(new_title)
-        self.play(FadeOut(title_group), run_time=0.35)
-        self.play(FadeIn(new_title_3, shift=DOWN * 0.1), run_time=0.45)
-        title_group = new_title_3
-
-        # Transition highlight smoothly from Slot 1 to Slot 2
-        slot2_highlight = slot2_rect.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
-        self.play(
-            FadeOut(slot1_highlight),
-            Create(slot2_highlight),
-            run_time=0.8
-        )
-
-        # Build Goal-Based Mechanism Inside Slot 2 (center x = 0.0)
-        # Agent node on left, Goal Target node on right
-        agent_node = VGroup(
-            Circle(radius=0.38, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=C_AMBER, stroke_width=2.2),
-            CrispText("AI Core", size=10, weight=BOLD, color=C_TITLE)
-        ).move_to([slot_centers[1] - 1.25, slot_y - 0.35, 0])
-        agent_node[1].move_to(agent_node[0])
-
-        goal_node = VGroup(
-            Circle(radius=0.45, fill_color="#FEF3C7", fill_opacity=1.0, stroke_color=C_AMBER, stroke_width=2.4),
-            Circle(radius=0.26, fill_color="#FDE68A", fill_opacity=1.0, stroke_color=C_AMBER, stroke_width=1.5),
-            Dot(radius=0.1, color=C_HIGHLIGHT),
-            CrispText("Target Goal", size=10, weight=BOLD, color=C_TITLE)
-        )
-        goal_node[0:3].move_to([slot_centers[1] + 1.25, slot_y - 0.35, 0])
-        goal_node[3].next_to(goal_node[0], DOWN, buff=0.1)
-
-        # Branching paths from Agent to Goal
-        # Path A (Top branch): Inverter Check (Evaluated and abandoned)
-        # Path B (Middle branch): Irradiance Pull (Chosen path)
-        # Path C (Bottom branch): Grid Drop Confirmed
-        start_pt = agent_node[0].get_right()
-        end_pt = goal_node[0].get_left()
-
-        pA_mid = np.array([slot_centers[1], slot_y + 0.45, 0])
-        pB_mid = np.array([slot_centers[1], slot_y - 0.35, 0])
-        pC_mid = np.array([slot_centers[1], slot_y - 1.15, 0])
-
-        pathA = CubicBezier(start_pt, start_pt + RIGHT * 0.4 + UP * 0.4, pA_mid + LEFT * 0.4, pA_mid, color=C_CARD_STROKE, stroke_width=2.0)
-        pathB = Line(start_pt, end_pt, color=C_AMBER, stroke_width=3.0)
-        pathC = CubicBezier(start_pt, start_pt + RIGHT * 0.4 + DOWN * 0.4, pC_mid + LEFT * 0.4, pC_mid, color=C_CARD_STROKE, stroke_width=2.0)
-
-        # Path exploration nodes
-        nodeA = VGroup(
-            RoundedRectangle(width=1.5, height=0.34, corner_radius=0.17, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=C_CARD_STROKE, stroke_width=1.2),
-            CrispText("Inverter Logs", size=10, weight=NORMAL, color=C_MUTED)
-        ).move_to(pA_mid)
-        nodeA[1].move_to(nodeA[0])
-
-        nodeB = VGroup(
-            RoundedRectangle(width=1.75, height=0.38, corner_radius=0.19, fill_color="#FEF3C7", fill_opacity=1.0, stroke_color=C_AMBER, stroke_width=1.8),
-            CrispText("Pull Solar Data", size=11, weight=BOLD, color=C_TITLE)
-        ).move_to(pB_mid)
-        nodeB[1].move_to(nodeB[0])
-
-        nodeC = VGroup(
-            RoundedRectangle(width=1.5, height=0.34, corner_radius=0.17, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=C_CARD_STROKE, stroke_width=1.2),
-            CrispText("Check Weather", size=10, weight=NORMAL, color=C_MUTED)
-        ).move_to(pC_mid)
-        nodeC[1].move_to(nodeC[0])
-
-        self.play(
-            FadeIn(agent_node, shift=RIGHT * 0.1),
-            FadeIn(goal_node, shift=LEFT * 0.1),
-            run_time=0.8
-        )
-        self.play(
-            Create(pathA), Create(pathB), Create(pathC),
-            FadeIn(nodeA), FadeIn(nodeB), FadeIn(nodeC),
-            run_time=1.0
-        )
-
-        # Evaluation indicator: Question mark on candidate paths
-        q_markA = CrispText("?", size=14, weight=BOLD, color=C_MUTED).next_to(nodeA, UP, buff=0.08)
-        q_markB = CrispText("★", size=14, weight=BOLD, color=C_HIGHLIGHT).next_to(nodeB, UP, buff=0.08)
-        self.play(FadeIn(q_markA), FadeIn(q_markB), run_time=0.5)
-
-        # Animate dynamic agent token moving along the chosen path B to the goal
-        moving_evaluator = Dot(radius=0.12, color=C_HIGHLIGHT).move_to(start_pt)
-        self.play(FadeIn(moving_evaluator), run_time=0.3)
-        self.play(
-            moving_evaluator.animate.move_to(nodeB.get_left()),
-            run_time=0.8
-        )
-        self.play(
-            nodeB.animate.set_stroke(color=C_HIGHLIGHT, width=2.5),
-            run_time=0.3
-        )
-        self.play(
-            moving_evaluator.animate.move_to(end_pt),
-            run_time=0.9
-        )
-        self.play(
-            goal_node[0].animate.set_stroke(color=C_HIGHLIGHT, width=3.5),
-            FadeOut(moving_evaluator),
-            run_time=0.4
-        )
-
-        # Path Score / Progress Bar
-        score_bar_bg = RoundedRectangle(
-            width=3.2, height=0.28, corner_radius=0.14, fill_color="#E2E8F0", fill_opacity=1.0, stroke_width=0
-        ).move_to([slot_centers[1], slot_y - 1.75, 0])
-        score_fill = RoundedRectangle(
-            width=2.85, height=0.24, corner_radius=0.12, fill_color=C_MINT, fill_opacity=1.0, stroke_width=0
-        ).align_to(score_bar_bg, LEFT).shift(RIGHT * 0.02)
-        score_lbl = CrispText("Goal Probability: 94%", size=11, weight=BOLD, color="#2D6A4F").next_to(score_bar_bg, UP, buff=0.1)
-
-        self.play(
-            FadeIn(score_bar_bg),
-            GrowFromEdge(score_fill, LEFT),
-            FadeIn(score_lbl),
-            run_time=0.9
-        )
-
-        # Comparison Badge: No Fixed Script (Struck out) vs Dynamic Adaptation
-        fixed_script_tag = VGroup(
-            RoundedRectangle(width=1.5, height=0.34, corner_radius=0.17, fill_color="#F1F5F9", fill_opacity=1.0, stroke_color=C_CARD_STROKE, stroke_width=1.2),
-            CrispText("Fixed Script", size=10, weight=NORMAL, color=C_MUTED)
-        ).move_to([slot_centers[1] - 0.85, slot_y - 2.25, 0])
-        fixed_script_tag[1].move_to(fixed_script_tag[0])
-
-        cross_line = Line(
-            fixed_script_tag.get_left() + LEFT * 0.05, fixed_script_tag.get_right() + RIGHT * 0.05,
-            color=C_ALERT, stroke_width=2.5
-        )
-
-        adaptive_tag = VGroup(
-            RoundedRectangle(width=1.65, height=0.34, corner_radius=0.17, fill_color="#E6F4EA", fill_opacity=1.0, stroke_color=C_MINT, stroke_width=1.5),
-            CrispText("Dynamic Plan", size=10, weight=BOLD, color="#2D6A4F")
-        ).move_to([slot_centers[1] + 0.85, slot_y - 2.25, 0])
-        adaptive_tag[1].move_to(adaptive_tag[0])
-
-        self.play(FadeIn(fixed_script_tag), run_time=0.5)
-        self.play(Create(cross_line), run_time=0.4)
-        self.play(FadeIn(adaptive_tag, shift=UP * 0.1), run_time=0.6)
-
-        # Final persistent breath across the active mechanism
-        self.play(
-            slot2_highlight.animate.set_stroke(opacity=0.7, width=2.8),
-            run_time=1.0
-        )
-        self.play(
-            slot2_highlight.animate.set_stroke(opacity=1.0, width=3.5),
-            run_time=1.0
-        )
-        self.wait(1.5)

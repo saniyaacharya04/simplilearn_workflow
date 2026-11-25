@@ -42,8 +42,11 @@ PIPELINE STAGE 0: HOOK GENERATION (PEDAGOGICAL BLUEPRINT)
    - Step 3: Extracts continuous textual narrative and estimates optimal scene count and pacing.
    - Step 4: Dispatches structured instructional prompt (HOOK_ELEARNING_SYSTEM_PROMPT)
      to Gemini 2.5 / 3.5 Flash or Claude (with deterministic fallback).
-   - Step 5: Synthesizes core concept hook, target audience framing, learning objectives,
-     and preliminary scene specifications with OSL 3.0 SME layout decisions.
+   - Step 5: Dynamically constructs scene distribution directly from spoken sentences:
+     * Scene 1: Opening Hook (Layout 100 <= 20.0s).
+     * Scene 2: Learning Objectives (Layout 70 if scenes >= 4).
+     * Intermediate Scenes: Conceptual deep dives cycling Layout 70 and Layout 20.
+     * Final Scene: What's Next / Hands-On Demo (strictly Layout 70 per OSL 3.0 Slide 17).
    - Step 6: Validates JSON structure, repairs formatting defects, and writes out blueprint.
    - Step 7: Atomically updates 0_hook_output_tracker.json.
 
@@ -383,26 +386,33 @@ class HookGenerator:
         est_seconds = max(60, int(word_count / 2.3))
         expected_scenes = max(3, min(12, int(round(est_seconds / 60.0))))
 
-        # Dynamic scene distribution
+        # Dynamic scene distribution derived directly from spoken sentences
         scene_blueprint = []
-        scene_configs = [
-            ("Context / Hook", "100", first_sentence, "Full-screen presenter authority frame", "100% Full-Screen Presenter (strictly <= 20.0s)"),
-            ("Learning Objectives", "70", "Clear roadmap of core competencies and takeaways.", "Left 70% frame with structured cards on the right", "70% Left Rounded-Rectangle Frame"),
-            ("Foundational Concept", "70", second_sentence, "Core system architecture and operational context", "70% Left Rounded-Rectangle Frame"),
-            ("Detailed Mechanics", "20", mid_sentence, "Wide 1814px schematic diagram below y=270px", "20% Top-Right Corner Picture-In-Picture"),
-            ("Execution Loop", "70", "Continuous interaction loop connecting system to environment.", "Process flowchart with cyclic directional connectors", "70% Left Rounded-Rectangle Frame"),
-            ("Taxonomy & Frameworks", "20", "Comparative evaluation matrix highlighting key trade-offs.", "3-column comparative matrix below y=270px", "20% Top-Right Corner Picture-In-Picture"),
-            ("Implementation Walkthrough", "70", "Real-world engineering execution patterns.", "Split view cards with practical implementation metrics", "70% Left Rounded-Rectangle Frame"),
-            ("Summary & Best Practices", "70", final_sentence, "Consolidated synthesis cards with checkmarks", "70% Left Rounded-Rectangle Frame"),
-            ("What's Next / Hands-On Demo", "70", f"Preview upcoming practical execution demo of {lesson_title}.", "Teaser card with prominent focus highlight (#F78908)", "Strictly Layout 70 per OSL 3.0 Slide 17")
-        ]
+        scene_configs = []
+        
+        # Scene 1: Opening Hook (Layout 100, strictly <= 20.0s)
+        scene_configs.append(("Opening Hook", "100", first_sentence, "Full-screen presenter authority frame", "100% Full-Screen Presenter (strictly <= 20.0s)"))
 
-        # Clamp to expected_scenes
-        while len(scene_configs) < expected_scenes:
-            scene_configs.insert(-2, ("Deep Dive Section", "20", f"Architectural breakdown of {lesson_title}.", "Detailed component schematic", "20% Top-Right Corner Picture-In-Picture"))
-        scene_configs = scene_configs[:expected_scenes]
-        # Guarantee last scene is Layout 70 per Slide 17
-        scene_configs[-1] = ("What's Next / Hands-On Demo", "70", f"Preview upcoming practical execution demo of {lesson_title}.", "Teaser card with prominent focus highlight (#F78908)", "Strictly Layout 70 per OSL 3.0 Slide 17")
+        # Learning Objectives if expected_scenes >= 4
+        if expected_scenes >= 4:
+            scene_configs.append(("Learning Objectives", "70", "Clear roadmap of core competencies and takeaways.", "Left 70% frame with structured roadmap cards", "70% Left Rounded-Rectangle Frame"))
+
+        # Intermediate concept scenes sampled dynamically across sentences
+        interior_slots = max(1, expected_scenes - (len(scene_configs) + 1))
+        interior_sents = sentences[1:-1] if len(sentences) > 2 else [second_sentence]
+        sent_step = max(1, len(interior_sents) // interior_slots)
+
+        layouts_cycle = ["70", "20"]
+        for s_i in range(interior_slots):
+            c_sent = interior_sents[min(s_i * sent_step, len(interior_sents) - 1)]
+            chosen_layout = layouts_cycle[s_i % len(layouts_cycle)]
+            stype_name = "System Architecture & Mechanics" if chosen_layout == "20" else "Conceptual Deep Dive"
+            vis_desc = "Wide 1814px schematic diagram below y=270px" if chosen_layout == "20" else "Left 70% frame with structured cards on the right"
+            reason_desc = f"{chosen_layout}% Presenter Layout clearance"
+            scene_configs.append((stype_name, chosen_layout, c_sent, vis_desc, reason_desc))
+
+        # Final Scene: What's Next / Hands-On Demo (Strictly Layout 70 per OSL 3.0 Slide 17)
+        scene_configs.append(("What's Next / Hands-On Demo", "70", final_sentence, "Teaser card with prominent focus highlight (#F78908)", "Strictly Layout 70 per OSL 3.0 Slide 17"))
 
         for idx, (stype, layout, content, visual, reason) in enumerate(scene_configs, 1):
             scene_blueprint.append({
@@ -728,6 +738,8 @@ class HookGenerator:
 
             print(f"Processing Hook Generation for {topic_id}...")
             candidates = [
+                os.path.join(topic_dir, "metadata_blueprints", f"{topic_id}_clean_transcript.json"),
+                os.path.join(topic_dir, "metadata_blueprints", "clean_transcript.json"),
                 os.path.join(topic_dir, f"{topic_id}_clean_transcript.json"),
                 os.path.join(topic_dir, "raw_context.txt"),
                 os.path.join(topic_dir, "context.txt"),
@@ -749,6 +761,11 @@ class HookGenerator:
             try:
                 self.run(input_file, out_blueprint, lesson_title=topic_id.replace("_", " ").title())
                 shutil.copy2(out_blueprint, os.path.join(topic_dir, "hook_blueprint.json"))
+
+                meta_dir = os.path.join(topic_dir, "metadata_blueprints")
+                if os.path.exists(meta_dir):
+                    shutil.copy2(out_blueprint, os.path.join(meta_dir, f"{topic_id}_hook_blueprint.json"))
+                    shutil.copy2(out_blueprint, os.path.join(meta_dir, "hook_blueprint.json"))
 
                 if self.tracker_file:
                     self._save_tracker(self.tracker_file, {

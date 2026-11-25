@@ -1,244 +1,264 @@
 {
-  "topic": "Types And Architectures Of Ai Agents Sme",
-  "total_scenes": 9,
-  "scenes": [
-    {
-      "scene_id": 1,
-      "title": "AI Agents: Action, Not Just Response",
-      "sme_layout": "70",
-      "voiceover_narration": "In the last topic, we established what an AI agent is: a system that doesn't just respond, but acts. We saw how agents take a goal, like monitoring site performance, and turn it into a sequence of real actions, from querying data to flagging anomalies.",
-      "spatial_safe_zone": {
-        "layout_type": "70%",
-        "safe_bounds": {
-          "x_min": 760,
-          "x_max": 1840,
-          "y_min": 80,
-          "y_max": 1000,
-          "content_min_x": 760,
-          "diagram_min_y": 80,
-          "title_max_x": 1840
-        }
-      },
-      "steps": [
+    "topic": "Types and Architectures of AI Agents",
+    "total_scenes": 9,
+    "scenes": [
         {
-          "Asset_Suggestion": null,
-          "Image_Suggestion": null
-        }
-      ]
-    },
-    {
-      "scene_id": 2,
-      "title": "Diverse Architectures & Learning Objectives",
-      "sme_layout": "70",
-      "voiceover_narration": "But not all agents work the same way. There are different types built on different architectures, designed for different kinds of problems. Understanding these differences allows you to match the right agent to the right job. By the end of this topic, you will describe the core components of an AI agent's architecture, explain agent-environment interaction, walk through the perception-reasoning-action cycle that drives agent decision making and identify the three main agent types, and one each as appropriate, as well as visualize how a complete agent workflow flows from input to outcome.",
-      "spatial_safe_zone": {
-        "layout_type": "70%",
-        "safe_bounds": {
-          "x_min": 760,
-          "x_max": 1840,
-          "y_min": 80,
-          "y_max": 1000,
-          "content_min_x": 760,
-          "diagram_min_y": 80,
-          "title_max_x": 1840
-        }
-      },
-      "steps": [
+            "scene_id": 1,
+            "title": "Topic Introduction: Types and Architectures of AI Agents",
+            "sme_layout": "100",
+            "voiceover_narration": "In the last topic, we established what an AI agent is. A system that doesn't just respond but acts.",
+            "spatial_safe_zone": {
+                "layout_type": "100%",
+                "safe_bounds": {
+                    "x_min": 0,
+                    "x_max": 1920,
+                    "y_min": 0,
+                    "y_max": 1080,
+                    "content_min_x": 80,
+                    "diagram_min_y": 80,
+                    "title_max_x": 1840
+                }
+            },
+            "steps": [
+                {
+                    "Asset_Suggestion": null,
+                    "Image_Suggestion": null
+                }
+            ],
+            "image_prompts": [],
+            "image_paths": []
+        },
         {
-          "Asset_Suggestion": null,
-          "Image_Suggestion": [
-            "A full-body depiction of a female software engineer in her early 30s, standing and facing straight forward, fully visible from head to toe. She has a confident and focused expression, light brown skin, and dark hair neatly tied back in a low ponytail. She wears thin black-rimmed glasses, a charcoal gray unbuttoned blazer over a white crew-neck shirt, fitted dark navy trousers, and clean white sneakers. This character represents the technical learner engaging with the agent architecture learning objectives.",
-            "A modern vector illustration representing an AI agent core, depicted as a stylized digital head silhouette overlaid with interconnected glowing neural network nodes and circuit lines. The visual uses cyan, deep blue, and white tones with a clean, flat tech graphic finish on a isolated transparent background, serving as a conceptual icon for intelligent agent systems."
-          ]
-        }
-      ]
-    },
-    {
-      "scene_id": 3,
-      "title": "Scene 3",
-      "sme_layout": "20",
-      "voiceover_narration": "",
-      "spatial_safe_zone": {
-        "layout_type": "20%",
-        "safe_bounds": {
-          "x_min": 80,
-          "x_max": 1840,
-          "y_min": 80,
-          "y_max": 1000,
-          "content_min_x": 80,
-          "diagram_min_y": 270,
-          "title_max_x": 1440
-        }
-      },
-      "steps": [
+            "scene_id": 2,
+            "title": "Core Problem and Operational Context",
+            "sme_layout": "70",
+            "voiceover_narration": "We introduced Solara Energy and looked at how agents can take a goal like monitoring site performance and turn it into a sequence of real actions, querying data, comparing outputs, flagging anomalies, and generating reports. But not all agents work the same way. There are different types, built on different architectures, designed for different kinds of problems. And understanding those differences is what allows you to match the right agent to the right job.",
+            "spatial_safe_zone": {
+                "layout_type": "70%",
+                "safe_bounds": {
+                    "x_min": 760,
+                    "x_max": 1840,
+                    "y_min": 80,
+                    "y_max": 1000,
+                    "content_min_x": 760,
+                    "diagram_min_y": 80,
+                    "title_max_x": 1840
+                }
+            },
+            "steps": [
+                {
+                    "Asset_Suggestion": [
+                        "A software product interface representing an industrial energy monitoring dashboard shell. Its structure contains a multi-pane layout composed of a top utility header bar, a central telemetry workspace displaying site performance metric regions, a right-hand sidebar dedicated to operational anomaly alerts, and a bottom status container housing data query panels. The individual layout frames, navigation regions, and data viewport containers exist as distinct, modular structural zones that allow independent control and recomposition across different site monitoring contexts."
+                    ],
+                    "Image_Suggestion": [
+                        "A wide-angle exterior photograph of a modern solar power plant facility operating under a clear sky. The image displays long, neatly aligned rows of photovoltaic solar panel arrays spanning across a clean landscape, alongside compact inverter substations and grid connections. The visual features crisp, high-tech industrial aesthetic cues, natural sunlight reflections, balanced blue and slate color tones, and sharp architectural details to establish the physical site context."
+                    ]
+                }
+            ],
+            "image_prompts": [],
+            "image_paths": []
+        },
         {
-          "Asset_Suggestion": null,
-          "Image_Suggestion": null
-        }
-      ]
-    },
-    {
-      "scene_id": 4,
-      "title": "Core Components: Reasoning & Action",
-      "sme_layout": "70",
-      "voiceover_narration": "Then, there's the reasoning engine, typically an LLM, which interprets what the agent has perceived, decides what to do next, and determines which tools to use. decides what to do next, and determines which tools to use. Finally, the action layer. This is where the agent does something in the world: runs a query, calls an API, writes a file, or sends an alert. These four components work together in a continuous loop.",
-      "spatial_safe_zone": {
-        "layout_type": "70%",
-        "safe_bounds": {
-          "x_min": 760,
-          "x_max": 1840,
-          "y_min": 80,
-          "y_max": 1000,
-          "content_min_x": 760,
-          "diagram_min_y": 80,
-          "title_max_x": 1840
-        }
-      },
-      "steps": [
+            "scene_id": 3,
+            "title": "Topic Learning Objectives",
+            "sme_layout": "70",
+            "voiceover_narration": "By the end of this topic, you will be able to describe the core components that make up an AI agent's architecture, explain how agents interact with their environment through a continuous loop, walk through the perception reasoning action cycle that drives agent decision making, and identify the three main types of agents and when each is appropriate, as well as visualize how a complete agent workflow flows from input to outcome.",
+            "spatial_safe_zone": {
+                "layout_type": "70%",
+                "safe_bounds": {
+                    "x_min": 760,
+                    "x_max": 1840,
+                    "y_min": 80,
+                    "y_max": 1000,
+                    "content_min_x": 760,
+                    "diagram_min_y": 80,
+                    "title_max_x": 1840
+                }
+            },
+            "steps": [
+                {
+                    "Asset_Suggestion": null,
+                    "Image_Suggestion": null
+                }
+            ],
+            "image_prompts": [],
+            "image_paths": []
+        },
         {
-          "Asset_Suggestion": null,
-          "Image_Suggestion": [
-            "A sleek vector icon representing an AI reasoning engine, rendered as a glowing digital brain composed of interconnected neural nodes and subtle circuit lines. The visual features a crisp tech-focused aesthetic with deep blue, cyan, and white tones, suitable for high-level software architecture diagrams."
-          ]
-        }
-      ]
-    },
-    {
-      "scene_id": 5,
-      "title": "Agent-Environment Interaction Loop",
-      "sme_layout": "20",
-      "voiceover_narration": "That continuous loop—perceive, reason, act, then perceive again based on the result—is what we call agent-environment interaction. It separates an agent from a static tool. A static tool waits to be asked; an agent operates within an environment. It observes, decides, executes, then checks results and decides what comes next. This bi-directional relationship—where the environment shapes the agent, and the agent shapes the environment—makes agents useful in dynamic real-world contexts.",
-      "spatial_safe_zone": {
-        "layout_type": "20%",
-        "safe_bounds": {
-          "x_min": 80,
-          "x_max": 1840,
-          "y_min": 80,
-          "y_max": 1000,
-          "content_min_x": 80,
-          "diagram_min_y": 270,
-          "title_max_x": 1440
-        }
-      },
-      "steps": [
+            "scene_id": 4,
+            "title": "Four Pillars of AI Agent Architecture",
+            "sme_layout": "20",
+            "voiceover_narration": "Let's start with what's inside. Every AI agent, regardless of type, is built from the same fundamental components. There's the perception layer. This is how the agent receives information from the world around it. At Solara, that might mean reading an incoming data feed from a solar installation, receiving a user query, or picking up a trigger from a monitoring system. There's the memory layer. As we covered in the last topic, agents hold short-term context within a task and can access long-term memory from external storage. This is what allows an agent to reason across multiple steps without losing track of where it is. There's the reasoning engine, the LLM, which interprets what the agent has perceived, decides what to do next, and determines which tools to use. And there's the action layer. This is where the agent does something in the world, runs a query, calls an API, writes a file, sends an alert.",
+            "spatial_safe_zone": {
+                "layout_type": "20%",
+                "safe_bounds": {
+                    "x_min": 80,
+                    "x_max": 1840,
+                    "y_min": 80,
+                    "y_max": 1000,
+                    "content_min_x": 80,
+                    "diagram_min_y": 270,
+                    "title_max_x": 1440
+                }
+            },
+            "steps": [
+                {
+                    "Asset_Suggestion": null,
+                    "Image_Suggestion": [
+                        "A clean, modern solar panel array featuring photovoltaic silicon cells arranged in a dark blue grid within silver metallic mounting frames. The panels are set at an angled incline, showing subtle blue glass reflections and sleek industrial metal textures, designed against a clear background to represent physical environmental perception inputs.",
+                        "A stylized glowing neural network brain icon composed of interconnected digital nodes and glowing fiber-optic line pathways. The object features a sleek cyan and deep blue color scheme with bright light highlights at main structural junctions, presented against a clean background to visually symbolize the central LLM reasoning engine."
+                    ]
+                }
+            ],
+            "image_prompts": [],
+            "image_paths": []
+        },
         {
-          "Asset_Suggestion": null,
-          "Image_Suggestion": [
-            "A sleek, modern digital AI agent character representing an autonomous software system. The agent is styled as an advanced humanoid robot with a metallic silver and deep charcoal chassis, featuring glowing cyan light paths running along its torso and head. It has a smooth, featureless reflective visor, neutral demeanor, and is fully visible from head to toe, facing directly forward. The overall visual style is polished, clean, and highly technical.",
-            "A dynamic digital environment hub representing an enterprise system context. The illustration features a stylized isometric cluster of interconnected database servers, cloud network nodes, and glowing data flow streams. It has a modern tech aesthetic with dark slate surfaces, subtle neon accents, and crisp vector finish, visually signaling a complex real-world software environment."
-          ]
-        }
-      ]
-    },
-    {
-      "scene_id": 6,
-      "title": "The Perception-Reasoning-Action Cycle",
-      "sme_layout": "70",
-      "voiceover_narration": "Let's slow that loop down and look at each stage. Perception is input. The agent receives information—a data reading, a user request, a tool result, or an error message. It takes that in and adds it to its working context. Reasoning is interpretation and planning. The agent's LLM processes what it's received, considers its goal, reviews what it's already done, and decides what action to take next. This is where the intelligence lives. Action is execution. The agent calls a tool, writes an output, sends a message, or updates a record. Something changes in the world as a result. Then the cycle begins again: the result of the action becomes new perception. The agent reasons about what that result means.",
-      "spatial_safe_zone": {
-        "layout_type": "70%",
-        "safe_bounds": {
-          "x_min": 760,
-          "x_max": 1840,
-          "y_min": 80,
-          "y_max": 1000,
-          "content_min_x": 760,
-          "diagram_min_y": 80,
-          "title_max_x": 1840
-        }
-      },
-      "steps": [
+            "scene_id": 5,
+            "title": "Continuous Agent-Environment Feedback Loop",
+            "sme_layout": "70",
+            "voiceover_narration": "These four components work together in a continuous loop. The agent perceives, reasons, acts, then perceives again based on the result of that action. That loop is what we call agent-environment interaction. And it's worth understanding because it's what separates an agent from a static tool. A static tool waits to be asked. An agent operates within an environment. It observes what's happening, decides what action is appropriate, and executes. Then it checks the result and decides what comes next. At Solara, an agent monitoring grid performance isn't just waiting for someone to run a report. It's watching. When output at a site drops below threshold, it observes the deviation, decides the appropriate response, which might be querying historical data, cross-referencing weather records, or escalating to a human operator, and takes that action. The environment shapes the agent. The agent shapes the environment.",
+            "spatial_safe_zone": {
+                "layout_type": "70%",
+                "safe_bounds": {
+                    "x_min": 760,
+                    "x_max": 1840,
+                    "y_min": 80,
+                    "y_max": 1000,
+                    "content_min_x": 760,
+                    "diagram_min_y": 80,
+                    "title_max_x": 1840
+                }
+            },
+            "steps": [
+                {
+                    "Asset_Suggestion": null,
+                    "Image_Suggestion": [
+                        "A clean vector illustration representing a solar power grid infrastructure environment. The image depicts several angled dark blue photovoltaic solar panels mounted on sleek metallic frames, alongside a modern electrical inverter unit and a streamlined power transmission tower silhouette. The panels feature reflective blue surfaces with metallic steel trims, providing a high-tech renewable energy facility appearance.",
+                        "A full-body depiction of a human technical operator in her mid-30s with a professional and focused demeanor. She has light skin, neat dark brown hair styled in a tidy ponytail, and a calm, attentive facial expression. She is wearing a modern engineering outfit consisting of a crisp navy blazer over a light collared shirt, tailored dark trousers, and low flat work shoes, with a subtle ID badge lanyard around her neck. She is positioned straight-on facing forward, visible from head to toe."
+                    ]
+                }
+            ],
+            "image_prompts": [],
+            "image_paths": []
+        },
         {
-          "Asset_Suggestion": null,
-          "Image_Suggestion": [
-            "Represents the central reasoning engine and cognitive intelligence of the AI agent during the reasoning stage of the cycle. Internal geometric decomposition provides no structural utility, so a stylized flat vector illustration is optimal. The object features a sleek digital human brain interwoven with glowing circuit lines and neural nodes, designed in a modern tech aesthetic with cyan and deep slate blue tones, metallic neon highlights, and crisp edge definition to symbolize logical processing and planning."
-          ]
-        }
-      ]
-    },
-    {
-      "scene_id": 7,
-      "title": "Types of Agents: Reactive & Goal-Based",
-      "sme_layout": "20",
-      "voiceover_narration": "Now let's talk about the three main types of agents. The first is the reactive agent. It responds to current input using predefined rules, with no memory or planning. Think of a simple Solara alert: if output drops below 8%, send a notification. Fast, predictable, but limited; it can't investigate why. The second type is the goal-based agent. This agent reasons about actions moving it closer to a defined outcome. It plans and evaluates options, choosing the path most likely to achieve its goal. Solara's Site Performance Investigation Agent works this way, deciding what data to pull based on what it finds to determine why a site under-performed.",
-      "spatial_safe_zone": {
-        "layout_type": "20%",
-        "safe_bounds": {
-          "x_min": 80,
-          "x_max": 1840,
-          "y_min": 80,
-          "y_max": 1000,
-          "content_min_x": 80,
-          "diagram_min_y": 270,
-          "title_max_x": 1440
-        }
-      },
-      "steps": [
+            "scene_id": 6,
+            "title": "Perceive-Reason-Act (PRA) Execution Cycle",
+            "sme_layout": "20",
+            "voiceover_narration": "That bi-directional relationship is what makes agents useful in dynamic, real-world data contexts. Let's slow that loop down and look at each stage. Perception is input. The agent receives information, a data reading, a user request, a tool result, and error message. It takes that in and adds it to its working context. Reasoning is interpretation and planning. The agent's LLM process is what it's received, considers its goal, reviews what it's already done, and decides what action to take next. This is where the intelligence lives. Action is execution. The agent calls a tool, writes an output, sends a message or updates a record. Something changes in the world as a result. Then the cycle begins again. The result of the action becomes new perception. The agent reasons about what that result means. For Solaris Equipment Health Monitoring Agent, this cycle might run dozens of times in a single task. Querying data, evaluating results, deciding what to check next, generating a finding before it produces a final output. Now let's talk about the three main types.",
+            "spatial_safe_zone": {
+                "layout_type": "20%",
+                "safe_bounds": {
+                    "x_min": 80,
+                    "x_max": 1840,
+                    "y_min": 80,
+                    "y_max": 1000,
+                    "content_min_x": 80,
+                    "diagram_min_y": 270,
+                    "title_max_x": 1440
+                }
+            },
+            "steps": [
+                {
+                    "Asset_Suggestion": null,
+                    "Image_Suggestion": [
+                        "Represents the perception stage of an AI agent execution loop. Structural decomposition is unnecessary as the icon serves purely as a visual anchor for data input and sensing. A flat 2D vector graphic offers immediate clarity without requiring internal subcomponent manipulation. It sits at the first main node of the cyclical execution diagram to symbolize incoming data signals. Features a sleek, modern digital eye integrated with subtle incoming data waves and binary particle streams, styled on a dark semi-transparent circular shield with cyan and cool grey highlights.",
+                        "Represents the reasoning and cognitive LLM processing stage of the agent cycle. The visual details of cognitive logic are decorative, so building complex internal geometric components provides no functional advantage. A flat, detailed graphic effectively communicates AI computation and planning in a clean format. It anchors the second node of the cycle diagram to denote context evaluation and decision-making. Features a glowing stylized synthetic brain interwoven with luminous circuit paths and glowing node dots, set against a dark blue circular background with metallic teal accents.",
+                        "Represents the action execution stage where the agent performs tools call, updates, or output writes. Internal mechanical breakdown is not required because the symbol functions as a visual cue for task execution. A flat icon ensures consistent rendering alongside the other stage nodes without complex assembly. It occupies the final node of the execution loop to illustrate outward task impact. Features a sleek robotic mechanical hand interacting with a glowing digital trigger surrounded by precision gear outlines, rendered in clean silver, dark grey, and bright orange highlights."
+                    ]
+                }
+            ],
+            "image_prompts": [],
+            "image_paths": []
+        },
         {
-          "Asset_Suggestion": null,
-          "Image_Suggestion": [
-            "A conceptual visual icon representing a reactive AI agent that executes immediate, rule-based actions. Structural decomposition adds no value here as it serves as a symbolic icon; a flat vector image is sufficient. It occupies the left side of the composition representing reactive agent behavior. The visual features a sleek, minimal digital head icon integrated with a lightning bolt symbol and a direct arrow, styled in cyan and dark blue tones to signify speed, predictability, and immediate response without internal memory state.",
-            "A conceptual visual icon representing a goal-based AI agent that plans and evaluates decision paths. Detailed internal geometric layout is unnecessary as it acts as an illustrative anchor; a flat graphic provides clear aesthetic value. It resides on the right side of the composition representing goal-based agent behavior. The visual features a modern agent icon overlaid with a bullseye target and subtle decision-tree branching paths, styled in vibrant cobalt blue and amber accents to depict strategic evaluation and outcome-driven logic."
-          ]
-        }
-      ]
-    },
-    {
-      "scene_id": 8,
-      "title": "Utility-Based Agents & Workflow",
-      "sme_layout": "70",
-      "voiceover_narration": "The third type is the utility-based agent. This agent asks: which available action achieves the goal most efficiently, at the lowest cost, and with the highest confidence? At Solara, a utility-based agent managing report generation across hundreds of sites makes trade-off decisions constantly: full diagnostic or summary? Escalate or log? It evaluates options against a utility function and picks the best one. Let's zoom out and look at how these components and concepts come together in a complete agent workflow. A goal arrives. The agent perceives it, adds it to context, and begins reasoning. It identifies the first action needed and executes. Results come back. The agent evaluates whether it's closer to the goal, plans the next action, and executes again. This continues until the goal is reached,",
-      "spatial_safe_zone": {
-        "layout_type": "70%",
-        "safe_bounds": {
-          "x_min": 760,
-          "x_max": 1840,
-          "y_min": 80,
-          "y_max": 1000,
-          "content_min_x": 760,
-          "diagram_min_y": 80,
-          "title_max_x": 1840
-        }
-      },
-      "steps": [
+            "scene_id": 7,
+            "title": "Architecture Types 1 & 2: Reactive vs Goal-Based Agents",
+            "sme_layout": "70",
+            "voiceover_narration": "agents because not every problem needs the same architecture. The first type is the reactive agent. A reactive agent responds to its current input using predefined rules. It has no memory of what happened before, no ability to plan ahead. It simply observes a condition and responds. Think of a simple alert agent at Solara. If output at site 12 drops below 8% of a baseline, send a notification. That's a reactive agent. Fast, predictable, easy to build, but limited. It can't investigate why the drop happened or determine whether the alert is actually worth sending. The second type is the goal-based agent. A goal-based agent reasons about actions in terms of whether they move it closer to a defined outcome. It plans, it evaluates options, it chooses the path most likely to achieve the goal. Solara's site performance investigation agent works this way. Its goal is to determine why site 47 underperformed last Tuesday. It doesn't follow a fixed script. It decides what data to pull based on what it finds, adjusting its approach as results come in.",
+            "spatial_safe_zone": {
+                "layout_type": "70%",
+                "safe_bounds": {
+                    "x_min": 760,
+                    "x_max": 1840,
+                    "y_min": 80,
+                    "y_max": 1000,
+                    "content_min_x": 760,
+                    "diagram_min_y": 80,
+                    "title_max_x": 1840
+                }
+            },
+            "steps": [
+                {
+                    "Asset_Suggestion": null,
+                    "Image_Suggestion": [
+                        "Represents a solar energy installation context for Solara's monitored site outputs. Structural decomposition adds no value since it serves purely as a domain context indicator, making a flat image ideal. Fits into the visual layout near the agent inputs to ground the real-world scenario. The image shows a modern photovoltaic solar panel array tilted upward, featuring glossy dark blue silicon panels, distinct silver grid lines, clean metallic aluminum framing, and a subtle reflective sheen.",
+                        "Represents the automated notification output triggered by a reactive agent when baseline thresholds are breached. Internal visual structure carries no operational decomposition value, so a flat vector graphic is sufficient. Fits within the reactive agent's action box to visually communicate alert generation. The graphic depicts a sleek notification bell with a warm amber-yellow gradient finish, clean rounded contours, and a bright red dot indicator on the upper right corner.",
+                        "Represents the defined target outcome driving a goal-based agent's reasoning and evaluation process. The structure is purely symbolic, making an image the most efficient representation without needing primitive assembly. Fits alongside the goal-based agent planning layout as a visual anchor. The graphic features a concentric bullseye target with alternating deep blue and crisp white rings, a vibrant red center dot, and a matte vector styling."
+                    ]
+                }
+            ],
+            "image_prompts": [],
+            "image_paths": []
+        },
         {
-          "Asset_Suggestion": [
-            "An AI agent decision dashboard interface representing automated software management and execution tools. Its non-trivial structure comprises a top application bar with agent status metrics, a central evaluation pane displaying trade-off scoring indicators for efficiency, cost, and confidence, an action selection panel comparing trade-off options such as detailed diagnostics versus summary generation, and a baseline execution log stream. These distinct functional sections provide structural modularity for displaying dynamic utility values and decision states within a unified interface frame."
-          ],
-          "Image_Suggestion": [
-            "A high-tech solar farm facility representing enterprise remote sites. Internal structural decomposition is not required as the image serves as a visual thematic anchor where overall visual quality and realistic presentation matter most. The image depicts expansive rows of clean blue photovoltaic solar panel arrays set against a modern sky, featuring sharp highlights, crisp metallic framing details, and a professional industrial visual finish."
-          ]
-        }
-      ]
-    },
-    {
-      "scene_id": 9,
-      "title": "Handoff, Summary & What's Next",
-      "sme_layout": "70",
-      "voiceover_narration": "What's important is that workflow includes a handoff point. Good agent design always includes a point at which the agent recognizes the limits of its confidence and escalates. That's not a failure; it's responsible architecture. At Solara, an agent that flags an equipment anomaly it can't fully explain and routes it to a human engineer is doing exactly what it should. Let's bring it together. Every agent is built from four components: perception, memory, reasoning, and action, working in a continuous loop. That loop drives agent-environment interaction: observe, decide, act, observe again. The three types—reactive, goal-based, and utility-based—represent increasing sophistication. Coming up next, we're going hands-on. In the demo, we'll visualize types and architectures of AI agents in action, so you can see the decision loops and execution patterns running in real time. Let's take a look.",
-      "spatial_safe_zone": {
-        "layout_type": "70%",
-        "safe_bounds": {
-          "x_min": 760,
-          "x_max": 1840,
-          "y_min": 80,
-          "y_max": 1000,
-          "content_min_x": 760,
-          "diagram_min_y": 80,
-          "title_max_x": 1840
-        }
-      },
-      "steps": [
+            "scene_id": 8,
+            "title": "Architecture Type 3: Utility-Based Agents & Workflow",
+            "sme_layout": "70",
+            "voiceover_narration": "The third type is the utility-based agent. A utility-based agent goes further than goal-based reasoning. It doesn't just ask, will this action achieve the goal. It asks, which available action achieves the goal most efficiently, at the lowest cost and with the highest confidence. At Solara, a utility-based agent managing report generation across hundreds of sites needs to make trade-off decisions constantly. Do I generate a full diagnostic report or a summary? Do I escalate this anomaly or log it for review? It evaluates options against a utility function and picks the best one. Let's zoom out and look at how these components and concepts come together in a complete agent workflow. A goal arrives. The agent perceives it, adds it to context and begins reasoning. It identifies the first action needed and executes. The results come back. The agent evaluates whether it's closer to the goal. It plans the next action. It executes again. This continues, perceive, reason, act until the goal is reached, an error condition is triggered, or the agent determines it cannot proceed and hands off to a human. What's important to notice is that workflow is the hand-off point. Good agent design always includes a point at which the agent recognizes the limits of its confidence and escalates. That's not a failure. It's responsible architecture. At Solara, an agent that flags an equipment anomaly it can't fully explain and routes it to a human engineer isn't falling short. It's doing exactly what it should.",
+            "spatial_safe_zone": {
+                "layout_type": "70%",
+                "safe_bounds": {
+                    "x_min": 760,
+                    "x_max": 1840,
+                    "y_min": 80,
+                    "y_max": 1000,
+                    "content_min_x": 760,
+                    "diagram_min_y": 80,
+                    "title_max_x": 1840
+                }
+            },
+            "steps": [
+                {
+                    "Asset_Suggestion": [
+                        "A structured enterprise diagnostic report document interface representing the output choices of the utility-based agent. Its structure is non-trivial because it relies on a standardized UI document hierarchy containing distinct modular regions that require consistent spacing, alignment, and internal visual organization. The composition consists of a top header banner with document metadata, a status badge container, a structured data grid displaying site metrics, a side-by-side content block for system diagnostics versus summary text, and a bottom section dedicated to recommendation confidence indicators. The individual content blocks, header tags, and metric cards can be independently replaced, restyled, or reconfigured to represent different report types such as detailed diagnostics or brief executive summaries. This document asset sits alongside the decision node in the workflow, acting as the structured payload produced by the agent's utility evaluation."
+                    ],
+                    "Image_Suggestion": [
+                        "A human enterprise engineer representing the escalation destination for the AI agent when system confidence thresholds are not met. Internal physical structure is not important here as the character serves purely as an identifiable visual symbol of human expertise and oversight. A flat vector image is fully sufficient to establish this visual role without requiring complex mechanical decomposition. The character is positioned at the terminal hand-off point of the agent workflow diagram. The character appears as a technical specialist in their mid-30s with neutral gender presentation, short neatly styled dark hair, a calm and attentive facial expression, wearing modern smart-casual workplace clothing consisting of a navy blue polo shirt, dark grey tailored trousers, and clean work shoes, while wearing a visible digital security badge around the neck, standing fully upright facing straight ahead and visible from head to toe."
+                    ]
+                }
+            ],
+            "image_prompts": [],
+            "image_paths": []
+        },
         {
-          "Asset_Suggestion": [
-            "A software interface asset representing an AI agent handoff and monitoring dashboard shell. It features a structured dashboard layout comprising a top system navigation bar, a main diagnostic notification area, confidence metric meters, telemetry log containers, and an engineer escalation action panel. The components are arranged hierarchically with distinct spatial separation between system status displays and human intervention controls, enabling independent recomposition of visual header bars, alert panels, and action trigger elements."
-          ],
-          "Image_Suggestion": [
-            "A human engineer character standing straight and facing directly forward, fully visible from head to toe. The character is a female technical architect in her mid-30s with neat shoulder-length dark brown hair tied back, a focused professional expression, wearing a dark gray technical polo shirt, a bright safety vest, dark utility trousers, and steel-toe work boots while holding a diagnostic tablet.",
-            "An industrial equipment pump unit representing manufacturing plant machinery. It features a compact modern motor housing made of brushed steel alloy, connected conduit pipes, digital pressure gauge displays, and integrated electronic sensor modules."
-          ]
+            "scene_id": 9,
+            "title": "Architectural Synthesis & Hands-On Demo Launch",
+            "sme_layout": "70",
+            "voiceover_narration": "Let's bring it together. Every agent is built from four components, perception, memory, reasoning, and action, working together in a continuous loop. That loop drives agent-environment interaction. The agent observes, decides, acts, and observes again. The three types of agents, reactive, goal-based, and utility-based, represent increasing levels of sophistication. Reactive agents are fast and rule-driven. Goal-based agents plan towards outcomes. Utility-based agents optimize across trade-offs. Coming up next, we're going hands-on. In the demo, we'll visualize types and architectures of AI agents in action, so you can see the decision loops and execution patterns we've been discussing actually running in real time. Let's take a look.",
+            "spatial_safe_zone": {
+                "layout_type": "70%",
+                "safe_bounds": {
+                    "x_min": 760,
+                    "x_max": 1840,
+                    "y_min": 80,
+                    "y_max": 1000,
+                    "content_min_x": 760,
+                    "diagram_min_y": 80,
+                    "title_max_x": 1840
+                }
+            },
+            "steps": [
+                {
+                    "Asset_Suggestion": [
+                        "A specialized AI agent simulation software dashboard shell representing an interactive testing environment. Its structure is non-trivial due to a structured desktop application layout composed of a top application bar with window controls, a collapsible left navigation panel for agent configuration selection, a central execution canvas region, and a bottom diagnostic telemetry console. The top header, left sidebar navigation, main viewport area, and console panel exist as discrete layout sections that can be independently updated, recolored, or recomposed to simulate an active developer environment. It acts as the primary frame framing the architectural components and decision loop visualizations."
+                    ],
+                    "Image_Suggestion": null
+                }
+            ],
+            "image_prompts": [],
+            "image_paths": []
         }
-      ]
-    }
-  ]
+    ]
 }

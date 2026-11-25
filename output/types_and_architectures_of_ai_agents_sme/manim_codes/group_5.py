@@ -4,26 +4,16 @@ C_LIGHT_BLUE = "#62B7E4"
 C_PURPLE = "#9B99C7"
 C_YELLOW = "#DDB945"
 C_RED = "#E58F6D"
-C_WHITE = "#FFFFFF"
 C_BLACK = "#404040"
 C_NAVY_DARK = "#404040"
-# Global Color Palette - 10-Color Infographic Slate Compliance
-C_SLATE_TITLE = "#0F172A"
-C_SUBTITLE = "#475569"
-C_CHARCOAL = "#404040"
-C_CARD_BG = "#FFFFFF"
-C_BORDER = "#CBD5E1"
-C_SKY_BLUE = "#62B7E4"
-C_STEEL_BLUE = "#7EA2C8"
+C_HIGHLIGHT = "#F78908"
+C_MINT = "#8ECDB7"
 C_LAVENDER = "#9B99C7"
-C_AMBER = "#E6A157"
 C_CORAL = "#E58F6D"
-C_ALERT_RED = "#E05252"
-C_FOCUS = "#F78908"
-
 import os
 import re
-SME_LAYOUT = '20'
+import numpy as np
+SME_LAYOUT = '70'
 from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
 # Dynamic Animation Safety Preamble
@@ -80,19 +70,6 @@ for _scene_cls in (Scene, MovingCameraScene):
     except Exception:
         pass
 _orig_anim_safe_defined = True
-
-import manim.utils.rate_functions as rate_functions # Added explicit import for rate_functions
-
-# Removed try-except block for rate_functions to ensure they are imported
-# from manim.utils.rate_functions import * # This line is no longer needed after adding explicit import
-
-
-
-# Updated safe_image with path resolution and Group wrapping for ImageMobject
-
-# Updated create_pill with robust argument handling
-
-
 
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
@@ -219,17 +196,38 @@ except Exception:
     pass
 
 NumberLine.c2p = lambda self, *args: self.n2p(args[0])
-import numpy as np
-
-# Global fallback for InstrumentedScene if not defined
 try:
-    InstrumentedScene
-except NameError:
-    class InstrumentedScene(Scene):
-        pass
+    from manim.utils.rate_functions import *
+except Exception:
+    pass
+from manim_slides import Slide
 
-# Global _ACRONYMS set to avoid re-creation in CrispText
-_ACRONYMS = {"AI", "RAM", "DB", "API", "LLM", "CPU", "GPU", "UI", "OSL", "ML", "OST", "VDB", "JSON", "HTTP", "REST", "SQL", "SME", "PIP", "HD", "FHD"}
+# --- Global Constants and Helper Functions (Simplilearn Framework) ---
+
+# Colors (10-color infographic pastel palette + core UI colors)
+C_SKY_BLUE = "#62B7E4"
+C_STEEL_BLUE = "#7EA2C8"
+C_LAVENDER_PERIWINKLE = "#9B99C7"
+C_MINT_SEAFOAM = "#8ECDB7"
+C_WARM_AMBER = "#E6A157"
+C_MUSTARD_YELLOW = "#DDB945"
+C_CORAL_PEACH = "#E58F6D"
+C_WARM_TAN = "#B88968"
+C_DUSTY_ROSE = "#D98CA1"
+C_SOFT_LILAC = "#C1A5C6"
+
+C_HIGHLIGHT_ORANGE = "#F78908" # Focus highlight color
+C_DARK_SLATE_TITLE = "#1E293B" # For main titles and headers
+C_SLATE_BODY = "#334155"       # For body text
+C_DARK_CHARCOAL = "#404040"    # General dark text on light backgrounds
+C_LIGHT_CANVAS = "#F0F4F8"     # Background color for light infographic canvas
+C_WHITE = "#FFFFFF"            # Pure white for cards, text on dark
+
+# Font settings
+FONT_OPEN_SANS = "Open Sans"
+
+# Helper for CrispText (maps descriptive sizes to Manim unit heights)
+
 
 
 
@@ -346,21 +344,30 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
     mob.scale_to_fit_width = safe_scale_width
     return mob
 
-def create_header(*args, **kwargs):
-    return create_title(*args, **kwargs)
+class FlowingParticle(Dot):
+    def __init__(self, path_mobject, color=C_HIGHLIGHT_ORANGE, radius=0.08, speed=0.5, **kwargs):
+        super().__init__(color=color, radius=radius, **kwargs)
+        self.path_mobject = path_mobject
+        self.speed = speed
+        self.tracker = ValueTracker(0) # Proportion along the path
+
+        # Use partial functions for updaters to bind self and path_mobject
+        def update_particle_position(mob, dt):
+            mob.tracker.increment_value(mob.speed * dt)
+            if mob.tracker.get_value() >= 1:
+                mob.tracker.set_value(0) # Reset to start for continuous loop
+            mob.move_to(mob.path_mobject.point_from_proportion(mob.tracker.get_value()))
+        
+        self.add_updater(update_particle_position)
+        
+    def cease_flow(self):
+        self.remove_updater(self.updaters[0]) # Remove the position updater
 
 
-
-
-
-
-
-
-
-class FinalScene(InstrumentedScene, MovingCameraScene):
+class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slides
     def construct(self):
-        # 1. Canvas Background Setup (Layout 20: 20% Top-Right PiP, Light Canvas)
-        self.camera.background_color = "#F0F4F8"
+        # 1. Canvas Background: #F0F4F8 (Modern Soft Light Slate Canvas)
+        self.camera.background_color = C_LIGHT_CANVAS
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
                 pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -663,496 +670,367 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
         self.clamp_to_screen = clamp_to_screen
 
 
-        # Assign global utility functions to self
 
-        self.camera.frame.save_state()
+        def create_header(*args, **kwargs):
+            return create_title(*args, **kwargs)
 
-        # =========================================================================
-        # PRESENTATION STEP 1: Monitoring Grid Performance
-        # =========================================================================
-        ## Presentation Step 1
 
-        title_group = self.create_title( # Using self.create_title
-            "Agent-Environment Interaction Loop",
-            "Real-Time Monitoring: Perception, Decision, and Actuation"
-        )
-        self.play(FadeIn(title_group, shift=DOWN * 0.1), run_time=0.8)
 
-        # ---------------------------------------------------------
-        # Procedural Graphic: Solara Site (Solar Photovoltaic Array)
-        # ---------------------------------------------------------
-        site_center = np.array([-4.6, -0.6, 0])
-        site_base = RoundedRectangle(
-            width=2.5, height=2.8, corner_radius=0.15,
-            fill_color=C_CARD_BG, fill_opacity=0.9,
-            stroke_color=C_STEEL_BLUE, stroke_width=2
-        ).move_to(site_center)
 
-        site_label = CrispText("Solara Grid Site", size=15, weight=BOLD, color=C_SLATE_TITLE)
-        site_label.next_to(site_base.get_top(), DOWN, buff=0.2)
 
-        # Procedural Solar Panels
-        panels = VGroup()
-        for row in range(2):
-            for col in range(2):
-                p = Polygon(
-                    [-0.45, -0.25, 0], [0.45, -0.25, 0],
-                    [0.35, 0.25, 0], [-0.35, 0.25, 0],
-                    fill_color="#2B6CB0", fill_opacity=0.85,
-                    stroke_color="#93C5FD", stroke_width=1.5
-                ).shift(site_center + np.array([(col - 0.5) * 1.0, (0.5 - row) * 0.7 - 0.25, 0]))
-                # Grid lines across panel
-                h_line = Line(p.get_left(), p.get_right(), stroke_color="#93C5FD", stroke_width=1)
-                v_line = Line(p.get_bottom(), p.get_top(), stroke_color="#93C5FD", stroke_width=1)
-                panels.add(p, h_line, v_line)
 
-        site_group = VGroup(site_base, site_label, panels)
 
-        self.play(
-            FadeIn(site_base, shift=UP * 0.2),
-            Write(site_label),
-            LaggedStart(*[FadeIn(p, scale=0.8) for p in panels], lag_ratio=0.08),
-            run_time=2.0
-        )
 
-        # ---------------------------------------------------------
-        # Procedural Graphic: Performance Gauge (Precision Chronometer)
-        # ---------------------------------------------------------
-        gauge_center = np.array([-1.8, -0.6, 0])
-        gauge_rim = Arc(
-            radius=1.1, start_angle=-PI / 4, angle=1.5 * PI,
-            stroke_color=C_BORDER, stroke_width=8
-        ).move_to(gauge_center)
 
-        # Safe band vs Alert band
-        gauge_safe = Arc(
-            radius=1.1, start_angle=PI / 4, angle=PI,
-            stroke_color=C_SKY_BLUE, stroke_width=8
-        ).move_to(gauge_center)
 
-        gauge_alert_band = Arc(
-            radius=1.1, start_angle=-PI / 4, angle=PI / 2,
-            stroke_color=C_ALERT_RED, stroke_width=8
-        ).move_to(gauge_center)
 
-        # Threshold Mark
-        threshold_angle = PI / 4
-        thresh_pos = gauge_center + 1.1 * np.array([np.cos(threshold_angle), np.sin(threshold_angle), 0])
-        thresh_line = Line(
-            thresh_pos - 0.18 * np.array([np.cos(threshold_angle), np.sin(threshold_angle), 0]),
-            thresh_pos + 0.18 * np.array([np.cos(threshold_angle), np.sin(threshold_angle), 0]),
-            stroke_color=C_FOCUS, stroke_width=4
-        )
-        thresh_tag = CrispText("Threshold", size=11, weight=BOLD, color=C_FOCUS)
-        thresh_tag.next_to(thresh_pos, UR, buff=0.1)
 
-        # Dial needle
-        needle_angle = ValueTracker(PI * 0.75)  # Starts in healthy zone
-        needle_pivot = Dot(gauge_center, radius=0.08, color=C_SLATE_TITLE)
 
-        def get_needle():
-            ang = needle_angle.get_value()
-            tip = gauge_center + 0.9 * np.array([np.cos(ang), np.sin(ang), 0])
-            return Line(gauge_center, tip, stroke_color=C_SLATE_TITLE, stroke_width=3.5)
 
-        needle = always_redraw(get_needle)
 
-        gauge_label = CrispText("Output Telemetry", size=13, weight=BOLD, color=C_SLATE_TITLE)
-        gauge_label.next_to(gauge_rim, DOWN, buff=0.25)
+        # --- Scene Setup: Define common positions and dimensions for Layout 70% ---
+        # Content workspace: x ∈ [-0.80, +6.40], y ∈ [-3.60, +2.20].
+        # Title will be at x = -0.80, y = 3.2 (top-left of content area).
 
-        # Flowing conduit from site to gauge
-        conduit_1 = Line(site_base.get_right(), gauge_center + LEFT * 1.2, stroke_color=C_STEEL_BLUE, stroke_width=2)
+        # --- Mobject Definitions (will be animated progressively) ---
 
-        self.play(
-            Create(conduit_1),
-            Create(gauge_rim),
-            Create(gauge_safe),
-            Create(gauge_alert_band),
-            Create(thresh_line),
-            FadeIn(thresh_tag),
-            FadeIn(needle_pivot),
-            FadeIn(needle),
-            Write(gauge_label),
-            run_time=2.2
-        )
-        self.wait(1.5)
+        # 1. Environment components (hero illustrations)
+        # Assume images exist in 'images/' directory.
+        solar_plant_img = ImageMobject("images/scene_5_solar_plant.png")
+        power_grid_img = ImageMobject("images/scene_5_power_grid.png")
+        database_img = ImageMobject("images/scene_5_database.png")
+        
+        # Scale to fit height and then arrange
+        img_height = 1.2 # Standard height for these icons
+        solar_plant_img.scale_to_fit_height(img_height)
+        power_grid_img.scale_to_fit_height(img_height)
+        database_img.scale_to_fit_height(img_height)
 
-        # Active telemetry particle stream from site to gauge
-        stream_dot = Dot(site_base.get_right(), radius=0.07, color=C_SKY_BLUE)
-        self.play(MoveAlongPath(stream_dot, conduit_1, rate_func=rate_functions.ease_out_cubic), run_time=1.0)
-        self.remove(stream_dot)
+        # Arrange environment images horizontally
+        environment_icons = VGroup(solar_plant_img, power_grid_img, database_img).arrange(RIGHT, buff=0.6)
+        
+        # Ensure the environment group is on the right side of the content area
+        environment_group = Group(environment_icons)
+        environment_group.move_to(RIGHT * 4.0 + DOWN * 0.5) # Center in the right content area
+        environment_label = CrispText("Operational Environment", size="header", weight=BOLD, color=C_DARK_SLATE_TITLE)
+        environment_label.next_to(environment_group, DOWN, buff=0.4)
+        environment_vgroup = VGroup(environment_group, environment_label) # Group for easy animation
 
-        # ---------------------------------------------------------
-        # Needle Drops Below Threshold -> Red Alert Shockwave
-        # ---------------------------------------------------------
-        alert_pulse = Circle(radius=1.2, stroke_color=C_ALERT_RED, stroke_width=3.5, fill_opacity=0).move_to(gauge_center)
-        alert_badge = RoundedRectangle(
-            width=1.6, height=0.45, corner_radius=0.08,
-            fill_color=C_ALERT_RED, fill_opacity=0.9,
-            stroke_color=C_CARD_BG, stroke_width=1
-        ).next_to(gauge_label, DOWN, buff=0.15)
-        alert_text = CrispText("Output Drop", size=12, weight=BOLD, color="#FFFFFF").move_to(alert_badge.get_center())
+        # 2. Agent Core component (human operator icon)
+        human_operator_img = ImageMobject("images/scene_5_human_operator.png")
+        human_operator_img.scale_to_fit_height(1.8) # Slightly larger as a central figure
+        
+        # Position agent to the left of the environment, within the content area
+        agent_core_group = Group(human_operator_img)
+        agent_core_group.move_to(RIGHT * 0.8 + DOWN * 0.5)
+        agent_core_label = CrispText("Agent Core", size="header", weight=BOLD, color=C_DARK_SLATE_TITLE)
+        agent_core_label.next_to(agent_core_group, DOWN, buff=0.4)
+        agent_core_vgroup = VGroup(agent_core_group, agent_core_label)
 
-        self.play(
-            needle_angle.animate.set_value(0.0),  # Drops deeply into alert red band
-            run_time=1.8,
-            rate_func=rate_functions.ease_in_out_sine # Fixed NameError here
-        )
-        self.play(
-            Create(alert_pulse),
-            alert_pulse.animate.scale(1.3).set_stroke(opacity=0),
-            FadeIn(alert_badge),
-            FadeIn(alert_text),
-            run_time=1.2
-        )
-        self.remove(alert_pulse)
+        # 3. Internal State component (smaller database icon for memory/state)
+        internal_state_icon = ImageMobject("images/scene_5_database.png")
+        internal_state_icon.scale_to_fit_height(0.8) # Smaller scale
+        internal_state_icon.move_to(agent_core_group.get_center() + LEFT * 1.5 + UP * 0.8) # Position near agent
+        internal_state_label = CrispText("Internal State", size="badge", weight=BOLD, color=C_DARK_SLATE_TITLE)
+        internal_state_label.next_to(internal_state_icon, DOWN, buff=0.2)
+        internal_state_vgroup = VGroup(internal_state_icon, internal_state_label)
 
-        # ---------------------------------------------------------
-        # Monitoring Agent Core (AI Perception Hub)
-        # ---------------------------------------------------------
-        agent_center = np.array([1.2, -0.6, 0])
-        agent_outer_ring = Circle(radius=0.95, stroke_color=C_SKY_BLUE, stroke_width=2.5, fill_color=C_CARD_BG, fill_opacity=0.9).move_to(agent_center)
-        agent_inner_core = Circle(radius=0.6, stroke_color=C_AMBER, stroke_width=2, fill_color="#FEF3C7", fill_opacity=0.5).move_to(agent_center)
+        # 4. Action Tool (wrench icon)
+        wrench_img = ImageMobject("images/scene_5_wrench.png")
+        wrench_img.scale_to_fit_height(0.65) # Smaller icon
+        wrench_img.move_to(environment_group.get_center() + UP * 1.0) # Position near environment, for action impact
+        wrench_label = CrispText("Tool Execution", size="badge", weight=BOLD, color=C_DARK_SLATE_TITLE)
+        wrench_label.next_to(wrench_img, DOWN, buff=0.2)
+        wrench_vgroup = VGroup(wrench_img, wrench_label)
 
-        # Kinetic Halo Spokes
-        halo_lines = VGroup(*[
-            Line(
-                agent_center + 0.65 * np.array([np.cos(a), np.sin(a), 0]),
-                agent_center + 0.88 * np.array([np.cos(a), np.sin(a), 0]),
-                stroke_color=C_SKY_BLUE, stroke_width=1.5
-            ) for a in np.linspace(0, 2 * PI, 12, endpoint=False)
-        ])
 
-        # Continuous subtle ambient rotation on agent halo
-        halo_lines.add_updater(lambda m, dt: m.rotate(0.25 * dt, about_point=agent_center))
-
-        agent_title = CrispText("Monitoring Agent", size=14, weight=BOLD, color=C_SLATE_TITLE).next_to(agent_outer_ring, UP, buff=0.18)
-        agent_sub = CrispText("Autonomous AI Core", size=11, color=C_SUBTITLE).next_to(agent_title, DOWN, buff=0.08)
-
-        # Perception Transmission Arrow
+        # --- Paths and Particles ---
+        # Perception path (Environment -> Agent)
         perception_arrow = Arrow(
-            gauge_center + RIGHT * 1.15,
-            agent_outer_ring.get_left(),
-            buff=0.1, stroke_width=3, color=C_FOCUS, max_tip_length_to_length_ratio=0.2
+            environment_group.get_left(),
+            agent_core_group.get_right(),
+            buff=0.3,
+            stroke_width=3,
+            color=C_MINT_SEAFOAM, # Mint Seafoam for perception
+            tip_length=0.25
+        ).shift(UP * 0.5) # Shift up slightly to differentiate from action
+        perception_label = CrispText("Sensory Observation", size="badge", weight=SEMIBOLD, color=C_DARK_CHARCOAL)
+        perception_label.next_to(perception_arrow, UP, buff=0.1)
+        
+        # Internal processing path (within Agent / to Internal State)
+        internal_process_arrow_to = ArcBetweenPoints(
+            agent_core_group.get_top() + LEFT * 0.5,
+            internal_state_icon.get_top(),
+            angle=-TAU/4, # Clockwise arc
+            stroke_width=2,
+            color=C_LAVENDER_PERIWINKLE,
+            tip_length=0.2
         )
-        perception_pill = RoundedRectangle(
-            width=1.5, height=0.38, corner_radius=0.07,
-            fill_color=C_CARD_BG, fill_opacity=1.0,
-            stroke_color=C_FOCUS, stroke_width=1.5
-        ).move_to(perception_arrow.get_center()).set_z_index(10)
-        perception_text = CrispText("Perception", size=11, weight=BOLD, color=C_FOCUS).move_to(perception_pill).set_z_index(11)
-
-        self.play(
-            GrowFromCenter(agent_outer_ring),
-            GrowFromCenter(agent_inner_core),
-            FadeIn(halo_lines),
-            Write(agent_title),
-            FadeIn(agent_sub),
-            GrowArrow(perception_arrow),
-            FadeIn(perception_pill),
-            Write(perception_text),
-            run_time=2.2
+        internal_process_arrow_from = ArcBetweenPoints(
+            internal_state_icon.get_bottom(),
+            agent_core_group.get_bottom() + LEFT * 0.5,
+            angle=-TAU/4, # Clockwise arc
+            stroke_width=2,
+            color=C_LAVENDER_PERIWINKLE,
+            tip_length=0.2
         )
-        self.wait(2.0)
+        internal_process_path = VGroup(internal_process_arrow_to, internal_process_arrow_from)
+        internal_process_label = CrispText("Processing", size="badge", weight=SEMIBOLD, color=C_DARK_CHARCOAL)
+        internal_process_label.next_to(internal_process_arrow_to, UP * 0.5 + LEFT * 0.5, buff=0.1)
 
-        # ---------------------------------------------------------
-        # Decision Tree Sprouting from Agent Core
-        # ---------------------------------------------------------
-        tree_origin = agent_center + RIGHT * 0.95
-        branch_targets = [
-            np.array([4.2, 1.0, 0]),     # Query Historical Data
-            np.array([4.2, -0.6, 0]),    # Cross-Ref Weather
-            np.array([4.2, -2.2, 0])     # Escalate Human Operator (Chosen)
-        ]
-        branch_labels_text = [
-            "Query Historical Data",
-            "Cross-Ref Weather",
-            "Escalate to Operator"
-        ]
 
-        branches = VGroup()
-        branch_cards = VGroup()
-
-        for idx, (target, label_text) in enumerate(zip(branch_targets, branch_labels_text)):
-            branch_line = CubicBezier(
-                tree_origin,
-                tree_origin + RIGHT * 1.1,
-                target + LEFT * 1.1,
-                target,
-                stroke_color=C_BORDER, stroke_width=2.5
-            )
-            branches.add(branch_line)
-
-            pill = RoundedRectangle(
-                width=2.6, height=0.6, corner_radius=0.1,
-                fill_color=C_CARD_BG, fill_opacity=0.95,
-                stroke_color=C_BORDER, stroke_width=1.5
-            ).move_to(target + RIGHT * 1.3)
-
-            dot_marker = Dot(pill.get_left() + RIGHT * 0.25, radius=0.08, color=C_STEEL_BLUE)
-            txt = CrispText(label_text, size=12, weight=SEMIBOLD, color=C_CHARCOAL)
-            txt.next_to(dot_marker, RIGHT, buff=0.15)
-            branch_cards.add(VGroup(pill, dot_marker, txt))
-
-        self.play(
-            LaggedStart(*[Create(b) for b in branches], lag_ratio=0.25),
-            LaggedStart(*[FadeIn(c, shift=RIGHT * 0.2) for c in branch_cards], lag_ratio=0.25),
-            run_time=2.5
-        )
-        self.wait(2.5)
-
-        # ---------------------------------------------------------
-        # Actuation Choice: Escalate to Human Operator Glows Orange/Coral
-        # ---------------------------------------------------------
-        escalate_branch = branches[2]
-        escalate_card = branch_cards[2]
-
-        # Vector Icon for Human Operator Station
-        operator_pos = np.array([4.5, -3.2, 0])
-        op_head = Circle(radius=0.18, fill_color=C_CORAL, fill_opacity=0.9, stroke_color=C_SLATE_TITLE, stroke_width=1.5).move_to(operator_pos + UP * 0.22)
-        op_body = Arc(radius=0.32, start_angle=0, angle=PI, stroke_color=C_SLATE_TITLE, stroke_width=1.5, fill_color=C_CORAL, fill_opacity=0.9).move_to(operator_pos - UP * 0.1)
-        op_console = RoundedRectangle(width=0.9, height=0.2, corner_radius=0.04, fill_color=C_SLATE_TITLE, fill_opacity=0.8, stroke_width=0).next_to(op_body, DOWN, buff=0.08)
-        op_icon = VGroup(op_head, op_body, op_console)
-        op_label = CrispText("Control Desk", size=11, weight=BOLD, color=C_SLATE_TITLE).next_to(op_console, DOWN, buff=0.08)
-        op_group = VGroup(op_icon, op_label)
-
+        # Action path (Agent -> Environment)
         action_arrow = Arrow(
-            escalate_card.get_bottom(),
-            op_icon.get_top(),
-            stroke_color=C_FOCUS, stroke_width=3, buff=0.1, max_tip_length_to_length_ratio=0.25
-        )
+            agent_core_group.get_right(),
+            environment_group.get_left(),
+            buff=0.3,
+            stroke_width=3,
+            color=C_WARM_AMBER, # Warm Amber for action
+            tip_length=0.25
+        ).shift(DOWN * 0.5) # Shift down slightly
+        action_label = CrispText("Action Impact", size="badge", weight=SEMIBOLD, color=C_DARK_CHARCOAL)
+        action_label.next_to(action_arrow, DOWN, buff=0.1)
 
-        # Highlight Chosen Path
-        focus_highlight_box = escalate_card[0].copy().set_fill(opacity=0).set_stroke(color=C_FOCUS, width=3.5)
+        # Particles for continuous flow
+        perception_particle = FlowingParticle(perception_arrow, color=C_MINT_SEAFOAM, speed=0.8)
+        internal_particle = FlowingParticle(internal_process_arrow_to, color=C_LAVENDER_PERIWINKLE, speed=0.6)
+        action_particle = FlowingParticle(action_arrow, color=C_WARM_AMBER, speed=0.8)
 
-        self.play(
-            escalate_branch.animate.set_stroke(color=C_FOCUS, width=4.0),
-            Create(focus_highlight_box),
-            escalate_card[1].animate.set_color(C_FOCUS),
-            run_time=1.5
-        )
-        self.play(
-            GrowArrow(action_arrow),
-            FadeIn(op_group, shift=UP * 0.15),
-            run_time=1.5
-        )
 
-        # Particle dispatch along action arrow
-        action_packet = Dot(escalate_card.get_bottom(), radius=0.09, color=C_FOCUS)
+        # --- Scene Title Initialization ---
+        current_title_group = create_title("Continuous Agent-Environment Feedback Loop")
+        self.play(FadeIn(current_title_group, shift=DOWN*0.1), run_time=0.8)
+        self.wait(0.5)
+
+        ## Presentation Step 1: The Operational Environment
+        self.play(FadeIn(current_title_group, shift=DOWN*0.1), run_time=0.8)
+        # Narration: Dynamic enterprise setting: solar arrays, grid fluctuations, databases
+        self.sync_to(0.0) 
+        self.play(FadeOut(current_title_group), run_time=0.35)
+        current_title_group = step1_title
+
+        # Animate environment components
         self.play(
-            MoveAlongPath(action_packet, action_arrow, rate_func=rate_functions.ease_out_cubic),
+            LaggedStart(
+                FadeIn(environment_icons, shift=UP * 0.2),
+                Write(environment_label),
+                lag_ratio=0.2,
+                run_time=2.0
+            )
+        )
+        self.wait(2.0) # Hold for narration
+
+        # Add ambient animation to environment (subtle pulse)
+        env_pulse_rect = RoundedRectangle(
+            width=environment_vgroup.width + 0.4,
+            height=environment_vgroup.height + 0.4,
+            corner_radius=0.1,
+            stroke_color=C_MINT_SEAFOAM,
+            stroke_width=1.5,
+            fill_opacity=0
+        ).move_to(environment_vgroup.get_center()).set_z_index(-1)
+
+        def pulse_updater(m, dt):
+            factor = np.sin(self.get_time() * 2) * 0.05 + 1.0 # Oscillate width between 0.95 and 1.05 of base
+            m.set_stroke(width=1.5 * factor)
+            m.set_opacity(np.sin(self.get_time() * 2) * 0.2 + 0.5) # Opacity oscillates
+        
+        env_pulse_rect.add_updater(pulse_updater)
+        self.add(env_pulse_rect) # Add the pulsing outline to the scene
+
+        self.wait_until_last_animation_finishes()
+        self.wait(5.0) # Additional wait for narration
+        self.next_slide()
+
+
+        ## Presentation Step 2: Continuous Sensory Observation
+        # Narration: Agent ingests real-time environmental telemetry
+        self.sync_to(7.0) # Adjusted timestamp based on previous run_time
+        step2_title = create_title("Continuous Sensory Observation")
+        self.play(FadeOut(current_title_group), run_time=0.35)
+        self.play(FadeIn(step2_title, shift=DOWN * 0.1), run_time=0.45)
+        current_title_group = step2_title
+
+        # Introduce Agent Core
+        self.play(
+            LaggedStart(
+                FadeIn(agent_core_group, shift=UP * 0.2),
+                Write(agent_core_label),
+                lag_ratio=0.2,
+                run_time=1.5
+            )
+        )
+        self.wait(0.5)
+
+        # Draw perception arrow and label
+        self.play(Create(perception_arrow), Write(perception_label), run_time=1.0)
+        self.wait(0.5)
+
+        # Highlight environment and perception, start particle flow
+        highlight_perception_env = environment_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+        highlight_perception_arrow = perception_arrow.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+        
+        self.play(
+            Create(highlight_perception_env),
+            Create(highlight_perception_arrow),
+            FadeIn(perception_particle), # Add particle
             run_time=1.0
         )
-        self.remove(action_packet)
-
-        # Dispatch Status Pill
-        dispatched_pill = RoundedRectangle(
-            width=2.1, height=0.45, corner_radius=0.08,
-            fill_color="#FEF3C7", fill_opacity=0.95,
-            stroke_color=C_FOCUS, stroke_width=1.5
-        ).next_to(agent_inner_core, DOWN, buff=0.35)
-        dispatched_txt = CrispText("Action Executed", size=12, weight=BOLD, color=C_FOCUS).move_to(dispatched_pill)
-
-        self.play(FadeIn(dispatched_pill), Write(dispatched_txt), run_time=1.2)
-        self.wait(3.0)
-
-        # =========================================================================
-        # PRESENTATION STEP 2: Bi-Directional Relationship
-        # =========================================================================
-        ## Presentation Step 2
-
-        # Seamless Title Transition
-        step2_title_group = self.create_title( # Using self.create_title
-            "Agent-Environment Interaction Loop",
-            "Bi-Directional Dynamics: Continuous Reciprocal Influence"
-        )
-
-        # Cleanly morph step 1 transient decision structures while keeping Solara Site & Monitoring Agent persistent
-        halo_lines.clear_updaters()  # Stop temporary updater for clean repositioning
-
+        self.add(perception_particle) # Add particle to scene permanently for updater
+        self.wait(2.0)
         self.play(
-            ReplacementTransform(title_group, step2_title_group),
-            FadeOut(conduit_1),
-            FadeOut(gauge_rim),
-            FadeOut(gauge_safe),
-            FadeOut(gauge_alert_band),
-            FadeOut(thresh_line),
-            FadeOut(thresh_tag),
-            FadeOut(needle_pivot),
-            FadeOut(needle),
-            FadeOut(gauge_label),
-            FadeOut(alert_badge),
-            FadeOut(alert_text),
-            FadeOut(perception_arrow),
-            FadeOut(perception_pill),
-            FadeOut(perception_text),
-            FadeOut(branches),
-            FadeOut(branch_cards),
-            FadeOut(focus_highlight_box),
-            FadeOut(action_arrow),
-            FadeOut(op_group),
-            FadeOut(dispatched_pill),
-            FadeOut(dispatched_txt),
-            run_time=1.8
+            FadeOut(highlight_perception_env),
+            FadeOut(highlight_perception_arrow),
+            run_time=0.8
         )
+        
+        self.wait(5.0) # Hold for narration
+        self.next_slide()
 
-        # Reposition Environment (Solara Site) and Agent for Large Bi-Directional Arena
-        env_target_pos = np.array([-3.6, -0.6, 0])
-        agent_target_pos = np.array([2.4, -0.6, 0])
 
+        ## Presentation Step 3: Internal State Transformation
+        # Narration: Updating beliefs and operational context based on observations
+        self.sync_to(17.0) # Adjusted timestamp
+        step3_title = create_title("Internal State Transformation")
+        self.remove(step2_title)
+        self.play(FadeOut(current_title_group), run_time=0.35)
+        self.play(FadeIn(step3_title, shift=DOWN * 0.1), run_time=0.45)
+        current_title_group = step3_title
+
+        # Introduce Internal State
         self.play(
-            site_group.animate.move_to(env_target_pos),
-            agent_outer_ring.animate.move_to(agent_target_pos),
-            agent_inner_core.animate.move_to(agent_target_pos),
-            halo_lines.animate.move_to(agent_target_pos),
-            agent_title.animate.next_to(agent_outer_ring.move_to(agent_target_pos), UP, buff=0.2),
-            agent_sub.animate.next_to(agent_title, DOWN, buff=0.08),
-            run_time=2.0
+            LaggedStart(
+                FadeIn(internal_state_icon, shift=UP * 0.2),
+                Write(internal_state_label),
+                lag_ratio=0.2,
+                run_time=1.5
+            )
         )
+        self.wait(0.5)
 
-        # Re-attach rotation updater on Agent Halo
-        halo_lines.add_updater(lambda m, dt: m.rotate(0.3 * dt, about_point=agent_target_pos))
-
-        # Distinct Environment Macro Pill
-        env_badge = RoundedRectangle(
-            width=2.8, height=0.55, corner_radius=0.1,
-            fill_color=C_CARD_BG, fill_opacity=1.0,
-            stroke_color=C_STEEL_BLUE, stroke_width=2
-        ).next_to(site_base, DOWN, buff=0.25)
-        env_text = CrispText("Environment (Data & Physical Grid)", size=12, weight=BOLD, color=C_SLATE_TITLE).move_to(env_badge)
-
-        agent_badge = RoundedRectangle(
-            width=2.4, height=0.55, corner_radius=0.1,
-            fill_color=C_CARD_BG, fill_opacity=1.0,
-            stroke_color=C_SKY_BLUE, stroke_width=2
-        ).next_to(agent_outer_ring, DOWN, buff=0.25)
-        agent_badge_text = CrispText("Agent (Reasoning Core)", size=12, weight=BOLD, color=C_SLATE_TITLE).move_to(agent_badge)
-
+        # Draw internal processing path and label
         self.play(
-            FadeIn(env_badge),
-            Write(env_text),
-            FadeIn(agent_badge),
-            Write(agent_badge_text),
+            Create(internal_process_path),
+            Write(internal_process_label),
             run_time=1.5
         )
+        self.wait(0.5)
 
-        # ---------------------------------------------------------
-        # Bi-Directional Kinetic Conduits (Top: Shapes Agent, Bottom: Shapes Environment)
-        # ---------------------------------------------------------
-        # Top Arc: Environment -> Agent ("Shapes Agent")
-        top_arc = CurvedArrow(
-            env_target_pos + UP * 1.5 + RIGHT * 0.8,
-            agent_target_pos + UP * 1.5 + LEFT * 0.8,
-            angle=-0.45,
-            color=C_SKY_BLUE,
-            stroke_width=4.5
-        )
-
-        top_tag = RoundedRectangle(
-            width=2.2, height=0.5, corner_radius=0.08,
-            fill_color=C_CARD_BG, fill_opacity=1.0,
-            stroke_color=C_SKY_BLUE, stroke_width=2
-        ).move_to(top_arc.point_from_proportion(0.5) + UP * 0.35)
-        top_txt = CrispText("Shapes Agent", size=13, weight=BOLD, color=C_SLATE_TITLE).move_to(top_tag)
-        top_sub = CrispText("Telemetry, Constraints, Shifts", size=10, color=C_SUBTITLE).next_to(top_tag, UP, buff=0.06)
-
-        # Bottom Arc: Agent -> Environment ("Shapes Environment")
-        bottom_arc = CurvedArrow(
-            agent_target_pos + DOWN * 1.5 + LEFT * 0.8,
-            env_target_pos + DOWN * 1.5 + RIGHT * 0.8,
-            angle=-0.45,
-            color=C_AMBER,
-            stroke_width=4.5
-        )
-
-        bottom_tag = RoundedRectangle(
-            width=2.4, height=0.5, corner_radius=0.08,
-            fill_color=C_CARD_BG, fill_opacity=1.0,
-            stroke_color=C_AMBER, stroke_width=2
-        ).move_to(bottom_arc.point_from_proportion(0.5) + DOWN * 0.35)
-        bottom_txt = CrispText("Shapes Environment", size=13, weight=BOLD, color=C_SLATE_TITLE).move_to(bottom_tag)
-        bottom_sub = CrispText("Dispatches, Mitigations, State Changes", size=10, color=C_SUBTITLE).next_to(bottom_tag, DOWN, buff=0.06)
-
-        # Central Cognitive Anchor: "Bi-Directional Loop"
-        center_focal_pos = (env_target_pos + agent_target_pos) / 2
-        center_pill = RoundedRectangle(
-            width=2.5, height=0.65, corner_radius=0.12,
-            fill_color="#F8FAFC", fill_opacity=1.0,
-            stroke_color=C_FOCUS, stroke_width=2.5
-        ).move_to(center_focal_pos)
-        center_title = CrispText("Bi-Directional", size=14, weight=BOLD, color=C_SLATE_TITLE).move_to(center_pill.get_center() + UP * 0.08)
-        center_sub = CrispText("Dynamic Closed Loop", size=10, weight=SEMIBOLD, color=C_FOCUS).next_to(center_title, DOWN, buff=0.05)
-        center_focal_grp = VGroup(center_pill, center_title, center_sub)
+        # Highlight agent and internal state, start internal particle flow
+        highlight_agent_core = agent_core_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+        highlight_internal_state = internal_state_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+        highlight_internal_path = internal_process_path.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
 
         self.play(
-            Create(top_arc),
-            FadeIn(top_tag),
-            Write(top_txt),
-            FadeIn(top_sub),
-            run_time=2.0
+            Create(highlight_agent_core),
+            Create(highlight_internal_state),
+            Create(highlight_internal_path),
+            FadeIn(internal_particle),
+            run_time=1.0
         )
+        self.add(internal_particle) # Add particle to scene permanently
+        self.wait(2.0)
         self.play(
-            Create(bottom_arc),
-            FadeIn(bottom_tag),
-            Write(bottom_txt),
-            FadeIn(bottom_sub),
-            run_time=2.0
+            FadeOut(highlight_agent_core),
+            FadeOut(highlight_internal_state),
+            FadeOut(highlight_internal_path),
+            run_time=0.8
         )
+
+        self.wait(5.0) # Hold for narration
+        self.next_slide()
+
+
+        ## Presentation Step 4: Action Impact & Environmental Shift
+        # Narration: Agent actions alter the external state of the environment
+        self.sync_to(27.0) # Adjusted timestamp
+        step4_title = create_title("Action Impact & Environmental Shift")
+        self.remove(step3_title)
+        self.play(FadeOut(current_title_group), run_time=0.35)
+        self.play(FadeIn(step4_title, shift=DOWN * 0.1), run_time=0.45)
+        current_title_group = step4_title
+
+        # Introduce action tool
         self.play(
-            GrowFromCenter(center_focal_grp),
+            LaggedStart(
+                FadeIn(wrench_img, shift=UP * 0.2),
+                Write(wrench_label),
+                lag_ratio=0.2,
+                run_time=1.5
+            )
+        )
+        self.wait(0.5)
+
+        # Draw action arrow and label
+        self.play(Create(action_arrow), Write(action_label), run_time=1.0)
+        self.wait(0.5)
+
+        # Highlight agent, action, environment, and wrench, start action particle flow
+        highlight_action_agent = agent_core_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+        highlight_action_arrow = action_arrow.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+        highlight_action_env = environment_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+        highlight_wrench = wrench_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+
+        self.play(
+            Create(highlight_action_agent),
+            Create(highlight_action_arrow),
+            Create(highlight_action_env),
+            Create(highlight_wrench),
+            FadeIn(action_particle),
+            run_time=1.0
+        )
+        self.add(action_particle) # Add particle to scene permanently
+        self.wait(2.0)
+        self.play(
+            FadeOut(highlight_action_agent),
+            FadeOut(highlight_action_arrow),
+            FadeOut(highlight_action_env),
+            FadeOut(highlight_wrench),
+            run_time=0.8
+        )
+        
+        self.wait(5.0) # Hold for narration
+        self.next_slide()
+
+
+        ## Presentation Step 5: Closed-Loop Convergence
+        # Narration: Perpetual feedback loop driving convergence toward mission goals
+        self.sync_to(37.0) # Adjusted timestamp
+        step5_title = create_title("Closed-Loop Convergence")
+        self.remove(step4_title)
+        self.play(FadeOut(current_title_group), run_time=0.35)
+        self.play(FadeIn(step5_title, shift=DOWN * 0.1), run_time=0.45)
+        current_title_group = step5_title
+
+        # All elements are now on screen with particles flowing.
+        # Highlight the entire loop to show convergence.
+        # Group all dynamic elements for a collective highlight
+        full_loop_elements = VGroup(
+            environment_vgroup,
+            agent_core_vgroup,
+            internal_state_vgroup,
+            wrench_vgroup,
+            perception_arrow, perception_label,
+            internal_process_path, internal_process_label,
+            action_arrow, action_label
+        )
+        
+        highlight_full_loop = full_loop_elements.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+        
+        self.play(
+            Create(highlight_full_loop),
             run_time=1.5
         )
+        self.wait(3.0) # Longer hold to emphasize the complete loop
 
-        # ---------------------------------------------------------
-        # Subtle Perceive -> Reason -> Act Micro-Ring around the Agent
-        # ---------------------------------------------------------
-        pra_radius = 1.35
-        pra_colors = [C_SKY_BLUE, C_AMBER, C_CORAL]
-        pra_labels = ["Perceive", "Reason", "Act"]
-        pra_angles = [PI / 2, 11 * PI / 6, 7 * PI / 6]
+        # Fade out highlight
+        self.play(FadeOut(highlight_full_loop), run_time=0.8)
 
-        pra_group = VGroup()
-        for ang, col, lbl in zip(pra_angles, pra_colors, pra_labels):
-            pos = agent_target_pos + pra_radius * np.array([np.cos(ang), np.sin(ang), 0])
-            node = Dot(pos, radius=0.12, color=col)
-            node_tag = CrispText(lbl, size=11, weight=BOLD, color=C_SLATE_TITLE).next_to(pos, np.array([np.cos(ang), np.sin(ang), 0]), buff=0.12)
-            pra_group.add(node, node_tag)
+        # Keep all elements on screen with updaters running for the remainder of the narration.
+        self.wait(5.0) # Final hold
 
-        # Connecting subtle orbital ring
-        pra_orbit = Circle(radius=pra_radius, stroke_color=C_BORDER, stroke_width=1.5, stroke_opacity=0.6).move_to(agent_target_pos)
-
-        self.play(
-            Create(pra_orbit),
-            LaggedStart(*[FadeIn(p) for p in pra_group], lag_ratio=0.2),
-            run_time=2.0
-        )
-
-        # ---------------------------------------------------------
-        # Continuous Kinetic Cycle: Circulating Packets in Closed Loop
-        # ---------------------------------------------------------
-        # Data Packet: Env -> Agent
-        data_packet = Dot(radius=0.1, color=C_SKY_BLUE)
-        # Action Packet: Agent -> Env
-        act_packet = Dot(radius=0.1, color=C_AMBER)
-
-        # Pulse highlight on Bi-Directional Anchor
-        center_glow = center_pill.copy().set_fill(opacity=0).set_stroke(color=C_FOCUS, width=4)
-
-        # Two synchronized circulation cycles to maintain visual engagement
-        for _ in range(2):
-            self.play(
-                MoveAlongPath(data_packet, top_arc, rate_func=rate_functions.ease_out_cubic),
-                MoveAlongPath(act_packet, bottom_arc, rate_func=rate_functions.ease_out_cubic),
-                Create(center_glow),
-                run_time=2.2
-            )
-            self.play(
-                FadeOut(center_glow),
-                run_time=0.6
-            )
-
-        self.remove(data_packet, act_packet)
-        self.wait(3.0)
-
-        # Clean removal of updaters before concluding
-        halo_lines.clear_updaters()
+        # Clean up updaters before ending the scene
+        perception_particle.cease_flow()
+        internal_particle.cease_flow()
+        action_particle.cease_flow()
+        env_pulse_rect.remove_updater(pulse_updater)

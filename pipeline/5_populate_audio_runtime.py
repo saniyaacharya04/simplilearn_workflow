@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 5: AUDIO RUNTIME EXTRACTION & DURATION MANIFEST
@@ -44,11 +45,13 @@ PIPELINE STAGE 5: AUDIO RUNTIME EXTRACTION & DURATION MANIFEST
 4. EXECUTION LOGIC & PROCESSING:
    - Step 1: Validates upstream completion in 1_instruction_design_output_tracker.json.
    - Step 2: Cleans narration statements and strips LaTeX formatting into spoken prose.
-   - Step 3: Probes exact durations from audio files in audio_elements/ via wave and FFprobe.
+   - Step 3: Checks for unified scene audio (group_{sid}_pair_1_statement1.wav / group_{sid}_pair_1.wav)
+     or probes individual statement audio files in audio_elements/ via wave and FFprobe.
    - Step 4: Parses explicit timestamps or time-range metadata where audio files are absent.
    - Step 5: Applies natural speech rate estimation (~150 wpm + punctuation pauses) as fallback.
    - Step 6: Computes exact run_time, start_time, and end_time for each presentation step.
-   - Step 7: Writes master CGI_Input.json and avatar_strategy.json.
+   - Step 7: Allocates timing via Whisper timestamp snapping or proportional word split, records
+     audio_file / audio_path metadata, and writes master CGI_Input.json and avatar_strategy.json.
    - Step 8: Atomically updates 5_audio_output_tracker.json.
 
 5. OUTPUT SPECIFICATIONS:
@@ -612,8 +615,16 @@ class PopulateAudioRunTime:
         if isinstance(raw_script, dict) and "scenes" in raw_script and isinstance(raw_script["scenes"], list):
             for idx, sc in enumerate(raw_script["scenes"]):
                 sid = str(sc.get("scene_id", idx + 1))
+                # If a unified scene audio file exists (group_{sid}_pair_1_statement1.wav), preserve scene as single pair
+                scene_audio_candidates = [
+                    os.path.join(audio_element_dir, f"group_{sid}_pair_1_statement1.wav"),
+                    os.path.join(audio_element_dir, f"group_{sid}_pair_1.wav"),
+                    os.path.join(audio_element_dir, f"scene_{sid}.wav")
+                ]
+                has_scene_audio = any(os.path.exists(cand) and os.path.getsize(cand) > 0 for cand in scene_audio_candidates)
+                
                 steps = sc.get("presentation_steps")
-                if isinstance(steps, list) and len(steps) > 0:
+                if isinstance(steps, list) and len(steps) > 0 and not has_scene_audio:
                     expanded_steps = []
                     for s_idx, st in enumerate(steps):
                         st_copy = dict(st)
@@ -630,9 +641,10 @@ class PopulateAudioRunTime:
                         expanded_steps.append(st_copy)
                     grouped_script[sid] = expanded_steps
                 else:
-                    if "narration_statement" not in sc and "voiceover_narration" in sc:
-                        sc["narration_statement"] = sc["voiceover_narration"]
-                    grouped_script[sid] = [sc]
+                    sc_copy = dict(sc)
+                    if "narration_statement" not in sc_copy and "voiceover_narration" in sc_copy:
+                        sc_copy["narration_statement"] = sc_copy["voiceover_narration"]
+                    grouped_script[sid] = [sc_copy]
         elif isinstance(raw_script, list):
             for idx, item in enumerate(raw_script):
                 sid = str(item.get("scene_id", item.get("group", idx + 1)))
@@ -726,41 +738,96 @@ class PopulateAudioRunTime:
                         statements_info = [cleaned_narration] if cleaned_narration else ["Statement"]
 
                     total_stmts = len(statements_info)
-                    allocated_so_far = 0.0
-                    for j, stmt in enumerate(statements_info):
-                        dur, basis, audio_path = self.extract_statement_timing(
-                            group=str(group),
-                            pair_idx=i + 1,
-                            stmt_idx=j + 1,
-                            total_stmts=total_stmts,
-                            statement_text=stmt,
-                            speech_content_pair=speech_content_pair,
-                            audio_element_dir=audio_element_dir,
-                            all_statements=statements_info,
-                            allocated_so_far=allocated_so_far
-                        )
-                        dur = round(float(dur), 3)
-                        allocated_so_far = round(allocated_so_far + dur, 3)
-                        run_times.append(dur)
-                        step_bases.append(basis)
+                    unified_audio = os.path.join(audio_element_dir, f"group_{group}_pair_{i+1}_statement1.wav")
+                    unified_trans = os.path.join(base_folder, "transcripts", f"group_{group}_pair_{i+1}_statement1_word_level.json")
 
-                        key_name = os.path.basename(audio_path) if audio_path else f"group_{group}_pair_{i+1}_stmt{j+1}"
-                        avatar_strategy[key_name] = {"run_time": dur, "position": "no"}
+                    if os.path.exists(unified_audio) and os.path.exists(unified_trans):
+                        pair_dur = probe_audio_duration(unified_audio)
+                        try:
+                            with open(unified_trans, "r", encoding="utf-8") as tf:
+                                trans_segs = json.load(tf)
+                        except Exception:
+                            trans_segs = []
 
-                        statements_list.append({
-                            "statement": stmt,
-                            "runtime": dur
-                        })
-
-                        if audio_path and os.path.exists(audio_path):
+                        if trans_segs and len(trans_segs) > 0:
+                            statements_list = []
+                            run_times = []
+                            step_bases = []
+                            for idx_s, seg in enumerate(trans_segs):
+                                s_text = seg.get("text", "").strip()
+                                s_dur = round(float(seg.get("end", 0.0)) - float(seg.get("start", 0.0)), 3)
+                                statements_list.append({
+                                    "statement": s_text,
+                                    "runtime": s_dur,
+                                    "start": seg.get("start"),
+                                    "end": seg.get("end")
+                                })
+                                run_times.append(s_dur)
+                                step_bases.append(f"Whisper Transcript Timestamp ({s_dur}s)")
+                            total_section_time = pair_dur
                             if AudioFileClip is not None:
                                 try:
-                                    audio_clips.append(AudioFileClip(audio_path))
+                                    audio_clips.append(AudioFileClip(unified_audio))
                                 except Exception:
                                     pass
+                        else:
+                            # Proportional allocation of pair_dur across statements_info
+                            total_words = max(1, sum(max(1, len(s.split())) for s in statements_info))
+                            statements_list = []
+                            run_times = []
+                            step_bases = []
+                            alloc_sum = 0.0
+                            for j, stmt in enumerate(statements_info):
+                                w_cnt = max(1, len(stmt.split()))
+                                if j == total_stmts - 1:
+                                    s_dur = round(max(0.1, pair_dur - alloc_sum), 3)
+                                else:
+                                    s_dur = round(pair_dur * (w_cnt / total_words), 3)
+                                alloc_sum += s_dur
+                                run_times.append(s_dur)
+                                step_bases.append(f"Proportional Audio Split ({s_dur}s)")
+                                statements_list.append({"statement": stmt, "runtime": s_dur})
+                            total_section_time = pair_dur
+                            if AudioFileClip is not None:
+                                try:
+                                    audio_clips.append(AudioFileClip(unified_audio))
+                                except Exception:
+                                    pass
+                    else:
+                        allocated_so_far = 0.0
+                        for j, stmt in enumerate(statements_info):
+                            dur, basis, audio_path = self.extract_statement_timing(
+                                group=str(group),
+                                pair_idx=i + 1,
+                                stmt_idx=j + 1,
+                                total_stmts=total_stmts,
+                                statement_text=stmt,
+                                speech_content_pair=speech_content_pair,
+                                audio_element_dir=audio_element_dir,
+                                all_statements=statements_info,
+                                allocated_so_far=allocated_so_far
+                            )
+                            dur = round(float(dur), 3)
+                            allocated_so_far = round(allocated_so_far + dur, 3)
+                            run_times.append(dur)
+                            step_bases.append(basis)
 
-                # Total runtime for this visual section
-                total_section_time = round(sum(run_times), 3)
+                            key_name = os.path.basename(audio_path) if audio_path else f"group_{group}_pair_{i+1}_stmt{j+1}"
+                            avatar_strategy[key_name] = {"run_time": dur, "position": "no"}
+
+                            statements_list.append({
+                                "statement": stmt,
+                                "runtime": dur
+                            })
+
+                            if audio_path and os.path.exists(audio_path):
+                                if AudioFileClip is not None:
+                                    try:
+                                        audio_clips.append(AudioFileClip(audio_path))
+                                    except Exception:
+                                        pass
+
+                        total_section_time = round(sum(run_times), 3)
 
                 # Ensure standard fields in cgi_data
                 if "narration_statement" not in cgi_data[group][i]:
@@ -782,6 +849,9 @@ class PopulateAudioRunTime:
                 cgi_data[group][i]["start_time"] = start_sec
                 cgi_data[group][i]["end_time"] = end_sec
                 cgi_data[group][i]["statements"] = statements_list
+                if os.path.exists(unified_audio):
+                    cgi_data[group][i]["audio_file"] = os.path.basename(unified_audio)
+                    cgi_data[group][i]["audio_path"] = os.path.abspath(unified_audio)
 
                 if "audio_timing" in cgi_data[group][i] and isinstance(cgi_data[group][i]["audio_timing"], dict):
                     cgi_data[group][i]["audio_timing"]["start_time"] = start_sec

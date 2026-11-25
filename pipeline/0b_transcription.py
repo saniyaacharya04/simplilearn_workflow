@@ -5,7 +5,7 @@ PIPELINE STAGE 0B: SPEECH TRANSCRIPTION & WORD-LEVEL TIMESTAMPING
 ================================================================================
 
 1. STAGE OVERVIEW:
-   - Stage Index: 0b
+   - Stage Index: 0B
    - Script Name: 0b_transcription.py
    - Primary Class: SpeechTranscriptionEngine (CLI Subprocess Module)
    - Pipeline Role:
@@ -51,7 +51,7 @@ PIPELINE STAGE 0B: SPEECH TRANSCRIPTION & WORD-LEVEL TIMESTAMPING
 6. DOWNSTREAM CONSUMERS:
    - Stage 0C (0c_clean_fillers_and_retakes.py): Consumes word timestamps to detect
      stumbles, retakes, and clapper slates.
-   - Stage 5 (5_generate_audio.py): Uses timestamp ranges to verify sentence durations.
+   - Stage 5 (5_populate_audio_runtime.py): Uses timestamp ranges to verify sentence durations and align spoken step audio.
 ================================================================================
 """
 

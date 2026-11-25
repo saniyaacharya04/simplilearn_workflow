@@ -1,15 +1,15 @@
 {
-  "topic": "Types And Architectures Of Ai Agents Sme",
+  "topic": "Types and Architectures of AI Agents",
   "design_system": "Simplilearn OSL 3.0 (10-Color Pastel Infographic Palette, Open Sans)",
   "scenes": [
     {
       "scene_id": 1,
-      "title": "AI Agents: Action, Not Just Response",
-      "sme_layout": "70",
-      "voiceover_narration": "In the last topic, we established what an AI agent is. A system that doesn't just respond, but acts.",
+      "title": "Topic Introduction: Types and Architectures of AI Agents",
+      "sme_layout": "100",
+      "voiceover_narration": "System that does not just respond, but acts",
       "styled_blocks": [
         {
-          "matching_section": "First, across the upper horizontal safe zone, the scene title \"AI Agents: Action, Not Just Response\" styled in Open Sans font, Bold weight, 40pt (or 26-28pt in Manim) size, Title Case, and colored Dark Charcoal Text (#404040) fades in and settles cleanly along the horizontal center, elevated above the primary kinetic workspace to establish the thematic scope while leaving unobstructed space below. Following the stabilization of the title, an expansive kinetic vector perspective grid representing the dynamic Environment materializes across the central and background workspace, with its lines styled with a solid stroke in Soft Border (#DADCE0), tracing outward to the boundaries of"
+          "matching_section": "The visual workspace is organized under Layout 70, where the left 30% of the screen is dedicated to the live SME presenter frame measuring 640px in width by 920px in height, constraining all visual components strictly within the right 70% workspace spanning horizontal region x >= 760px (Manim x coordinates from -1.1 to 6.2). First, centered at the top of the right workspace, the title text block displaying \"Opening Hook and Action Principle\" formatted in Open Sans font, SemiBold weight, 28pt (18pt in Manim), Title Case, and colored Slate Gray Muted (#5F"
         }
       ],
       "osl_theme": {
@@ -23,12 +23,12 @@
     },
     {
       "scene_id": 2,
-      "title": "Diverse Architectures & Learning Objectives",
+      "title": "Core Problem and Operational Context",
       "sme_layout": "70",
-      "voiceover_narration": "We introduced Solara Energy and looked at how agents can take a goal like monitoring site performance and turn it into a sequence of real actions, querying data, comparing outputs, flagging anomalies and generating reports.",
+      "voiceover_narration": "Monitoring site performance and goal-driven action sequences",
       "styled_blocks": [
         {
-          "matching_section": "Begin by rendering the scene title text \"Solara: Goal-Driven Actions\" in `Open Sans` font, `BOLD` weight, `40pt` size (Manim: `26-28pt`), `color=Dark Charcoal Text (#404040)`, positioned horizontally across the upper banner area directly beneath the top margin and terminating horizontally before the vertical safe margin boundary reserved for the top-right SME presenter window. Immediately following the title's settlement, construct the persistent master anchor in the central-left upper quadrant directly below the title banner: first draw the stylized solar sunburst vector emblem by expanding its radiating geometric petals outward from a central circular hub, and then reveal the"
+          "matching_section": "The presentation workspace maintains a seventy-percent layout split with the presenter static in the dedicated left thirty-percent frame and all visual mechanisms operating within the right seventy-percent workspace. First, at the top of the right workspace, the centered main title Solara Energy Introduction enters and settles, styled in Open Sans Bold, 40pt, Color Primary Dark Charcoal (#404040), and Title Case. This is followed immediately by the secondary context badge Core Problem and Operational Context settling directly below it, styled as a capsule pill with a Sky Blue (#62B7E4) background fill, 10px rounded corners, and text in Open Sans SemiBold, 2"
         }
       ],
       "osl_theme": {
@@ -42,12 +42,12 @@
     },
     {
       "scene_id": 3,
-      "title": "Scene 3",
-      "sme_layout": "20",
-      "voiceover_narration": "Every AI agent, regardless of type, is built from the same fundamental components. There's the perception layer.",
+      "title": "Topic Learning Objectives",
+      "sme_layout": "70",
+      "voiceover_narration": "Modular anatomy of perception, memory, reasoning, and action",
       "styled_blocks": [
         {
-          "matching_section": "The presentation opens with the scene title One Core, Four Pillars fading into position centered horizontally along the upper boundary of the display, with its left margin beginning safely inward from the screen edge and its rightmost terminal strictly bounded before the fourteen hundred forty pixel coordinate, preserving the entire upper-right zone above two hundred seventy pixels and rightward of fourteen hundred forty pixels as clear empty space reserved for the live presenter feed. Across the central active canvas below two hundred seventy pixels, the open kinetic blueprint visual architecture is constructed from the center outward. First, at the exact geometric coordinate center of the workspace, the Agent Core enters by materializing an inner radiant glowing circular nucleus, which immediately radiates outward to establish three concentric energy"
+          "matching_section": "The scene is established in Layout 70, reserving the left frame safe zone bounded within $x \\in [-7.11, -1.48]$ for the subject-matter expert presenter, while all dynamic presentation elements are bounded strictly within the right workspace at $x \\in [-1.1, 6.2]$. First, the step title \"Describe Core Architectural Components\" enters at the top edge of the right workspace, centered horizontally, styled in Open Sans SemiBold, 28pt, Color #5F6368 (Slate Gray). Next, at the geometric center of the right workspace, a glowing central vector neural hub enters and settles, labeled with a bold"
         }
       ],
       "osl_theme": {
@@ -61,12 +61,12 @@
     },
     {
       "scene_id": 4,
-      "title": "Core Components: Reasoning & Action",
-      "sme_layout": "70",
-      "voiceover_narration": "These four components work together in a continuous loop. The agent perceives, reasons, acts, then perceives again based on the result of that action.",
+      "title": "Four Pillars of AI Agent Architecture",
+      "sme_layout": "20",
+      "voiceover_narration": "Four fundamental components inside every AI agent",
       "styled_blocks": [
         {
-          "matching_section": "The presentation begins with the instructional title text, \"Continuous Loop\", styled in Open Sans SemiBold, 28pt (or 18pt in Manim), and Slate Gray Muted (#5F6368), writing into place centered along the upper margin of the workspace, establishing the focus on autonomous, unending computational cycles. Below the title, the primary workspace introduces the outer perimeter first: a large, open circular telemetry ring smoothly traces its circumference in the central workspace, with its stroke in Sky Blue (#62B7E4) and a prominent stroke_width (e.g., 3px), accompanied by the text label \"Environment\" styled in Open Sans Regular,"
+          "matching_section": "In Layout 70, the presenter is established inside a dedicated left frame occupying the left third of the screen, leaving the right two-thirds of the screen available as the visual workspace. First, anchored at the top center of the right workspace, the primary scene title text \"Unified Chassis Overview\" enters, styled in Open Sans font, Bold weight, 40pt size, with Primary Dark Charcoal (#404040) color, in Title Case. It is followed immediately by the context subtitle badge \"Four Pillars of AI Agent Architecture\" settling directly beneath it, styled in Open Sans font, SemiBold weight, 28pt size, with Slate Gray Muted (#5"
         }
       ],
       "osl_theme": {
@@ -80,12 +80,12 @@
     },
     {
       "scene_id": 5,
-      "title": "Agent-Environment Interaction Loop",
-      "sme_layout": "20",
-      "voiceover_narration": "At Solara, an agent monitoring grid performance isn't just waiting for someone to run a report. It's watching. When output at a site drops below threshold, it observes the deviation, decides the appropriate response, which might be querying historical data, cross-referencing weather records, or escalating to a human operator, and takes that action.",
+      "title": "Continuous Agent-Environment Feedback Loop",
+      "sme_layout": "70",
+      "voiceover_narration": "Dynamic enterprise setting: solar arrays, grid fluctuations, databases",
       "styled_blocks": [
         {
-          "matching_section": "Begin by rendering the scene title, \"Agent-Environment Interaction Loop\", using Open Sans Bold font at 40pt (or 26-28pt in Manim), in Primary Dark Charcoal (#404040) color, styled in Title Case. Position it centered horizontally in the upper display area, safely leftward to terminate cleanly before the top-right presenter safe zone. Once the title settles, construct the primary environmental source in the center-left workspace: an open-vector solar panel array with its panels filled with Steel Blue (#7EA2C8) and a subtle gradient emphasizing an upward energy flow at opacity 0.8, outlined with a Soft Border (#DAD"
+          "matching_section": "First, the scene title text \"The Operational Environment\" enters at the upper top region of the right-side presentation workspace of Layout 70, styled in Open Sans Bold, 40pt (26-28pt in Manim), Title Case, with a color of Primary Dark Charcoal (#404040), followed immediately by the supporting subtitle text \"Continuous Agent-Environment Feedback Loop\" aligned directly underneath its center axis, styled in Open Sans SemiBold, 28pt (18pt in Manim), Title Case, with a color of Slate Gray Muted (#5F6368). Next, the structural framework of the continuous feedback loop architecture enters below the"
         }
       ],
       "osl_theme": {
@@ -99,12 +99,12 @@
     },
     {
       "scene_id": 6,
-      "title": "The Perception-Reasoning-Action Cycle",
-      "sme_layout": "70",
-      "voiceover_narration": "Perception is input. The agent receives information, a data reading, a user request, a tool result, and error message. It takes that in and adds it to its working context.",
+      "title": "Perceive-Reason-Act (PRA) Execution Cycle",
+      "sme_layout": "20",
+      "voiceover_narration": "Extracting structured signals from noisy raw sensory data",
       "styled_blocks": [
         {
-          "matching_section": "First, the title Perception: Input Intake establishes itself at the top-left to upper-center boundary, remaining completely clear of the top-right presenter frame clearance zone. The title must be styled in Open Sans Bold font, 40pt, Title Case, using Dark Charcoal Text (#404040). Next, within the left-central primary workspace directly below the header zone, the primary Perception Sensor Hub enters as an open concentric vector aperture, constructed from an illuminated optical sensor core enveloped by concentric pulsing telemetry wave rings. The optical sensor core should have a fill of Primary Accent Brand Blue (#2C81FE) and a subtle White (#FFFFFF) stroke with a glowing effect, while the"
+          "matching_section": "First, in Layout 70, the SME presenter is established in the left rounded frame, while the right workspace occupying $x \\ge 760\\text{px}$ remains clear for system schematic assembly. Next, centered horizontally at the top of the right workspace, the persistent screen context badge \"Perceive-Reason-Act (PRA) Execution Cycle (Step 1)\" fades into view, styled as a capsule pill with a Primary Accent Brand Blue (#2C81FE) fill and white (#FFFFFF) Open Sans Bold text, 16pt, with rounded corners (corner_radius = 0.074 Manim units), followed immediately by the step title \""
         }
       ],
       "osl_theme": {
@@ -118,12 +118,12 @@
     },
     {
       "scene_id": 7,
-      "title": "Types of Agents: Reactive & Goal-Based",
-      "sme_layout": "20",
-      "voiceover_narration": "Now let's talk about the three main types of agents, because not every problem needs the same architecture.",
+      "title": "Architecture Types 1 & 2: Reactive vs Goal-Based Agents",
+      "sme_layout": "70",
+      "voiceover_narration": "Direct Condition-Action rules (IF temperature > threshold THEN trip breaker)",
       "styled_blocks": [
         {
-          "matching_section": "First, the primary scene title `Types of Agents: Reactive & Goal-Based` is established at the top horizontal center of the workspace, positioned safely below the upper edge and terminating horizontally before the top-right presenter PIP zone. The title is styled in `Open Sans Bold`, `40pt`, `Color #404040 (Dark Charcoal Text)`. Directly beneath the title, the central architectural distribution node labeled `Autonomous Decision Models` draws into place along the upper-middle vertical axis. This node is styled with a `fill_color=Primary Accent Brand Blue (#2C81FE)` and the label `Autonomous Decision Models` is in `Open Sans SemiBold`,"
+          "matching_section": "First, the scene title \"Architecture Type 1: Simple Reflex / Reactive\" in Open Sans Bold, 40pt (Manim 26-28pt), Color Primary Dark Charcoal (#404040), Title Case enters centered horizontally across the top of the right-hand visual workspace bounded within $x \\in [-1.1, 6.2]$ and $y \\in [3.0, 3.8]$. Next, on the far left of the visual workspace at $x = -0.5$, a Sensor Node enters, labeled with a bold badge \"Percept Ingest\" to capture incoming stream particles. Then, a straight conduit extends"
         }
       ],
       "osl_theme": {
@@ -137,24 +137,12 @@
     },
     {
       "scene_id": 8,
-      "title": "Utility-Based Agents & Workflow",
+      "title": "Architecture Type 3: Utility-Based Agents & Workflow",
       "sme_layout": "70",
-      "voiceover_narration": "The third type is the utility-based agent. A utility-based agent goes further than goal-based reasoning. It doesn't just ask, will this action achieve the goal? It asks, which available action achieves the goal most efficiently, at the lowest cost, and with the highest confidence. At Solara, a utility-based agent managing report generation across hundreds of sites needs to make trade-off decisions constantly. Do I generate a full diagnostic report or a summary? Do I escalate the anomaly or log it for review? It evaluates options against a utility function and picks the best one.",
+      "voiceover_narration": "Goes beyond binary goal completion: which action achieves it best?",
       "styled_blocks": [
         {
-          "matching_section": "First, the scene title Utility-Based Agents & Workflow fades into view, centered horizontally across the upper screen margin well clear of the top-right presenter boundary, styled in Open Sans font, Bold weight, 26pt-28pt size, and Primary Dark Charcoal (#404040) color, using Title Case. It is immediately accompanied by a compact category badge reading Architecture Pattern positioned just above it. This badge is styled as a rounded pill with a Sky Blue (#62B7E4) fill and Open Sans font, Bold weight, 16pt size, in Title Case, with crisp White (#FFFFFF) text. Next, in the central workspace, the open-canvas multi-criteria trade-off decision grid establishes its coordinate frame on the left side, drawing three vertical metric column headers labeled Efficiency, Cost, and Confidence. These headers are styled in Open Sans font, SemiBold weight, 18pt size, and Slate Gray Muted (#5F6368) color. These are followed sequentially by four horizontal action rows labeled Full Report, Summary, Escalate, and Log, styled in Open Sans font, Regular weight, 18pt size, and Primary Dark Charcoal (#404040) color. At each coordinate intersection, explicit numerical utility score values $u_{ij}$ alongside their respective scalar evaluation weights $w_j$ fade into place, forming the complete decision matrix without enclosing slide borders. These numerical values are styled in Open Sans font, Regular weight, 16pt size, and Primary Dark Charcoal (#404040) color, preserving LaTeX formatting. Directly above the matrix rows, a pulsating vector neural AI Core node manifests with an active radial glow. The AI Core node is filled with Primary Accent Brand Blue (#2C81FE) and has a soft glow in Sky Blue (#62B7E4). From this neural core, dynamic horizontal scanning laser rays sweep sequentially downward across Full Report, Summary, Escalate, and Log, visually interrogating the weighted values of each candidate action. These scanning rays are styled with a stroke of Warm Amber (#E6A157). As the scan reaches the final row, the right central workspace populates with an open Cartesian coordinate axis upon which an analytical utility function spline curve $U(a)$ smoothly plots from left to right, rising to a distinct apex. The coordinate axis is drawn with a Soft Border (#DADCE0) stroke, and the spline curve $U(a)$ is rendered with a stroke of Lavender Periwinkle (#9B99C7). At the crest of the curve, an active optimization peak marker pulsates to designate the global maximum expected utility $\\max U(a)$. This marker is styled with a Focus Highlight (#F78908) stroke, 3px stroke width. Simultaneously, the horizontal row corresponding to Escalate illuminates with a bright border trace and traveling vector highlight across the matrix, confirming its status as the mathematically dominant candidate. This illumination and highlight use the Focus Highlight (#F78908) stroke, 3px stroke width. Directly beneath this illuminated row, an anchored confirmation badge reading Optimal Action: Escalate expands into position. This badge is styled as a rounded pill with a Primary Accent Brand Blue (#2C81FE) fill and Open Sans font, SemiBold weight, 18pt size, in Title Case, with crisp White (#FFFFFF) text. All components remain elevated by at least 1.5 units above the lower boundary. To conclude the step, the static grid elements, coordinate axis, and spline curve dissolve, while the pulsating neural AI Core node and its focused ray vectors smoothly morph and reposition to anchor the upcoming workflow loop.",
-          "assets": [
-            "None"
-          ]
-        },
-        {
-          "matching_section": "First, the scene title smoothly transitions to Complete Agent Workflow, centered across the upper screen horizontal zone, styled in Open Sans font, Bold weight, 26pt-28pt size, and Primary Dark Charcoal (#404040) color, using Title Case, while a secondary subtitle reading Perception-Reason-Act Lifecycle slides into position directly beneath it. The subtitle is styled in Open Sans font, SemiBold weight, 18pt size, and Slate Gray Muted (#5F6368) color, in Sentence Case. From the morphed neural AI core from the previous step, which retains its Primary Accent Brand Blue (#2C81FE) fill and Sky Blue (#62B7E4) glow, the workspace rapidly constructs a wide, balanced closed-loop orbital process flow across the central viewing region. At the far left margin, a circular origin node labeled Goal Input fades into position. This node is styled with a Steel Blue (#7EA2C8) fill, a Soft Border (#DADCE0) stroke, and Open Sans font, SemiBold weight, 18pt size, in Title Case, with crisp White (#FFFFFF) text. It immediately projects a directional vector conduit that links into the main orbital network. This conduit has a stroke of Steel Blue (#7EA2C8). Down this conduit, traveling glowing data packet dots translate eastward to initiate system operation. These data packets are styled with a fill of Warm Amber (#E6A157). Next, the primary tri-node orbital mechanism constructs its three balanced vector hubs: the Perceive hub anchors at the top left, the Reason hub anchors at the top right, and the Act hub settles at the bottom center. These hubs are styled as circular nodes with a Sky Blue (#62B7E4) fill, a Soft Border (#DADCE0) stroke, and Open Sans font, SemiBold weight, 18pt size, in Title Case, with crisp White (#FFFFFF) text. Between these three hubs, curved directional conduits draw in a continuous clockwise equilateral arrangement, establishing continuous packet circulation from Perceive to Reason, Reason to Act, and Act back to Perceive. These conduits have a stroke of Sky Blue (#62B7E4). Directly above the horizontal axis linking Perceive and Reason, an integrated telemetry linear gauge labeled Goal Progress materializes, displaying segmented incremental cycle completion blocks. The gauge is styled with a Soft Border (#DADCE0) stroke, and its segments fill progressively with Sky Blue (#62B7E4). The label Goal Progress is styled in Open Sans font, Regular weight, 16pt size, and Slate Gray Muted (#5F6368) color, in Title Case. Branching diagonally outward and downward from the right side of the Reason hub, a secondary conduit extends toward the lower-right quadrant, terminating at an angular warning node titled Error Condition fitted with an intermittently pulsing warning beacon indicator. This secondary conduit has a stroke of Coral Terracotta (#E58F6D). The Error Condition node is styled with a Coral Terracotta (#E58F6D) fill, a Soft Border (#DADCE0) stroke, and Open Sans font, SemiBold weight, 18pt size, in Title Case, with crisp White (#FFFFFF) text, with the warning beacon pulsing in Warm Amber (#E6A157). Bright data packets visibly circulate through the primary loop, advancing the segments of the Goal Progress gauge with each cycle completion until a definitive badge labeled Goal Achieved locks into place at the lower exit vector of the Act hub. The Goal Achieved badge is styled as a rounded pill with a Primary Accent Brand Blue (#2C81FE) fill and Open Sans font, SemiBold weight, 18pt size, in Title Case, with crisp White (#FFFFFF) text. The entire closed-loop architecture, its labeled processing hubs, and the interconnected conduit geometry remain fully stable and persistent to serve as the baseline operational canvas for the subsequent step.",
-          "assets": [
-            "None"
-          ]
-        },
-        {
-          "matching_section": "First, the scene title updates to Responsible Handoff along the top horizontal span, styled in Open Sans font, Bold weight, 26pt-28pt size, and Primary Dark Charcoal (#404040) color, using Title Case, while the subtitle and terminal Goal Achieved badge dissolve, leaving the complete autonomous closed-loop architecture intact across the left and center-left workspace"
+          "matching_section": "First, at the top left of the right workspace spanning horizontally from the center-left edge across to the right boundary, the title badge containing the text <span style=\"font-family: Open Sans; font-weight: SemiBold; font-size: 24pt; color: #404040 (Dark Charcoal Text);\">Architecture Type 3: Utility-Based Agent</span> settles into position while maintaining clearance at the bottom. The title badge has a rounded corner radius (0.074 Manim units) and a fill color of Sky Blue (#62B7E4). Centered below the title, the primary architectural schematic foundation begins construction. First, the central"
         }
       ],
       "osl_theme": {
@@ -168,12 +156,12 @@
     },
     {
       "scene_id": 9,
-      "title": "Handoff, Summary & What's Next",
+      "title": "Architectural Synthesis & Hands-On Demo Launch",
       "sme_layout": "70",
-      "voiceover_narration": "Let's bring it together. Every agent is built from four components. Perception, memory, reasoning, and action working together in a continuous loop. That loop drives agent environment interaction. The agent observes, decides, acts, and observes again. The three types of agents, reactive, goal-based, and utility-based represent increasing levels of sophistication. Reactive agents are fast and rule-driven. Goal-based agents plan towards outcomes. Utility-based agents optimize across trade-offs.",
+      "voiceover_narration": "Four pillars (Perception, Memory, Reasoning, Action) working in harmony",
       "styled_blocks": [
         {
-          "matching_section": "The presentation opens with the clean introduction of the scene title \"Key Takeaways\" which writes across the upper horizontal canvas using Open Sans Bold font, 40pt (or 26-28pt in Manim) in Title Case with Color Primary Dark Charcoal (#404040), while terminating strictly to the left of the designated top-right presenter exclusion zone. Attention immediately directs to the left third of the workspace, where the Core Components mechanism constructs in continuous clockwise sequence: first, a circular sensor node bearing the label \"Perception\" using Open Sans Regular font, 16pt in Title Case with Color Slate Gray Muted (#5F6368) establishes the"
+          "matching_section": "The presentation workspace opens under Layout 70, reserving the left frame for the SME presenter while configuring the right-side visual workspace across horizontal coordinates $x \\in [-1.1, 6.2]$ and vertical coordinates $y \\in [-3.2, 3.2]$. First, at the top center of the right workspace ($x = 2.55, y = 2.8$), the step title Architectural Synthesis, styled in Open Sans Bold, 40pt (26-28pt in Manim), Title Case, using Primary Dark Charcoal (#404040), enters, immediately followed by the contextual badge reading System Architecture Synthesis positioned directly"
         }
       ],
       "osl_theme": {

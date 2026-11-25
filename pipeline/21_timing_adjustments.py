@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 ================================================================================
 PIPELINE STAGE 21: TIMING ADJUSTMENTS & AUDIO SYNCHRONIZATION
@@ -22,7 +23,7 @@ PIPELINE STAGE 21: TIMING ADJUSTMENTS & AUDIO SYNCHRONIZATION
        - How: Ingests styled scripts from manim_styled_codes/group_{group}.py via
          20_eng_corrections_tracker.json.
        - Purpose: Provides the polished, defect-free Manim code to be synchronized.
-     * Stage 5 (5_generate_audio.py):
+     * Stage 5 (5_populate_audio_runtime.py):
        - How: Ingests CGI_Input.json.
        - Purpose: Supplies the exact duration in seconds for each spoken narration sentence.
    - Input Tracker: ppt_trackers/20_eng_corrections_tracker.json

@@ -929,25 +929,27 @@ def topic_worker_loop(
 
             # Run Video Preprocessing (0A - 0D) if raw video was supplied
             if is_video_input and video_path and os.path.exists(video_path):
-                status_dict[worker_id] = {
-                    "topic": topic_id,
-                    "stage_idx": "0a-0d",
-                    "stage_name": "Video Preprocessing",
-                    "start_time": time.time(),
-                    "state": "preprocessing",
-                }
-                try:
-                    run_video_preprocessing(
-                        video_path=video_path,
-                        topic_folder=topic_folder,
-                        topic_id=topic_id,
-                        trackers_dir=trackers_dir,
-                    )
-                except Exception as e:
-                    print(f"[Worker {worker_id}] [{topic_id}] Preprocessing failed: {e}")
-                    with failed_counter.get_lock():
-                        failed_counter.value += 1
-                    continue
+                trimmer_tracker = os.path.join(trackers_dir, "0d_av_trimmer_tracker.json")
+                if start_stage == 0 or not is_stage_completed(trimmer_tracker, topic_id):
+                    status_dict[worker_id] = {
+                        "topic": topic_id,
+                        "stage_idx": "0a-0d",
+                        "stage_name": "Video Preprocessing",
+                        "start_time": time.time(),
+                        "state": "preprocessing",
+                    }
+                    try:
+                        run_video_preprocessing(
+                            video_path=video_path,
+                            topic_folder=topic_folder,
+                            topic_id=topic_id,
+                            trackers_dir=trackers_dir,
+                        )
+                    except Exception as e:
+                        print(f"[Worker {worker_id}] [{topic_id}] Preprocessing failed: {e}")
+                        with failed_counter.get_lock():
+                            failed_counter.value += 1
+                        continue
 
             # Run Requested Pedagogical, Code, Diagnostic & Render Stages (0 to 23)
             for stage_idx in range(start_stage, end_stage + 1):
@@ -1366,6 +1368,17 @@ def main():
     # 1. Inspect targets passed via CLI
     if args.input_targets:
         for t in args.input_targets:
+            # Check A: Direct check inside data_dir (e.g. output/types_and_architectures_of_ai_agents_sme)
+            cand_data_folder = Path(data_dir) / t
+            if cand_data_folder.is_dir():
+                candidate_items.append({
+                    "topic_id": t,
+                    "topic_folder": str(cand_data_folder),
+                    "is_video": False,
+                    "video_path": None,
+                })
+                continue
+
             p = Path(t).resolve()
             if p.is_file() and p.suffix.lower() in [".mp4", ".mov", ".mkv", ".avi", ".webm"]:
                 tid = re.sub(r'[^a-zA-Z0-9_-]+', '_', p.stem).strip('_').lower()
@@ -1376,25 +1389,42 @@ def main():
                     "video_path": str(p),
                 })
             elif p.is_dir():
-                # Check if it is a directory containing video files
-                video_files = [f for f in p.glob("*") if f.suffix.lower() in [".mp4", ".mov", ".mkv", ".avi", ".webm"]]
-                if video_files:
-                    for vf in video_files:
-                        tid = re.sub(r'[^a-zA-Z0-9_-]+', '_', vf.stem).strip('_').lower()
-                        candidate_items.append({
-                            "topic_id": tid,
-                            "topic_folder": os.path.join(data_dir, tid),
-                            "is_video": True,
-                            "video_path": str(vf),
-                        })
-                else:
-                    # Treat directory as topic folder
+                # Check if p is an existing topic folder (contains topic structure/artifacts)
+                is_topic_dir = (
+                    (p / "metadata_blueprints").is_dir()
+                    or (p / "audio_elements").is_dir()
+                    or (p / "transcripts").is_dir()
+                    or (p / "manim_codes").is_dir()
+                    or (p / "ex_config.json").is_file()
+                    or any(p.glob("*_blueprint.json"))
+                )
+                if is_topic_dir:
                     candidate_items.append({
                         "topic_id": p.name,
                         "topic_folder": str(p),
                         "is_video": False,
                         "video_path": None,
                     })
+                else:
+                    # Check if it is a directory containing video files (e.g. input/ batch)
+                    video_files = [f for f in p.glob("*") if f.suffix.lower() in [".mp4", ".mov", ".mkv", ".avi", ".webm"]]
+                    if video_files:
+                        for vf in video_files:
+                            tid = re.sub(r'[^a-zA-Z0-9_-]+', '_', vf.stem).strip('_').lower()
+                            candidate_items.append({
+                                "topic_id": tid,
+                                "topic_folder": os.path.join(data_dir, tid),
+                                "is_video": True,
+                                "video_path": str(vf),
+                            })
+                    else:
+                        # Treat directory as topic folder
+                        candidate_items.append({
+                            "topic_id": p.name,
+                            "topic_folder": str(p),
+                            "is_video": False,
+                            "video_path": None,
+                        })
             else:
                 # Target is folder name inside data_dir
                 cand_folder = os.path.join(data_dir, t)

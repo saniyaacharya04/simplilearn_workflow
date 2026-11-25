@@ -1,0 +1,427 @@
+Scene 1:
+Presentation Step 1: Opening Hook & Action Principle
+Narration: System that does not just respond, but acts
+Visual Description: Purpose: Explain Opening Hook & Action Principle
+Presentation Components:
+• Step Title: Opening Hook & Action Principle
+• Screen Context: Topic Introduction: Types and Architectures of AI Agents (Step 1)
+• Centerstage Visual Model: Dynamic architectural schematic representing Opening Hook & Action Principle.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Opening Hook & Action Principle.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+
+Scene 2:
+Presentation Step 1: Solara Energy Introduction
+Narration: Monitoring site performance and goal-driven action sequences
+Visual Description: Purpose: Explain Solara Energy Introduction
+Presentation Components:
+• Step Title: Solara Energy Introduction
+• Screen Context: Core Problem and Operational Context (Step 1)
+• Centerstage Visual Model: Dynamic architectural schematic representing Solara Energy Introduction.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Solara Energy Introduction.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 2: Real-World Action Sequence
+Narration: Querying data, comparing outputs, flagging anomalies, generating reports
+Visual Description: Purpose: Explain Real-World Action Sequence
+Presentation Components:
+• Step Title: Real-World Action Sequence
+• Screen Context: Core Problem and Operational Context (Step 2)
+• Centerstage Visual Model: Dynamic architectural schematic representing Real-World Action Sequence.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Real-World Action Sequence.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 3: Architectural Diversity
+Narration: Different types built on different architectures for different problems
+Visual Description: Purpose: Explain Architectural Diversity
+Presentation Components:
+• Step Title: Architectural Diversity
+• Screen Context: Core Problem and Operational Context (Step 3)
+• Centerstage Visual Model: Dynamic architectural schematic representing Architectural Diversity.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Architectural Diversity.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 4: Engineering Alignment
+Narration: Matching the right agent architecture to the right operational job
+Visual Description: Purpose: Explain Engineering Alignment
+Presentation Components:
+• Step Title: Engineering Alignment
+• Screen Context: Core Problem and Operational Context (Step 4)
+• Centerstage Visual Model: Dynamic architectural schematic representing Engineering Alignment.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Engineering Alignment.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+
+Scene 3:
+Presentation Step 1: Describe Core Architectural Components
+Narration: Modular anatomy of perception, memory, reasoning, and action
+Visual Description: Purpose: Explain Describe Core Architectural Components
+Presentation Components:
+• Step Title: Describe Core Architectural Components
+• Screen Context: Topic Learning Objectives (Step 1)
+• Centerstage Visual Model: Dynamic architectural schematic representing Describe Core Architectural Components.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Describe Core Architectural Components.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 2: Explain Agent-Environment Continuous Loop
+Narration: Continuous observation, state update, and environmental feedback
+Visual Description: Purpose: Explain Explain Agent-Environment Continuous Loop
+Presentation Components:
+• Step Title: Explain Agent-Environment Continuous Loop
+• Screen Context: Topic Learning Objectives (Step 2)
+• Centerstage Visual Model: Dynamic architectural schematic representing Explain Agent-Environment Continuous Loop.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Explain Agent-Environment Continuous Loop.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 3: Walk Through PRA Execution Cycle
+Narration: Perception-Reasoning-Action execution loop driving decisions
+Visual Description: Purpose: Explain Walk Through PRA Execution Cycle
+Presentation Components:
+• Step Title: Walk Through PRA Execution Cycle
+• Screen Context: Topic Learning Objectives (Step 3)
+• Centerstage Visual Model: Dynamic architectural schematic representing Walk Through PRA Execution Cycle.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Walk Through PRA Execution Cycle.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 4: Identify Three Main Agent Types
+Narration: Reactive, goal-based, and utility-based architectural paradigms
+Visual Description: Purpose: Explain Identify Three Main Agent Types
+Presentation Components:
+• Step Title: Identify Three Main Agent Types
+• Screen Context: Topic Learning Objectives (Step 4)
+• Centerstage Visual Model: Dynamic architectural schematic representing Identify Three Main Agent Types.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Identify Three Main Agent Types.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 5: Visualize End-to-End Workflow
+Narration: Complete flow from input to outcome with safety escalation
+Visual Description: Purpose: Explain Visualize End-to-End Workflow
+Presentation Components:
+• Step Title: Visualize End-to-End Workflow
+• Screen Context: Topic Learning Objectives (Step 5)
+• Centerstage Visual Model: Dynamic architectural schematic representing Visualize End-to-End Workflow.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Visualize End-to-End Workflow.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+
+Scene 4:
+Presentation Step 1: Unified Chassis Overview
+Narration: Four fundamental components inside every AI agent
+Visual Description: Purpose: Explain Unified Chassis Overview
+Presentation Components:
+• Step Title: Unified Chassis Overview
+• Screen Context: Four Pillars of AI Agent Architecture (Step 1)
+• Centerstage Visual Model: Dynamic architectural schematic representing Unified Chassis Overview.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Unified Chassis Overview.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 2: Perception Layer
+Narration: Sensory ingress: telemetry, API payloads, document streams
+Visual Description: Purpose: Explain Perception Layer
+Presentation Components:
+• Step Title: Perception Layer
+• Screen Context: Four Pillars of AI Agent Architecture (Step 2)
+• Centerstage Visual Model: Dynamic architectural schematic representing Perception Layer.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Perception Layer.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 3: Memory Component
+Narration: Short-term operational context and long-term state storage
+Visual Description: Purpose: Explain Memory Component
+Presentation Components:
+• Step Title: Memory Component
+• Screen Context: Four Pillars of AI Agent Architecture (Step 3)
+• Centerstage Visual Model: Dynamic architectural schematic representing Memory Component.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Memory Component.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 4: Reasoning Engine
+Narration: Deliberation, LLM cognitive planning, and decision-making logic
+Visual Description: Purpose: Explain Reasoning Engine
+Presentation Components:
+• Step Title: Reasoning Engine
+• Screen Context: Four Pillars of AI Agent Architecture (Step 4)
+• Centerstage Visual Model: Dynamic architectural schematic representing Reasoning Engine.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Reasoning Engine.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 5: Action Layer
+Narration: Effectors: tool execution, database updates, actuator dispatch
+Visual Description: Purpose: Explain Action Layer
+Presentation Components:
+• Step Title: Action Layer
+• Screen Context: Four Pillars of AI Agent Architecture (Step 5)
+• Centerstage Visual Model: Dynamic architectural schematic representing Action Layer.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Action Layer.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 6: Cohesive Integration
+Narration: Inter-pillar synergy enabling autonomous operations
+Visual Description: Purpose: Explain Cohesive Integration
+Presentation Components:
+• Step Title: Cohesive Integration
+• Screen Context: Four Pillars of AI Agent Architecture (Step 6)
+• Centerstage Visual Model: Dynamic architectural schematic representing Cohesive Integration.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Cohesive Integration.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+
+Scene 5:
+Presentation Step 1: The Operational Environment
+Narration: Dynamic enterprise setting: solar arrays, grid fluctuations, databases
+Visual Description: Purpose: Explain The Operational Environment
+Presentation Components:
+• Step Title: The Operational Environment
+• Screen Context: Continuous Agent-Environment Feedback Loop (Step 1)
+• Centerstage Visual Model: Dynamic architectural schematic representing The Operational Environment.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for The Operational Environment.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 2: Continuous Sensory Observation
+Narration: Agent ingests real-time environmental telemetry
+Visual Description: Purpose: Explain Continuous Sensory Observation
+Presentation Components:
+• Step Title: Continuous Sensory Observation
+• Screen Context: Continuous Agent-Environment Feedback Loop (Step 2)
+• Centerstage Visual Model: Dynamic architectural schematic representing Continuous Sensory Observation.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Continuous Sensory Observation.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 3: Internal State Transformation
+Narration: Updating beliefs and operational context based on observations
+Visual Description: Purpose: Explain Internal State Transformation
+Presentation Components:
+• Step Title: Internal State Transformation
+• Screen Context: Continuous Agent-Environment Feedback Loop (Step 3)
+• Centerstage Visual Model: Dynamic architectural schematic representing Internal State Transformation.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Internal State Transformation.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 4: Action Impact & Environmental Shift
+Narration: Agent actions alter the external state of the environment
+Visual Description: Purpose: Explain Action Impact & Environmental Shift
+Presentation Components:
+• Step Title: Action Impact & Environmental Shift
+• Screen Context: Continuous Agent-Environment Feedback Loop (Step 4)
+• Centerstage Visual Model: Dynamic architectural schematic representing Action Impact & Environmental Shift.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Action Impact & Environmental Shift.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 5: Closed-Loop Convergence
+Narration: Perpetual feedback loop driving convergence toward mission goals
+Visual Description: Purpose: Explain Closed-Loop Convergence
+Presentation Components:
+• Step Title: Closed-Loop Convergence
+• Screen Context: Continuous Agent-Environment Feedback Loop (Step 5)
+• Centerstage Visual Model: Dynamic architectural schematic representing Closed-Loop Convergence.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Closed-Loop Convergence.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+
+Scene 6:
+Presentation Step 1: Perceive: Telemetry Ingress
+Narration: Extracting structured signals from noisy raw sensory data
+Visual Description: Purpose: Explain Perceive: Telemetry Ingress
+Presentation Components:
+• Step Title: Perceive: Telemetry Ingress
+• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 1)
+• Centerstage Visual Model: Dynamic architectural schematic representing Perceive: Telemetry Ingress.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Perceive: Telemetry Ingress.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 2: Context Synthesis
+Narration: Fusing observations with past historical operational memory
+Visual Description: Purpose: Explain Context Synthesis
+Presentation Components:
+• Step Title: Context Synthesis
+• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 2)
+• Centerstage Visual Model: Dynamic architectural schematic representing Context Synthesis.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Context Synthesis.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 3: Reason: Planning & Selection
+Narration: Formulating viable multi-step execution candidate paths
+Visual Description: Purpose: Explain Reason: Planning & Selection
+Presentation Components:
+• Step Title: Reason: Planning & Selection
+• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 3)
+• Centerstage Visual Model: Dynamic architectural schematic representing Reason: Planning & Selection.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Reason: Planning & Selection.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 4: Act: Effector Dispatch
+Narration: Invoking specialized external tools and system APIs
+Visual Description: Purpose: Explain Act: Effector Dispatch
+Presentation Components:
+• Step Title: Act: Effector Dispatch
+• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 4)
+• Centerstage Visual Model: Dynamic architectural schematic representing Act: Effector Dispatch.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Act: Effector Dispatch.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 5: Verification & State Check
+Narration: Validating outcome before initiating the subsequent cycle
+Visual Description: Purpose: Explain Verification & State Check
+Presentation Components:
+• Step Title: Verification & State Check
+• Screen Context: Perceive-Reason-Act (PRA) Execution Cycle (Step 5)
+• Centerstage Visual Model: Dynamic architectural schematic representing Verification & State Check.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Verification & State Check.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+
+Scene 7:
+Presentation Step 1: Architecture Type 1: Simple Reflex / Reactive
+Narration: Direct Condition-Action rules (IF temperature > threshold THEN trip breaker)
+Visual Description: Purpose: Explain Architecture Type 1: Simple Reflex / Reactive
+Presentation Components:
+• Step Title: Architecture Type 1: Simple Reflex / Reactive
+• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 1)
+• Centerstage Visual Model: Dynamic architectural schematic representing Architecture Type 1: Simple Reflex / Reactive.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Architecture Type 1: Simple Reflex / Reactive.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 2: Reactive Strengths & Limitations
+Narration: Sub-millisecond latency but zero memory or future deliberation
+Visual Description: Purpose: Explain Reactive Strengths & Limitations
+Presentation Components:
+• Step Title: Reactive Strengths & Limitations
+• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 2)
+• Centerstage Visual Model: Dynamic architectural schematic representing Reactive Strengths & Limitations.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Reactive Strengths & Limitations.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 3: Architecture Type 2: Goal-Based Agents
+Narration: Incorporates explicit future goals into decision formulation
+Visual Description: Purpose: Explain Architecture Type 2: Goal-Based Agents
+Presentation Components:
+• Step Title: Architecture Type 2: Goal-Based Agents
+• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 3)
+• Centerstage Visual Model: Dynamic architectural schematic representing Architecture Type 2: Goal-Based Agents.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Architecture Type 2: Goal-Based Agents.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 4: Search & Planning Mechanisms
+Narration: Evaluating multi-step sequences: will this action lead toward the goal?
+Visual Description: Purpose: Explain Search & Planning Mechanisms
+Presentation Components:
+• Step Title: Search & Planning Mechanisms
+• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 4)
+• Centerstage Visual Model: Dynamic architectural schematic representing Search & Planning Mechanisms.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Search & Planning Mechanisms.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 5: Architectural Trade-Off Comparison
+Narration: Reflex speed vs. Deliberative foresight in enterprise operations
+Visual Description: Purpose: Explain Architectural Trade-Off Comparison
+Presentation Components:
+• Step Title: Architectural Trade-Off Comparison
+• Screen Context: Architecture Types 1 & 2: Reactive vs Goal-Based Agents (Step 5)
+• Centerstage Visual Model: Dynamic architectural schematic representing Architectural Trade-Off Comparison.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Architectural Trade-Off Comparison.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+
+Scene 8:
+Presentation Step 1: Architecture Type 3: Utility-Based Agent
+Narration: Goes beyond binary goal completion: which action achieves it best?
+Visual Description: Purpose: Explain Architecture Type 3: Utility-Based Agent
+Presentation Components:
+• Step Title: Architecture Type 3: Utility-Based Agent
+• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 1)
+• Centerstage Visual Model: Dynamic architectural schematic representing Architecture Type 3: Utility-Based Agent.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Architecture Type 3: Utility-Based Agent.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 2: Multi-Objective Utility Criteria
+Narration: Balancing execution speed, compute cost, and decision confidence
+Visual Description: Purpose: Explain Multi-Objective Utility Criteria
+Presentation Components:
+• Step Title: Multi-Objective Utility Criteria
+• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 2)
+• Centerstage Visual Model: Dynamic architectural schematic representing Multi-Objective Utility Criteria.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Multi-Objective Utility Criteria.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 3: Solara Trade-off: Report Scope
+Narration: Full diagnostic report vs. executive summary allocation
+Visual Description: Purpose: Explain Solara Trade-off: Report Scope
+Presentation Components:
+• Step Title: Solara Trade-off: Report Scope
+• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 3)
+• Centerstage Visual Model: Dynamic architectural schematic representing Solara Trade-off: Report Scope.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Solara Trade-off: Report Scope.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 4: Solara Trade-off: Anomaly Action
+Narration: Immediate engineer escalation vs. automated telemetry logging
+Visual Description: Purpose: Explain Solara Trade-off: Anomaly Action
+Presentation Components:
+• Step Title: Solara Trade-off: Anomaly Action
+• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 4)
+• Centerstage Visual Model: Dynamic architectural schematic representing Solara Trade-off: Anomaly Action.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Solara Trade-off: Anomaly Action.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 5: Complete Closed-Loop Lifecycle
+Narration: Goal Ingestion -> Perception -> Reasoning Engine -> Action Execution
+Visual Description: Purpose: Explain Complete Closed-Loop Lifecycle
+Presentation Components:
+• Step Title: Complete Closed-Loop Lifecycle
+• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 5)
+• Centerstage Visual Model: Dynamic architectural schematic representing Complete Closed-Loop Lifecycle.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Complete Closed-Loop Lifecycle.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 6: Feedback Loop & Exit Conditions
+Narration: Three termination states: Goal Achieved, Error, or Human Escalation
+Visual Description: Purpose: Explain Feedback Loop & Exit Conditions
+Presentation Components:
+• Step Title: Feedback Loop & Exit Conditions
+• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 6)
+• Centerstage Visual Model: Dynamic architectural schematic representing Feedback Loop & Exit Conditions.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Feedback Loop & Exit Conditions.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 7: Responsible Architecture & Escalation
+Narration: Recognizing confidence limits and routing to human engineers
+Visual Description: Purpose: Explain Responsible Architecture & Escalation
+Presentation Components:
+• Step Title: Responsible Architecture & Escalation
+• Screen Context: Architecture Type 3: Utility-Based Agents & Workflow (Step 7)
+• Centerstage Visual Model: Dynamic architectural schematic representing Responsible Architecture & Escalation.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Responsible Architecture & Escalation.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+
+Scene 9:
+Presentation Step 1: Architectural Synthesis
+Narration: Four pillars (Perception, Memory, Reasoning, Action) working in harmony
+Visual Description: Purpose: Explain Architectural Synthesis
+Presentation Components:
+• Step Title: Architectural Synthesis
+• Screen Context: Architectural Synthesis & Hands-On Demo Launch (Step 1)
+• Centerstage Visual Model: Dynamic architectural schematic representing Architectural Synthesis.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Architectural Synthesis.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 2: Progression of Sophistication
+Narration: Reactive (rule-driven) -> Goal-based (planning) -> Utility-based (optimizing)
+Visual Description: Purpose: Explain Progression of Sophistication
+Presentation Components:
+• Step Title: Progression of Sophistication
+• Screen Context: Architectural Synthesis & Hands-On Demo Launch (Step 2)
+• Centerstage Visual Model: Dynamic architectural schematic representing Progression of Sophistication.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for Progression of Sophistication.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
+Presentation Step 3: What Is Next: Hands-On Demo Launch
+Narration: Visualizing live decision loops and execution patterns in real time
+Visual Description: Purpose: Explain What Is Next: Hands-On Demo Launch
+Presentation Components:
+• Step Title: What Is Next: Hands-On Demo Launch
+• Screen Context: Architectural Synthesis & Hands-On Demo Launch (Step 3)
+• Centerstage Visual Model: Dynamic architectural schematic representing What Is Next: Hands-On Demo Launch.
+Visual Evolution: Visual components illuminate and construct dynamically matching spoken narration.
+Key Takeaway: Core operational insight for What Is Next: Hands-On Demo Launch.
+Persistence: Visual diagram elements persist into subsequent steps to anchor cognitive retention.
