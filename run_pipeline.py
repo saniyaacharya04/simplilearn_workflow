@@ -569,9 +569,15 @@ def ensure_topic_folder_structure(topic_folder: str):
         os.makedirs(os.path.join(topic_folder, d), exist_ok=True)
 
     ca_symlink = os.path.join(topic_folder, "Creative_Assets")
-    if not os.path.exists(ca_symlink):
+    gold_standard_ca = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pipeline", "helpers", "Creative_Assets")
+    if os.path.islink(ca_symlink) and os.readlink(ca_symlink) == "images":
         try:
-            os.symlink("images", ca_symlink)
+            os.unlink(ca_symlink)
+        except Exception:
+            pass
+    if not os.path.exists(ca_symlink) and os.path.exists(gold_standard_ca):
+        try:
+            os.symlink(gold_standard_ca, ca_symlink)
         except Exception:
             pass
 

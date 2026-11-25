@@ -81,7 +81,7 @@ TRACKER_STAGES = [
         "name": "Instructional Design",
         "input_tracker": "0_hook_output_tracker.json",
         "output_tracker": "1_instruction_design_output_tracker.json",
-        "output_pattern": "instructions_gemini-3.8-flash.json"
+        "output_pattern": "{base}_storyboard_blueprint.json"
     },
     {
         "phase": "asset_classification",
@@ -89,7 +89,7 @@ TRACKER_STAGES = [
         "name": "Asset Classification",
         "input_tracker": "1_instruction_design_output_tracker.json",
         "output_tracker": "2_asset_class_output_tracker.json",
-        "output_pattern": "asset_classification_gemini-3.8-flash.json"
+        "output_pattern": "{base}_classified_assets.json"
     },
     {
         "phase": "asset_construction",
@@ -105,7 +105,7 @@ TRACKER_STAGES = [
         "name": "Image Prompt Generation",
         "input_tracker": "2_asset_class_output_tracker.json",
         "output_tracker": "4_prompt_images_output_tracker.json",
-        "output_pattern": "image_prompt_gemini-3.8-flash.json"
+        "output_pattern": "{base}_image_prompts.json"
     },
     {
         "phase": "audio_generation",
@@ -121,7 +121,7 @@ TRACKER_STAGES = [
         "name": "Presentation Composer",
         "input_tracker": "5_audio_output_tracker.json",
         "output_tracker": "6_presentation_composer_tracker.json",
-        "output_pattern": "enhanced_anim_claude-haiku-4-5-20251001.json"
+        "output_pattern": "{base}_presentation_composition.json"
     },
     {
         "phase": "presentation_experience_planner",
@@ -129,7 +129,7 @@ TRACKER_STAGES = [
         "name": "Experience Planner",
         "input_tracker": "6_presentation_composer_tracker.json",
         "output_tracker": "7_experience_planner_tracker.json",
-        "output_pattern": "experience_plan_gemini-3.6-flash.json"
+        "output_pattern": "{base}_experience_planner.json"
     },
     {
         "phase": "image_generator",
@@ -145,7 +145,7 @@ TRACKER_STAGES = [
         "name": "Styling Generator",
         "input_tracker": "8_image_generation_tracker.json",
         "output_tracker": "9_styling_output_tracker.json",
-        "output_pattern": "styling_gemini-3.8-flash.json"
+        "output_pattern": "{base}_styling_specifications.json"
     },
     {
         "phase": "manim_code_generation",

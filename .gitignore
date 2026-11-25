@@ -19,6 +19,8 @@ env/
 
 # Output directories & temporary processing artifacts
 output/
+output_*/
+*_gemini/
 temp_*/
 **/temp_*/
 *.log
@@ -29,6 +31,8 @@ media */
 logs/
 input/
 ppt_trackers/
+ppt_trackers_*/
+types_and_architectures_of_ai_agents_sme/
 simplilearn_output_standard/
 pipeline.zip
 updated files/

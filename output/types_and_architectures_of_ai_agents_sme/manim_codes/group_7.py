@@ -1,19 +1,9 @@
-C_DARK_BLUE = "#1E293B"
-C_BRAND_BLUE = "#2C81FE"
 C_LIGHT_BLUE = "#62B7E4"
-C_PURPLE = "#9B99C7"
-C_YELLOW = "#DDB945"
 C_RED = "#E58F6D"
-C_BLACK = "#404040"
 C_NAVY_DARK = "#404040"
-C_MINT = "#8ECDB7"
-C_LAVENDER = "#9B99C7"
-C_CORAL = "#E58F6D"
 import os
 import re
 import numpy as np
-SME_LAYOUT = '70'
-from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
 # Dynamic Animation Safety Preamble
 for _anim_cls in (FadeIn, FadeOut, Create, Write):
@@ -66,84 +56,20 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
-        if not hasattr(_scene_cls, '_orig_play_safe'):
-            _orig_play = _scene_cls.play
-            def _make_safe_play():
-                def _safe_play(self, *args, **kwargs):
-                    if len(args) == 0:
-                        rt = kwargs.get('run_time', 0.5)
-                        return self.wait(rt)
-                    return _orig_play(self, *args, **kwargs)
-                return _safe_play
-            _scene_cls._orig_play_safe = True
-            _scene_cls.play = _make_safe_play()
-        if not hasattr(_scene_cls, 'get_time'):
-            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
-try:
-    from manim.utils.color.core import ManimColor
-    if not hasattr(ManimColor, '_orig_eq_safe'):
-        def _safe_color_eq(self, other):
-            if not isinstance(other, ManimColor):
-                try: other = ManimColor(other)
-                except Exception: return False
-            return bool(np.allclose(self._internal_value, other._internal_value))
-        ManimColor._orig_eq_safe = True
-        ManimColor.__eq__ = _safe_color_eq
-except Exception:
-    pass
-try:
-    if not hasattr(Mobject, 'stop_updater'):
-        Mobject.stop_updater = lambda self: self.clear_updaters()
-    if not hasattr(Mobject, 'set_fill'):
-        def _safe_mobj_set_fill(self, *args, **kwargs):
-            for sub in getattr(self, 'submobjects', []):
-                if hasattr(sub, 'set_fill'):
-                    try: sub.set_fill(*args, **kwargs)
-                    except Exception: pass
-            return self
-        Mobject.set_fill = _safe_mobj_set_fill
-    if not hasattr(Mobject, 'set_stroke'):
-        def _safe_mobj_set_stroke(self, *args, **kwargs):
-            for sub in getattr(self, 'submobjects', []):
-                if hasattr(sub, 'set_stroke'):
-                    try: sub.set_stroke(*args, **kwargs)
-                    except Exception: pass
-            return self
-        Mobject.set_stroke = _safe_mobj_set_stroke
-    if not hasattr(Mobject, '_orig_mobj_init_safe'):
-        _orig_mobj_init = Mobject.__init__
-        def _safe_mobj_init(self, *args, **kwargs):
-            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
-            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
-            res = _orig_mobj_init(self, *args, **clean_kw)
-            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
-                try: self.set_opacity(kwargs['opacity'])
-                except Exception: pass
-            return res
-        Mobject._orig_mobj_init_safe = True
-        Mobject.__init__ = _safe_mobj_init
-    if not hasattr(VMobject, '_orig_set_stroke_safe'):
-        _orig_set_stroke = VMobject.set_stroke
-        def _safe_set_stroke(self, *args, **kwargs):
-            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
-            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
-            if 'z_index' in kwargs:
-                try: self.set_z_index(kwargs['z_index'])
-                except Exception: pass
-            return _orig_set_stroke(self, *args, **clean_kw)
-        VMobject._orig_set_stroke_safe = True
-        VMobject.set_stroke = _safe_set_stroke
-except Exception:
-    pass
-YELLOW = globals().get('YELLOW', '#DDB945')
-WHITE = globals().get('WHITE', '#FFFFFF')
-BLACK = globals().get('BLACK', '#404040')
-RED = globals().get('RED', '#E58F6D')
-BLUE = globals().get('BLUE', '#62B7E4')
-GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
+
+try:
+    from manim.utils.rate_functions import *
+except Exception:
+    pass
+
+
+
+
+
+
 
 
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
@@ -238,19 +164,14 @@ class NullMobject(VGroup):
             return VMobject()
         return super().__getitem__(val)
     def get_center(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
     def get_top(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
     def get_bottom(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
     def get_left(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
     def get_right(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
 
 try:
@@ -270,37 +191,75 @@ try:
 except Exception:
     pass
 
+for _anim_cls in (FadeIn, FadeOut, Create, Write):
+    try:
+        if not hasattr(_anim_cls, '_orig_new_safe'):
+            def _make_safe(cls):
+                def _safe_new(subcls, mobject, *args, **kwargs):
+                    if isinstance(mobject, Animation):
+                        return mobject
+                    if hasattr(mobject, 'build') or mobject.__class__.__name__ == '_AnimationBuilder':
+                        try:
+                            return mobject.build()
+                        except Exception:
+                            pass
+                    if not isinstance(mobject, Mobject):
+                        return Animation(Dot(fill_opacity=0, stroke_opacity=0))
+                    if cls is Create and not isinstance(mobject, VMobject):
+                        return FadeIn(mobject, *args, **kwargs)
+                    return super(cls, subcls).__new__(subcls)
+                return _safe_new
+            _anim_cls._orig_new_safe = True
+            _anim_cls.__new__ = _make_safe(_anim_cls)
+    except Exception:
+        pass
+
+for _txt_cls in (Text,):
+    try:
+        if not hasattr(_txt_cls, '_orig_scale_to_fit_width_safe'):
+            _txt_cls._orig_scale_to_fit_width_safe = _txt_cls.scale_to_fit_width
+            def _make_safe_text_scale(cls):
+                def _safe_text_scale(self, width, *args, **kwargs):
+                    if hasattr(self, 'width') and self.width > 0:
+                        ratio = width / self.width
+                        if ratio > 1.0:
+                            return self
+                        if ratio < 0.88:
+                            ratio = 0.88
+                        return cls._orig_scale_to_fit_width_safe(self, self.width * ratio, *args, **kwargs)
+                    return cls._orig_scale_to_fit_width_safe(self, width, *args, **kwargs)
+                return _safe_text_scale
+            _txt_cls.scale_to_fit_width = _make_safe_text_scale(_txt_cls)
+    except Exception:
+        pass
+
+for _scene_cls in (Scene, MovingCameraScene):
+    try:
+        if not hasattr(_scene_cls, 'sync_to'):
+            def _make_sync_to():
+                def _safe_sync_to(self, target_time):
+                    curr_t = getattr(getattr(self, 'renderer', None), 'time', 0.0)
+                    if target_time > curr_t:
+                        self.wait(target_time - curr_t)
+                return _safe_sync_to
+            _scene_cls.sync_to = _make_sync_to()
+    except Exception:
+        pass
+
 NumberLine.c2p = lambda self, *args: self.n2p(args[0])
-try:
-    from manim.utils.rate_functions import *
-except Exception:
-    pass
 
-# Global constants for styling (OSL 3.0 & Styling Generator Compliance)
-C_BG = "#F0F4F8"  # Modern Soft Light Slate Canvas
-C_TITLE = "#0F172A"  # Dark Slate for titles
-C_HEADER = "#1E293B"  # Darker Slate for headers
-C_BODY = "#334155"  # Slate for body text
-C_TEXT = "#404040"  # Primary Dark Charcoal for general text
-HIGHLIGHT_COLOR = "#F78908"  # Warm Orange for focus highlights
-C_WHITE = "#FFFFFF"
-C_SOFT_CARD = "#F8FAFC"  # Soft card background
-C_STROKE_LIGHT = "#E2E8F0"  # Light gray for card borders
-
-# Approved 10-color infographic pastel palette (subset used in this scene)
+# Colors
+C_DARK_BLUE = "#1E293B"
+C_BRAND_BLUE = "#2C81FE"
 C_SKY_BLUE = "#62B7E4"
 C_STEEL_BLUE = "#7EA2C8"
-C_LAVENDER_PERIWINKLE = "#9B99C7"
-C_MINT_SEAFOAM = "#8ECDB7"
-C_WARM_AMBER = "#E6A157"
-C_MUSTARD_YELLOW = "#DDB945"
-C_CORAL_PEACH = "#E58F6D"
-# C_WARM_TAN = "#B88968"
-# C_DUSTY_ROSE = "#D98CA1"
-# C_SOFT_LILAC = "#C1A5C6"
-
-
-# Custom CrispText function for consistent typography
+C_CORAL = "#E58F6D"
+C_PURPLE = "#9B99C7"
+C_YELLOW = "#DDB945"
+C_WHITE = "#FFFFFF"
+C_BLACK = "#404040"
+C_HIGHLIGHT = "#F78908"
+SME_LAYOUT = '20'
 
 
 
@@ -423,90 +382,24 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-class InstrumentedScene(Scene):
-    """
-    Placeholder for Simplilearn's InstrumentedScene. Defaults to Manim's Scene.
-    """
-    pass
+def create_datum_bay(center_x, width=3.6, top_y=1.6, bot_y=-2.8):
+    top_line = Line([center_x - width/2, top_y, 0], [center_x + width/2, top_y, 0], color="#CBD5E1", stroke_width=1.5)
+    bot_line = Line([center_x - width/2, bot_y, 0], [center_x + width/2, bot_y, 0], color="#CBD5E1", stroke_width=1.5)
+    ticks = VGroup()
+    for lx in [center_x - width/2, center_x, center_x + width/2]:
+        ticks.add(Line([lx, top_y - 0.08, 0], [lx, top_y + 0.08, 0], color="#94A3B8", stroke_width=1.5))
+        ticks.add(Line([lx, bot_y - 0.08, 0], [lx, bot_y + 0.08, 0], color="#94A3B8", stroke_width=1.5))
+    return VGroup(top_line, bot_line, ticks)
 
 
-class ProcessNode(VGroup):
-    """
-    A custom Mobject for a process node, consisting of a rounded rectangle and centered text.
-    Dynamically adjusts size based on text content.
-    """
-    def __init__(self, text, fill_color=C_SOFT_CARD, stroke_color=C_STROKE_LIGHT, text_color=C_TEXT,
-                 corner_radius=0.15, width=2.5, height=1.0, font_size=0.18, **kwargs):
-        super().__init__(**kwargs)
-        self.text_obj = CrispText(text, size=font_size, weight=SEMIBOLD, color=text_color)
-        
-        # Adjust width and height based on text content, ensuring minimums
-        padding_x = 0.8  # Horizontal padding
-        padding_y = 0.4  # Vertical padding
-        actual_width = max(width, self.text_obj.width + padding_x)
-        actual_height = max(height, self.text_obj.height + padding_y)
+class FinalScene(MovingCameraScene):
+    def sync_to(self, target_time):
+        curr_t = getattr(getattr(self, 'renderer', None), 'time', 0.0)
+        if target_time > curr_t:
+            self.wait(target_time - curr_t)
 
-        self.box = RoundedRectangle(
-            width=actual_width,
-            height=actual_height,
-            corner_radius=corner_radius,
-            fill_color=fill_color,
-            fill_opacity=1.0,
-            stroke_color=stroke_color,
-            stroke_width=2,
-            z_index=1  # Ensure it's above lines/arrows
-        )
-        self.add(self.box, self.text_obj)
-
-
-class FlowingStream(VGroup):
-    """
-    Creates a stream of dots flowing along a given path, simulating data flow.
-    Uses updaters for continuous motion.
-    """
-    def __init__(self, path, num_dots=5, dot_radius=0.05, dot_color=HIGHLIGHT_COLOR, flow_speed=0.5, **kwargs):
-        super().__init__(**kwargs)
-        self.path = path
-        self.num_dots = num_dots
-        self.flow_speed = flow_speed
-        self.dots = VGroup()
-        self.trackers = []
-
-        for i in range(num_dots):
-            # Start dots at different points along the path for a continuous stream effect
-            tracker = ValueTracker(i / num_dots)
-            dot = Dot(radius=dot_radius, color=dot_color, z_index=3)
-            # Add updater to each dot to move it along the path
-            dot.add_updater(lambda m, t=tracker: m.move_to(path.point_from_proportion(t.get_value())))
-            self.dots.add(dot)
-            self.trackers.append(tracker)
-        
-        self.add(self.dots)
-        self.add_updater(self._update_flow)
-
-    def _update_flow(self, mob, dt):
-        """Updates the position of each dot along the path."""
-        for tracker in mob.trackers:
-            current_prop = tracker.get_value()
-            new_prop = (current_prop + mob.flow_speed * dt) % 1.0  # Loop the flow
-            tracker.set_value(new_prop)
-
-    def stop_flow(self):
-        """Removes updaters to stop the flow animation."""
-        self.remove_updater(self._update_flow)
-        for dot in self.dots:
-            if dot.updaters: # Check if updaters exist before trying to remove
-                dot.remove_updater(dot.updaters[0])
-
-
-
-
-
-
-
-class FinalScene(InstrumentedScene, MovingCameraScene):
     def construct(self):
-        self.camera.background_color = C_BG
+        self.camera.background_color = "#FFFFFF"
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
                 pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -880,380 +773,401 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
 
+        # =========================================================================
+        ## Presentation Step 1
+        # =========================================================================
 
-        # Assign global helper functions to self for convenience
+        # [0.00s -> 4.14s] Title & Central Architecture Concept
+        self.sync_to(0.00)
+        main_title = create_title("Autonomous Decision Models")
+        step_title1 = CrispText("Overview: Types of Autonomous Agents", size=15, font="Open Sans", weight=SEMIBOLD, color="#64748B")
+        step_title1.next_to(main_title, DOWN, buff=0.12, aligned_edge=LEFT)
 
-        # SME Layout 70% requires content on the right side of the screen.
-        # Safe content workspace: x ∈ [-0.80, +6.40], y ∈ [-3.60, +2.20].
-        # Center x for content is approximately (-0.80 + 6.40) / 2 = 2.80
-        content_center_x = 2.80
-        content_width = 6.40 - (-0.80)  # Total width is 7.2 units
-
-        # Initialize scene title
-        current_title_group = create_title("Architecture Types 1 & 2: Reactive vs Goal-Based Agents", layout="70")
-        self.play(FadeIn(current_title_group, shift=UP * 0.1), run_time=0.8)
-        self.wait(0.5)
-
-        ## Presentation Step 1: Architecture Type 1: Simple Reflex / Reactive
-        self.play(FadeIn(current_title_group, shift=DOWN*0.1), run_time=0.8)
-        # The previous title FadeIn also handles this, no need to repeat.
-        # Narration Text: Direct Condition-Action rules (IF temperature > threshold THEN trip breaker)
-        
-        # Reactive Agent Components (ProcessNode instances)
-        perception_node = ProcessNode("Perception", fill_color=C_SKY_BLUE, text_color=C_WHITE, font_size=0.18, width=2.0)
-        condition_action_node = ProcessNode("Condition-Action Rules", fill_color=C_WARM_AMBER, text_color=C_WHITE, font_size=0.18, width=3.5)
-        action_node = ProcessNode("Action", fill_color=C_MINT_SEAFOAM, text_color=C_WHITE, font_size=0.18, width=2.0)
-
-        # Arrange nodes horizontally within the content safe area
-        reactive_nodes_group = VGroup(perception_node, condition_action_node, action_node).arrange(RIGHT, buff=0.8)
-        reactive_nodes_group.move_to(RIGHT * content_center_x + DOWN * 0.5)
-        
-        # Ensure the group fits within the allowed width
-        if reactive_nodes_group.width > content_width:
-            reactive_nodes_group.scale_to_fit_width(content_width - 0.2)
-            reactive_nodes_group.move_to(RIGHT * content_center_x + DOWN * 0.5)
-
-        # Arrows connecting the nodes
-        arrow1 = Arrow(perception_node.box.get_right(), condition_action_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
-        arrow2 = Arrow(condition_action_node.box.get_right(), action_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
-
-        # Narration-aligned text for explanation
-        narration_text1 = CrispText("Direct Condition-Action rules", size=6, weight=NORMAL, color=C_BODY, alignment="left")
-        narration_text1.next_to(condition_action_node, UP, buff=0.3).align_to(condition_action_node, LEFT)
-
-        if_then_example = CrispText("If temperature > threshold\nTHEN trip breaker", size=6, weight=NORMAL, color=C_TEXT, alignment="left")
-        if_then_example.next_to(condition_action_node, DOWN, buff=0.3)
-        
-        # Animate the components
-        self.play(
-            GrowFromCenter(perception_node),
-            run_time=1.5
-        )
-        self.wait(1.0) # Adjusted wait
-        self.play(
-            Create(arrow1),
-            GrowFromCenter(condition_action_node),
-            FadeIn(narration_text1, shift=UP * 0.1),
-            run_time=2.0
-        )
-        self.wait(1.0) # Adjusted wait
-        self.play(
-            FadeIn(if_then_example, shift=UP * 0.1),
-            run_time=2.0
-        )
-        self.wait(1.0) # Adjusted wait
-        self.play(
-            Create(arrow2),
-            GrowFromCenter(action_node),
-            run_time=1.5
-        )
-        self.wait(1.0) # Adjusted wait
-
-        # Kinetic element: data flowing through the reactive agent (continuous updater)
-        flow_path_reactive_combined = VMobject()
-        flow_path_reactive_combined.set_points_as_corners([
-            perception_node.box.get_right(),
-            condition_action_node.box.get_left(),
-            condition_action_node.box.get_right(),
-            action_node.box.get_left()
-        ])
-        
-        reactive_stream = FlowingStream(flow_path_reactive_combined, num_dots=4, dot_color=HIGHLIGHT_COLOR, flow_speed=0.7)
-        self.add(reactive_stream)
-        self.wait(10.0) # Extended wait for narration to cover the concept
-
-        ## Presentation Step 2: Reactive Strengths & Limitations
-        # Narration Text: Sub-millisecond latency but zero memory or future deliberation
-        
-        # Morph title for the new step
-        new_title_group_step2 = create_title("Reactive Strengths & Limitations", layout="70")
-        self.play(
-            ReplacementTransform(current_title_group, new_title_group_step2),
-            FadeOut(narration_text1, shift=DOWN * 0.1),
-            FadeOut(if_then_example, shift=DOWN * 0.1),
-            run_time=0.6
-        )
-        current_title_group = new_title_group_step2
-        self.wait(0.5)
-
-        # Highlight Condition-Action Rules for latency
-        highlight_latency = condition_action_node.box.copy().set_fill(opacity=0).set_stroke(color=HIGHLIGHT_COLOR, width=3.5).set_z_index(5)
-        latency_text = CrispText("Sub-millisecond Latency", size=6, weight=BOLD, color=HIGHLIGHT_COLOR)
-        latency_text.next_to(condition_action_node, UP, buff=0.3)
+        dist_bg = RoundedRectangle(
+            width=3.6, height=0.56, corner_radius=0.14,
+            fill_color="#F1F5F9", fill_opacity=1.0, stroke_color="#7EA2C8", stroke_width=1.8
+        ).move_to([0.0, 2.10, 0])
+        dist_txt = CrispText("Autonomous Decision Models", size=14, weight=BOLD, color="#0F172A").move_to(dist_bg)
+        fit_into_box(dist_txt, dist_bg, pad_x=0.2, pad_y=0.08)
+        dist_node = VGroup(dist_bg, dist_txt).set_z_index(10)
 
         self.play(
-            Create(highlight_latency),
-            FadeIn(latency_text, shift=UP * 0.1),
-            run_time=1.5
-        )
-        self.wait(3.0) # Adjusted wait
-
-        # Text for memory/deliberation limitation
-        limitation_text = CrispText("Zero Memory or Future Deliberation", size=6, weight=NORMAL, color=C_BODY)
-        limitation_text.next_to(reactive_nodes_group, DOWN, buff=1.0) # Below the entire group
-
-        self.play(
-            FadeOut(highlight_latency),
-            FadeOut(latency_text, shift=DOWN * 0.1),
-            FadeIn(limitation_text, shift=UP * 0.1),
-            run_time=1.5
-        )
-        self.wait(5.0) # Adjusted wait
-
-        ## Presentation Step 3: Architecture Type 2: Goal-Based Agents
-        # Narration Text: Incorporates explicit future goals into decision formulation
-        
-        # Stop reactive stream and remove it
-        reactive_stream.stop_flow()
-        self.remove(reactive_stream)
-
-        # Morph title for the new step
-        new_title_group_step3 = create_title("Architecture Type 2: Goal-Based Agents", layout="70")
-        self.remove(new_title_group_step2)
-        self.play(
-            ReplacementTransform(current_title_group, new_title_group_step3),
-            FadeOut(limitation_text, shift=DOWN * 0.1),
-            run_time=0.6
-        )
-        current_title_group = new_title_group_step3
-        self.wait(0.5)
-
-        # Define new positions for existing nodes and new nodes for Goal-Based architecture
-        perception_node_goal = perception_node.copy().move_to(RIGHT * (content_center_x - 3.0) + UP * 0.5)
-        action_node_goal = action_node.copy().move_to(RIGHT * (content_center_x + 3.0) + UP * 0.5)
-
-        model_of_world_node = ProcessNode("Model of World", fill_color=C_STEEL_BLUE, text_color=C_WHITE, font_size=0.18, width=2.5)
-        goals_node = ProcessNode("Goals", fill_color=C_LAVENDER_PERIWINKLE, text_color=C_WHITE, font_size=0.18, width=1.5)
-        search_planning_node = ProcessNode("Search & Planning", fill_color=C_MUSTARD_YELLOW, text_color=C_WHITE, font_size=0.18, width=3.0)
-
-        # Arrange internal nodes for goal-based architecture
-        model_of_world_node.move_to(RIGHT * (content_center_x - 0.5) + UP * 1.0)
-        goals_node.next_to(model_of_world_node, DOWN, buff=0.8).shift(LEFT * 0.5) # Below Model, slightly left
-        search_planning_node.next_to(goals_node, RIGHT, buff=0.8).align_to(model_of_world_node, DOWN) # Aligned with goals, to the right
-
-        # Arrows for goal-based connections
-        arrow_p_mw = Arrow(perception_node_goal.box.get_right(), model_of_world_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
-        arrow_mw_sp = Arrow(model_of_world_node.box.get_right(), search_planning_node.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
-        arrow_g_sp = CurvedArrow(goals_node.box.get_right(), search_planning_node.box.get_bottom(), angle=-PI/4, stroke_color=C_TEXT, tip_length=0.2) # Removed 'buff'
-        arrow_sp_a = Arrow(search_planning_node.box.get_right(), action_node_goal.box.get_left(), buff=0.2, stroke_color=C_TEXT, tip_length=0.2)
-
-        # Narration-aligned text for goal-based
-        narration_text3 = CrispText("Incorporates explicit future goals into\ndecision formulation", size=6, weight=NORMAL, color=C_BODY, alignment="left")
-        narration_text3.next_to(search_planning_node, UP, buff=0.5).align_to(search_planning_node, LEFT)
-
-        # Animate transformation from reactive to goal-based
-        self.play(
-            Transform(perception_node, perception_node_goal),
-            Transform(action_node, action_node_goal),
-            FadeOut(condition_action_node, shift=RIGHT*0.2), # Condition-Action node is removed
-            FadeOut(arrow1),
-            FadeOut(arrow2),
-            run_time=2.0
-        )
-        self.wait(1.0) # Adjusted wait
-        self.play(
-            GrowFromCenter(model_of_world_node),
-            Create(arrow_p_mw),
-            run_time=1.5
-        )
-        self.wait(1.0) # Adjusted wait
-        self.play(
-            GrowFromCenter(goals_node),
-            GrowFromCenter(search_planning_node),
-            Create(arrow_g_sp),
-            Create(arrow_mw_sp),
-            FadeIn(narration_text3, shift=UP * 0.1),
-            run_time=2.5
-        )
-        self.wait(1.0) # Adjusted wait
-        self.play(
-            Create(arrow_sp_a),
+            FadeIn(main_title, shift=DOWN * 0.1),
+            FadeIn(step_title1, shift=DOWN * 0.1),
+            FadeIn(dist_node, shift=DOWN * 0.15),
             run_time=1.0
         )
-        self.wait(5.0) # Extended wait for narration
 
-        # Kinetic element: data flowing through the goal-based agent
-        path_points_goal = [
-            perception_node_goal.box.get_right(),
-            arrow_p_mw.get_end(),
-            model_of_world_node.box.get_right(),
-            arrow_mw_sp.get_end(),
-            search_planning_node.box.get_right(),
-            arrow_sp_a.get_end()
-        ]
-        goal_based_stream_main = FlowingStream(VMobject().set_points_as_corners(path_points_goal), num_dots=4, dot_color=HIGHLIGHT_COLOR, flow_speed=0.5)
+        # [4.74s -> 7.84s] Branching conduits and Datum Bays
+        self.sync_to(2.00)
+        bay1_datum = create_datum_bay(-4.2)
+        bay2_datum = create_datum_bay(0.0)
+        bay3_datum = create_datum_bay(4.2)
 
-        path_points_goal_curved = [
-            goals_node.box.get_right(),
-            arrow_g_sp.get_end()
-        ]
-        goal_based_stream_goals = FlowingStream(VMobject().set_points_as_corners(path_points_goal_curved), num_dots=2, dot_color=C_LAVENDER_PERIWINKLE, flow_speed=0.4)
-        
-        self.add(goal_based_stream_main, goal_based_stream_goals)
-        self.wait(5.0) # Extended wait
+        cond1 = CubicBezier([0, 1.84, 0], [-1.5, 1.84, 0], [-3.0, 1.6, 0], [-4.2, 1.6, 0], color="#7EA2C8", stroke_width=2.0)
+        cond2 = Line([0, 1.84, 0], [0, 1.6, 0], color="#7EA2C8", stroke_width=2.0)
+        cond3 = CubicBezier([0, 1.84, 0], [1.5, 1.84, 0], [3.0, 1.6, 0], [4.2, 1.6, 0], color="#7EA2C8", stroke_width=2.0)
+        conduits = VGroup(cond1, cond2, cond3)
 
-        ## Presentation Step 4: Search & Planning Mechanisms
-        # Narration Text: Evaluating multi-step sequences: will this action lead toward the goal?
-        
-        # Stop goal-based streams and remove them
-        goal_based_stream_main.stop_flow()
-        goal_based_stream_goals.stop_flow()
-        self.remove(goal_based_stream_main, goal_based_stream_goals)
-
-        # Morph title for the new step
-        new_title_group_step4 = create_title("Search & Planning Mechanisms", layout="70")
-        self.remove(new_title_group_step3)
         self.play(
-            ReplacementTransform(current_title_group, new_title_group_step4),
-            FadeOut(narration_text3, shift=DOWN * 0.1),
+            Create(conduits),
+            Create(bay1_datum),
+            Create(bay2_datum),
+            Create(bay3_datum),
+            run_time=1.4
+        )
+
+        # [8.26s -> 17.72s] Reveal Three Core Agent Models with focus on Utility Optimization
+        self.sync_to(3.50)
+        badge1 = create_pill("Reactive Model", bg_color="#62B7E4", font_size=13).move_to([-4.2, 1.35, 0])
+        badge2 = create_pill("Goal-Based Architecture", bg_color="#7EA2C8", font_size=13).move_to([0.0, 1.35, 0])
+        badge3 = create_pill("Utility-Based Optimization", bg_color="#9B99C7", font_size=13).move_to([4.2, 1.35, 0])
+        bay_badges = VGroup(badge1, badge2, badge3)
+        self.play(FadeIn(bay_badges, shift=DOWN * 0.1), run_time=1.0)
+
+        # In-place highlight when speaking "most efficiently... lowest cost"
+        self.sync_to(4.20)
+        self.play(
+            badge3.animate.set_stroke(color=C_HIGHLIGHT, width=3.0),
+            run_time=0.45
+        )
+        self.play(
+            badge3.animate.set_stroke(color=C_STEEL_BLUE, width=0),
+            run_time=0.45
+        )
+
+        # [18.60s -> 27.36s] Utility Agent managing trade-offs at Solara
+        self.sync_to(4.40)
+        pulse_intro = Dot(color="#2C81FE", radius=0.08).move_to(dist_bg.get_bottom())
+        self.play(FadeIn(pulse_intro), run_time=0.2)
+        self.play(MoveAlongPath(pulse_intro, cond3, rate_func=linear), run_time=1.6)
+        self.play(FadeOut(pulse_intro), run_time=0.3)
+
+        # [27.36s -> 34.30s] Trade-Off decisions: Diagnostic report vs summary
+        self.sync_to(4.50)
+        tradeoff_pill = create_pill("Trade-Off: Cost vs Precision", bg_color="#9B99C7", font_size=11).move_to([4.2, 0.40, 0])
+        self.play(FadeIn(tradeoff_pill, shift=UP * 0.1), run_time=0.6)
+
+        # [34.30s -> 39.76s] Evaluating options against utility function
+        self.sync_to(4.58)
+        utility_fn_pill = create_pill("Maximize Utility U(x)", bg_color="#2C81FE", font_size=11).move_to([4.2, -0.20, 0])
+        self.play(FadeIn(utility_fn_pill, shift=UP * 0.1), run_time=0.6)
+
+        # [39.76s -> 44.14s] Zoom out across all three models and frame Reactive Agent
+        self.sync_to(4.65)
+        p1 = Dot(color="#2C81FE", radius=0.08).move_to(dist_bg.get_bottom())
+        p2 = Dot(color="#2C81FE", radius=0.08).move_to(dist_bg.get_bottom())
+        p3 = Dot(color="#2C81FE", radius=0.08).move_to(dist_bg.get_bottom())
+        self.play(
+            MoveAlongPath(p1, cond1, rate_func=linear),
+            MoveAlongPath(p2, cond2, rate_func=linear),
+            MoveAlongPath(p3, cond3, rate_func=linear),
+            FadeOut(tradeoff_pill),
+            FadeOut(utility_fn_pill),
+            run_time=1.5
+        )
+        self.play(FadeOut(p1), FadeOut(p2), FadeOut(p3), run_time=0.3)
+
+        reactive_focus = RoundedRectangle(
+            width=3.6, height=4.1, corner_radius=0.18,
+            fill_color="#62B7E4", fill_opacity=0.05, stroke_color=C_HIGHLIGHT, stroke_width=2.4
+        ).move_to([-4.2, -0.6, 0])
+        self.play(Create(reactive_focus), run_time=0.7)
+
+        # =========================================================================
+        ## Presentation Step 2
+        # =========================================================================
+
+        # [2.1] 44.49s -> 48.04s The first type is the reactive agent
+        self.sync_to(4.68)
+        step_title2 = CrispText("Reactive Agent: Rule-Driven", size=15, font="Open Sans", weight=SEMIBOLD, color="#64748B")
+        step_title2.next_to(main_title, DOWN, buff=0.12, aligned_edge=LEFT)
+
+        self.play(
+            FadeOut(step_title1),
+            FadeIn(step_title2, shift=DOWN * 0.1),
+            FadeOut(reactive_focus),
+            bay2_datum.animate.set_opacity(0.60),
+            bay3_datum.animate.set_opacity(0.60),
+            badge2.animate.set_opacity(0.60),
+            badge3.animate.set_opacity(0.60),
+            bay1_datum.animate.set_opacity(1.0),
+            badge1.animate.set_opacity(1.0),
+            run_time=0.7
+        )
+
+        # [2.2] 48.19s -> 53.77s Responds to current input using predefined rules
+        self.sync_to(10.68)
+        sensor_box = Circle(radius=0.36, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color="#62B7E4", stroke_width=2.0).move_to([-5.30, -0.35, 0])
+        wave = ParametricFunction(lambda t: np.array([t, 0.10 * np.sin(5 * np.pi * t), 0]), t_range=[-0.20, 0.20], color="#62B7E4", stroke_width=2.0).move_to(sensor_box.get_center())
+        sensor_icon = VGroup(sensor_box, wave)
+
+        rule_box = Circle(radius=0.36, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color="#7EA2C8", stroke_width=2.0).move_to([-4.20, -0.35, 0])
+        gear_center = rule_box.get_center()
+        gear_teeth = VGroup(*[
+            Square(side_length=0.08, fill_color="#7EA2C8", fill_opacity=1.0, stroke_width=0).move_to(gear_center + 0.32 * np.array([np.cos(a), np.sin(a), 0]))
+            for a in np.linspace(0, 2*np.pi, 8, endpoint=False)
+        ])
+        gear_inner = Circle(radius=0.18, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color="#7EA2C8", stroke_width=1.5).move_to(gear_center)
+        switch_lever = Line(gear_center + LEFT*0.10 + DOWN*0.06, gear_center + RIGHT*0.10 + UP*0.06, color=C_HIGHLIGHT, stroke_width=2.5)
+        rule_icon = VGroup(gear_teeth, rule_box, gear_inner, switch_lever)
+
+        dispatch_box = Circle(radius=0.36, fill_color="#FEF3C7", fill_opacity=1.0, stroke_color="#E6A157", stroke_width=2.0).move_to([-3.10, -0.35, 0])
+        beacon = Triangle(color="#E55353", fill_color="#E55353", fill_opacity=0.85).scale(0.16).move_to(dispatch_box.get_center())
+        dispatch_icon = VGroup(dispatch_box, beacon)
+
+        arr_rx1 = Arrow(sensor_box.get_right(), rule_box.get_left(), buff=0.04, stroke_width=2.5, max_tip_length_to_length_ratio=0.25, color="#62B7E4")
+        arr_rx2 = Arrow(rule_box.get_right(), dispatch_box.get_left(), buff=0.04, stroke_width=2.5, max_tip_length_to_length_ratio=0.25, color="#E6A157")
+        rx_chain_core = VGroup(sensor_icon, arr_rx1, rule_icon, arr_rx2, dispatch_icon)
+
+        self.play(FadeIn(rx_chain_core, shift=DOWN * 0.1), run_time=1.0)
+
+        # [2.3] 53.92s -> 57.98s It has no memory of what happened before
+        self.sync_to(13.50)
+        tag1_bg = RoundedRectangle(width=1.5, height=0.32, corner_radius=0.15, fill_color="#FEE2E2", fill_opacity=1.0, stroke_color="#FCA5A5", stroke_width=1.2)
+        tag1_txt = CrispText("Zero State Memory", size=13, weight=BOLD, color="#E55353").move_to(tag1_bg)
+        tag1_strike = Line(tag1_bg.get_left() + LEFT*0.04, tag1_bg.get_right() + RIGHT*0.04, color="#E55353", stroke_width=2.0)
+        tag1 = VGroup(tag1_bg, tag1_txt, tag1_strike).move_to([-5.35, 0.60, 0]).set_z_index(20)
+
+        self.play(FadeIn(tag1, shift=DOWN * 0.1), run_time=0.6)
+        self.play(tag1_bg.animate.set_stroke(color="#DC2626", width=2.2), run_time=0.35)
+        self.play(tag1_bg.animate.set_stroke(color="#FCA5A5", width=1.2), run_time=0.35)
+
+        # [2.4] 58.13s -> 60.67s No ability to plan ahead
+        self.sync_to(15.50)
+        tag2_bg = RoundedRectangle(width=1.5, height=0.32, corner_radius=0.15, fill_color="#FEE2E2", fill_opacity=1.0, stroke_color="#FCA5A5", stroke_width=1.2)
+        tag2_txt = CrispText("Zero Plan Horizon", size=13, weight=BOLD, color="#E55353").move_to(tag2_bg)
+        tag2_strike = Line(tag2_bg.get_left() + LEFT*0.04, tag2_bg.get_right() + RIGHT*0.04, color="#E55353", stroke_width=2.0)
+        tag2 = VGroup(tag2_bg, tag2_txt, tag2_strike).move_to([-3.05, 0.60, 0]).set_z_index(20)
+        constraint_tags = VGroup(tag1, tag2)
+        self.play(FadeIn(tag2, shift=DOWN * 0.1), run_time=0.6)
+
+        # [2.5] 60.82s -> 64.37s Simply observes condition and responds
+        self.sync_to(17.34)
+        rule_lbl = CrispText("Rule Engine", size=14, weight=BOLD, color="#404040").move_to([-4.20, -0.95, 0])
+        scope_pill = create_pill("Fixed Static Response", bg_color="#F1F5F9", text_color="#64748B", font_size=10).move_to([-4.20, -2.45, 0])
+        self.play(FadeIn(rule_lbl), FadeIn(scope_pill, shift=UP * 0.1), run_time=0.6)
+
+        rx_micro_pulse = Dot(color="#62B7E4", radius=0.08).move_to(sensor_box.get_center())
+        self.play(MoveAlongPath(rx_micro_pulse, arr_rx1, rate_func=linear), run_time=0.7)
+        self.play(FadeOut(rx_micro_pulse), run_time=0.2)
+
+        # [2.6] 64.52s -> 68.58s Think of a simple alert agent as Solara
+        self.sync_to(20.00)
+        solara_alert_callout = create_pill("Solara Alert Node", bg_color="#62B7E4", font_size=9).move_to([-5.30, 0.15, 0])
+        self.play(
+            sensor_box.animate.set_stroke(color=C_HIGHLIGHT, width=3.0),
+            FadeIn(solara_alert_callout, shift=UP * 0.1),
             run_time=0.6
         )
-        current_title_group = new_title_group_step4
-        self.wait(0.5)
+        self.play(sensor_box.animate.set_stroke(color="#62B7E4", width=2.0), run_time=0.4)
 
-        # Highlight Search & Planning node
-        highlight_sp = search_planning_node.box.copy().set_fill(opacity=0).set_stroke(color=HIGHLIGHT_COLOR, width=3.5, z_index=5)
-        
-        planning_text = CrispText("Evaluating Multi-step Sequences:\nWill this action lead toward the goal?", size=6, weight=NORMAL, color=C_BODY, alignment="left")
-        planning_text.next_to(search_planning_node, DOWN, buff=0.8)
+        # [2.7] 68.73s -> 75.84s Output drops below 8% -> send notification
+        self.sync_to(22.20)
+        cond_badge = create_pill("Output < 8%", bg_color="#E58F6D", font_size=9).move_to([-5.40, -1.25, 0])
+        action_lbl = create_pill("Send Dispatch\nAlert", bg_color="#E55353", font_size=9).move_to([-3.00, -1.25, 0])
+        self.play(FadeIn(cond_badge, shift=DOWN * 0.1), run_time=0.6)
+
+        # Trigger execution pulse along conduit chain
+        rx_pulse = Dot(color=C_HIGHLIGHT, radius=0.08).move_to(sensor_box.get_center())
+        self.play(FadeIn(rx_pulse), run_time=0.2)
+        self.play(MoveAlongPath(rx_pulse, arr_rx1, rate_func=linear), run_time=0.6)
+        self.play(rule_box.animate.set_stroke(color=C_HIGHLIGHT, width=3.0), run_time=0.3)
+        self.play(MoveAlongPath(rx_pulse, arr_rx2, rate_func=linear), run_time=0.6)
+        self.play(
+            FadeIn(action_lbl, shift=DOWN * 0.1),
+            dispatch_box.animate.set_stroke(color="#E55353", width=3.5),
+            FadeOut(rx_pulse),
+            run_time=0.5
+        )
+        self.play(
+            rule_box.animate.set_stroke(color="#7EA2C8", width=2.0),
+            dispatch_box.animate.set_stroke(color="#E6A157", width=2.0),
+            run_time=0.4
+        )
+
+        # [2.8] 75.99s -> 78.02s That's a reactive agent
+        self.sync_to(28.48)
+        self.play(
+            badge1.animate.set_stroke(color=C_HIGHLIGHT, width=2.5),
+            action_lbl.animate.scale(1.08),
+            run_time=0.4
+        )
+        self.play(
+            badge1.animate.set_stroke(width=0),
+            action_lbl.animate.scale(1/1.08),
+            run_time=0.4
+        )
+
+        # [2.9] 78.17s -> 81.72s Fast, predictable, easy to build, but limited
+        self.sync_to(31.50)
+        perf_lbl = CrispText("Sub-Millisecond Execution", size=14, weight=BOLD, color="#404040").move_to([-4.20, -1.90, 0])
+        self.play(
+            FadeIn(perf_lbl, shift=UP * 0.1),
+            tag1_bg.animate.set_stroke(color="#E55353", width=2.0),
+            tag2_bg.animate.set_stroke(color="#E55353", width=2.0),
+            run_time=0.6
+        )
+
+        # [2.10] 81.87s -> 89.99s Can't investigate why drop happened
+        self.sync_to(36.30)
+        self.play(
+            tag1.animate.scale(1.10),
+            tag2.animate.scale(1.10),
+            run_time=0.45
+        )
+        self.play(
+            tag1.animate.scale(1/1.10),
+            tag2.animate.scale(1/1.10),
+            run_time=0.45
+        )
+
+        # Ambient telemetry kinetic action during the explanation of limitations
+        self.sync_to(39.00)
+        self.play(
+            rule_box.animate.set_stroke(color="#62B7E4", width=2.6),
+            sensor_box.animate.set_stroke(color=C_HIGHLIGHT, width=2.6),
+            run_time=0.8
+        )
+        self.play(
+            rule_box.animate.set_stroke(color="#7EA2C8", width=2.0),
+            sensor_box.animate.set_stroke(color="#62B7E4", width=2.0),
+            run_time=0.8
+        )
+
+        # =========================================================================
+        ## Presentation Step 3
+        # =========================================================================
+
+        # [3.1] 90.34s -> 93.89s The second type is the goal-based agent
+        self.sync_to(41.02)
+        step_title3 = CrispText("Goal-Based Agent: Planned Outcomes", size=15, font="Open Sans", weight=SEMIBOLD, color="#64748B")
+        step_title3.next_to(main_title, DOWN, buff=0.12, aligned_edge=LEFT)
+
+        rx_full_group = VGroup(
+            rx_chain_core, cond_badge, action_lbl, solara_alert_callout,
+            rule_lbl, perf_lbl, scope_pill, constraint_tags
+        )
 
         self.play(
-            Create(highlight_sp),
-            FadeIn(planning_text, shift=UP * 0.1),
-            run_time=2.0
+            FadeOut(step_title2),
+            FadeIn(step_title3, shift=DOWN * 0.1),
+            FadeOut(rx_full_group),
+            bay1_datum.animate.set_opacity(0.60),
+            badge1.animate.set_opacity(0.60),
+            bay2_datum.animate.set_opacity(1.0),
+            badge2.animate.set_opacity(1.0),
+            run_time=0.8
         )
-        self.wait(7.0) # Extended wait for narration
+
+        # [3.2] 94.04s -> 103.17s Reasons about actions in terms of moving closer to outcome
+        self.sync_to(46.84)
+        agent_core_bg = Circle(radius=0.36, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color="#7EA2C8", stroke_width=2.0).move_to([-1.30, -0.40, 0])
+        lattice_dots = VGroup(
+            Dot([-1.38, -0.32, 0], radius=0.04, color="#2C81FE"),
+            Dot([-1.22, -0.32, 0], radius=0.04, color="#2C81FE"),
+            Dot([-1.30, -0.48, 0], radius=0.04, color="#2C81FE")
+        )
+        lattice_lines = VGroup(
+            Line([-1.38, -0.32, 0], [-1.22, -0.32, 0], color="#7EA2C8", stroke_width=1.0),
+            Line([-1.38, -0.32, 0], [-1.30, -0.48, 0], color="#7EA2C8", stroke_width=1.0),
+            Line([-1.22, -0.32, 0], [-1.30, -0.48, 0], color="#7EA2C8", stroke_width=1.0)
+        )
+        agent_core_icon = VGroup(agent_core_bg, lattice_lines, lattice_dots)
+        agent_core_lbl = CrispText("Agent Core", size=14, weight=BOLD, color="#404040").move_to([-1.30, -1.15, 0])
+        agent_core_grp = VGroup(agent_core_icon, agent_core_lbl)
+
+        target_outer = Circle(radius=0.36, fill_color="#FEF3C7", fill_opacity=1.0, stroke_color="#E6A157", stroke_width=2.0).move_to([1.30, -0.40, 0])
+        target_inner = Circle(radius=0.20, fill_color="#FFFFFF", fill_opacity=0.0, stroke_color="#E6A157", stroke_width=1.5).move_to([1.30, -0.40, 0])
+        reticle_ch1 = Line([1.10, -0.40, 0], [1.50, -0.40, 0], color="#E6A157", stroke_width=1.5)
+        reticle_ch2 = Line([1.30, -0.60, 0], [1.30, -0.20, 0], color="#E6A157", stroke_width=1.5)
+        target_icon = VGroup(target_outer, target_inner, reticle_ch1, reticle_ch2)
+        target_lbl = create_pill("Target Goal", bg_color="#E6A157", font_size=9).move_to([1.40, -1.20, 0])
+        target_grp = VGroup(target_icon, target_lbl)
+
+        junc_bg = Square(side_length=0.24, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color="#64748B", stroke_width=1.5).rotate(45 * DEGREES).move_to([-0.60, -0.40, 0])
+        junc_glyph = CrispText("◇", size=14, color="#64748B").move_to(junc_bg)
+        junc_node = VGroup(junc_bg, junc_glyph)
+        conn_core_junc = Line(agent_core_bg.get_right(), junc_bg.get_left(), color="#7EA2C8", stroke_width=2.0)
+
+        self.play(FadeIn(agent_core_grp), FadeIn(target_grp), run_time=1.0)
+
+        self.sync_to(49.00)
+        self.play(FadeIn(junc_node), Create(conn_core_junc), run_time=0.8)
+
+        # [3.3] 103.32s -> 105.86s It plans and evaluates options
+        self.sync_to(50.70)
+        p_upper = CubicBezier([-0.48, -0.40, 0], [-0.10, 0.35, 0], [0.80, 0.35, 0], [1.30, -0.04, 0], color="#E58F6D", stroke_width=1.8)
+        p_optimal = Line([-0.48, -0.40, 0], [0.94, -0.40, 0], color="#2C81FE", stroke_width=2.5)
+        p_lower = CubicBezier([-0.48, -0.40, 0], [-0.10, -1.15, 0], [0.80, -1.15, 0], [1.30, -0.76, 0], color="#9B99C7", stroke_width=1.8)
+        paths = VGroup(p_upper, p_optimal, p_lower)
+
+        self.play(Create(paths), run_time=1.1)
+
+        # [3.4] 106.01s -> 111.08s Chooses the path most likely to achieve goal
+        self.sync_to(53.50)
+        badge_upper = create_pill("High Latency", bg_color="#E58F6D", font_size=8).move_to([0.35, 0.35, 0])
+        badge_opt = create_pill("Optimal Route", bg_color="#62B7E4", font_size=8).move_to([0.35, -0.40, 0])
+        badge_lower = create_pill("Sub-Optimal", bg_color="#9B99C7", font_size=8).move_to([0.15, -1.00, 0])
+        path_badges = VGroup(badge_upper, badge_opt, badge_lower)
+
+        self.play(FadeIn(path_badges, shift=DOWN * 0.1), run_time=0.8)
+
+        self.sync_to(55.50)
+        opt_highlight = SurroundingRectangle(badge_opt, color=C_HIGHLIGHT, stroke_width=2.8, buff=0.06, corner_radius=0.12)
+        self.play(Create(opt_highlight), run_time=0.6)
+
+        # [3.5] 111.23s -> 115.30s Solara's Site Performance Investigation Agent
+        self.sync_to(57.34)
+        opt_pulse = Dot(color=C_HIGHLIGHT, radius=0.08).move_to(p_optimal.get_start())
+        self.play(FadeIn(opt_pulse), run_time=0.2)
+        self.play(MoveAlongPath(opt_pulse, p_optimal, rate_func=linear), run_time=1.2)
         self.play(
-            FadeOut(highlight_sp),
-            FadeOut(planning_text, shift=DOWN * 0.1),
-            run_time=1.0
+            target_outer.animate.set_stroke(color=C_HIGHLIGHT, width=3.5),
+            FadeOut(opt_pulse),
+            run_time=0.4
         )
-        self.wait(0.5)
+        self.play(target_outer.animate.set_stroke(color="#E6A157", width=2.0), run_time=0.4)
 
-        ## Presentation Step 5: Architectural Trade-Off Comparison
-        # Narration Text: Reflex speed vs. Deliberative foresight in enterprise operations
-        
-        # Morph title for the new step
-        new_title_group_step5 = create_title("Architectural Trade-Off Comparison", layout="70")
-        self.remove(new_title_group_step4)
-        self.play(FadeOut(current_title_group), run_time=0.35)
-        self.play(FadeIn(new_title_group_step5, shift=DOWN * 0.1), run_time=0.45)
-        current_title_group = new_title_group_step5
-        self.wait(0.5)
+        # [3.6] 115.44s -> 121.03s Goal: determine why Site 47 under-performed
+        self.sync_to(62.24)
+        site_goal_pill = create_pill("Goal: Site 47 Root Cause", bg_color="#E6A157", text_color="#FFFFFF", font_size=9).move_to([1.30, 0.35, 0])
+        self.play(FadeIn(site_goal_pill, shift=DOWN * 0.1), run_time=0.6)
+        self.play(target_icon.animate.scale(1.08), run_time=0.4)
+        self.play(target_icon.animate.scale(1/1.08), run_time=0.4)
 
-        # Fade out previous goal-based diagram elements to make way for comparison
-        self.play(
-            FadeOut(perception_node),
-            FadeOut(model_of_world_node),
-            FadeOut(goals_node),
-            FadeOut(search_planning_node),
-            FadeOut(action_node),
-            FadeOut(arrow_p_mw),
-            FadeOut(arrow_mw_sp),
-            FadeOut(arrow_g_sp),
-            FadeOut(arrow_sp_a),
-            run_time=1.5
-        )
-        self.wait(0.5)
-        
-        # Reactive Agent for Comparison Column
-        reactive_col_header = CrispText("Reactive Agent", size=6, weight=BOLD, color=C_SKY_BLUE)
-        reactive_col_desc = CrispText("Reflex Speed", size=6, weight=SEMIBOLD, color=C_CORAL_PEACH)
-        
-        comp_perception_r = ProcessNode("Perception", fill_color=C_SKY_BLUE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
-        comp_ca_r = ProcessNode("Condition-Action", fill_color=C_WARM_AMBER, text_color=C_WHITE, font_size=0.16, width=2.5, height=0.7)
-        comp_action_r = ProcessNode("Action", fill_color=C_MINT_SEAFOAM, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
-
-        comp_reactive_group = VGroup(comp_perception_r, comp_ca_r, comp_action_r).arrange(RIGHT, buff=0.4)
-        comp_arrow_r1 = Arrow(comp_perception_r.box.get_right(), comp_ca_r.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
-        comp_arrow_r2 = Arrow(comp_ca_r.box.get_right(), comp_action_r.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
-        
-        reactive_diagram = VGroup(comp_reactive_group, comp_arrow_r1, comp_arrow_r2)
-        reactive_col_content = VGroup(reactive_col_header, reactive_col_desc, reactive_diagram).arrange(DOWN, buff=0.5).align_to(reactive_col_header, LEFT)
-
-        # Goal-Based Agent for Comparison Column
-        goal_col_header = CrispText("Goal-Based Agent", size=6, weight=BOLD, color=C_STEEL_BLUE)
-        goal_col_desc = CrispText("Deliberative Foresight", size=6, weight=SEMIBOLD, color=C_LAVENDER_PERIWINKLE)
-        
-        comp_perception_g = ProcessNode("Perception", fill_color=C_SKY_BLUE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
-        comp_model_g = ProcessNode("Model", fill_color=C_STEEL_BLUE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
-        comp_goals_g = ProcessNode("Goals", fill_color=C_LAVENDER_PERIWINKLE, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
-        comp_sp_g = ProcessNode("Search & Planning", fill_color=C_MUSTARD_YELLOW, text_color=C_WHITE, font_size=0.16, width=2.5, height=0.7)
-        comp_action_g = ProcessNode("Action", fill_color=C_MINT_SEAFOAM, text_color=C_WHITE, font_size=0.16, width=1.5, height=0.7)
-
-        # Arrange goal-based components more compactly for comparison
-        comp_perception_g.move_to(LEFT * 2.0 + UP * 0.5)
-        comp_action_g.move_to(RIGHT * 2.0 + UP * 0.5)
-        comp_model_g.next_to(comp_perception_g, RIGHT, buff=0.4).shift(UP * 0.5)
-        comp_goals_g.next_to(comp_model_g, DOWN, buff=0.4).align_to(comp_perception_g, LEFT) # Aligned below model
-        comp_sp_g.next_to(comp_goals_g, RIGHT, buff=0.4).align_to(comp_model_g, UP) # Align with model top
-        comp_sp_g.move_to(VGroup(comp_model_g, comp_goals_g).get_center() + RIGHT * 1.5) # Re-center SP
-
-        comp_arrow_pg = Arrow(comp_perception_g.box.get_right(), comp_model_g.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
-        comp_arrow_mg_sp = Arrow(comp_model_g.box.get_right(), comp_sp_g.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
-        comp_arrow_gg_sp = CurvedArrow(comp_goals_g.box.get_right(), comp_sp_g.box.get_bottom(), angle=-PI/4, stroke_color=C_TEXT, tip_length=0.18) # Removed 'buff'
-        comp_arrow_spg_a = Arrow(comp_sp_g.box.get_right(), comp_action_g.box.get_left(), buff=0.15, stroke_color=C_TEXT, tip_length=0.18)
-
-        goal_diagram = VGroup(comp_perception_g, comp_model_g, comp_goals_g, comp_sp_g, comp_action_g,
-                              comp_arrow_pg, comp_arrow_mg_sp, comp_arrow_gg_sp, comp_arrow_spg_a)
-        goal_col_content = VGroup(goal_col_header, goal_col_desc, goal_diagram).arrange(DOWN, buff=0.5).align_to(goal_col_header, LEFT)
-
-        # Arrange both columns side-by-side in the content area
-        comparison_group = VGroup(reactive_col_content, goal_col_content).arrange(RIGHT, buff=1.5)
-        comparison_group.scale_to_fit_width(content_width - 0.4) # Ensure it fits with margins
-        comparison_group.move_to(RIGHT * content_center_x + DOWN * 0.3)
-
-        narration_text5 = CrispText("Reflex speed vs. Deliberative foresight\nin enterprise operations", size=6, weight=NORMAL, color=C_BODY, alignment="center")
-        narration_text5.next_to(comparison_group, DOWN, buff=1.0)
+        # [3.7] 121.18s -> 124.22s It doesn't follow a fixed script
+        self.sync_to(68.78)
+        perf_lbl_g = CrispText("Proactive Goal Search", size=14, weight=BOLD, color="#404040").move_to([0.0, -1.85, 0])
+        scope_pill_g = create_pill("Multi-Step Planning Horizon", bg_color="#7EA2C8", font_size=10).move_to([0.0, -2.35, 0])
+        bottom_descriptors_g = VGroup(perf_lbl_g, scope_pill_g)
 
         self.play(
-            FadeIn(reactive_col_content, shift=LEFT * 0.5),
-            FadeIn(goal_col_content, shift=RIGHT * 0.5),
-            run_time=2.0
+            FadeIn(bottom_descriptors_g, shift=UP * 0.1),
+            junc_node.animate.scale(1.15).set_color(C_HIGHLIGHT),
+            run_time=0.6
         )
-        self.wait(0.5)
+        self.play(junc_node.animate.scale(1/1.15).set_color("#64748B"), run_time=0.4)
+
+        # [3.8] 124.37s -> 133.51s Decides what data to pull, adjusting approach as results arrive
+        self.sync_to(71.00)
+        loop_pulse = Dot(color="#2C81FE", radius=0.08).move_to(p_optimal.get_start())
+        self.play(FadeIn(loop_pulse), run_time=0.2)
+        self.play(MoveAlongPath(loop_pulse, p_optimal, rate_func=linear), run_time=1.2)
+        self.play(FadeOut(loop_pulse), run_time=0.2)
+
+        # Ambient continuous focus maintenance until audio concludes
+        self.sync_to(73.70)
         self.play(
-            FadeIn(narration_text5, shift=UP * 0.1),
-            run_time=1.5
+            agent_core_bg.animate.set_stroke(color="#2C81FE", width=2.8),
+            target_outer.animate.set_stroke(color=C_HIGHLIGHT, width=2.8),
+            run_time=0.8
         )
-        self.wait(5.0) # Extended wait for narration
-
-        # Add continuous flow to the comparison diagrams
-        comp_reactive_flow_path = VMobject()
-        comp_reactive_flow_path.set_points_as_corners([
-            comp_perception_r.box.get_right(), comp_ca_r.box.get_left(),
-            comp_ca_r.box.get_right(), comp_action_r.box.get_left()
-        ])
-        comp_reactive_stream = FlowingStream(comp_reactive_flow_path, num_dots=3, dot_color=HIGHLIGHT_COLOR, flow_speed=0.6)
-        self.add(comp_reactive_stream)
-
-        comp_goal_main_flow_path = VMobject()
-        comp_goal_main_flow_path.set_points_as_corners([
-            comp_perception_g.box.get_right(), comp_model_g.box.get_left(),
-            comp_model_g.box.get_right(), comp_sp_g.box.get_left(),
-            comp_sp_g.box.get_right(), comp_action_g.box.get_left()
-        ])
-        comp_goal_main_stream = FlowingStream(comp_goal_main_flow_path, num_dots=4, dot_color=HIGHLIGHT_COLOR, flow_speed=0.5)
-
-        comp_goal_goals_flow_path = VMobject()
-        comp_goal_goals_flow_path.set_points_as_corners([
-            comp_goals_g.box.get_right(), comp_arrow_gg_sp.get_end()
-        ])
-        comp_goal_goals_stream = FlowingStream(comp_goal_goals_flow_path, num_dots=2, dot_color=C_LAVENDER_PERIWINKLE, flow_speed=0.4)
-        self.add(comp_goal_main_stream, comp_goal_goals_stream)
-
-        self.wait(10.0) # Final wait to let the streams flow during narration
-
-        # Clean up all mobjects at the end of the scene
         self.play(
-            FadeOut(current_title_group),
-            FadeOut(reactive_col_content),
-            FadeOut(goal_col_content),
-            FadeOut(narration_text5),
-            run_time=1.0
+            agent_core_bg.animate.set_stroke(color="#7EA2C8", width=2.0),
+            target_outer.animate.set_stroke(color="#E6A157", width=2.0),
+            run_time=0.8
         )
-        comp_reactive_stream.stop_flow()
-        comp_goal_main_stream.stop_flow()
-        comp_goal_goals_stream.stop_flow()
-        self.remove(comp_reactive_stream, comp_goal_main_stream, comp_goal_goals_stream)
-        self.wait(1.0)
+
+        # Final hold matching total audio duration
+        self.sync_to(77.30)

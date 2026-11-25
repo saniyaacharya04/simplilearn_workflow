@@ -4,17 +4,14 @@ C_LIGHT_BLUE = "#62B7E4"
 C_PURPLE = "#9B99C7"
 C_YELLOW = "#DDB945"
 C_RED = "#E58F6D"
+C_WHITE = "#FFFFFF"
 C_BLACK = "#404040"
 C_NAVY_DARK = "#404040"
-C_HIGHLIGHT = "#F78908"
-C_MINT = "#8ECDB7"
-C_LAVENDER = "#9B99C7"
-C_CORAL = "#E58F6D"
+SME_LAYOUT = '70'
+C_TEXT = "#404040"
 import os
 import re
 import numpy as np
-SME_LAYOUT = '70'
-from feedback_functions.instrumented_scene import InstrumentedScene
 from manim import *
 # Dynamic Animation Safety Preamble
 for _anim_cls in (FadeIn, FadeOut, Create, Write):
@@ -67,83 +64,8 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
-        if not hasattr(_scene_cls, '_orig_play_safe'):
-            _orig_play = _scene_cls.play
-            def _make_safe_play():
-                def _safe_play(self, *args, **kwargs):
-                    if len(args) == 0:
-                        rt = kwargs.get('run_time', 0.5)
-                        return self.wait(rt)
-                    return _orig_play(self, *args, **kwargs)
-                return _safe_play
-            _scene_cls._orig_play_safe = True
-            _scene_cls.play = _make_safe_play()
-        if not hasattr(_scene_cls, 'get_time'):
-            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
-try:
-    from manim.utils.color.core import ManimColor
-    if not hasattr(ManimColor, '_orig_eq_safe'):
-        def _safe_color_eq(self, other):
-            if not isinstance(other, ManimColor):
-                try: other = ManimColor(other)
-                except Exception: return False
-            return bool(np.allclose(self._internal_value, other._internal_value))
-        ManimColor._orig_eq_safe = True
-        ManimColor.__eq__ = _safe_color_eq
-except Exception:
-    pass
-try:
-    if not hasattr(Mobject, 'stop_updater'):
-        Mobject.stop_updater = lambda self: self.clear_updaters()
-    if not hasattr(Mobject, 'set_fill'):
-        def _safe_mobj_set_fill(self, *args, **kwargs):
-            for sub in getattr(self, 'submobjects', []):
-                if hasattr(sub, 'set_fill'):
-                    try: sub.set_fill(*args, **kwargs)
-                    except Exception: pass
-            return self
-        Mobject.set_fill = _safe_mobj_set_fill
-    if not hasattr(Mobject, 'set_stroke'):
-        def _safe_mobj_set_stroke(self, *args, **kwargs):
-            for sub in getattr(self, 'submobjects', []):
-                if hasattr(sub, 'set_stroke'):
-                    try: sub.set_stroke(*args, **kwargs)
-                    except Exception: pass
-            return self
-        Mobject.set_stroke = _safe_mobj_set_stroke
-    if not hasattr(Mobject, '_orig_mobj_init_safe'):
-        _orig_mobj_init = Mobject.__init__
-        def _safe_mobj_init(self, *args, **kwargs):
-            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
-            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
-            res = _orig_mobj_init(self, *args, **clean_kw)
-            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
-                try: self.set_opacity(kwargs['opacity'])
-                except Exception: pass
-            return res
-        Mobject._orig_mobj_init_safe = True
-        Mobject.__init__ = _safe_mobj_init
-    if not hasattr(VMobject, '_orig_set_stroke_safe'):
-        _orig_set_stroke = VMobject.set_stroke
-        def _safe_set_stroke(self, *args, **kwargs):
-            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
-            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
-            if 'z_index' in kwargs:
-                try: self.set_z_index(kwargs['z_index'])
-                except Exception: pass
-            return _orig_set_stroke(self, *args, **clean_kw)
-        VMobject._orig_set_stroke_safe = True
-        VMobject.set_stroke = _safe_set_stroke
-except Exception:
-    pass
-YELLOW = globals().get('YELLOW', '#DDB945')
-WHITE = globals().get('WHITE', '#FFFFFF')
-BLACK = globals().get('BLACK', '#404040')
-RED = globals().get('RED', '#E58F6D')
-BLUE = globals().get('BLUE', '#62B7E4')
-GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
 
 
@@ -239,19 +161,14 @@ class NullMobject(VGroup):
             return VMobject()
         return super().__getitem__(val)
     def get_center(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
     def get_top(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
     def get_bottom(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
     def get_left(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
     def get_right(self):
-        import numpy as np
         return np.array([0.0, 0.0, 0.0])
 
 try:
@@ -276,33 +193,6 @@ try:
     from manim.utils.rate_functions import *
 except Exception:
     pass
-# from manim_slides import Slide # Removed due to ModuleNotFoundError
-
-# --- Global Constants and Helper Functions (Simplilearn Framework) ---
-
-# Colors (10-color infographic pastel palette + core UI colors)
-C_SKY_BLUE = "#62B7E4"
-C_STEEL_BLUE = "#7EA2C8"
-C_LAVENDER_PERIWINKLE = "#9B99C7"
-C_MINT_SEAFOAM = "#8ECDB7"
-C_WARM_AMBER = "#E6A157"
-C_MUSTARD_YELLOW = "#DDB945"
-C_CORAL_PEACH = "#E58F6D"
-C_WARM_TAN = "#B88968"
-C_DUSTY_ROSE = "#D98CA1"
-C_SOFT_LILAC = "#C1A5C6"
-
-C_HIGHLIGHT_ORANGE = "#F78908" # Focus highlight color
-C_DARK_SLATE_TITLE = "#1E293B" # For main titles and headers
-C_SLATE_BODY = "#334155"       # For body text
-C_DARK_CHARCOAL = "#404040"    # General dark text on light backgrounds
-C_LIGHT_CANVAS = "#F0F4F8"     # Background color for light infographic canvas
-C_WHITE = "#FFFFFF"            # Pure white for cards, text on dark
-
-# Font settings
-FONT_OPEN_SANS = "Open Sans"
-
-# Helper for CrispText (maps descriptive sizes to Manim unit heights)
 
 
 
@@ -425,64 +315,14 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-def create_header(*args, **kwargs):
-    return create_title(*args, **kwargs)
-
-
-
-
-
-
-
-
-
-class FlowingParticle(Dot):
-    def __init__(self, path_mobject, color=C_HIGHLIGHT_ORANGE, radius=0.08, speed=0.5, **kwargs):
-        super().__init__(color=color, radius=radius, **kwargs)
-        self.path_mobject = path_mobject
-        self.speed = speed
-        self.tracker = ValueTracker(0) # Proportion along the path
-
-        # Use partial functions for updaters to bind self and path_mobject
-        def update_particle_position(mob, dt):
-            mob.tracker.increment_value(mob.speed * dt)
-            if mob.tracker.get_value() >= 1:
-                mob.tracker.set_value(0) # Reset to start for continuous loop
-            mob.move_to(mob.path_mobject.point_from_proportion(mob.tracker.get_value()))
-        
-        self.add_updater(update_particle_position)
-        
-    def cease_flow(self):
-        self.remove_updater(self.updaters[0]) # Remove the position updater
-
-
-def _safe_mobj_set_fill(self, *args, **kwargs):
-    for sub in getattr(self, 'submobjects', []):
-        if hasattr(sub, 'set_fill'):
-            try: sub.set_fill(*args, **kwargs)
-            except Exception: pass
-    return self
-
-def _safe_mobj_set_stroke(self, *args, **kwargs):
-    for sub in getattr(self, 'submobjects', []):
-        if hasattr(sub, 'set_stroke'):
-            try: sub.set_stroke(*args, **kwargs)
-            except Exception: pass
-    return self
-
-if not hasattr(Mobject, 'set_fill'):
-    Mobject.set_fill = _safe_mobj_set_fill
-if not hasattr(Mobject, 'set_stroke'):
-    Mobject.set_stroke = _safe_mobj_set_stroke
-
-
-class FinalScene(MovingCameraScene): # Removed Slide from inheritance
-    def get_time(self):
-        return getattr(getattr(self, 'renderer', None), 'time', 0.0)
+class FinalScene(MovingCameraScene):
+    def sync_to(self, target_time):
+        current_time = getattr(getattr(self, 'renderer', None), 'time', 0.0)
+        if target_time > current_time:
+            self.wait(target_time - current_time)
 
     def construct(self):
-        # 1. Canvas Background: #F0F4F8 (Modern Soft Light Slate Canvas)
-        self.camera.background_color = C_LIGHT_CANVAS
+        self.camera.background_color = "#FFFFFF"
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
                 pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -840,359 +680,455 @@ class FinalScene(MovingCameraScene): # Removed Slide from inheritance
 
 
 
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
+        # Approved Color Palette
+        C_SKY_BLUE = "#62B7E4"
+        C_STEEL_BLUE = "#7EA2C8"
+        C_SEAFOAM = "#8ECDB7"
+        C_AMBER = "#E6A157"
+        C_CORAL = "#E58F6D"
+        C_TEXT_DARK = "#404040"
+        C_TEXT_MUTED = "#555555"
+        C_CARD_BG = "#FFFFFF"
+        C_ORANGE_HIGHLIGHT = "#F78908"
+        C_GRAY_PASSIVE = "#64748B"
+        C_GRAY_LIGHT = "#E2E8F0"
 
+        # Standard Header Factory (Centered at 0.0, 2.90, 0)
+        def create_header(title_str, subtitle_str):
+            title = CrispText(title_str, size=28, weight=BOLD, color=C_TEXT_DARK)
+            subtitle = CrispText(subtitle_str, size=18, weight=SEMIBOLD, color=C_TEXT_MUTED)
+            header_grp = VGroup(title, subtitle).arrange(DOWN, aligned_edge=ORIGIN, buff=0.12)
+            header_grp.move_to(np.array([0.0, 2.90, 0]))
+            return header_grp
 
+        # =========================================================
+        ## Presentation Step 1: Agent-Environment Interaction Loop (0.00s -> 5.68s)
+        # =========================================================
 
-
-
-
-
-
-
-
-
-
-
-
-
-        # Assign global helper functions to self
-
-        # --- Scene Setup: Define common positions and dimensions for Layout 70% ---
-        # Content workspace: x ∈ [-0.80, +6.40], y ∈ [-3.60, +2.20].
-        # Title will be at x = -0.80, y = 3.2 (top-left of content area).
-
-        # --- Mobject Definitions (will be animated progressively) ---
-
-        # 1. Environment components (hero illustrations)
-        # Assume images exist in 'images/' directory.
-        img_height = 1.2 # Standard height for these icons
-        solar_plant_img = self.safe_image("scene_5_solar_plant.png", height=img_height)
-        power_grid_img = self.safe_image("scene_5_power_grid.png", height=img_height)
-        database_img = self.safe_image("scene_5_database.png", height=img_height)
-
-        # Arrange environment images horizontally
-        environment_icons = Group(solar_plant_img, power_grid_img, database_img).arrange(RIGHT, buff=0.6)
+        # [0.00s] "That loop is what we call agent environment interaction."
+        self.sync_to(0.00)
+        header_group = create_header("Agent-Environment Interaction", "Continuous Loop Architecture")
         
-        # Ensure the environment group is on the right side of the content area
-        environment_group = environment_icons # Simplified, as environment_icons is already a Group
-        environment_group.move_to(RIGHT * 4.0 + DOWN * 0.5) # Center in the right content area
-        environment_label = CrispText("Operational Environment", size=24, weight=BOLD, color=C_DARK_SLATE_TITLE)
-        environment_label.next_to(environment_group, DOWN, buff=0.4)
-        environment_vgroup = Group(environment_group, environment_label) # Changed to Group
+        center_1 = np.array([0.0, -0.55, 0])
 
-        # 2. Agent Core component (human operator icon)
-        human_operator_img = self.safe_image("scene_5_human_operator.png", height=1.8) # Slightly larger as a central figure
-        
-        # Position agent to the left of the environment, within the content area
-        agent_core_group = human_operator_img # Simplified, as human_operator_img is already a Group
-        agent_core_group.move_to(RIGHT * 0.8 + DOWN * 0.5)
-        agent_core_label = CrispText("Agent Core", size=24, weight=BOLD, color=C_DARK_SLATE_TITLE)
-        agent_core_label.next_to(agent_core_group, DOWN, buff=0.4)
-        agent_core_vgroup = Group(agent_core_group, agent_core_label) # Changed to Group
+        # 1. Environment Outer Boundary Ring
+        env_ring_outer = DashedVMobject(
+            Circle(radius=2.40, stroke_color=C_STEEL_BLUE, stroke_width=2.0),
+            num_dashes=36,
+            dashed_ratio=0.55
+        ).move_to(center_1)
 
-        # 3. Internal State component (smaller database icon for memory/state)
-        internal_state_icon = self.safe_image("scene_5_database.png", height=0.8) # Smaller scale
-        internal_state_icon.move_to(agent_core_group.get_center() + LEFT * 1.5 + UP * 0.8) # Position near agent
-        internal_state_label = CrispText("Internal State", size=12, weight=BOLD, color=C_DARK_SLATE_TITLE)
-        internal_state_label.next_to(internal_state_icon, DOWN, buff=0.2)
-        internal_state_vgroup = Group(internal_state_icon, internal_state_label) # Changed to Group
+        env_ring_pulse = Circle(
+            radius=2.46,
+            stroke_color=C_SKY_BLUE,
+            stroke_width=1.8,
+            fill_opacity=0.04,
+            fill_color=C_SKY_BLUE
+        ).move_to(center_1)
 
-        # 4. Action Tool (wrench icon)
-        wrench_img = self.safe_image("scene_5_wrench.png", height=0.65) # Smaller icon
-        wrench_img.move_to(environment_group.get_center() + UP * 1.0) # Position near environment, for action impact
-        wrench_label = CrispText("Tool Execution", size=12, weight=BOLD, color=C_DARK_SLATE_TITLE)
-        wrench_label.next_to(wrench_img, DOWN, buff=0.2)
-        wrench_vgroup = Group(wrench_img, wrench_label) # Changed to Group
+        env_badge = VGroup(
+            RoundedRectangle(width=1.9, height=0.44, corner_radius=0.10, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_STEEL_BLUE, stroke_width=1.6),
+            CrispText("Environment", size=15, weight=BOLD, color=C_TEXT_MUTED)
+        ).move_to(center_1 + UP * 1.95).set_z_index(15)
 
+        # 2. Central Memory Core Node
+        mem_card = RoundedRectangle(width=1.85, height=1.15, corner_radius=0.10, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_STEEL_BLUE, stroke_width=2.0).move_to(center_1)
+        db_tier1 = Ellipse(width=0.52, height=0.14, fill_color=C_STEEL_BLUE, fill_opacity=0.35, stroke_color=C_STEEL_BLUE, stroke_width=1.5).move_to(center_1 + UP * 0.22)
+        db_tier2 = Ellipse(width=0.52, height=0.14, fill_color=C_STEEL_BLUE, fill_opacity=0.55, stroke_color=C_STEEL_BLUE, stroke_width=1.5).move_to(center_1 + UP * 0.10)
+        db_tier3 = Ellipse(width=0.52, height=0.14, fill_color=C_STEEL_BLUE, fill_opacity=0.85, stroke_color=C_STEEL_BLUE, stroke_width=1.5).move_to(center_1 - UP * 0.02)
+        db_icon = VGroup(db_tier1, db_tier2, db_tier3)
+        mem_label = CrispText("Memory", size=16, weight=BOLD, color=C_TEXT_DARK).move_to(center_1 + DOWN * 0.28)
+        mem_group = VGroup(mem_card, db_icon, mem_label).set_z_index(10)
 
-        # --- Paths and Particles ---
-        # Perception path (Environment -> Agent)
-        perception_arrow = Arrow(
-            environment_group.get_left(),
-            agent_core_group.get_right(),
-            buff=0.3,
-            stroke_width=3,
-            color=C_MINT_SEAFOAM, # Mint Seafoam for perception
-            tip_length=0.25
-        ).shift(UP * 0.5) # Shift up slightly to differentiate from action
-        perception_label = CrispText("Sensory Observation", size=12, weight=SEMIBOLD, color=C_DARK_CHARCOAL)
-        perception_label.next_to(perception_arrow, UP, buff=0.1)
-        
-        # Internal processing path (within Agent / to Internal State)
-        internal_process_arrow_to = ArcBetweenPoints(
-            agent_core_group.get_top() + LEFT * 0.5,
-            internal_state_icon.get_top(),
-            angle=-TAU/4, # Clockwise arc
-            stroke_width=2,
-            color=C_LAVENDER_PERIWINKLE,
-            tip_length=0.2
+        # 3. Flow Nodes Definition
+        pos_perceive = center_1 + UP * 1.25
+        pos_reason = center_1 + RIGHT * 1.60 + DOWN * 0.25
+        pos_act = center_1 + LEFT * 1.60 + DOWN * 0.25
+
+        def create_flow_node(title_str, color_accent, position, icon_type="radar"):
+            bg = RoundedRectangle(width=1.85, height=0.82, corner_radius=0.10, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=color_accent, stroke_width=2.2)
+            if icon_type == "radar":
+                ic1 = Arc(radius=0.18, angle=PI, stroke_color=color_accent, stroke_width=2.0)
+                ic2 = Dot(radius=0.04, color=color_accent).move_to(ic1.get_bottom())
+                icon = VGroup(ic1, ic2).scale(0.85)
+            elif icon_type == "gear":
+                c = Circle(radius=0.14, stroke_color=color_accent, stroke_width=2.0)
+                teeth = VGroup(*[Line(UP * 0.14, UP * 0.20, stroke_color=color_accent, stroke_width=2.0).rotate(a, about_point=ORIGIN) for a in np.linspace(0, TAU, 6, endpoint=False)])
+                icon = VGroup(c, teeth).scale(0.85)
+            else:
+                dot_c = Dot(radius=0.06, color=color_accent)
+                ring = Circle(radius=0.15, stroke_color=color_accent, stroke_width=1.5)
+                icon = VGroup(ring, dot_c).scale(0.85)
+
+            title = CrispText(title_str, size=16, weight=BOLD, color=C_TEXT_DARK)
+            content = VGroup(icon, title).arrange(RIGHT, buff=0.12)
+            node = VGroup(bg, content).move_to(position).set_z_index(12)
+            return node
+
+        node_perceive = create_flow_node("Perception", C_SKY_BLUE, pos_perceive, "radar")
+        node_reason = create_flow_node("Reasoning", C_AMBER, pos_reason, "brain")
+        node_act = create_flow_node("Action", C_SEAFOAM, pos_act, "gear")
+
+        start_mem = np.array([mem_card.get_right()[0], center_1[1] - 0.15, 0])
+        end_reason = np.array([node_reason.get_left()[0], center_1[1] - 0.15, 0])
+        mem_link = DoubleArrow(
+            start_mem,
+            end_reason,
+            stroke_color=C_STEEL_BLUE,
+            stroke_width=2.0,
+            tip_length=0.12,
+            buff=0.08
+        ).set_z_index(8)
+        link_label = CrispText("State & Knowledge", size=14, weight=SEMIBOLD, color=C_TEXT_MUTED)
+        link_label.next_to(mem_link, UP, buff=0.06)
+        link_label.set_y(center_1[1] + 0.02)
+
+        arrow_p_to_r = CurvedArrow(
+            node_perceive.get_right() + DOWN * 0.05,
+            node_reason.get_top() + LEFT * 0.05,
+            angle=-0.4,
+            stroke_color=C_SKY_BLUE,
+            stroke_width=2.8,
+            tip_length=0.18
         )
-        internal_process_arrow_from = ArcBetweenPoints(
-            internal_state_icon.get_bottom(),
-            agent_core_group.get_bottom() + LEFT * 0.5,
-            angle=-TAU/4, # Clockwise arc
-            stroke_width=2,
-            color=C_LAVENDER_PERIWINKLE,
-            tip_length=0.2
+        arrow_r_to_a = CurvedArrow(
+            node_reason.get_bottom() + LEFT * 0.05,
+            node_act.get_bottom() + RIGHT * 0.05,
+            angle=-0.4,
+            stroke_color=C_AMBER,
+            stroke_width=2.8,
+            tip_length=0.18
         )
-        internal_process_path = VGroup(internal_process_arrow_to, internal_process_arrow_from)
-        internal_process_label = CrispText("Processing", size=12, weight=SEMIBOLD, color=C_DARK_CHARCOAL)
-        internal_process_label.next_to(internal_process_arrow_to, UP * 0.5 + LEFT * 0.5, buff=0.1)
+        arrow_a_to_p = CurvedArrow(
+            node_act.get_top() + RIGHT * 0.05,
+            node_perceive.get_left() + DOWN * 0.05,
+            angle=-0.4,
+            stroke_color=C_SEAFOAM,
+            stroke_width=2.8,
+            tip_length=0.18
+        )
+        loop_badge = VGroup(
+            RoundedRectangle(width=1.7, height=0.42, corner_radius=0.08, fill_color="#F8FAFC", fill_opacity=0.95, stroke_color=C_CORAL, stroke_width=1.8),
+            CrispText("Agent Loop", size=15, weight=BOLD, color=C_CORAL)
+        ).move_to(center_1 + DOWN * 1.35).set_z_index(14)
 
+        particle_1 = Dot(radius=0.08, color=C_ORANGE_HIGHLIGHT).move_to(arrow_p_to_r.get_start())
+        particle_2 = Dot(radius=0.08, color=C_SKY_BLUE).move_to(arrow_r_to_a.get_start())
+        particle_3 = Dot(radius=0.08, color=C_SEAFOAM).move_to(arrow_a_to_p.get_start())
 
-        # Action path (Agent -> Environment)
-        action_arrow = Arrow(
-            agent_core_group.get_right(),
-            environment_group.get_left(),
-            buff=0.3,
-            stroke_width=3,
-            color=C_WARM_AMBER, # Warm Amber for action
-            tip_length=0.25
-        ).shift(DOWN * 0.5) # Shift down slightly
-        action_label = CrispText("Action Impact", size=12, weight=SEMIBOLD, color=C_DARK_CHARCOAL)
-        action_label.next_to(action_arrow, DOWN, buff=0.1)
-
-        # Particles for continuous flow
-        perception_particle = FlowingParticle(perception_arrow, color=C_MINT_SEAFOAM, speed=0.8)
-        internal_particle = FlowingParticle(internal_process_arrow_to, color=C_LAVENDER_PERIWINKLE, speed=0.6)
-        action_particle = FlowingParticle(action_arrow, color=C_WARM_AMBER, speed=0.8)
-
-
-        # --- Scene Title Initialization ---
-        initial_title_group = create_title("Continuous Agent-Environment Feedback Loop")
-        self.play(FadeIn(initial_title_group, shift=DOWN*0.1), run_time=0.8)
-        self.wait(0.5)
-        current_title_group = initial_title_group # Set current title for subsequent fades
-
-        ## Presentation Step 1: The Operational Environment
-        self.play(FadeIn(initial_title_group, shift=DOWN*0.1), run_time=0.8)
-        # Narration: Dynamic enterprise setting: solar arrays, grid fluctuations, databases
-
-        # Animate environment components
         self.play(
-            LaggedStart(
-                FadeIn(environment_icons, shift=UP * 0.2),
-                Write(environment_label),
-                lag_ratio=0.2,
-                run_time=2.0
-            )
+            FadeIn(header_group, shift=DOWN * 0.15),
+            Create(env_ring_outer),
+            FadeIn(env_ring_pulse),
+            FadeIn(env_badge, shift=DOWN * 0.1),
+            GrowFromCenter(mem_group),
+            FadeIn(node_perceive, shift=DOWN * 0.15),
+            FadeIn(node_reason, shift=LEFT * 0.15),
+            FadeIn(node_act, shift=RIGHT * 0.15),
+            Create(mem_link),
+            FadeIn(link_label),
+            Create(arrow_p_to_r),
+            Create(arrow_r_to_a),
+            Create(arrow_a_to_p),
+            FadeIn(loop_badge, shift=UP * 0.1),
+            run_time=2.2
         )
-        self.wait(2.0) # Hold for narration
 
-        # Add ambient animation to environment (subtle pulse)
-        env_pulse_rect = RoundedRectangle(
-            width=environment_vgroup.width + 0.4,
-            height=environment_vgroup.height + 0.4,
-            corner_radius=0.1,
-            stroke_color=C_MINT_SEAFOAM,
-            stroke_width=1.5,
-            fill_opacity=0
-        ).move_to(environment_vgroup.get_center()).set_z_index(-1)
-
-        def pulse_updater(m, dt):
-            factor = np.sin(self.get_time() * 2) * 0.05 + 1.0 # Oscillate width between 0.95 and 1.05 of base
-            m.set_stroke(width=1.5 * factor)
-            m.set_opacity(np.sin(self.get_time() * 2) * 0.2 + 0.5) # Opacity oscillates
-        
-        env_pulse_rect.add_updater(pulse_updater)
-        self.add(env_pulse_rect) # Add the pulsing outline to the scene
-
-        # self.wait_until_last_animation_finishes() # Removed: not a standard Manim method
-        self.wait(5.0) # Additional wait for narration
-        # self.next_slide() # Removed due to Manim-Slides removal
-
-
-        ## Presentation Step 2: Continuous Sensory Observation
-        # Narration: Agent ingests real-time environmental telemetry
-        self.sync_to(7.0) # Adjusted timestamp based on previous run_time
-        step2_title = create_title("Continuous Sensory Observation")
-        # self.remove(initial_title_group) # Removed redundant remove, FadeOut handles removal
-        self.play(FadeOut(current_title_group), run_time=0.35)
-        self.play(FadeIn(step2_title, shift=DOWN * 0.1), run_time=0.45)
-        current_title_group = step2_title
-
-        # Introduce Agent Core
         self.play(
-            LaggedStart(
-                FadeIn(agent_core_group, shift=UP * 0.2),
-                Write(agent_core_label),
-                lag_ratio=0.2,
-                run_time=1.5
-            )
+            FadeIn(particle_1),
+            FadeIn(particle_2),
+            FadeIn(particle_3),
+            MoveAlongPath(particle_1, arrow_p_to_r, rate_func=linear),
+            MoveAlongPath(particle_2, arrow_r_to_a, rate_func=linear),
+            MoveAlongPath(particle_3, arrow_a_to_p, rate_func=linear),
+            run_time=2.0
         )
-        self.wait(0.5)
+        self.remove(particle_1, particle_2, particle_3)
 
-        # Draw perception arrow and label
-        self.play(Create(perception_arrow), Write(perception_label), run_time=1.0)
-        self.wait(0.5)
+        agent_loop_all = VGroup(
+            env_ring_outer, env_ring_pulse, env_badge,
+            mem_group, node_perceive, node_reason, node_act,
+            arrow_p_to_r, arrow_r_to_a, arrow_a_to_p,
+            mem_link, link_label, loop_badge
+        )
 
-        # Highlight environment and perception, start particle flow
-        highlight_perception_env = environment_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-        highlight_perception_arrow = perception_arrow.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-        
+        # =========================================================
+        ## Presentation Step 2: Agent vs. Static Tool (5.68s -> 27.50s)
+        # =========================================================
+
+        # [5.68s] "And it's worth understanding because it's what separates an agent from a static tool."
+        self.sync_to(13.10)
+        new_header_group = create_header("Static Tool vs. AI Agent", "Passive Response vs. Autonomous Loop")
+        target_agent_center = np.array([2.50, -0.40, 0])
+        shift_vector = target_agent_center - center_1
+
+        divider_line = DashedLine(
+            np.array([0.0, 1.65, 0]),
+            np.array([0.0, -2.75, 0]),
+            stroke_color=C_GRAY_LIGHT,
+            stroke_width=1.8,
+            dash_length=0.14
+        )
+
+        agent_col_badge = VGroup(
+            RoundedRectangle(width=2.7, height=0.52, corner_radius=0.08, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_SKY_BLUE, stroke_width=2.0),
+            CrispText("AI Agent: Autonomous", size=16, weight=BOLD, color=C_TEXT_DARK)
+        ).move_to(np.array([2.50, 1.50, 0]))
+
+        agent_status_text = CrispText("Autonomous\nInteraction Loop", size=15, weight=SEMIBOLD, color=C_TEXT_DARK, align="center")
+        agent_status_bg = RoundedRectangle(width=2.8, height=0.76, corner_radius=0.07, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=C_SEAFOAM, stroke_width=1.5)
+        fit_into_box(agent_status_text, agent_status_bg, pad_x=0.2, pad_y=0.08)
+        agent_status_tag = VGroup(agent_status_bg, agent_status_text).move_to(np.array([2.50, -2.40, 0]))
+
+        tool_col_badge = VGroup(
+            RoundedRectangle(width=2.7, height=0.52, corner_radius=0.08, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_GRAY_PASSIVE, stroke_width=2.0),
+            CrispText("Static Tool: Passive", size=16, weight=BOLD, color=C_GRAY_PASSIVE)
+        ).move_to(np.array([-2.50, 1.50, 0]))
+
+        user_input_card = RoundedRectangle(width=1.4, height=0.75, corner_radius=0.08, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_GRAY_PASSIVE, stroke_width=1.8).move_to(np.array([-4.10, -0.40, 0]))
+        user_text = CrispText("User\nInput", size=15, weight=BOLD, color=C_TEXT_DARK, align="center").move_to(user_input_card)
+        fit_into_box(user_text, user_input_card, pad_x=0.2, pad_y=0.08)
+        user_input_grp = VGroup(user_input_card, user_text)
+
+        tool_body_rect = RoundedRectangle(
+            width=1.65,
+            height=1.05,
+            corner_radius=0.09,
+            fill_color="#F8FAFC",
+            fill_opacity=1.0,
+            stroke_color=C_GRAY_PASSIVE,
+            stroke_width=2.0
+        ).move_to(np.array([-2.35, -0.40, 0]))
+
+        tool_icon_wrench = VGroup(
+            Line(DL * 0.12, UR * 0.12, stroke_color=C_GRAY_PASSIVE, stroke_width=2.5),
+            Circle(radius=0.08, stroke_color=C_GRAY_PASSIVE, stroke_width=1.8).move_to(UR * 0.12)
+        ).scale(0.85).move_to(np.array([-2.35, -0.16, 0]))
+
+        tool_name = CrispText("Static Tool", size=16, weight=BOLD, color=C_TEXT_DARK).next_to(tool_icon_wrench, DOWN, buff=0.06)
+        cursor_txt = CrispText("Idle _", size=14, weight=SEMIBOLD, color=C_GRAY_PASSIVE).next_to(tool_name, DOWN, buff=0.04)
+        tool_body_grp = VGroup(tool_body_rect, tool_icon_wrench, tool_name, cursor_txt)
+
         self.play(
-            Create(highlight_perception_env),
-            Create(highlight_perception_arrow),
-            FadeIn(perception_particle), # Add particle
+            FadeOut(header_group),
+            FadeIn(new_header_group, shift=DOWN * 0.1),
+            agent_loop_all.animate.scale(0.62, about_point=center_1).shift(shift_vector),
+            Create(divider_line),
+            FadeIn(agent_col_badge, shift=DOWN * 0.1),
+            FadeIn(agent_status_tag, shift=UP * 0.1),
+            FadeIn(tool_col_badge, shift=DOWN * 0.1),
+            FadeIn(user_input_grp, shift=RIGHT * 0.1),
+            FadeIn(tool_body_grp, shift=RIGHT * 0.1),
+            run_time=2.4
+        )
+        header_group = new_header_group
+
+        # [12.56s] "A static tool waits to be asked. An agent operates within an environment."
+        self.sync_to(20.86)
+        arrow_tool_in = Arrow(
+            np.array([-3.40, -0.40, 0]),
+            np.array([-3.10, -0.40, 0]),
+            buff=0.05,
+            stroke_color=C_GRAY_PASSIVE,
+            stroke_width=2.2,
+            tip_length=0.14
+        )
+        tool_status_text = CrispText("Waits for\nDirect Command", size=15, weight=SEMIBOLD, color=C_GRAY_PASSIVE, align="center")
+        tool_status_bg = RoundedRectangle(width=2.8, height=0.76, corner_radius=0.07, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=C_GRAY_PASSIVE, stroke_width=1.5)
+        fit_into_box(tool_status_text, tool_status_bg, pad_x=0.2, pad_y=0.08)
+        tool_status_tag = VGroup(tool_status_bg, tool_status_text).move_to(np.array([-2.50, -2.40, 0]))
+
+        self.play(
+            Create(arrow_tool_in),
+            FadeIn(tool_status_tag, shift=UP * 0.1),
+            tool_body_rect.animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=3.0),
+            agent_col_badge[0].animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=3.5),
+            env_ring_pulse.animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=2.5, opacity=0.9),
+            run_time=1.8
+        )
+        self.play(
+            tool_body_rect.animate.set_stroke(color=C_GRAY_PASSIVE, width=2.0),
+            agent_col_badge[0].animate.set_stroke(color=C_SKY_BLUE, width=2.0),
+            env_ring_pulse.animate.set_stroke(color=C_SKY_BLUE, width=1.8, opacity=0.3),
+            run_time=1.2
+        )
+
+        # [18.30s] "It observes what's happening, decides what action is appropriate, and executes."
+        self.sync_to(28.64)
+        particle_agent = Dot(radius=0.07, color=C_ORANGE_HIGHLIGHT).move_to(arrow_p_to_r.get_start())
+        self.add(particle_agent)
+        
+        # Perception highlight -> Observes
+        self.play(
+            node_perceive[0].animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=3.5),
+            MoveAlongPath(particle_agent, arrow_p_to_r, rate_func=smooth),
+            run_time=1.4
+        )
+        node_perceive[0].set_stroke(color=C_SKY_BLUE, width=2.2)
+
+        # Reasoning highlight -> Decides
+        self.play(
+            node_reason[0].animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=3.5),
+            MoveAlongPath(particle_agent, arrow_r_to_a, rate_func=smooth),
+            run_time=1.4
+        )
+        node_reason[0].set_stroke(color=C_AMBER, width=2.2)
+
+        # Action highlight -> Executes
+        self.play(
+            node_act[0].animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=3.5),
+            run_time=0.9
+        )
+        node_act[0].set_stroke(color=C_SEAFOAM, width=2.2)
+
+        # [23.74s] "Then it checks the result, and decides what comes next."
+        self.sync_to(33.18)
+        arrow_tool_out = Arrow(
+            np.array([-1.55, -0.40, 0]),
+            np.array([-1.25, -0.40, 0]),
+            buff=0.0,
+            stroke_color=C_GRAY_PASSIVE,
+            stroke_width=2.2,
+            tip_length=0.14
+        )
+        tool_result_rect = RoundedRectangle(width=1.45, height=0.75, corner_radius=0.08, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_GRAY_LIGHT, stroke_width=1.5).move_to(np.array([-0.55, -0.40, 0]))
+        tool_result_text = CrispText("Result\n(Halts)", size=15, weight=SEMIBOLD, color=C_GRAY_PASSIVE, align="center").move_to(tool_result_rect)
+        fit_into_box(tool_result_text, tool_result_rect, pad_x=0.2, pad_y=0.08)
+        tool_result_grp = VGroup(tool_result_rect, tool_result_text)
+
+        self.play(
+            Create(arrow_tool_out),
+            FadeIn(tool_result_grp, shift=RIGHT * 0.1),
+            MoveAlongPath(particle_agent, arrow_a_to_p, rate_func=smooth),
+            run_time=1.8
+        )
+        self.remove(particle_agent)
+
+        # =========================================================
+        ## Presentation Step 3: Real-World Case: Solara Grid Telemetry (28.70s -> 55.00s)
+        # =========================================================
+
+        # [28.70s] "At Solara, an agent monitoring grid performance isn't just waiting for someone to run a report."
+        self.sync_to(39.72)
+        solara_header = create_header("Solara Grid Telemetry", "Autonomous Performance Monitoring")
+        
+        solara_badge = VGroup(
+            RoundedRectangle(width=2.8, height=0.52, corner_radius=0.08, fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_SKY_BLUE, stroke_width=2.0),
+            CrispText("Solara Grid Telemetry: Site 12", size=15, weight=BOLD, color=C_TEXT_DARK)
+        ).move_to(np.array([0.0, 1.85, 0])).set_z_index(22)
+
+        telemetry_card = RoundedRectangle(width=2.8, height=0.76, corner_radius=0.08, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=C_SKY_BLUE, stroke_width=1.8).move_to(np.array([-3.2, 0.20, 0]))
+        telemetry_txt = CrispText("Site 12 Telemetry\nPower: 94.2 kW (Normal)", size=14, weight=SEMIBOLD, color=C_TEXT_DARK, align="center").move_to(telemetry_card)
+        fit_into_box(telemetry_txt, telemetry_card, pad_x=0.2, pad_y=0.08)
+        telemetry_grp = VGroup(telemetry_card, telemetry_txt).set_z_index(20)
+
+        self.play(
+            FadeOut(header_group),
+            FadeIn(solara_header, shift=DOWN * 0.1),
+            FadeOut(tool_col_badge),
+            FadeOut(user_input_grp),
+            FadeOut(tool_body_grp),
+            FadeOut(arrow_tool_in),
+            FadeOut(tool_status_tag),
+            FadeOut(arrow_tool_out),
+            FadeOut(tool_result_grp),
+            FadeOut(divider_line),
+            FadeOut(agent_col_badge),
+            FadeOut(agent_status_tag),
+            agent_loop_all.animate.scale(1.0 / 0.62, about_point=target_agent_center).move_to(np.array([1.20, -0.45, 0])),
+            FadeIn(solara_badge, shift=DOWN * 0.1),
+            FadeIn(telemetry_grp, shift=RIGHT * 0.1),
+            run_time=2.4
+        )
+        header_group = solara_header
+
+        # [35.88s] "It's watching. When output at a site drops below threshold, it observes the deviation,"
+        self.sync_to(47.68)
+        radar_ping = Circle(radius=0.35, stroke_color=C_SKY_BLUE, stroke_width=2.5).move_to(node_perceive.get_center())
+        
+        telemetry_alert_card = RoundedRectangle(width=2.8, height=0.76, corner_radius=0.08, fill_color="#FEF2F2", fill_opacity=1.0, stroke_color=C_CORAL, stroke_width=2.0).move_to(np.array([-3.2, 0.20, 0]))
+        telemetry_alert_txt = CrispText("Site 12 Anomaly\nOutput: 78.4 kW (-16.8%)", size=14, weight=BOLD, color=C_CORAL, align="center").move_to(telemetry_alert_card)
+        fit_into_box(telemetry_alert_txt, telemetry_alert_card, pad_x=0.2, pad_y=0.08)
+        telemetry_alert_grp = VGroup(telemetry_alert_card, telemetry_alert_txt).set_z_index(21)
+
+        self.play(
+            radar_ping.animate.scale(2.2).set_stroke(opacity=0),
+            node_perceive[0].animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=3.5),
+            Transform(telemetry_grp, telemetry_alert_grp),
+            run_time=2.0
+        )
+        self.remove(radar_ping)
+        node_perceive[0].set_stroke(color=C_SKY_BLUE, width=2.2)
+
+        # Word sync: Observes deviation and transfers into reasoning
+        particle_solara = Dot(radius=0.08, color=C_ORANGE_HIGHLIGHT).move_to(arrow_p_to_r.get_start())
+        self.add(particle_solara)
+        self.play(
+            MoveAlongPath(particle_solara, arrow_p_to_r, rate_func=smooth),
+            node_reason[0].animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=3.5),
+            run_time=1.8
+        )
+        node_reason[0].set_stroke(color=C_AMBER, width=2.2)
+
+        # [44.08s] "decides the appropriate response, which might be querying historical data,"
+        self.sync_to(55.06)
+        hist_query_card = RoundedRectangle(width=2.8, height=0.68, corner_radius=0.08, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color=C_STEEL_BLUE, stroke_width=1.6).move_to(np.array([-3.2, -0.85, 0]))
+        hist_query_txt = CrispText("Historical Query\nPast 30-Day Irradiance", size=13, weight=SEMIBOLD, color=C_TEXT_DARK, align="center").move_to(hist_query_card)
+        fit_into_box(hist_query_txt, hist_query_card, pad_x=0.2, pad_y=0.08)
+        hist_grp = VGroup(hist_query_card, hist_query_txt).set_z_index(20)
+
+        self.play(
+            mem_card.animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=3.5),
+            mem_link.animate.set_color(C_ORANGE_HIGHLIGHT),
+            FadeIn(hist_grp, shift=UP * 0.1),
+            run_time=1.6
+        )
+        self.play(
+            mem_card.animate.set_stroke(color=C_STEEL_BLUE, width=2.0),
+            mem_link.animate.set_color(C_STEEL_BLUE),
             run_time=1.0
         )
-        # self.add(perception_particle) # Removed: FadeIn already adds the mobject to the scene
-        self.wait(2.0)
+
+        # [49.14s] "cross-referencing weather records, or escalating to a human operator, and takes that action."
+        self.sync_to(62.16)
+        action_card1 = RoundedRectangle(width=2.8, height=0.68, corner_radius=0.08, fill_color="#ECFDF5", fill_opacity=1.0, stroke_color=C_SEAFOAM, stroke_width=1.6).move_to(np.array([-3.2, -1.80, 0]))
+        action_txt1 = CrispText("Weather Sync: Clear\nInverter Fault Flagged", size=13, weight=SEMIBOLD, color=C_TEXT_DARK, align="center").move_to(action_card1)
+        fit_into_box(action_txt1, action_card1, pad_x=0.2, pad_y=0.08)
+        action_grp1 = VGroup(action_card1, action_txt1).set_z_index(20)
+
+        action_card2 = RoundedRectangle(width=2.8, height=0.68, corner_radius=0.08, fill_color="#FFFBEB", fill_opacity=1.0, stroke_color=C_AMBER, stroke_width=1.8).move_to(np.array([-3.2, -2.65, 0]))
+        action_txt2 = CrispText("Escalation Dispatched\nSite Engineer Notified", size=13, weight=BOLD, color=C_TEXT_DARK, align="center").move_to(action_card2)
+        fit_into_box(action_txt2, action_card2, pad_x=0.2, pad_y=0.08)
+        action_grp2 = VGroup(action_card2, action_txt2).set_z_index(20)
+
         self.play(
-            FadeOut(highlight_perception_env),
-            FadeOut(highlight_perception_arrow),
-            run_time=0.8
+            MoveAlongPath(particle_solara, arrow_r_to_a, rate_func=smooth),
+            node_act[0].animate.set_stroke(color=C_ORANGE_HIGHLIGHT, width=3.5),
+            FadeIn(action_grp1, shift=LEFT * 0.1),
+            FadeIn(action_grp2, shift=UP * 0.1),
+            run_time=2.2
         )
+        self.remove(particle_solara)
+        node_act[0].set_stroke(color=C_SEAFOAM, width=2.2)
+
+        # Hold visual scene for full spoken duration matching total audio duration
         
-        self.wait(5.0) # Hold for narration
-        # self.next_slide() # Removed due to Manim-Slides removal
+        # [69.30s] "The environment shapes the agent. The agent shapes the environment."
+        self.sync_to(69.30)
+        reciprocal_banner = VGroup(
+            RoundedRectangle(width=8.2, height=0.62, corner_radius=0.12, fill_color="#0F172A", fill_opacity=0.95, stroke_color=C_ORANGE_HIGHLIGHT, stroke_width=2.0),
+            CrispText("The environment shapes the agent. The agent shapes the environment.", size=14, weight=BOLD, color="#FFFFFF")
+        ).move_to(np.array([0.0, -3.2, 0])).set_z_index(30)
 
-
-        ## Presentation Step 3: Internal State Transformation
-        # Narration: Updating beliefs and operational context based on observations
-        self.sync_to(17.0) # Adjusted timestamp
-        step3_title = create_title("Internal State Transformation")
-        # self.remove(step2_title) # Removed redundant remove, FadeOut handles removal
-        self.play(FadeOut(current_title_group), run_time=0.35)
-        self.play(FadeIn(step3_title, shift=DOWN * 0.1), run_time=0.45)
-        current_title_group = step3_title
-
-        # Introduce Internal State
-        self.play(
-            LaggedStart(
-                FadeIn(internal_state_icon, shift=UP * 0.2),
-                Write(internal_state_label),
-                lag_ratio=0.2,
-                run_time=1.5
-            )
-        )
-        self.wait(0.5)
-
-        # Draw internal processing path and label
-        self.play(
-            Create(internal_process_path),
-            Write(internal_process_label),
-            run_time=1.5
-        )
-        self.wait(0.5)
-
-        # Highlight agent and internal state, start internal particle flow
-        highlight_agent_core = agent_core_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-        highlight_internal_state = internal_state_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-        highlight_internal_path = internal_process_path.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
+        loop_glow = Circle(radius=1.8, stroke_color=C_ORANGE_HIGHLIGHT, stroke_width=4.0).move_to(np.array([1.20, -0.45, 0]))
 
         self.play(
-            Create(highlight_agent_core),
-            Create(highlight_internal_state),
-            Create(highlight_internal_path),
-            FadeIn(internal_particle),
-            run_time=1.0
+            FadeIn(reciprocal_banner, shift=UP * 0.15),
+            Create(loop_glow),
+            run_time=1.8
         )
-        # self.add(internal_particle) # Removed: FadeIn already adds the mobject to the scene
-        self.wait(2.0)
-        self.play(
-            FadeOut(highlight_agent_core),
-            FadeOut(highlight_internal_state),
-            FadeOut(highlight_internal_path),
-            run_time=0.8
-        )
+        self.play(FadeOut(loop_glow), run_time=1.0)
 
-        self.wait(5.0) # Hold for narration
-        # self.next_slide() # Removed due to Manim-Slides removal
+        # Hold visual scene for full spoken duration matching total audio duration
+        self.sync_to(74.00)
 
-
-        ## Presentation Step 4: Action Impact & Environmental Shift
-        # Narration: Agent actions alter the external state of the environment
-        self.sync_to(27.0) # Adjusted timestamp
-        step4_title = create_title("Action Impact & Environmental Shift")
-        # self.remove(step3_title) # Removed redundant remove, FadeOut handles removal
-        self.play(FadeOut(current_title_group), run_time=0.35)
-        self.play(FadeIn(step4_title, shift=DOWN * 0.1), run_time=0.45)
-        current_title_group = step4_title
-
-        # Introduce action tool
-        self.play(
-            LaggedStart(
-                FadeIn(wrench_img, shift=UP * 0.2),
-                Write(wrench_label),
-                lag_ratio=0.2,
-                run_time=1.5
-            )
-        )
-        self.wait(0.5)
-
-        # Draw action arrow and label
-        self.play(Create(action_arrow), Write(action_label), run_time=1.0)
-        self.wait(0.5)
-
-        # Highlight agent, action, environment, and wrench, start action particle flow
-        highlight_action_agent = agent_core_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-        highlight_action_arrow = action_arrow.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-        highlight_action_env = environment_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-        highlight_wrench = wrench_vgroup.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-
-        self.play(
-            Create(highlight_action_agent),
-            Create(highlight_action_arrow),
-            Create(highlight_action_env),
-            Create(highlight_wrench),
-            FadeIn(action_particle),
-            run_time=1.0
-        )
-        # self.add(action_particle) # Removed: FadeIn already adds the mobject to the scene
-        self.wait(2.0)
-        self.play(
-            FadeOut(highlight_action_agent),
-            FadeOut(highlight_action_arrow),
-            FadeOut(highlight_action_env),
-            FadeOut(highlight_wrench),
-            run_time=0.8
-        )
-        
-        self.wait(5.0) # Hold for narration
-        # self.next_slide() # Removed due to Manim-Slides removal
-
-
-        ## Presentation Step 5: Closed-Loop Convergence
-        # Narration: Perpetual feedback loop driving convergence toward mission goals
-        self.sync_to(37.0) # Adjusted timestamp
-        step5_title = create_title("Closed-Loop Convergence")
-        # self.remove(step4_title) # Removed redundant remove, FadeOut handles removal
-        self.play(FadeOut(current_title_group), run_time=0.35)
-        self.play(FadeIn(step5_title, shift=DOWN * 0.1), run_time=0.45)
-        current_title_group = step5_title
-
-        # All elements are now on screen with particles flowing.
-        # Highlight the entire loop to show convergence.
-        # Group all dynamic elements for a collective highlight
-        full_loop_elements = Group( # Changed to Group
-            environment_vgroup,
-            agent_core_vgroup,
-            internal_state_vgroup,
-            wrench_vgroup,
-            perception_arrow, perception_label,
-            internal_process_path, internal_process_label,
-            action_arrow, action_label
-        )
-        
-        highlight_full_loop = full_loop_elements.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT_ORANGE, width=3.5)
-        
-        self.play(
-            Create(highlight_full_loop),
-            run_time=1.5
-        )
-        self.wait(3.0) # Longer hold to emphasize the complete loop
-
-        # Fade out highlight
-        self.play(FadeOut(highlight_full_loop), run_time=0.8)
-
-        # Keep all elements on screen with updaters running for the remainder of the narration.
-        self.wait(5.0) # Final hold
-
-        # Clean up updaters before ending the scene
-        perception_particle.cease_flow()
-        internal_particle.cease_flow()
-        action_particle.cease_flow()
-        env_pulse_rect.remove_updater(pulse_updater)

@@ -273,7 +273,9 @@ if __name__ == "__main__":
     with open(case_study_plan_file, 'r') as f:
         case_study_plan = json.load(f)
 
-    reference_storyboard_file = f"./instructions_raw_gemini-3.8-flash.txt"
+    reference_storyboard_file = f"./instructions_raw_{hook_model_name}.txt"
+    if not os.path.exists(reference_storyboard_file):
+        reference_storyboard_file = "./instructions_raw.txt"
     with open(reference_storyboard_file, 'r') as f:
         reference_storyboard = f.read()
 

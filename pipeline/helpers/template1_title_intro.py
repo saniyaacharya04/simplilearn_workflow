@@ -429,16 +429,20 @@ def create_title_intro_mobject(
 
     # 3. Dynamic width calculation (clamped inside safe work area width 13.4u)
     badge_radius = pill_height * 0.42
-    left_margin = 0.32
-    badge_to_text_gap = 0.42
+    left_margin = 0.50
+    badge_to_text_gap = 0.85
     right_margin = 0.85
-    min_pill_w = 7.5
+    min_pill_w = 8.5
     max_pill_w = 12.8
+
+    max_allowed_text_w = max_pill_w - (left_margin + badge_radius * 2 + badge_to_text_gap + right_margin)
+    if text_group.width > max_allowed_text_w:
+        text_group.scale_to_fit_width(max_allowed_text_w)
 
     calculated_w = left_margin + (badge_radius * 2) + badge_to_text_gap + text_group.width + right_margin
     actual_width = pill_width if pill_width is not None else max(min_pill_w, min(calculated_w, max_pill_w))
 
-    # 4. Pill Capsule Banner
+    # 4. Pill Capsule Banner (centered strictly at ORIGIN)
     capsule = RoundedRectangle(
         width=actual_width,
         height=pill_height,
@@ -446,13 +450,13 @@ def create_title_intro_mobject(
         fill_color=[primary_color, gradient_color],
         fill_opacity=1.0,
         stroke_width=0,
-    )
+    ).move_to(ORIGIN)
 
     # 5. Icon Badge Disc
     disc_center_x = -actual_width / 2.0 + left_margin + badge_radius
     badge_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons", "intro_monitor_badge.png")
     if os.path.exists(badge_path):
-        badge_group = ImageMobject(badge_path).scale_to_fit_height(badge_radius * 2.0).move_to(capsule.get_center() + RIGHT * disc_center_x).set_z_index(3)
+        badge_group = ImageMobject(badge_path).scale_to_fit_height(badge_radius * 2.0).move_to(np.array([disc_center_x, 0, 0])).set_z_index(3)
     else:
         icon_disc = Circle(
             radius=badge_radius,
@@ -461,16 +465,15 @@ def create_title_intro_mobject(
             stroke_color=WHITE,
             stroke_width=1.0,
             stroke_opacity=0.3,
-        ).move_to(capsule.get_center() + RIGHT * disc_center_x)
+        ).move_to(np.array([disc_center_x, 0, 0]))
         icon_art = create_analytics_icon(scale=0.82).move_to(icon_disc.get_center())
         badge_group = VGroup(icon_disc, icon_art).set_z_index(3)
 
-    # 6. Align text inside pill
+    # 6. Align text inside pill to the right of badge
     text_group.next_to(badge_group, RIGHT, buff=badge_to_text_gap)
-    # Re-center text vertically
-    text_group.align_to(capsule, UP).shift(DOWN * (pill_height - text_group.height) / 2.0).set_z_index(3)
+    text_group.set_y(0).set_z_index(3)
 
-    banner_group = Group(capsule, badge_group, text_group).move_to(ORIGIN)
+    banner_group = Group(capsule, badge_group, text_group)
 
     return bg_group, banner_group
 

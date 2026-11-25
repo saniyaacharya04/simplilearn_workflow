@@ -54,8 +54,8 @@ PIPELINE STAGE 9: STYLING GENERATOR
      * {topic_id}_styling_specifications.json:
        Location: output/<TOPIC_NAME>/{topic_id}_styling_specifications.json
        Content: Complete design-token-annotated animation guidelines per scene.
-     * styling_gemini-3.8-flash.json:
-       Location: output/<TOPIC_NAME>/styling_gemini-3.8-flash.json
+     * styling_specifications.json:
+       Location: output/<TOPIC_NAME>/styling_specifications.json
        Content: Mirrored copy of styling specifications.
      * Output Tracker:
        Location: ppt_trackers/9_styling_output_tracker.json
@@ -900,7 +900,9 @@ class StylingGenerator:
                 )
                 # Also save mirrored copy inside meta_dir
                 try:
-                    shutil.copy2(out_styling, os.path.join(meta_dir, "styling_gemini-3.8-flash.json"))
+                    shutil.copy2(out_styling, os.path.join(meta_dir, "styling_specifications.json"))
+                    m_slug = getattr(self, "model_name", "model").replace(":", "-").replace("/", "-")
+                    shutil.copy2(out_styling, os.path.join(meta_dir, f"styling_{m_slug}.json"))
                 except Exception:
                     pass
 

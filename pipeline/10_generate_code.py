@@ -137,6 +137,47 @@ except ImportError:
     from code_sanitizer import sanitize_file
 
 
+def load_reference_design_patterns(topic_dir: Optional[Union[str, Path]] = None) -> str:
+    """
+    Loads contrastive reference design patterns (positive motion graphics vs. negative static boxes)
+    from reference_design_pattern.json to ground Manim code generation in dynamic vector choreography.
+    """
+    candidates = []
+    if topic_dir:
+        candidates.extend([
+            Path(topic_dir) / "reference_design_pattern.json",
+            Path(topic_dir) / "metadata_blueprints" / "reference_design_pattern.json",
+        ])
+    candidates.extend([
+        PROJECT_ROOT / "reference_design_pattern.json",
+        SCRIPT_DIR / "reference_design_pattern.json",
+        Path.cwd() / "reference_design_pattern.json"
+    ])
+
+    for cand in candidates:
+        if cand.exists():
+            try:
+                with open(cand, "r", encoding="utf-8") as f:
+                    patterns = json.load(f)
+                lines = [
+                    "\n### CONTRASTIVE MOTION GRAPHICS BENCHMARKS (CODE GENERATION GUIDELINES):",
+                    "Study the contrastive benchmarks below to implement dynamic kinetic vector choreography instead of static PPT slide containers:\n"
+                ]
+                for k, v in patterns.items():
+                    p_type = v.get("type", f"pattern_{k}")
+                    pos = v.get("positive_pattern", "").strip()
+                    neg = v.get("negative_pattern", "").strip()
+                    lines.append(f"--- BENCHMARK EXAMPLE {k} ({p_type}):")
+                    if pos:
+                        lines.append(f"[POSITIVE BENCHMARK - ADOPT THIS KINETIC CHOREOGRAPHY]:\n{pos}\n")
+                    if neg:
+                        lines.append(f"[NEGATIVE ANTI-PATTERN - STRICTLY AVOID THIS STATIC PPT BOXING]:\n{neg}\n")
+                return "\n".join(lines)
+            except Exception:
+                pass
+    return ""
+
+
 def generate_simplilearn_manim_template(
     group: str,
     layout: str = "70",
@@ -206,14 +247,14 @@ def generate_simplilearn_manim_template(
     grp_str = str(group).strip()
     norm_t = clean_title.lower()
     
-    # Title template is ONLY for dedicated short intro splash (runtime <= 12s)
-    is_title_template = (float(run_time) <= 12.0 and ("title splash" in norm_t or "introduction" in norm_t or "topic intro" in norm_t or (grp_str == "1" and float(run_time) <= 10.0)))
+    # Title template is for Scene 1 or dedicated title intro splash
+    is_title_template = (grp_str == "1" or "title splash" in norm_t or "introduction" in norm_t or "topic intro" in norm_t)
     
-    # Roadmap template is ONLY for dedicated learning objectives / roadmap scenes
-    is_roadmap_template = (len(parsed_cards) >= 1 and any(kw in norm_t for kw in ["learning objectives", "learning outcomes", "roadmap", "what you will learn"]))
+    # Roadmap template is for Scene 3 or learning objectives / roadmap scenes
+    is_roadmap_template = (grp_str == "3" or any(kw in norm_t for kw in ["learning objectives", "learning outcomes", "roadmap", "what you will learn"]))
     
-    # What's next template is ONLY for dedicated next topic / closing transition scenes
-    is_whats_next_template = any(kw in norm_t for kw in ["what is next", "what's next", "next topic", "next steps"])
+    # What's next template is for Scene 9 or next topic / closing transition scenes
+    is_whats_next_template = (grp_str == "9" or any(kw in norm_t for kw in ["what is next", "what's next", "next topic", "next steps", "demo launch", "hands-on"]))
 
     if is_title_template:
         eff_runtime = max(3.0, float(run_time))
@@ -726,7 +767,7 @@ class CodeGenerator:
 
         - CANVAS THEME & BACKGROUND (MODERN SOFT TECH SLATE):
           * Read `Background Color` from Styling Generator specifications:
-            - Standard Infographic Canvas (`canvas_theme: light_infographic_canvas`): Strictly set `self.camera.background_color = "#F0F4F8"` (Modern Soft Light Slate Canvas, matching Scene 3 standard). Strictly NEVER use stark blinding white `#FFFFFF`!
+            - Standard Infographic Canvas (`canvas_theme: light_infographic_canvas`): Strictly set `self.camera.background_color = "#FFFFFF"` (Pure Crisp White Canvas per Simplilearn guidelines).
             - Full-Screen Trainer Canvas (`canvas_theme: full_screen_trainer`, Layout 100): Set `self.camera.background_color = "#0F172A"`. Text colors invert to `#FFFFFF`.
           * PROHIBITED: Do NOT create giant full-screen RoundedRectangle or macro background container boxes boxing the entire scene.
 
@@ -1077,7 +1118,7 @@ class CodeGenerator:
         Generate the Manim Community Edition code script for this scene following the supplied specifications.
 
         CRITICAL STYLING & COMPONENT REQUIREMENTS:
-        1. Canvas Background: Strictly set `self.camera.background_color = "#F0F4F8"` (Modern Soft Light Slate Canvas, exactly matching Scene 3 standard) upfront in construct() for all infographic scenes (or "#0F172A" only if full_screen_trainer Layout 100 is explicitly requested). Strictly NEVER use stark blinding white "#FFFFFF"!
+        1. Canvas Background: Strictly set `self.camera.background_color = "#FFFFFF"` (Pure Crisp White Canvas per Simplilearn guidelines) upfront in construct() for all infographic scenes (or "#0F172A" only if full_screen_trainer Layout 100 is explicitly requested).
         2. Slide Title Header: Construct the on-screen title using the exact Scene Title specified in Scene Context.
            - SINGLE HEADER: Maintain a single top-left header `title_group = create_title(...)` and morph it with `ReplacementTransform`.
            - STRICT PROHIBITION: NEVER render "Scene 1", "Scene 2", "Scene 3", etc. as visible screen text or slide titles! Strictly NEVER create duplicate centered titles (`create_title_centered`) colliding with the top header!
@@ -1102,7 +1143,8 @@ class CodeGenerator:
            - Pre-defined vector classes are available in global scope if helpful (`PremiumBalanceScale`, `PrecisionChronometerGauge`, `NeuralReasoningCore`, `ActionDispatchHub`, `PulsingNode`, `FlowingStream`, `BalanceScale`, `TelemetryWaves`, `PulsingShockwaves`, `NeuralHaloPulses`, `DynamicRadarSweep`), OR feel free to construct any custom Manim VGroup geometry that best demonstrates the lesson!
            - ARCHITECTURAL VECTOR MECHANICS MANDATE (QUALITY REQUIREMENT):
              * For conceptual mechanisms like weighing trade-offs, analytical balance scales, chronometer dials, utility gauges, cognitive reasoning cores, and action dispatch hubs, ALWAYS use pure Manim vector primitives (`PremiumBalanceScale`, `PrecisionChronometerGauge`, `NeuralReasoningCore`, `ActionDispatchHub`).
-             * Zero static raster images (`ImageMobject`) for mechanical concepts. Build living Manim geometry with two-tone shading and dynamic updaters.
+             * For simple flowchart connectors or UI icons, build living Manim vector geometry rather than generic bitmap icons.
+             * MANDATORY HERO ILLUSTRATIONS: When high-resolution concept illustration PNG assets are listed in 'Image Paths' or exist in 'images/' for this scene (e.g. solar power plant facility, human enterprise engineer, real-world equipment), you MUST load and display them using `ImageMobject(img_path)` per Section 13 below as hero anchors!
              * Judicial boxing: Avoid heavy PPT square container boxes. Let the apparatus breathe in open canvas negative space, using boxes only as micro-pills or base plinths.
              * Fixed 16:9 camera: Strictly maintain a steady camera frame (no zooming or camera panning per Simplilearn OSL 3.0).
         5. High-Contrast Typography Hierarchy:
@@ -1315,14 +1357,18 @@ class CodeGenerator:
 
         # Load asset construction output
         construction_guidelines_dict = {}
+        construction_guidelines_by_scene = {}
         construction_candidates = [
             f"{meta_dir}/{topic_id}_constructed_assets.json",
             f"{meta_dir}/constructed_assets.json",
-            f"{base_folder}/construction_output_{asset_builder_model_name}.json",
-            f"{base_folder}/construction_output_claude-haiku-4-5-20251001.json",
             f"{base_folder}/{topic_id}_constructed_assets.json",
-            f"{base_folder}/constructed_assets.json"
+            f"{base_folder}/constructed_assets.json",
+            f"{meta_dir}/construction_output_{asset_builder_model_name}.json",
+            f"{base_folder}/construction_output_{asset_builder_model_name}.json"
         ]
+        # Include any dynamic construction output matching pattern
+        construction_candidates.extend(str(p) for p in Path(meta_dir).glob("construction_output_*.json"))
+        construction_candidates.extend(str(p) for p in Path(base_folder).glob("construction_output_*.json"))
         for cc in construction_candidates:
             if os.path.exists(cc):
                 try:
@@ -1332,6 +1378,16 @@ class CodeGenerator:
                         if "constructed_catalog" in c_data:
                             for a_id, a_info in c_data["constructed_catalog"].items():
                                 construction_guidelines_dict[a_id] = a_info.get("construction_paragraph", "")
+                                if "asset_name" in a_info:
+                                    construction_guidelines_dict[a_info["asset_name"]] = a_info.get("construction_paragraph", "")
+                                sc_id = str(a_info.get("scene_id", ""))
+                                if sc_id:
+                                    construction_guidelines_by_scene.setdefault(sc_id, []).append({
+                                        "asset_id": a_id,
+                                        "name": a_info.get("asset_name", a_id),
+                                        "guideline": a_info.get("construction_paragraph", ""),
+                                        "suggestion": a_info.get("asset_suggestion", "")
+                                    })
                         else:
                             construction_guidelines_dict.update(c_data)
                     print(f"Loaded {len(construction_guidelines_dict)} asset construction blueprints from: {cc}")
@@ -1407,9 +1463,9 @@ class CodeGenerator:
                 scene_context += "------------Styling Generator Specifications (OSL 3.0)------------\n"
                 if sc_styling:
                     canvas_th = sc_styling.get('canvas_theme', 'light_infographic_canvas')
-                    bg_col = sc_styling.get('background_color_hex', '#F0F4F8')
-                    if not bg_col or bg_col.upper() in ['#FFFFFF', 'WHITE', '#FFF']:
-                        bg_col = '#F0F4F8'
+                    bg_col = sc_styling.get('background_color_hex', '#FFFFFF')
+                    if not bg_col:
+                        bg_col = '#FFFFFF'
                     scene_context += f"Canvas Theme: {canvas_th}\n"
                     scene_context += f"Background Color: {bg_col}\n"
                     scene_context += f"SME Layout: {sc_styling.get('sme_layout', '70')}%\n"
@@ -1493,12 +1549,16 @@ class CodeGenerator:
 
                 # Step runtime
                 r_time = None
-                if i < len(cgi_scene_steps) and isinstance(cgi_scene_steps[i], dict):
+                if i < len(cgi_scene_steps) and isinstance(cgi_scene_steps[i], dict) and len(cgi_scene_steps) > 1:
                     r_time = cgi_scene_steps[i].get('run_time') or cgi_scene_steps[i].get('duration')
-                elif i < len(legacy_scene_steps) and isinstance(legacy_scene_steps[i], dict) and group in structured_cgi and i < len(structured_cgi[group]):
+                elif i < len(legacy_scene_steps) and isinstance(legacy_scene_steps[i], dict) and group in structured_cgi and i < len(structured_cgi[group]) and len(structured_cgi[group]) > 1:
                     r_time = structured_cgi[group][i].get('run_time')
                 elif comp_scene and comp_scene.get("duration"):
-                    r_time = comp_scene.get("duration")
+                    tot_d = float(comp_scene.get("duration", 20.0))
+                    r_time = round(tot_d / max(num_steps, 1), 2)
+                elif i < len(cgi_scene_steps) and isinstance(cgi_scene_steps[i], dict):
+                    tot_d = float(cgi_scene_steps[i].get('run_time') or cgi_scene_steps[i].get('duration') or 20.0)
+                    r_time = round(tot_d / max(num_steps, 1), 2)
                 if r_time is not None:
                     scene_context += f"{partition_type} run time:{r_time}\n\n"
 
@@ -1559,21 +1619,38 @@ class CodeGenerator:
                                 break
 
                 if scene_assets and i < len(scene_assets) and isinstance(scene_assets[i], dict):
-                    if scene_assets[i].get("Asset_names"):
-                        for aname in scene_assets[i]["Asset_names"]:
+                    st_asset_entry = scene_assets[i]
+                    if st_asset_entry.get("Asset_names"):
+                        for aname in st_asset_entry["Asset_names"]:
                             if aname and aname not in asset_names_list:
                                 asset_names_list.append(aname)
-                        if i < len(legacy_scene_steps) and isinstance(legacy_scene_steps[i], dict) and "assets" in legacy_scene_steps[i]:
-                            raw_legacy_assets = legacy_scene_steps[i]["assets"]
-                            if isinstance(raw_legacy_assets, list):
-                                asset_guidelines.extend(raw_legacy_assets)
-                            elif isinstance(raw_legacy_assets, str):
-                                asset_guidelines.append(raw_legacy_assets)
-                    if scene_assets[i].get("image_paths") and os.environ.get("SKIP_IMAGES") != "1":
-                        for img_num, img_name in enumerate(scene_assets[i].get("Image_names", [])):
-                            if img_num < len(scene_assets[i]["image_paths"]):
-                                image_path = scene_assets[i]["image_paths"][img_num]
+                    if st_asset_entry.get("Asset_Suggestion"):
+                        suggs = st_asset_entry["Asset_Suggestion"]
+                        if isinstance(suggs, str):
+                            suggs = [suggs]
+                        for s in suggs:
+                            if s and s not in asset_guidelines:
+                                asset_guidelines.append(s)
+                    if i < len(legacy_scene_steps) and isinstance(legacy_scene_steps[i], dict) and "assets" in legacy_scene_steps[i]:
+                        raw_legacy_assets = legacy_scene_steps[i]["assets"]
+                        if isinstance(raw_legacy_assets, list):
+                            asset_guidelines.extend(raw_legacy_assets)
+                        elif isinstance(raw_legacy_assets, str):
+                            asset_guidelines.append(raw_legacy_assets)
+                    if st_asset_entry.get("image_paths") and os.environ.get("SKIP_IMAGES") != "1":
+                        for img_num, img_name in enumerate(st_asset_entry.get("Image_names", [])):
+                            if img_num < len(st_asset_entry["image_paths"]):
+                                image_path = st_asset_entry["image_paths"][img_num]
                                 image_details += f"{img_name}:{image_path}\n"
+
+            # Ingest scene-level constructed catalog blueprints if available
+            if str(group) in construction_guidelines_by_scene:
+                for c_item in construction_guidelines_by_scene[str(group)]:
+                    c_name = c_item.get("name") or c_item.get("asset_id")
+                    if c_name and c_name not in asset_names_list:
+                        asset_names_list.append(c_name)
+                    if c_item.get("guideline") and c_item["guideline"] not in asset_guidelines:
+                        asset_guidelines.append(c_item["guideline"])
 
             # Auto-discover scene images from images/ folder if not already explicitly added
             if os.environ.get("SKIP_IMAGES") != "1":
@@ -1618,6 +1695,10 @@ class CodeGenerator:
             # Dynamic system prompt is exclusively used across all themes
             formatted_system_prompt = system_prompt_dynamic
 
+            ref_patterns = load_reference_design_patterns(base_folder)
+            if ref_patterns:
+                formatted_system_prompt += f"\n\n{ref_patterns}\n"
+
             formatted_user_prompt = user_prompt.format(
                 scene_context=scene_context
             )
@@ -1641,9 +1722,9 @@ class CodeGenerator:
                 num_steps = len(structured_cgi[group])
                 sc_cards = [{"title": st.get("title") or st.get("step_title", f"Point {idx+1}"), "body": st.get("narration_statement", "")} for idx, st in enumerate(structured_cgi[group])]
 
-            is_pure_title = (grp_s == "1" and sc_runtime <= 12.0 and num_steps == 1)
-            is_pure_roadmap = (num_steps == 1 and any(kw in norm_t for kw in ["learning objectives", "learning outcomes", "roadmap"]))
-            is_pure_outro = (grp_s == all_last_group and num_steps == 1 and any(kw in norm_t for kw in ["what's next", "what is next", "next topic"]))
+            is_pure_title = (grp_s == "1" or any(kw in norm_t for kw in ["title splash", "topic intro"]))
+            is_pure_roadmap = (grp_s == "3" or any(kw in norm_t for kw in ["learning objectives", "learning outcomes", "roadmap"]))
+            is_pure_outro = (grp_s == all_last_group or any(kw in norm_t for kw in ["what's next", "what is next", "next topic", "demo launch", "synthesis"]))
 
             is_tmpl = use_tmpl_env and (is_pure_title or is_pure_roadmap or is_pure_outro)
 

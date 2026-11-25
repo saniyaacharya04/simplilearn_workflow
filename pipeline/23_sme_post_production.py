@@ -559,27 +559,6 @@ def assemble_sme_lesson_from_blueprint(
     cum_time = 0.0
     for idx, scene in enumerate(scenes):
         sid = scene.get("scene_id", idx + 1)
-
-        # Dedicated safeguard: if sid == 3 and group_3_claude_final.mp4 exists, preserve it!
-        claude_candidates = [
-            audio_int_dir / "group_3_claude_final.mp4",
-            out_folder.parent / "audio_integrated_videos" / "group_3_claude_final.mp4",
-            Path(work_dir).parent / "audio_integrated_videos" / "group_3_claude_final.mp4",
-        ]
-        claude_final_scene3 = None
-        for cand in claude_candidates:
-            if cand.exists() and cand.stat().st_size > 10000:
-                claude_final_scene3 = cand
-                break
-
-        if sid == 3 and claude_final_scene3:
-            print(f"  [Scene 3] Preserving perfected deliverable: {claude_final_scene3.name}")
-            final_scene_clip = audio_int_dir / f"group_{sid}_final.mp4"
-            if not final_scene_clip.exists() or final_scene_clip.resolve() != claude_final_scene3.resolve():
-                shutil.copy2(claude_final_scene3, final_scene_clip)
-            rendered_scene_clips.append(str(final_scene_clip))
-            cum_time += float(scene.get("duration", 68.0) or 68.0)
-            continue
         layout = str(scene.get("sme_layout", "70")).replace("%", "")
         scene_dur = float(scene.get("duration", 0.0) or 0.0)
         raw_st = scene.get("start_time")

@@ -53,8 +53,8 @@ PIPELINE STAGE 7: PRESENTATION EXPERIENCE PLANNER
      * {topic_id}_experience_planner.json:
        Location: output/<TOPIC_NAME>/{topic_id}_experience_planner.json
        Content: Detailed temporal choreography and reveal plans per presentation step.
-     * experience_plan_gemini-3.6-flash.json:
-       Location: output/<TOPIC_NAME>/experience_plan_gemini-3.6-flash.json
+     * experience_plan_<model>.json:
+       Location: output/<TOPIC_NAME>/experience_plan_<model>.json
        Content: Mirrored copy of experience plan.
      * Output Tracker:
        Location: ppt_trackers/7_experience_planner_tracker.json
@@ -527,6 +527,48 @@ USER_PROMPT_EXPERIENCE_PLANNER = """
         """
 
 
+def load_reference_design_patterns(topic_dir: Optional[Union[str, Path]] = None) -> str:
+    """
+    Loads contrastive reference design patterns (positive motion graphics vs. negative static boxes)
+    from reference_design_pattern.json to ground progressive reveal and temporal experience planning.
+    """
+    candidates = []
+    if topic_dir:
+        candidates.extend([
+            Path(topic_dir) / "reference_design_pattern.json",
+            Path(topic_dir) / "metadata_blueprints" / "reference_design_pattern.json",
+        ])
+    candidates.extend([
+        PROJECT_ROOT / "reference_design_pattern.json",
+        SCRIPT_DIR / "reference_design_pattern.json",
+        Path.cwd() / "reference_design_pattern.json"
+    ])
+
+    for cand in candidates:
+        if cand.exists():
+            try:
+                with open(cand, "r", encoding="utf-8") as f:
+                    patterns = json.load(f)
+                lines = [
+                    "### REFERENCE EXPERIENCE BENCHMARKS: CONTRASTIVE PATTERNS (PROGRESSIVE REVEAL & KINETIC CHOREOGRAPHY)",
+                    "Every presentation step instruction must adhere to the high-craft progressive reveal and kinetic motion graphics",
+                    "demonstrated in the positive patterns below, strictly avoiding the negative static slide anti-patterns:\n"
+                ]
+                for k, v in patterns.items():
+                    p_type = v.get("type", f"pattern_{k}")
+                    pos = v.get("positive_pattern", "").strip()
+                    neg = v.get("negative_pattern", "").strip()
+                    lines.append(f"--- EXAMPLE BENCHMARK {k} ({p_type}):")
+                    if pos:
+                        lines.append(f"[POSITIVE BENCHMARK - ADOPT THIS KINETIC CHOREOGRAPHY]:\n{pos}\n")
+                    if neg:
+                        lines.append(f"[NEGATIVE ANTI-PATTERN - STRICTLY AVOID THIS STATIC PPT BOXING]:\n{neg}\n")
+                return "\n".join(lines)
+            except Exception:
+                pass
+    return ""
+
+
 def parse_experience_output(input_text: str) -> Dict[str, List[Dict[str, Any]]]:
     """
     Parses LLM experience output text into structured scene instructions.
@@ -660,7 +702,7 @@ class PresentationExperiencePlanner:
         # 2. Gemini via google.genai
         gemini_key = self.google_api_key or self.api_key or os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
         if gemini_key:
-            g_model = target_model if ("gemini" in target_model.lower() or "flash" in target_model.lower()) else "gemini-3.6-flash"
+            g_model = target_model if ("gemini" in target_model.lower() or "flash" in target_model.lower()) else "gemini-3.8-flash"
             try:
                 from google import genai
                 from google.genai import types
@@ -890,10 +932,15 @@ class PresentationExperiencePlanner:
             formatted_user_prompt = USER_PROMPT_EXPERIENCE_PLANNER.replace("{presentation_composition}", present_composition)
             formatted_user_prompt += f"\n\nCRITICAL REQUIREMENT: This scene contains EXACTLY {len(pairs)} Presentation Steps. You MUST output EXACTLY {len(pairs)} 'Instruction:' blocks for this scene (one per Presentation Step). Do NOT generate fewer or more than {len(pairs)} instructions."
 
+            ref_patterns = load_reference_design_patterns(base_folder)
+            active_system_prompt = SYSTEM_PROMPT_EXPERIENCE_PLANNER
+            if ref_patterns:
+                active_system_prompt += f"\n\n{ref_patterns}\n"
+
             print(f"  -> Generating temporal experience plan for Scene {group} ({len(pairs)} steps)...")
             generated_result = self.call_llm(
                 user_prompt=formatted_user_prompt,
-                system_prompt=SYSTEM_PROMPT_EXPERIENCE_PLANNER,
+                system_prompt=active_system_prompt,
                 model_override=model_to_use,
                 vendor_override=vendor_to_use
             )
@@ -1230,7 +1277,7 @@ if __name__ == "__main__":
     parser.add_argument("-k", "--constructed", default=None, help="Optional constructed assets JSON")
     parser.add_argument("-t", "--target-scene", default=None, help="Optional target scene ID")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM API provider")
-    parser.add_argument("-m", "--model", default="gemini-3.6-flash", help="Model name")
+    parser.add_argument("-m", "--model", default="gemini-3.8-flash", help="Model name")
     args = parser.parse_args()
 
     planner = PresentationExperiencePlanner(

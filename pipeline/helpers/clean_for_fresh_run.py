@@ -132,13 +132,28 @@ def reset_trackers(trackers_dir: Path, topic_id: str, dry_run: bool = False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Clean output artifacts and reset trackers for a fresh run")
-    parser.add_argument("-t", "--topic", default="types_and_architectures_of_ai_agents_sme", help="Topic directory name")
+    parser.add_argument("-t", "--topic", default=None, help="Topic directory name (auto-detected from output/ if only one topic)")
     parser.add_argument("--dry-run", action="store_true", help="Print actions without modifying files")
     parser.add_argument("--from-stage", type=int, default=10, help="Stage to reset from (default: 10)")
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parent.parent.parent
-    topic_path = repo_root / "output" / args.topic
+    output_dir = repo_root / "output"
+
+    topic_name = args.topic
+    if not topic_name:
+        candidate_topics = [d.name for d in output_dir.iterdir() if d.is_dir() and not d.name.startswith(".")] if output_dir.exists() else []
+        if len(candidate_topics) == 1:
+            topic_name = candidate_topics[0]
+            print(f"Auto-detected topic: {topic_name}")
+        elif len(candidate_topics) > 1:
+            print(f"Multiple topics found in {output_dir}: {candidate_topics}. Please specify --topic (-t).")
+            sys.exit(1)
+        else:
+            print("No topic directories found in output/. Please specify --topic (-t).")
+            sys.exit(1)
+
+    topic_path = output_dir / topic_name
     trackers_path = repo_root / "ppt_trackers"
 
     if not topic_path.exists():
@@ -146,5 +161,5 @@ if __name__ == "__main__":
         sys.exit(1)
 
     clean_topic_directory(topic_path, dry_run=args.dry_run)
-    reset_trackers(trackers_path, args.topic, dry_run=args.dry_run)
+    reset_trackers(trackers_path, topic_name, dry_run=args.dry_run)
     print("\nCleanup complete! You can now run the pipeline afresh with the new settings.")

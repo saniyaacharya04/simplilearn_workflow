@@ -593,9 +593,11 @@ class ImagePrompting:
             out_prompts = os.path.join(meta_dir, f"{topic_id}_image_prompts.json")
             try:
                 self.run(assets_file, out_prompts)
-                # Also save mirrored copy inside meta_dir
+                # Also save mirrored copies inside meta_dir
                 try:
-                    shutil.copy2(out_prompts, os.path.join(meta_dir, "image_prompt_gemini-3.8-flash.json"))
+                    shutil.copy2(out_prompts, os.path.join(meta_dir, "image_prompts.json"))
+                    m_slug = getattr(self, "model_name", "model").replace(":", "-").replace("/", "-")
+                    shutil.copy2(out_prompts, os.path.join(meta_dir, f"image_prompt_{m_slug}.json"))
                 except Exception:
                     pass
 

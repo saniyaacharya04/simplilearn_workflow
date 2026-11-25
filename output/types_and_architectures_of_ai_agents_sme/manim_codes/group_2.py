@@ -1,15 +1,14 @@
 C_DARK_BLUE = "#1E293B"
 C_BRAND_BLUE = "#2C81FE"
+C_SKY_BLUE = "#62B7E4"
+C_STEEL_BLUE = "#7EA2C8"
 C_LIGHT_BLUE = "#62B7E4"
 C_PURPLE = "#9B99C7"
 C_YELLOW = "#DDB945"
 C_RED = "#E58F6D"
 C_WHITE = "#FFFFFF"
 C_BLACK = "#404040"
-C_NAVY_DARK = "#404040" # This seems to be a duplicate of C_BLACK's value, but the name implies dark blue. Keeping as is.
-C_MINT = "#8ECDB7"
-C_LAVENDER = "#9B99C7" # Duplicate of C_PURPLE
-C_CORAL = "#E58F6D" # Duplicate of C_RED
+C_NAVY_DARK = "#404040"
 import os
 import re
 SME_LAYOUT = '70'
@@ -66,83 +65,8 @@ for _scene_cls in (Scene, MovingCameraScene):
                         self.wait(target_time - curr_t)
                 return _safe_sync_to
             _scene_cls.sync_to = _make_sync_to()
-        if not hasattr(_scene_cls, '_orig_play_safe'):
-            _orig_play = _scene_cls.play
-            def _make_safe_play():
-                def _safe_play(self, *args, **kwargs):
-                    if len(args) == 0:
-                        rt = kwargs.get('run_time', 0.5)
-                        return self.wait(rt)
-                    return _orig_play(self, *args, **kwargs)
-                return _safe_play
-            _scene_cls._orig_play_safe = True
-            _scene_cls.play = _make_safe_play()
-        if not hasattr(_scene_cls, 'get_time'):
-            _scene_cls.get_time = lambda self: getattr(getattr(self, 'renderer', None), 'time', 0.0)
     except Exception:
         pass
-try:
-    from manim.utils.color.core import ManimColor
-    if not hasattr(ManimColor, '_orig_eq_safe'):
-        def _safe_color_eq(self, other):
-            if not isinstance(other, ManimColor):
-                try: other = ManimColor(other)
-                except Exception: return False
-            return bool(np.allclose(self._internal_value, other._internal_value))
-        ManimColor._orig_eq_safe = True
-        ManimColor.__eq__ = _safe_color_eq
-except Exception:
-    pass
-try:
-    if not hasattr(Mobject, 'stop_updater'):
-        Mobject.stop_updater = lambda self: self.clear_updaters()
-    if not hasattr(Mobject, 'set_fill'):
-        def _safe_mobj_set_fill(self, *args, **kwargs):
-            for sub in getattr(self, 'submobjects', []):
-                if hasattr(sub, 'set_fill'):
-                    try: sub.set_fill(*args, **kwargs)
-                    except Exception: pass
-            return self
-        Mobject.set_fill = _safe_mobj_set_fill
-    if not hasattr(Mobject, 'set_stroke'):
-        def _safe_mobj_set_stroke(self, *args, **kwargs):
-            for sub in getattr(self, 'submobjects', []):
-                if hasattr(sub, 'set_stroke'):
-                    try: sub.set_stroke(*args, **kwargs)
-                    except Exception: pass
-            return self
-        Mobject.set_stroke = _safe_mobj_set_stroke
-    if not hasattr(Mobject, '_orig_mobj_init_safe'):
-        _orig_mobj_init = Mobject.__init__
-        def _safe_mobj_init(self, *args, **kwargs):
-            valid_mobj_params = {'name', 'dim', 'target', 'z_index'}
-            clean_kw = {k: v for k, v in kwargs.items() if k in valid_mobj_params}
-            res = _orig_mobj_init(self, *args, **clean_kw)
-            if 'opacity' in kwargs and hasattr(self, 'set_opacity'):
-                try: self.set_opacity(kwargs['opacity'])
-                except Exception: pass
-            return res
-        Mobject._orig_mobj_init_safe = True
-        Mobject.__init__ = _safe_mobj_init
-    if not hasattr(VMobject, '_orig_set_stroke_safe'):
-        _orig_set_stroke = VMobject.set_stroke
-        def _safe_set_stroke(self, *args, **kwargs):
-            valid_stroke_params = {'color', 'width', 'opacity', 'background'}
-            clean_kw = {k: v for k, v in kwargs.items() if k in valid_stroke_params}
-            if 'z_index' in kwargs:
-                try: self.set_z_index(kwargs['z_index'])
-                except Exception: pass
-            return _orig_set_stroke(self, *args, **clean_kw)
-        VMobject._orig_set_stroke_safe = True
-        VMobject.set_stroke = _safe_set_stroke
-except Exception:
-    pass
-YELLOW = globals().get('YELLOW', '#DDB945')
-WHITE = globals().get('WHITE', '#FFFFFF')
-BLACK = globals().get('BLACK', '#404040')
-RED = globals().get('RED', '#E58F6D')
-BLUE = globals().get('BLUE', '#62B7E4')
-GREEN = globals().get('GREEN', '#8ECDB7')
 _orig_anim_safe_defined = True
 
 
@@ -275,30 +199,15 @@ try:
     from manim.utils.rate_functions import *
 except Exception:
     pass
-# Removed: from manim_slides import Slide # This import is not used and causes ModuleNotFoundError
 import numpy as np
 
-# Global constants for styling
-C_BACKGROUND = "#F0F4F8"
-C_TITLE_DARK = "#1E293B"
-C_HEADER_DARK = "#1E293B"
-C_BODY_TEXT = "#334155"
-C_TEXT = "#404040"
-C_HIGHLIGHT = "#F78908" # Warm Orange
+# Ensure environment compatibility
+if "InstrumentedScene" not in globals():
+    class InstrumentedScene(Scene):
+        pass
 
-# Pastel Palette
-C_SKY_BLUE = "#62B7E4"
-C_STEEL_BLUE = "#7EA2C8"
-C_LAVENDER_PERIWINKLE = "#9B99C7"
-C_MINT_SEAFOAM = "#8ECDB7"
-C_WARM_AMBER = "#E6A157"
-C_MUSTARD_YELLOW = "#DDB945"
-C_CORAL_PEACH = "#E58F6D"
-C_WARM_TAN = "#B88968"
-C_DUSTY_ROSE = "#D98CA1"
-C_SOFT_LILAC = "#C1A5C6"
-
-# Helper for CrispText
+# Ensure CrispText fallback for clean rendering
+if "CrispText" not in globals():
 
 
 
@@ -309,279 +218,122 @@ C_SOFT_LILAC = "#C1A5C6"
 
 
 
-
-
-
-
-def CrispText(text, size=24, font="Open Sans", **kwargs):
-    if "font_size" in kwargs:
-        size = kwargs.pop("font_size")
-    try:
-        size = float(size)
-    except (ValueError, TypeError):
-        size = 24.0
-    if 0.0 < size <= 1.0:
-        if size >= 0.28:
-            size = 26.0
-        elif size >= 0.19:
-            size = 18.0
-        elif size >= 0.14:
-            size = 14.0
-        else:
-            size = 12.0
-    elif size < 4.0:
-        size = 5.0
-    align = kwargs.pop("align", "center")
-    autowrap_val = kwargs.pop("autowrap", kwargs.pop("wrap", None))
-    disable_wrap_val = kwargs.pop("disable_wrap", kwargs.pop("disable_autowrap", False))
-    max_w_param = kwargs.pop("max_width", kwargs.pop("wrap_width", None))
-    for bad_k in ("alignment", "max_len", "line_spacing", "title_size", "item_size"):
-        kwargs.pop(bad_k, None)
-    slant_val = kwargs.pop("slant", NORMAL)
-    weight_val = kwargs.pop("weight", NORMAL)
-    if isinstance(weight_val, str):
-        weight_clean = weight_val.upper().replace("-", "").replace("_", "").replace(" ", "")
-        if weight_clean == "REGULAR":
-            weight_val = NORMAL
-        elif weight_clean in ("SEMIBOLD", "SEMI_BOLD"):
-            weight_val = SEMIBOLD
-        elif weight_clean == "BOLD":
-            weight_val = BOLD
-        elif weight_clean == "LIGHT":
-            weight_val = LIGHT
-        elif weight_clean in ("NORMAL", "BOOK"):
-            weight_val = NORMAL
-        else:
-            weight_val = NORMAL
-    color_val = kwargs.pop("color", None)
-    if color_val is None:
-        color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
-    elif str(color_val).upper() in ("#F9C72C", "C_YELLOW", "YELLOW", "#FFF9E6", "#FFFF00", "#0B3C5D", "#06152B", "#0A2540", "#1D3557", "NAVY", "C_NAVY", "C_NAVY_DARK"):
-        color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
-    raw_str = str(text)
-    _acronyms = {"AI", "RAM", "DB", "API", "LLM", "CPU", "GPU", "UI", "OSL", "ML", "OST", "VDB", "JSON", "HTTP", "REST", "SQL", "SME", "PIP", "HD", "FHD"}
-    import re as _re
-    def _tc_sub(m):
-        w = m.group(0)
-        return w if w in _acronyms else w.capitalize()
-    raw_str = _re.sub(r"\b[A-Z]{2,}\b", _tc_sub, raw_str)
-    NL = chr(10)
-    split_lines = [l for l in raw_str.split(NL)] if NL in raw_str else ([l for l in raw_str.split(r"\\n")] if r"\\n" in raw_str else None)
-    if split_lines is None:
-        should_autowrap = False
-        wrap_target_chars = 34
-        if max_w_param is not None:
-            try:
-                mw = float(max_w_param)
-                wrap_target_chars = max(16, int(mw / (size * 0.0082)))
-                should_autowrap = (" " in raw_str and len(raw_str) > wrap_target_chars)
-            except Exception:
-                pass
-        if not should_autowrap:
-            if autowrap_val is True:
-                should_autowrap = True
-                wrap_target_chars = 34
-            elif autowrap_val is False or disable_wrap_val:
-                should_autowrap = False
+    def CrispText(text, size=24, font="Open Sans", **kwargs):
+        if "font_size" in kwargs:
+            size = kwargs.pop("font_size")
+        try:
+            size = float(size)
+        except (ValueError, TypeError):
+            size = 24.0
+        if 0.0 < size <= 1.0:
+            if size >= 0.28:
+                size = 26.0
+            elif size >= 0.19:
+                size = 18.0
+            elif size >= 0.14:
+                size = 14.0
             else:
-                should_autowrap = (len(raw_str) > 36 and " " in raw_str and size <= 16)
-                wrap_target_chars = 34
-        if should_autowrap:
-            words = raw_str.split()
-            lines = []
-            curr_line = []
-            curr_len = 0
-            for w in words:
-                sep = 1 if curr_line else 0
-                if curr_len + len(w) + sep > wrap_target_chars:
-                    if curr_line:
-                        lines.append(" ".join(curr_line))
-                    curr_line = [w]
-                    curr_len = len(w)
+                size = 12.0
+        elif size < 4.0:
+            size = 5.0
+        align = kwargs.pop("align", "center")
+        autowrap_val = kwargs.pop("autowrap", kwargs.pop("wrap", None))
+        disable_wrap_val = kwargs.pop("disable_wrap", kwargs.pop("disable_autowrap", False))
+        max_w_param = kwargs.pop("max_width", kwargs.pop("wrap_width", None))
+        for bad_k in ("alignment", "max_len", "line_spacing", "title_size", "item_size"):
+            kwargs.pop(bad_k, None)
+        slant_val = kwargs.pop("slant", NORMAL)
+        weight_val = kwargs.pop("weight", NORMAL)
+        if isinstance(weight_val, str):
+            weight_clean = weight_val.upper().replace("-", "").replace("_", "").replace(" ", "")
+            if weight_clean == "REGULAR":
+                weight_val = NORMAL
+            elif weight_clean in ("SEMIBOLD", "SEMI_BOLD"):
+                weight_val = SEMIBOLD
+            elif weight_clean == "BOLD":
+                weight_val = BOLD
+            elif weight_clean == "LIGHT":
+                weight_val = LIGHT
+            elif weight_clean in ("NORMAL", "BOOK"):
+                weight_val = NORMAL
+            else:
+                weight_val = NORMAL
+        color_val = kwargs.pop("color", None)
+        if color_val is None:
+            color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
+        elif str(color_val).upper() in ("#F9C72C", "C_YELLOW", "YELLOW", "#FFF9E6", "#FFFF00", "#0B3C5D", "#06152B", "#0A2540", "#1D3557", "NAVY", "C_NAVY", "C_NAVY_DARK"):
+            color_val = globals().get("TEXT_COLOR", globals().get("C_BLACK", "#404040"))
+        raw_str = str(text)
+        _acronyms = {"AI", "RAM", "DB", "API", "LLM", "CPU", "GPU", "UI", "OSL", "ML", "OST", "VDB", "JSON", "HTTP", "REST", "SQL", "SME", "PIP", "HD", "FHD"}
+        import re as _re
+        def _tc_sub(m):
+            w = m.group(0)
+            return w if w in _acronyms else w.capitalize()
+        raw_str = _re.sub(r"\b[A-Z]{2,}\b", _tc_sub, raw_str)
+        NL = chr(10)
+        split_lines = [l for l in raw_str.split(NL)] if NL in raw_str else ([l for l in raw_str.split(r"\\n")] if r"\\n" in raw_str else None)
+        if split_lines is None:
+            should_autowrap = False
+            wrap_target_chars = 34
+            if max_w_param is not None:
+                try:
+                    mw = float(max_w_param)
+                    wrap_target_chars = max(16, int(mw / (size * 0.0082)))
+                    should_autowrap = (" " in raw_str and len(raw_str) > wrap_target_chars)
+                except Exception:
+                    pass
+            if not should_autowrap:
+                if autowrap_val is True:
+                    should_autowrap = True
+                    wrap_target_chars = 34
+                elif autowrap_val is False or disable_wrap_val:
+                    should_autowrap = False
                 else:
-                    curr_line.append(w)
-                    curr_len += len(w) + sep
-            if curr_line:
-                lines.append(" ".join(curr_line))
-            split_lines = lines
+                    should_autowrap = (len(raw_str) > 36 and " " in raw_str and size <= 16)
+                    wrap_target_chars = 34
+            if should_autowrap:
+                words = raw_str.split()
+                lines = []
+                curr_line = []
+                curr_len = 0
+                for w in words:
+                    sep = 1 if curr_line else 0
+                    if curr_len + len(w) + sep > wrap_target_chars:
+                        if curr_line:
+                            lines.append(" ".join(curr_line))
+                        curr_line = [w]
+                        curr_len = len(w)
+                    else:
+                        curr_line.append(w)
+                        curr_len += len(w) + sep
+                if curr_line:
+                    lines.append(" ".join(curr_line))
+                split_lines = lines
+            else:
+                split_lines = [raw_str]
+        clean_kwargs = {k: v for k, v in kwargs.items() if k in ("tab_width", "t2c", "t2f", "t2s", "t2w", "l2g", "gradient", "fill_opacity", "stroke_width", "stroke_color")}
+        if len(split_lines) > 1:
+            line_mobs = [Text(l, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs) for l in split_lines]
+            aligned_edge = ORIGIN if align == "center" else (LEFT if align == "left" else RIGHT)
+            mob = VGroup(*line_mobs).arrange(DOWN, buff=0.18, aligned_edge=aligned_edge).scale(0.25)
         else:
-            split_lines = [raw_str]
-    clean_kwargs = {k: v for k, v in kwargs.items() if k in ("tab_width", "t2c", "t2f", "t2s", "t2w", "l2g", "gradient", "fill_opacity", "stroke_width", "stroke_color")}
-    if len(split_lines) > 1:
-        line_mobs = [Text(l, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs) for l in split_lines]
-        aligned_edge = ORIGIN if align == "center" else (LEFT if align == "left" else RIGHT)
-        mob = VGroup(*line_mobs).arrange(DOWN, buff=0.18, aligned_edge=aligned_edge).scale(0.25)
-    else:
-        mob = Text(raw_str, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs).scale(0.25)
-    orig_scale = mob.scale_to_fit_width
-    def safe_scale_width(tw):
-        if hasattr(mob, "width") and mob.width > 0:
-            ratio = tw / mob.width
-            if ratio > 1.0:
-                return mob
-            if ratio < 0.88:
-                ratio = 0.88
-            return orig_scale(mob.width * ratio)
-        return orig_scale(tw)
-    mob.scale_to_fit_width = safe_scale_width
-    return mob
-class PulsingNode(VGroup):
-    def __init__(self, text, node_color=C_SKY_BLUE, text_color=C_TEXT, font_size=20, corner_radius=0.1, pulse_color=C_HIGHLIGHT, z_index=1, **kwargs):
-        super().__init__(**kwargs)
-        self.text_mob = CrispText(text, font_size=font_size, color=text_color, weight=BOLD)
-        
-        # Calculate box dimensions based on text, ensuring minimum size
-        min_width = 2.0
-        min_height = 0.8
-        padding_x = 0.4
-        padding_y = 0.3
-        
-        box_width = max(min_width, self.text_mob.width + padding_x)
-        box_height = max(min_height, self.text_mob.height + padding_y)
-        
-        self.node_rect = RoundedRectangle(
-            width=box_width,
-            height=box_height,
-            corner_radius=corner_radius,
-            fill_color=node_color,
-            fill_opacity=0.8,
-            stroke_color=node_color,
-            stroke_width=2,
-            z_index=z_index
-        )
-        self.add(self.node_rect, self.text_mob)
-        self.text_mob.move_to(self.node_rect.get_center())
-        
-        # Pulse effect, initially transparent
-        self.pulse_rect = self.node_rect.copy().set_fill(opacity=0).set_stroke(color=pulse_color, width=3.5, opacity=0)
-        self.add(self.pulse_rect)
-
-    def pulse(self, scene, run_time=0.6):
-        scene.play(
-            self.pulse_rect.animate.set_stroke(opacity=1),
-            run_time=run_time / 2
-        )
-        scene.play(
-            self.pulse_rect.animate.set_stroke(opacity=0),
-            run_time=run_time / 2
-        )
-
-# Custom Manim class for a flowing data stream with animated particles
-class DataStream(VGroup):
-    def __init__(self, start_mob, end_mob, stream_color=C_MINT_SEAFOAM, num_particles=10, particle_color=C_WARM_AMBER, particle_radius=0.05, **kwargs):
-        super().__init__(**kwargs)
-        self.start_mob = start_mob
-        self.end_mob = end_mob
-        self.stream_color = stream_color
-        self.num_particles = num_particles
-        self.particle_color = particle_color
-        self.particle_radius = particle_radius
-
-        self.arrow = Arrow(
-            self.start_mob.get_right(),
-            self.end_mob.get_left(),
-            buff=0.2,
-            stroke_width=2,
-            max_tip_length_to_length_ratio=0.1,
-            color=stream_color
-        )
-        self.add(self.arrow)
-
-        self.particles = VGroup(*[
-            Dot(radius=self.particle_radius, color=self.particle_color, z_index=2)
-            for _ in range(self.num_particles)
-        ])
-        for particle in self.particles:
-            # Distribute particles along the path initially
-            alpha = np.random.rand()
-            particle.move_to(self.arrow.point_from_proportion(alpha))
-            particle.set_opacity(0) # Initially transparent for FadeIn animation
-        self.add(self.particles)
-
-        # Use individual ValueTrackers to allow staggered starts and continuous flow
-        self.particle_trackers = [ValueTracker(np.random.rand()) for _ in range(self.num_particles)] # Random initial positions
-        
-        def updater(mobj, dt):
-            for i, particle in enumerate(self.particles):
-                tracker = self.particle_trackers[i]
-                tracker.increment_value(dt * 0.5) # Speed of particles (can be adjusted)
-                
-                alpha = tracker.get_value() % 1.0 # Cycle from 0 to 1
-                
-                # Update particle position
-                point = self.arrow.point_from_proportion(alpha)
-                particle.move_to(point)
-
-        self.add_updater(updater)
-
-    def stop_animation(self):
-        # Check if there are updaters before trying to remove
-        if self.get_updaters():
-            self.remove_updater(self.get_updaters()[0])
-        self.particles.set_opacity(0) # Hide all particles
-
-# Custom Manim class for a radar sweep animation
-class RadarSweep(VGroup):
-    def __init__(self, center_point=ORIGIN, radius=1.5, sweep_color=C_SKY_BLUE, ring_color=C_STEEL_BLUE, num_rings=3, **kwargs):
-        super().__init__(**kwargs)
-        self.center_point = center_point
-        self.radius = radius
-        self.sweep_color = sweep_color
-        self.ring_color = ring_color
-        self.num_rings = num_rings
-
-        self.rings = VGroup(*[
-            Circle(radius=self.radius * (i + 1) / num_rings, color=ring_color, stroke_width=1.0, opacity=0.5)
-            for i in range(num_rings)
-        ])
-        self.base_circle = Circle(radius=self.radius, color=ring_color, stroke_width=1.5) # Outer ring is thicker
-        
-        self.radar_line = Line(start=self.center_point, end=self.center_point + self.radius * RIGHT, color=sweep_color, stroke_width=3)
-        self.radar_line.set_stroke(opacity=0.7)
-
-        self.add(self.rings, self.base_circle)
-        self.add(self.radar_line)
-
-        self.angle_tracker = ValueTracker(0)
-        self.radar_line.add_updater(
-            lambda m: m.become(Line(start=self.center_point, end=self.center_point + self.radius * RIGHT).rotate(self.angle_tracker.get_value(), about_point=self.center_point))
-        )
-        self.add_updater(lambda m, dt: self.angle_tracker.increment_value(dt * 0.5 * DEGREES * 360)) # Rotate slowly
-
-    def stop_animation(self):
-        if self.radar_line.get_updaters():
-            self.radar_line.remove_updater(self.radar_line.get_updaters()[0])
-        if self.get_updaters():
-            self.remove_updater(self.get_updaters()[0])
-
-# Custom Manim class for an Agent Core representation with ambient motion
-class AgentCore(VGroup):
-    def __init__(self, label_text, core_color=C_LAVENDER_PERIWINKLE, text_color=C_TEXT, font_size=18, **kwargs):
-        super().__init__(**kwargs)
-        self.label_text = CrispText(label_text, font_size=font_size, color=text_color, weight=BOLD)
-        
-        # A more complex shape for an agent core, e.g., a gear or a circuit board representation
-        self.outer_circle = Circle(radius=0.6, color=core_color, fill_opacity=0.6, stroke_width=2)
-        self.inner_circle = Circle(radius=0.4, color=ManimColor(core_color).lighter(0.2), fill_opacity=0.8, stroke_width=1)
-        self.center_dot = Dot(radius=0.1, color=ManimColor(core_color).darker(0.2))
-
-        self.add(self.outer_circle, self.inner_circle, self.center_dot, self.label_text)
-        self.label_text.next_to(self.outer_circle, DOWN, buff=0.1)
-        
-        # Add a subtle internal rotation for the inner part
-        self.inner_circle.add_updater(lambda m, dt: m.rotate(dt * 0.2, about_point=self.get_center()))
-        self.center_dot.add_updater(lambda m, dt: m.rotate(-dt * 0.4, about_point=self.get_center()))
-
-    def stop_animation(self):
-        if self.inner_circle.get_updaters():
-            self.inner_circle.remove_updater(self.inner_circle.get_updaters()[0])
-        if self.center_dot.get_updaters():
-            self.center_dot.remove_updater(self.center_dot.get_updaters()[0])
-
-
+            mob = Text(raw_str, font=font, font_size=size * 4, slant=slant_val, weight=weight_val, color=color_val, **clean_kwargs).scale(0.25)
+        orig_scale = mob.scale_to_fit_width
+        def safe_scale_width(tw):
+            if hasattr(mob, "width") and mob.width > 0:
+                ratio = tw / mob.width
+                if ratio > 1.0:
+                    return mob
+                if ratio < 0.88:
+                    ratio = 0.88
+                return orig_scale(mob.width * ratio)
+            return orig_scale(tw)
+        mob.scale_to_fit_width = safe_scale_width
+        return mob
 class FinalScene(InstrumentedScene, MovingCameraScene):
     def construct(self):
-        self.camera.background_color = C_BACKGROUND
+        # 1. Canvas Configuration - Modern Soft Light Slate Canvas
+        self.camera.background_color = "#F0F4F8"
         def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
             if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
                 pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -955,392 +707,325 @@ class FinalScene(InstrumentedScene, MovingCameraScene):
 
 
 
+        self.camera.frame.save_state()
 
+        # Color Palette Tokens (Approved 10-Color Infographic Palette)
+        C_SKY = "#62B7E4"
+        C_STEEL = "#7EA2C8"
+        C_LAVENDER = "#9B99C7"
+        C_MINT = "#8ECDB7"
+        C_AMBER = "#E6A157"
+        C_CORAL = "#E58F6D"
+        C_ROSE = "#D98CA1"
+        C_LILAC = "#C1A5C6"
+        C_TITLE = "#0F172A"       # Bold Dark Slate (High contrast)
+        C_SUBTITLE = "#475569"    # Mid Slate
+        C_BODY = "#334155"        # Slate text
+        C_MUTED = "#64748B"       # Subtle annotation
+        C_HIGHLIGHT = "#F78908"   # Warm Focus Orange
+        C_CARD_BG = "#FFFFFF"     # Pure White elevated surface
+        C_CARD_BORDER = "#CBD5E1" # Slate-200 border
 
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
+        # -------------------------------------------------------------------------
+        # Helper: Unified Slide Header
+        # -------------------------------------------------------------------------
 
+        # Helper: Circular Vector Icon Disc
+        def create_icon_badge(symbol_mobject, bg_color=C_SKY, radius=0.38):
+            disc = Circle(radius=radius, fill_color=bg_color, fill_opacity=0.18, stroke_color=bg_color, stroke_width=2)
+            symbol_mobject.move_to(disc.get_center())
+            return VGroup(disc, symbol_mobject)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        # Removed redundant local definitions of helper functions.
-        # The global definitions are used, and assigned to `self` for convenience.
-
-
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
-
-
-
-
-
-        # The global create_pill is used
-
-
-
-
-        # The global safe_image is used
-
-
-
-
-
-
-        # SME 70% layout: Content right of x = -0.80
-        content_x_start = -0.80
-        content_width = 6.40 - content_x_start # Right safe boundary is +6.40
-        content_center_x = content_x_start + content_width / 2
-        content_y_max = 2.20
-        content_y_min = -3.50
-        content_center_y = (content_y_max + content_y_min) / 2
-
-        # Scene Title
-        scene_title_text = "Core Problem and Operational Context"
-        current_title = self.create_title(scene_title_text)
-        self.play(FadeIn(current_title, shift=DOWN * 0.1), run_time=0.8)
-        
-        ## Presentation Step 1
-        self.play(FadeIn(current_title, shift=DOWN*0.1), run_time=0.8)
-        # Purpose: Explain Solara Energy Introduction
-        # Narration: Monitoring site performance and goal-driven action sequences
-        step1_title_text = "Solara Energy Introduction"
-
-        # Visuals for Step 1: Monitoring Hub, Site Performance, Action Dispatch
-        monitoring_hub = RadarSweep(
-            center_point=np.array([content_center_x - 1.5, content_center_y + 0.5, 0]),
-            radius=1.2,
-            sweep_color=C_SKY_BLUE,
-            ring_color=C_STEEL_BLUE
+        # -------------------------------------------------------------------------
+        ## Presentation Step 1: Solara: Goal-Driven Actions
+        # Step Duration: 26.66s
+        # -------------------------------------------------------------------------
+        step1_title = create_title(
+            "Diverse Architectures & Learning Objectives",
+            "Solara Energy: Goal-Driven Autonomous Execution"
         )
-        monitoring_label = CrispText("Monitoring Hub", font_size=18, weight=BOLD, color=C_HEADER_DARK).next_to(monitoring_hub, DOWN, buff=0.2)
-        
-        site_performance_node = PulsingNode("Site Performance", node_color=C_MINT_SEAFOAM, font_size=16)
-        site_performance_node.move_to(monitoring_hub.get_left() + LEFT * 1.5 + UP * 0.5) # Position left of hub
+        self.play(FadeIn(step1_title, shift=DOWN * 0.15), run_time=0.8)
 
-        action_dispatch_node = PulsingNode("Action Dispatch", node_color=C_WARM_AMBER, font_size=16)
-        action_dispatch_node.move_to(monitoring_hub.get_right() + RIGHT * 1.5 + UP * 0.5) # Position right of hub
-        
-        # Group and position the initial elements to ensure they fit the content area
-        initial_diagram_group = VGroup(site_performance_node, monitoring_hub, monitoring_label, action_dispatch_node)
-        
-        # Scale down if necessary to fit within content_width, with a small margin
-        if initial_diagram_group.width > content_width * 0.9:
-            initial_diagram_group.scale_to_fit_width(content_width * 0.9)
-        initial_diagram_group.move_to(np.array([content_center_x, content_center_y, 0]))
-
-        self.play(
-            LaggedStart(
-                GrowFromCenter(monitoring_hub),
-                FadeIn(monitoring_label, shift=DOWN*0.1),
-                lag_ratio=0.5,
-                run_time=2.0
+        # 1.1 Solara Energy Brand & Context Emblem
+        solara_emblem = VGroup()
+        sun_core = Circle(radius=0.45, fill_color=C_AMBER, fill_opacity=0.9, stroke_color="#FFFFFF", stroke_width=2.5)
+        sun_rays = VGroup(*[
+            Line(
+                start=sun_core.point_at_angle(angle) + 0.08 * np.array([np.cos(angle), np.sin(angle), 0]),
+                end=sun_core.point_at_angle(angle) + 0.22 * np.array([np.cos(angle), np.sin(angle), 0]),
+                stroke_color=C_AMBER, stroke_width=2.5
             )
-        )
-        self.play(
-            FadeIn(site_performance_node, shift=LEFT*0.5),
-            run_time=1.5
-        )
-        self.play(
-            FadeIn(action_dispatch_node, shift=RIGHT*0.5),
-            run_time=1.5
-        )
-
-        # Data flow from Site Performance to Monitoring Hub
-        data_flow_to_hub = DataStream(site_performance_node, monitoring_hub, stream_color=C_MINT_SEAFOAM)
-        # Add the DataStream to the scene AFTER its components are created
-        # Particles are initially transparent in DataStream's __init__
-        self.add(data_flow_to_hub) # Add updater immediately, but particles are transparent
-        self.play(Create(data_flow_to_hub.arrow), FadeIn(data_flow_to_hub.particles), run_time=1.0) # Animate the arrow itself and fade in particles
-
-        # Connection from Monitoring Hub to Action Dispatch
-        monitor_to_action_arrow = Arrow(
-            monitoring_hub.get_right(),
-            action_dispatch_node.get_left(),
-            buff=0.2,
-            stroke_width=2,
-            max_tip_length_to_length_ratio=0.1,
-            color=C_SKY_BLUE
-        )
-        self.play(Create(monitor_to_action_arrow), run_time=1.0)
-        
-        # Add a particle for the action flow
-        action_particle = Dot(radius=0.08, color=C_HIGHLIGHT, z_index=2)
-        self.play(
-            MoveAlongPath(action_particle, monitor_to_action_arrow, rate_func=ease_out_cubic, run_time=1.5), # Fixed rate_func
-            run_time=1.5
-        )
-        self.remove(action_particle)
-
-        # Highlight Monitoring Hub and Action Dispatch
-        monitoring_hub_pulse = monitoring_hub.base_circle.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
-        action_dispatch_pulse = action_dispatch_node.node_rect.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
-
-        self.play(Create(monitoring_hub_pulse), run_time=0.6)
-        self.play(FadeOut(monitoring_hub_pulse), run_time=0.4)
-        
-        self.play(Create(action_dispatch_pulse), run_time=0.6)
-        self.play(FadeOut(action_dispatch_pulse), run_time=0.4)
-
-        # Total runtime for step 1 is 34.38.
-        # Recalculate: 0.8 (initial title fadein) + 0.8 (title transition) + 2.0 (hub/label) + 1.5 (site node) + 1.5 (action node) + 1.0 (data_flow) + 1.0 (monitor_to_action_arrow) + 1.5 (action particle) + 0.6 (hub pulse) + 0.4 (hub pulse fade) + 0.6 (action pulse) + 0.4 (action pulse fade) = 14.1 seconds
-        self.wait(34.38 - 14.1) # Adjust wait time based on animations
-
-        ## Presentation Step 2
-        # Purpose: Explain Real-World Action Sequence
-        # Narration: Querying data, comparing outputs, flagging anomalies, generating reports
-        step2_title_text = "Real-World Action Sequence"
-        new_title = self.create_title(step2_title_text) # Create new title for step 2
-        self.play(FadeOut(current_title), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45) # Combined fade out/in
-        current_title = new_title
-
-        # Stop updaters before removing
-        data_flow_to_hub.stop_animation()
-        monitoring_hub.stop_animation()
-        
-        # Fade out elements not directly relevant to action sequence for clarity
-        self.play(
-            FadeOut(site_performance_node),
-            FadeOut(data_flow_to_hub),
-            FadeOut(monitoring_hub),
-            FadeOut(monitoring_label),
-            FadeOut(monitor_to_action_arrow),
-            run_time=1.0
-        )
-
-        # Reposition action_dispatch_node to a more central position for elaboration
-        self.play(action_dispatch_node.animate.move_to(np.array([content_center_x, content_center_y + 1.0, 0])), run_time=1.0)
-
-        # Sub-actions around Action Dispatch
-        query_data_node = PulsingNode("Query Data", node_color=C_LAVENDER_PERIWINKLE, font_size=16)
-        compare_outputs_node = PulsingNode("Compare Outputs", node_color=C_MUSTARD_YELLOW, font_size=16)
-        flag_anomalies_node = PulsingNode("Flag Anomalies", node_color=C_CORAL_PEACH, font_size=16)
-        generate_reports_node = PulsingNode("Generate Reports", node_color=C_SOFT_LILAC, font_size=16)
-
-        # Arrange these nodes in a circular flow around action_dispatch_node
-        center_pt = action_dispatch_node.get_center()
-        radius = 2.5
-        nodes = [query_data_node, compare_outputs_node, flag_anomalies_node, generate_reports_node]
-        angles = [PI/2, 0, -PI/2, PI]
-        for node, ang in zip(nodes, angles):
-            node.move_to(center_pt + radius * np.array([np.cos(ang), np.sin(ang), 0]))
-        action_nodes_group = VGroup(*nodes)
+            for angle in np.linspace(0, 2 * np.pi, 8, endpoint=False)
+        ])
+        brand_name = CrispText("Solara Energy", size=18, weight="BOLD", color=C_TITLE)
+        brand_sub = CrispText("Site Operations Hub", size=12, weight="NORMAL", color=C_MUTED)
+        brand_text_grp = VGroup(brand_name, brand_sub).arrange(DOWN, aligned_edge=LEFT, buff=0.06)
+        solara_emblem.add(sun_core, sun_rays, brand_text_grp)
+        brand_text_grp.next_to(sun_core, RIGHT, buff=0.25)
+        solara_emblem.move_to([-5.2, 1.4, 0])
 
         self.play(
-            LaggedStart(
-                FadeIn(query_data_node, shift=UP*0.5),
-                FadeIn(compare_outputs_node, shift=RIGHT*0.5),
-                FadeIn(flag_anomalies_node, shift=DOWN*0.5),
-                FadeIn(generate_reports_node, shift=LEFT*0.5),
-                lag_ratio=0.3,
-                run_time=3.0
+            GrowFromCenter(sun_core),
+            Create(sun_rays),
+            FadeIn(brand_text_grp, shift=RIGHT * 0.2),
+            run_time=1.2
+        )
+
+        # 1.2 Five Sequential Operational Flow Nodes
+        # Node Definitions: (Title, Icon Builder, Accent Color)
+        def make_bullseye():
+            return VGroup(
+                Circle(radius=0.24, stroke_color=C_SKY, stroke_width=2),
+                Circle(radius=0.14, fill_color=C_SKY, fill_opacity=0.8, stroke_color=C_SKY, stroke_width=1.5),
+                Dot(radius=0.05, color="#FFFFFF")
             )
-        )
 
-        # Arrows connecting the flow
-        arrow1 = CurvedArrow(action_dispatch_node.get_bottom(), query_data_node.get_top(), color=C_STEEL_BLUE, tip_length=0.2, buff=0.1)
-        arrow2 = CurvedArrow(query_data_node.get_right(), compare_outputs_node.get_top(), color=C_STEEL_BLUE, tip_length=0.2, buff=0.1)
-        arrow3 = CurvedArrow(compare_outputs_node.get_bottom(), flag_anomalies_node.get_right(), color=C_STEEL_BLUE, tip_length=0.2, buff=0.1)
-        arrow4 = CurvedArrow(flag_anomalies_node.get_left(), generate_reports_node.get_bottom(), color=C_STEEL_BLUE, tip_length=0.2, buff=0.1)
-        arrow5 = CurvedArrow(generate_reports_node.get_top(), action_dispatch_node.get_left(), color=C_STEEL_BLUE, tip_length=0.2, buff=0.1)
+        def make_query_icon():
+            glass = Circle(radius=0.16, stroke_color=C_STEEL, stroke_width=2.2)
+            handle = Line(glass.point_at_angle(-np.pi / 4), glass.point_at_angle(-np.pi / 4) + np.array([0.15, -0.15, 0]), stroke_color=C_STEEL, stroke_width=3)
+            return VGroup(glass, handle)
 
-        flow_arrows = VGroup(arrow1, arrow2, arrow3, arrow4, arrow5)
-        self.play(Create(flow_arrows), run_time=2.0)
+        def make_compare_icon():
+            beam = Line([-0.2, 0.08, 0], [0.2, -0.04, 0], stroke_color=C_LAVENDER, stroke_width=2.5)
+            pivot = Triangle(fill_color=C_LAVENDER, fill_opacity=1, stroke_width=0).scale(0.12).next_to(beam, DOWN, buff=-0.04)
+            left_pan = Line([-0.2, 0.08, 0], [-0.2, -0.08, 0], stroke_color=C_LAVENDER, stroke_width=1.5)
+            right_pan = Line([0.2, -0.04, 0], [0.2, -0.2, 0], stroke_color=C_LAVENDER, stroke_width=1.5)
+            return VGroup(beam, pivot, left_pan, right_pan)
 
-        # Animate particles flowing through the sequence
-        flow_particles = VGroup(*[Dot(radius=0.06, color=C_HIGHLIGHT, z_index=2) for _ in range(5)])
-        flow_paths = [arrow1, arrow2, arrow3, arrow4, arrow5]
+        def make_flag_icon():
+            pole = Line([0, -0.22, 0], [0, 0.22, 0], stroke_color=C_CORAL, stroke_width=2.5)
+            cloth = Polygon([0, 0.22, 0], [0.26, 0.11, 0], [0, 0, 0], fill_color=C_CORAL, fill_opacity=0.9, stroke_color=C_CORAL, stroke_width=1)
+            return VGroup(pole, cloth)
 
-        particle_trackers = [ValueTracker(i * 0.2) for i in range(len(flow_particles))] # Staggered start
-        
-        def flow_updater(mobj, dt):
-            for i, particle in enumerate(flow_particles):
-                tracker = particle_trackers[i]
-                tracker.increment_value(dt * 0.4) # Speed of particles
-                alpha = tracker.get_value()
-                
-                # Determine current path index based on alpha value
-                path_idx = int(alpha) % len(flow_paths)
-                current_path = flow_paths[path_idx]
-                
-                # Proportion along the current path
-                prop_on_path = alpha % 1.0
-                
-                # Hide particle briefly at path transitions for smoother loop
-                if prop_on_path < 0.95:
-                    point = current_path.point_from_proportion(prop_on_path)
-                    particle.move_to(point).set_opacity(1)
-                else:
-                    particle.set_opacity(0)
-        
-        flow_particles.add_updater(flow_updater)
-        self.add(flow_particles)
+        def make_report_icon():
+            sheet = RoundedRectangle(width=0.32, height=0.42, corner_radius=0.04, fill_color="#FFFFFF", fill_opacity=1, stroke_color=C_MINT, stroke_width=2)
+            l1 = Line([-0.1, 0.1, 0], [0.1, 0.1, 0], stroke_color=C_MINT, stroke_width=1.8)
+            l2 = Line([-0.1, 0.0, 0], [0.1, 0.0, 0], stroke_color=C_MINT, stroke_width=1.8)
+            l3 = Line([-0.1, -0.1, 0], [0.04, -0.1, 0], stroke_color=C_MINT, stroke_width=1.8)
+            return VGroup(sheet, l1, l2, l3)
 
-        # Let the flow animation run for a duration
-        self.wait(10.0) 
+        pipeline_data = [
+            ("Goal: Monitor", "Site Performance", make_bullseye(), C_SKY),
+            ("Query Data", "Inverter Telemetry", make_query_icon(), C_STEEL),
+            ("Compare", "Model Baselines", make_compare_icon(), C_LAVENDER),
+            ("Flag Alerts", "Thermal Deviations", make_flag_icon(), C_CORAL),
+            ("Reports", "Ops Dispatch Ready", make_report_icon(), C_MINT),
+        ]
 
-        # Highlight each node as it's mentioned (implicitly by showing the flow)
-        self.play(action_dispatch_node.pulse_rect.animate.set_stroke(opacity=1), run_time=0.4)
-        self.play(FadeOut(action_dispatch_node.pulse_rect), run_time=0.3)
-        self.play(query_data_node.pulse_rect.animate.set_stroke(opacity=1), run_time=0.4)
-        self.play(FadeOut(query_data_node.pulse_rect), run_time=0.3)
-        self.play(compare_outputs_node.pulse_rect.animate.set_stroke(opacity=1), run_time=0.4)
-        self.play(FadeOut(compare_outputs_node.pulse_rect), run_time=0.3)
-        self.play(flag_anomalies_node.pulse_rect.animate.set_stroke(opacity=1), run_time=0.4)
-        self.play(FadeOut(flag_anomalies_node.pulse_rect), run_time=0.3)
-        self.play(generate_reports_node.pulse_rect.animate.set_stroke(opacity=1), run_time=0.4)
-        self.play(FadeOut(generate_reports_node.pulse_rect), run_time=0.3)
+        flow_cards = VGroup()
+        connecting_arrows = VGroup()
 
-        # Stop particle animation before fading out
-        flow_particles.remove_updater(flow_updater)
-        self.remove(flow_particles)
-        
-        self.wait(0.5) # Small pause
+        card_width = 2.15
+        card_height = 2.25
+        x_spacing = 2.55
+        start_x = -5.1
 
-        ## Presentation Step 3
-        # Purpose: Explain Architectural Diversity
-        # Narration: Different types built on different architectures for different problems
-        step3_title_text = "Architectural Diversity"
-        new_title = self.create_title(step3_title_text) # Create new title for step 3
-        self.play(FadeOut(current_title), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45) # Combined fade out/in
-        current_title = new_title
+        for idx, (head_txt, sub_txt, icon_vg, accent_c) in enumerate(pipeline_data):
+            card_x = start_x + idx * x_spacing
+            card_y = -0.65
 
-        # Fade out detailed action sequence to focus on architectures
-        self.play(
-            FadeOut(action_dispatch_node),
-            FadeOut(action_nodes_group),
-            FadeOut(flow_arrows),
-            run_time=1.0
-        )
+            bg_rect = RoundedRectangle(
+                width=card_width, height=card_height, corner_radius=0.14,
+                fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=C_CARD_BORDER, stroke_width=1.8
+            ).move_to([card_x, card_y, 0])
 
-        # Introduce diverse agent architectures
-        arch_colors = [C_SKY_BLUE, C_MINT_SEAFOAM, C_LAVENDER_PERIWINKLE, C_WARM_AMBER]
-        arch_labels = ["Reactive Agent", "Deliberative Agent", "Hybrid Agent", "Hierarchical Agent"]
+            top_bar = RoundedRectangle(
+                width=card_width, height=0.08, corner_radius=0.04,
+                fill_color=accent_c, fill_opacity=1.0, stroke_width=0
+            ).next_to(bg_rect.get_top(), DOWN, buff=0)
 
-        architectures = VGroup()
-        for i, label in enumerate(arch_labels):
-            arch = AgentCore(label, core_color=arch_colors[i], font_size=16)
-            architectures.add(arch)
+            badge = create_icon_badge(icon_vg, bg_color=accent_c, radius=0.36)
+            badge.move_to(bg_rect.get_top() + DOWN * 0.6)
 
-        # Arrange architectures horizontally within the content safe area
-        architectures.arrange(RIGHT, buff=0.8)
-        # Scale to fit width and center in the content area
-        architectures.scale_to_fit_width(content_width * 0.9) 
-        architectures.move_to(np.array([content_center_x, content_center_y, 0]))
+            title_m = CrispText(head_txt, size=14, weight="BOLD", color=C_TITLE)
+            title_m.next_to(badge, DOWN, buff=0.18)
 
-        self.play(
-            LaggedStart(*[GrowFromCenter(arch) for arch in architectures], lag_ratio=0.2, run_time=3.0)
-        )
+            sub_m = CrispText(sub_txt, size=11, weight="NORMAL", color=C_MUTED)
+            sub_m.next_to(title_m, DOWN, buff=0.08)
 
-        # Highlight each architecture type briefly
-        for i, arch in enumerate(architectures):
-            pulse_rect = arch.outer_circle.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
-            self.play(Create(pulse_rect), run_time=0.5)
-            self.play(FadeOut(pulse_rect), run_time=0.3)
-            self.wait(0.5)
-        
-        # Keep architectures on screen, let ambient updaters run
-        self.wait(4.0)
+            step_chip = RoundedRectangle(width=0.48, height=0.24, corner_radius=0.06, fill_color=accent_c, fill_opacity=0.15, stroke_width=0)
+            step_num = CrispText(f"0{idx+1}", size=10, weight="BOLD", color=accent_c)
+            step_num.move_to(step_chip)
+            chip_grp = VGroup(step_chip, step_num).move_to(bg_rect.get_top() + DOWN * 0.22)
 
-        ## Presentation Step 4
-        # Purpose: Explain Engineering Alignment
-        # Narration: Matching the right agent architecture to the right operational job
-        step4_title_text = "Engineering Alignment"
-        new_title = self.create_title(step4_title_text) # Create new title for step 4
-        self.play(FadeOut(current_title), run_time=0.35)
-        self.play(FadeIn(new_title, shift=DOWN * 0.1), run_time=0.45) # Combined fade out/in
-        current_title = new_title
+            node_grp = VGroup(bg_rect, top_bar, chip_grp, badge, title_m, sub_m)
+            flow_cards.add(node_grp)
 
-        # Stop ambient updaters for architectures to prepare for transformations
-        for arch in architectures:
-            arch.stop_animation()
-
-        # Shift architectures up slightly to make room for 'Operational Jobs'
-        self.play(architectures.animate.shift(UP * 1.5), run_time=1.0)
-
-        # Introduce "Operational Jobs" below the architectures
-        job_labels = ["Rapid Response", "Complex Planning", "Adaptive Control", "Long-Term Goals"]
-        operational_jobs = VGroup()
-        for i, label in enumerate(job_labels):
-            job_node = PulsingNode(label, node_color=C_DUSTY_ROSE, font_size=16, text_color=C_TEXT)
-            operational_jobs.add(job_node)
-        
-        operational_jobs.arrange(RIGHT, buff=0.8)
-        # Match overall width for alignment, then position
-        operational_jobs.scale_to_fit_width(architectures.width) # Match width with architectures
-        operational_jobs.next_to(architectures, DOWN, buff=1.0)
-        operational_jobs.align_to(architectures, LEFT) # Align to left of architectures group
-
-        self.play(
-            LaggedStart(*[GrowFromCenter(job) for job in operational_jobs], lag_ratio=0.2, run_time=3.0)
-        )
-
-        # Draw matching lines one by one, with highlight
-        match_arrows = VGroup()
-        for i in range(len(architectures)):
-            arrow = Arrow(
-                architectures[i].get_bottom(),
-                operational_jobs[i].get_top(),
-                buff=0.2,
-                stroke_width=3,
-                max_tip_length_to_length_ratio=0.15,
-                color=C_HIGHLIGHT # Use highlight color for matches
-            )
-            match_arrows.add(arrow)
-            self.play(Create(arrow), run_time=0.8)
-            
-            # Highlight both connected nodes
-            arch_pulse = architectures[i].outer_circle.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
-            job_pulse = operational_jobs[i].node_rect.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
-            
-            self.play(
-                AnimationGroup(
-                    Create(arch_pulse),
-                    Create(job_pulse),
-                    lag_ratio=0.2,
-                    run_time=0.6
+            if idx < 4:
+                arrow = Arrow(
+                    start=[card_x + card_width / 2 + 0.05, card_y, 0],
+                    end=[card_x + x_spacing - card_width / 2 - 0.05, card_y, 0],
+                    buff=0, stroke_width=2.5, color=C_STEEL, max_tip_length_to_length_ratio=0.26
                 )
-            )
-            self.play(FadeOut(arch_pulse, job_pulse), run_time=0.4)
-            self.wait(0.2) # Short pause after highlight
+                connecting_arrows.add(arrow)
 
-        self.wait(5.0) # Let the final diagram persist
+        # 1.3 Phrase-Synchronized Pipeline Reveal
+        # Statement 1 (0.00s - 9.80s): Goal & Action sequence intro
+        # Card 1 appears first, then full 5-stage pipeline cascades into place
+        self.play(FadeIn(flow_cards[0], shift=UP * 0.2), run_time=1.0)
+        c1_glow = flow_cards[0][0].copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
+        self.play(Create(c1_glow), run_time=0.5)
+        self.play(FadeOut(c1_glow), run_time=0.4)
 
-        # Clean up all elements at the end
+        # Full pipeline sweeps into view together across the widescreen canvas
+        cascade_anims = []
+        for i in range(1, len(flow_cards)):
+            cascade_anims.append(FadeIn(flow_cards[i], shift=UP * 0.2))
+            cascade_anims.append(GrowArrow(connecting_arrows[i - 1]))
+        self.play(LaggedStart(*cascade_anims, lag_ratio=0.15), run_time=1.6)
+
+        # Ambient continuous particle flow across pipeline
+        trail_dots = VGroup(*[Dot(radius=0.06, color=C_HIGHLIGHT) for _ in range(4)])
         self.play(
-            FadeOut(current_title),
-            FadeOut(architectures),
-            FadeOut(operational_jobs),
-            FadeOut(match_arrows),
-            run_time=1.0
+            LaggedStart(*[
+                MoveAlongPath(dot, arr, rate_func=linear)
+                for dot, arr in zip(trail_dots, connecting_arrows)
+            ], lag_ratio=0.20),
+            run_time=1.2
         )
-        self.wait(0.5) # Final short wait
+        self.remove(trail_dots)
+        self.sync_to(9.80)
+
+        # Statement 2 (9.80s - 15.38s): "querying data, comparing outputs, flagging anomalies, and generating reports."
+        # Golden pulse cascades across Cards 2 -> 3 -> 4 -> 5 matching the spoken words
+        for idx in range(1, 5):
+            glow = flow_cards[idx][0].copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.5)
+            self.play(
+                Create(glow),
+                flow_cards[idx].animate.scale(1.04),
+                run_time=0.45
+            )
+            self.play(
+                FadeOut(glow),
+                flow_cards[idx].animate.scale(1.0 / 1.04),
+                run_time=0.45
+            )
+            self.wait(0.35)
+
+        self.sync_to(15.38)
+
+        # -------------------------------------------------------------------------
+        ## Presentation Step 2: Agent Diversity & Architectures
+        # Statement 3 (15.38s - 18.62s): "But not all agents work the same way."
+        # -------------------------------------------------------------------------
+        step2_title = create_title(
+            "Agent Diversity & Architectures",
+            "Matching Architecture to Task Complexity"
+        )
+        self.play(
+            FadeOut(solara_emblem),
+            FadeOut(flow_cards),
+            FadeOut(connecting_arrows),
+            ReplacementTransform(step1_title, step2_title),
+            run_time=0.9
+        )
+
+        # 2.1 Central Problem Sphere (The Environmental Challenge Hub)
+        problem_center = np.array([0.0, -0.6, 0])
+        problem_outer = Circle(radius=1.40, stroke_color=C_STEEL, stroke_width=2.0, stroke_opacity=0.6)
+        problem_dashed = DashedVMobject(Circle(radius=1.20, stroke_color=C_AMBER, stroke_width=2.2), num_dashes=24)
+        problem_core = Circle(radius=1.00, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color=C_TITLE, stroke_width=2.0)
+
+        prob_tag = CrispText("Task Space", size=14, weight="BOLD", color=C_TITLE).move_to(problem_center + UP * 0.16)
+        prob_desc = CrispText("Dynamic Solara Anomaly", size=10, weight="NORMAL", color=C_MUTED).move_to(problem_center + DOWN * 0.14)
+        problem_sphere = VGroup(problem_outer, problem_dashed, problem_core, prob_tag, prob_desc).move_to(problem_center)
+
+        self.play(GrowFromCenter(problem_sphere), run_time=1.0)
+        self.sync_to(18.62)
+
+        # -------------------------------------------------------------------------
+        # Statement 4 (18.62s - 27.50s):
+        # "There are different types, built on different architectures, designed for different kinds of problems."
+        # -------------------------------------------------------------------------
+        agent_configs = [
+            ("Reactive Agent", "Fixed Condition-Action Rules", C_SKY, [-4.6, -0.6, 0]),
+            ("Deliberative Agent", "Internal World Model & Planning", C_AMBER, [0.0, 1.35, 0]),
+            ("Utility Optimizer", "Multi-Objective Trade-off Engine", C_LAVENDER, [4.6, -0.6, 0]),
+        ]
+
+        agent_nodes = VGroup()
+        connecting_conduits = VGroup()
+
+        for name, sub, col, pos in agent_configs:
+            a_box = RoundedRectangle(
+                width=2.85, height=1.35, corner_radius=0.12,
+                fill_color=C_CARD_BG, fill_opacity=1.0, stroke_color=col, stroke_width=2.2
+            ).move_to(pos)
+
+            a_title = CrispText(name, size=14, weight="BOLD", color=C_TITLE).move_to(a_box.get_top() + DOWN * 0.38)
+            a_sub = CrispText(sub, size=10, weight="NORMAL", color=C_BODY).next_to(a_title, DOWN, buff=0.1)
+
+            status_pill = RoundedRectangle(width=0.9, height=0.24, corner_radius=0.06, fill_color=col, fill_opacity=0.18, stroke_width=0)
+            status_txt = CrispText("Arch Type", size=9, weight="BOLD", color=col)
+            status_txt.move_to(status_pill)
+            status_grp = VGroup(status_pill, status_txt).move_to(a_box.get_bottom() + UP * 0.22)
+
+            agent_m = VGroup(a_box, a_title, a_sub, status_grp)
+            agent_nodes.add(agent_m)
+
+            conduit = CurvedArrow(
+                start_point=pos + (problem_center - pos) * 0.35,
+                end_point=problem_center + (pos - problem_center) * 0.45,
+                angle=0.18 if pos[0] >= 0 else -0.18,
+                color=col, stroke_width=2.5
+            )
+            connecting_conduits.add(conduit)
+
+        # Reveal the 3 architectures with distinct focus highlights
+        for i in range(3):
+            self.play(
+                FadeIn(agent_nodes[i], shift=UP * 0.12),
+                Create(connecting_conduits[i]),
+                run_time=0.8
+            )
+            h_glow = agent_nodes[i][0].copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=3.2)
+            self.play(Create(h_glow), run_time=0.4)
+            self.play(FadeOut(h_glow), run_time=0.3)
+
+        self.sync_to(27.50)
+
+        # -------------------------------------------------------------------------
+        # Statement 5 (27.50s - 34.38s):
+        # "And understanding those differences is what allows you to match the right agent to the right job."
+        # -------------------------------------------------------------------------
+        shift_ring = Circle(radius=1.1, stroke_color=C_HIGHLIGHT, stroke_width=3.0).move_to(problem_center)
+        self.play(
+            problem_dashed.animate.rotate(np.pi / 2),
+            Create(shift_ring),
+            run_time=0.6
+        )
+        self.play(FadeOut(shift_ring), run_time=0.3)
+
+        # Match indicator: Utility Optimizer lights up in vibrant gold as optimal choice
+        matched_conduit = connecting_conduits[2]
+        match_pulse = matched_conduit.copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=5.0)
+        matched_box_glow = agent_nodes[2][0].copy().set_fill(opacity=0).set_stroke(color=C_HIGHLIGHT, width=4.0)
+
+        match_badge = RoundedRectangle(
+            width=2.5, height=0.42, corner_radius=0.08,
+            fill_color=C_HIGHLIGHT, fill_opacity=0.95, stroke_width=0
+        ).next_to(agent_nodes[2], UP, buff=0.22)
+        match_txt = CrispText("Optimal Architecture Match", size=10, weight="BOLD", color="#FFFFFF").move_to(match_badge)
+        match_grp = VGroup(match_badge, match_txt)
+
+        self.play(
+            Create(match_pulse),
+            Create(matched_box_glow),
+            FadeIn(match_grp, scale=0.9),
+            agent_nodes[2].animate.scale(1.05),
+            run_time=1.2
+        )
+
+        # Stream of packets flowing from Utility Optimizer to Problem Space
+        packets = VGroup(*[Dot(radius=0.07, color=C_HIGHLIGHT) for _ in range(3)])
+        self.play(
+            LaggedStart(*[
+                MoveAlongPath(p, matched_conduit) for p in packets
+            ], lag_ratio=0.3),
+            run_time=1.1
+        )
+        self.remove(packets)
+
+        # Hold perfectly until exact scene boundary
+        self.sync_to(34.38)
+

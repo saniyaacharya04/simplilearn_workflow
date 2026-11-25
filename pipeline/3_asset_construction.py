@@ -607,9 +607,11 @@ class AssetConstruction:
             out_constructed = os.path.join(meta_dir, f"{topic_id}_constructed_assets.json")
             try:
                 self.run(assets_file, out_constructed, blueprint_path=blueprint_file if os.path.exists(blueprint_file) else None)
-                # Also save construction_output copy inside meta_dir
+                # Also save constructed_assets copy inside meta_dir
                 try:
-                    shutil.copy2(out_constructed, os.path.join(meta_dir, "construction_output_claude-haiku-4-5-20251001.json"))
+                    shutil.copy2(out_constructed, os.path.join(meta_dir, "constructed_assets.json"))
+                    m_slug = getattr(self, "model_name", "model").replace(":", "-").replace("/", "-")
+                    shutil.copy2(out_constructed, os.path.join(meta_dir, f"construction_output_{m_slug}.json"))
                 except Exception:
                     pass
 

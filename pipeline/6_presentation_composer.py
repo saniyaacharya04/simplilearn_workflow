@@ -66,8 +66,8 @@ PIPELINE STAGE 6: PRESENTATION COMPOSER
      * {topic_id}_presentation_composition.json:
        Location: output/<TOPIC_NAME>/{topic_id}_presentation_composition.json
        Content: Fully expanded visual layout compositions with nested containers per step.
-     * raw_parameters_claude-haiku-4-5-20251001.json:
-       Location: output/<TOPIC_NAME>/raw_parameters_claude-haiku-4-5-20251001.json
+     * raw_parameters_<model>.json:
+       Location: output/<TOPIC_NAME>/raw_parameters_<model>.json
        Content: Mirrored copy of composition parameters.
      * Output Tracker:
        Location: ppt_trackers/6_presentation_composer_tracker.json

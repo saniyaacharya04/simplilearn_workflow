@@ -759,7 +759,8 @@ class AssetClassification:
                 os.path.join(topic_dir, f"{topic_id}_storyboard_blueprint.json"),
                 os.path.join(meta_dir, "storyboard_blueprint.json"),
                 os.path.join(topic_dir, "storyboard_blueprint.json"),
-                os.path.join(topic_dir, "instructions_gemini-3.8-flash.json")
+                os.path.join(meta_dir, "instructions.json"),
+                os.path.join(topic_dir, "instructions.json")
             ]
             blueprint_file = None
             for cand in candidates:

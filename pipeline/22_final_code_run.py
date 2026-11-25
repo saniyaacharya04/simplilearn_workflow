@@ -1242,7 +1242,9 @@ CURRENT PYTHON SCRIPT:
 
             final_audio_integrated = Path(base_folder) / "audio_integrated_videos" / f"group_{group_num}_final.mp4"
             if not final_audio_integrated.exists():
-                final_audio_integrated = Path(base_folder) / "audio_integrated_videos" / f"group_{group_num}_claude_final.mp4"
+                fallback_matches = list((Path(base_folder) / "audio_integrated_videos").glob(f"group_{group_num}*.mp4"))
+                if fallback_matches:
+                    final_audio_integrated = fallback_matches[0]
 
             if target_group is not None and group_num != target_group:
                 if final_video_path.exists():

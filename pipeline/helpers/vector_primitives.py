@@ -116,7 +116,7 @@ class PremiumBalanceScale(VGroup):
         # Tiered Stepped Plinth (3 tiers with brass inlay)
         self.base_step1 = RoundedRectangle(
             width=3.4, height=0.36, corner_radius=0.08,
-            fill_color="#FFFFFF", fill_opacity=1.0,
+            fill_color=self.base_color, fill_opacity=0.06,
             stroke_color=self.base_color, stroke_width=2.2
         ).next_to(self.shadow, UP, buff=-0.14)
 
@@ -143,7 +143,7 @@ class PremiumBalanceScale(VGroup):
         col_left = Polygon(
             c_bot + LEFT * (col_w / 2.0), c_bot,
             c_top, c_top + LEFT * (col_w * 0.40),
-            fill_color="#FFFFFF", fill_opacity=1.0,
+            fill_color=self.base_color, fill_opacity=0.06,
             stroke_color=self.base_color, stroke_width=1.8
         )
         col_right = Polygon(
@@ -240,7 +240,7 @@ class PremiumBalanceScale(VGroup):
                 pan_center + LEFT * 0.50 + DOWN * 0.14,
                 pan_center + RIGHT * 0.50 + DOWN * 0.14,
                 pan_center + DOWN * 0.50,
-                fill_color="#FFFFFF", fill_opacity=0.96, stroke_width=0
+                fill_color=col, fill_opacity=0.06, stroke_width=0
             )
 
             pan_rim = Line(
@@ -305,9 +305,9 @@ class PrecisionChronometerGauge(VGroup):
 
         # Outer Shadow & Knurled Bezel
         shadow = Ellipse(width=r * 2.3, height=0.22, fill_color="#CBD5E1", fill_opacity=0.35, stroke_width=0).move_to(c + DOWN * (r + 0.35))
-        bezel_outer = Circle(radius=r + 0.12, stroke_color="#0F172A", stroke_width=2.5, fill_color="#FFFFFF", fill_opacity=1.0).move_to(c)
+        bezel_outer = Circle(radius=r + 0.12, stroke_color="#0F172A", stroke_width=2.5, fill_color="#62B7E4", fill_opacity=0.04).move_to(c)
         bezel_rim = Circle(radius=r + 0.04, stroke_color="#F0C265", stroke_width=1.5, fill_opacity=0).move_to(c)
-        dial_face = Circle(radius=r, fill_color="#F8FAFC", fill_opacity=1.0, stroke_color="#CBD5E1", stroke_width=1.0).move_to(c)
+        dial_face = Circle(radius=r, fill_opacity=0, stroke_color="#CBD5E1", stroke_width=1.0).move_to(c)
 
         # Calibrated Arc Zones
         arc_alert = AnnularSector(
@@ -407,7 +407,7 @@ class NeuralReasoningCore(VGroup):
 
         # Ambient Glow Halos
         self.outer_glow = Circle(radius=r * 1.25, stroke_color="#9B99C7", stroke_width=1.5, fill_color="#9B99C7", fill_opacity=0.10).move_to(c)
-        self.mid_ring = Circle(radius=r, stroke_color="#2C81FE", stroke_width=2.0, fill_color="#FFFFFF", fill_opacity=0.92).move_to(c)
+        self.mid_ring = Circle(radius=r, stroke_color="#2C81FE", stroke_width=2.0, fill_color="#2C81FE", fill_opacity=0.04).move_to(c)
 
         # Central Hexagonal Cognitive Nucleus
         self.nucleus = RegularPolygon(n=6, radius=r * 0.55, stroke_color="#0F172A", stroke_width=2.5, fill_color="#0F172A", fill_opacity=1.0).move_to(c)
@@ -432,7 +432,7 @@ class NeuralReasoningCore(VGroup):
             Dot(color="#2C81FE", radius=0.07)
         )
 
-        label_bg = RoundedRectangle(width=2.2, height=0.40, corner_radius=0.1, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color="#2C81FE", stroke_width=1.5).next_to(self.mid_ring, DOWN, buff=0.20)
+        label_bg = RoundedRectangle(width=2.2, height=0.40, corner_radius=0.1, fill_color="#2C81FE", fill_opacity=0.06, stroke_color="#2C81FE", stroke_width=1.5).next_to(self.mid_ring, DOWN, buff=0.20)
         label_txt = CrispText("LLM Reasoning Core", size=11, weight=BOLD, color="#0F172A").move_to(label_bg)
         self.label_grp = VGroup(label_bg, label_txt)
 
@@ -480,8 +480,8 @@ class ActionDispatchHub(VGroup):
         r = self.rad
 
         shadow = Ellipse(width=r * 2.3, height=0.25, fill_color="#CBD5E1", fill_opacity=0.35, stroke_width=0).move_to(c + DOWN * (r + 0.25))
-        hub_ring = Circle(radius=r, stroke_color="#0F172A", stroke_width=2.5, fill_color="#FFFFFF", fill_opacity=1.0).move_to(c)
-        hub_inner = Circle(radius=r * 0.75, stroke_color="#E58F6D", stroke_width=2.0, fill_color="#F8FAFC", fill_opacity=1.0).move_to(c)
+        hub_ring = Circle(radius=r, stroke_color="#0F172A", stroke_width=2.5, fill_color="#E58F6D", fill_opacity=0.04).move_to(c)
+        hub_inner = Circle(radius=r * 0.75, stroke_color="#E58F6D", stroke_width=2.0, fill_opacity=0).move_to(c)
 
         # 6 Peripheral Cogs
         self.cogs = VGroup()
@@ -498,7 +498,7 @@ class ActionDispatchHub(VGroup):
         actuator_inner = Circle(radius=r * 0.22, fill_color="#2C81FE", fill_opacity=1.0, stroke_width=0).move_to(c)
         actuator_center = Dot(c, radius=0.06, color="#FFFFFF")
 
-        label_bg = RoundedRectangle(width=2.2, height=0.40, corner_radius=0.1, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color="#E58F6D", stroke_width=1.5).next_to(hub_ring, DOWN, buff=0.20)
+        label_bg = RoundedRectangle(width=2.2, height=0.40, corner_radius=0.1, fill_color="#E58F6D", fill_opacity=0.06, stroke_color="#E58F6D", stroke_width=1.5).next_to(hub_ring, DOWN, buff=0.20)
         label_txt = CrispText("Action Dispatch Hub", size=11, weight=BOLD, color="#0F172A").move_to(label_bg)
         self.label_grp = VGroup(label_bg, label_txt)
 
@@ -549,10 +549,10 @@ class VectorGoalTarget(VGroup):
         shadow = Ellipse(width=r * 2.4, height=0.20, fill_color="#CBD5E1", fill_opacity=0.40, stroke_width=0).move_to(c + DOWN * (r + 0.18))
 
         # Concentric Target Rings
-        ring_outer = Circle(radius=r, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color="#0F172A", stroke_width=2.5).move_to(c)
+        ring_outer = Circle(radius=r, fill_color="#62B7E4", fill_opacity=0.04, stroke_color="#0F172A", stroke_width=2.5).move_to(c)
         ring_brass = Circle(radius=r * 0.82, fill_color="#F0C265", fill_opacity=0.25, stroke_color="#F0C265", stroke_width=1.5).move_to(c)
         ring_mid = Circle(radius=r * 0.60, fill_color="#2C81FE", fill_opacity=0.85, stroke_color="#0F172A", stroke_width=2.0).move_to(c)
-        ring_white = Circle(radius=r * 0.38, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color="#0F172A", stroke_width=1.5).move_to(c)
+        ring_white = Circle(radius=r * 0.38, fill_color="#2C81FE", fill_opacity=0.06, stroke_color="#0F172A", stroke_width=1.5).move_to(c)
         ring_bullseye = Dot(c, radius=r * 0.20, color="#E58F6D")
 
         # Crosshair Reticle
@@ -613,7 +613,7 @@ class VectorOperatorStation(VGroup):
         plinth_trim = RoundedRectangle(width=w * 0.9, height=0.08, corner_radius=0.03, fill_color="#F0C265", fill_opacity=1.0, stroke_width=0).next_to(plinth, UP, buff=-0.02)
 
         # Terminal Screen Outer Frame
-        screen_frame = RoundedRectangle(width=w, height=h * 0.85, corner_radius=0.12, fill_color="#FFFFFF", fill_opacity=1.0, stroke_color="#0F172A", stroke_width=2.2).move_to(c + UP * 0.15)
+        screen_frame = RoundedRectangle(width=w, height=h * 0.85, corner_radius=0.12, fill_color="#0F172A", fill_opacity=0.04, stroke_color="#0F172A", stroke_width=2.2).move_to(c + UP * 0.15)
         screen_bezel = RoundedRectangle(width=w * 0.88, height=h * 0.68, corner_radius=0.08, fill_color="#0F172A", fill_opacity=1.0, stroke_width=0).move_to(screen_frame)
 
         # Flashing Alert Beacon on Top
@@ -647,3 +647,239 @@ class VectorOperatorStation(VGroup):
             y = 0.12 * np.sin(x * 8.0 + t * 5.0)
             pts.append(sc + np.array([x, y, 0]))
         self.wave_line.set_points_smoothly(pts)
+
+
+class VectorSolarArray(VGroup):
+    """
+    Pure Manim vector representation of a modern industrial photovoltaic solar array.
+    Features angled solar panel modules with grid segmentation, metallic support struts,
+    and an active energy absorption shimmer updater.
+    """
+    def __init__(self, center: np.ndarray = ORIGIN, scale: float = 1.0, **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center, dtype=float)
+        self.scale_factor = scale
+        self.time_tracker = ValueTracker(0.0)
+        self._build_array()
+        self.add_updater(lambda mob, dt: mob._step_solar(dt))
+
+    def _build_array(self):
+        c = self.center_pt
+        s = self.scale_factor
+
+        # Base shadow
+        shadow = Ellipse(width=3.2 * s, height=0.40 * s, fill_color="#CBD5E1", fill_opacity=0.45, stroke_width=0).move_to(c + DOWN * 0.95 * s)
+
+        # Diagonal structural mounting struts
+        strut_l = Line(c + LEFT * 1.1 * s + DOWN * 0.9 * s, c + LEFT * 0.7 * s + UP * 0.1 * s, color="#5F6368", stroke_width=3.0 * s)
+        strut_r = Line(c + RIGHT * 1.1 * s + DOWN * 0.9 * s, c + RIGHT * 0.7 * s + UP * 0.1 * s, color="#5F6368", stroke_width=3.0 * s)
+        strut_cross = Line(c + LEFT * 0.9 * s + DOWN * 0.4 * s, c + RIGHT * 0.9 * s + DOWN * 0.4 * s, color="#7EA2C8", stroke_width=2.0 * s)
+
+        # 4-Quadrant Solar Panel Plane
+        self.panel_group = VGroup()
+        quad_w, quad_h = 1.1 * s, 0.65 * s
+        positions = [
+            (-quad_w * 0.52, quad_h * 0.52),
+            (quad_w * 0.52, quad_h * 0.52),
+            (-quad_w * 0.52, -quad_h * 0.52),
+            (quad_w * 0.52, -quad_h * 0.52)
+        ]
+
+        self.cells = []
+        for dx, dy in positions:
+            quad_center = c + np.array([dx, dy, 0])
+            quad_box = RoundedRectangle(
+                width=quad_w, height=quad_h, corner_radius=0.06 * s,
+                fill_color="#1E293B", fill_opacity=0.95,
+                stroke_color="#2C81FE", stroke_width=1.8 * s
+            ).move_to(quad_center)
+
+            grid_lines = VGroup(
+                Line(quad_center + LEFT * quad_w * 0.45, quad_center + RIGHT * quad_w * 0.45, color="#62B7E4", stroke_width=1.0 * s),
+                Line(quad_center + UP * quad_h * 0.45, quad_center + DOWN * quad_h * 0.45, color="#62B7E4", stroke_width=1.0 * s)
+            )
+            self.cells.append(quad_box)
+            self.panel_group.add(quad_box, grid_lines)
+
+        # Telemetry beacon on top frame
+        self.telemetry_node = Dot(c + UP * 0.92 * s, radius=0.08 * s, color="#F0C265")
+        self.telemetry_ring = Circle(radius=0.18 * s, stroke_color="#F0C265", stroke_width=1.5 * s, fill_opacity=0).move_to(self.telemetry_node)
+
+        self.add(shadow, strut_l, strut_r, strut_cross, self.panel_group, self.telemetry_node, self.telemetry_ring)
+
+    def _step_solar(self, dt: float):
+        t = self.time_tracker.get_value() + dt
+        self.time_tracker.set_value(t)
+        pulse = 0.4 + 0.6 * abs(np.sin(t * 3.5))
+        self.telemetry_node.set_opacity(pulse)
+        self.telemetry_ring.set_stroke(opacity=max(0.0, pulse - 0.2))
+
+
+class VectorDualStoreMemory(VGroup):
+    """
+    Pure Manim vector representation of an AI agent's dual-store memory.
+    Left side: Short-Term Operational Context Cache (Illuminated stack registers)
+    Right side: Long-Term Episodic Vector Database (3D Cylinder with circulating embeddings)
+    """
+    def __init__(self, center: np.ndarray = ORIGIN, scale: float = 1.0, **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center, dtype=float)
+        self.scale_factor = scale
+        self.time_tracker = ValueTracker(0.0)
+        self._build_memory()
+        self.add_updater(lambda mob, dt: mob._step_memory(dt))
+
+    def _build_memory(self):
+        c = self.center_pt
+        s = self.scale_factor
+
+        # Left: Short-Term Cache Stack
+        cache_c = c + LEFT * 1.35 * s
+        cache_bg = RoundedRectangle(
+            width=1.5 * s, height=1.8 * s, corner_radius=0.10 * s,
+            fill_color="#7EA2C8", fill_opacity=0.06, stroke_color="#7EA2C8", stroke_width=1.8 * s
+        ).move_to(cache_c)
+        cache_header = Text("SHORT-TERM CACHE", font="Helvetica", weight=BOLD, color="#5F6368").scale(0.18 * s)
+        cache_header.next_to(cache_bg.get_top(), DOWN, buff=0.12 * s)
+
+        self.registers = []
+        reg_colors = ["#2C81FE", "#62B7E4", "#9B99C7", "#8ECDB7"]
+        for i, rcol in enumerate(reg_colors):
+            ry = cache_c[1] + 0.35 * s - i * 0.30 * s
+            r_bar = RoundedRectangle(
+                width=1.2 * s, height=0.20 * s, corner_radius=0.04 * s,
+                fill_color=rcol, fill_opacity=0.85, stroke_width=0
+            ).move_to(np.array([cache_c[0], ry, 0]))
+            self.registers.append(r_bar)
+
+        self.cache_grp = VGroup(cache_bg, cache_header, *self.registers)
+
+        # Right: Long-Term Vector DB (Layered 3D Cylinder)
+        db_c = c + RIGHT * 1.35 * s
+        top_ellipse = Ellipse(width=1.3 * s, height=0.45 * s, fill_color="#2C81FE", fill_opacity=0.9, stroke_color="#62B7E4", stroke_width=1.8 * s).move_to(db_c + UP * 0.65 * s)
+        mid_rect = Rectangle(width=1.3 * s, height=1.1 * s, fill_color="#1E293B", fill_opacity=0.95, stroke_color="#62B7E4", stroke_width=1.8 * s).move_to(db_c + UP * 0.10 * s)
+        bot_ellipse = Ellipse(width=1.3 * s, height=0.45 * s, fill_color="#1E293B", fill_opacity=0.95, stroke_color="#62B7E4", stroke_width=1.8 * s).move_to(db_c + DOWN * 0.45 * s)
+        db_label = Text("VECTOR DB", font="Helvetica", weight=BOLD, color="#FFFFFF").scale(0.20 * s)
+        db_label.move_to(db_c + UP * 0.10 * s)
+
+        self.db_dots = []
+        for d_angle in [0.3, 1.8, 3.5, 4.9]:
+            d_pos = db_c + np.array([np.cos(d_angle) * 0.48 * s, np.sin(d_angle) * 0.15 * s + 0.1 * s, 0])
+            v_dot = Dot(d_pos, radius=0.06 * s, color="#F0C265")
+            self.db_dots.append((v_dot, d_angle))
+
+        self.db_grp = VGroup(bot_ellipse, mid_rect, top_ellipse, db_label, *[d[0] for d in self.db_dots])
+
+        # Interconnecting Bridge / Bus
+        self.bus_line = DashedVMobject(Line(cache_c + RIGHT * 0.75 * s, db_c + LEFT * 0.65 * s, color="#F0C265", stroke_width=2.5 * s), num_dashes=8)
+        self.packet = Dot(cache_c + RIGHT * 0.75 * s, radius=0.07 * s, color="#F0C265")
+
+        self.add(self.cache_grp, self.db_grp, self.bus_line, self.packet)
+
+    def _step_memory(self, dt: float):
+        t = self.time_tracker.get_value() + dt
+        self.time_tracker.set_value(t)
+        s = self.scale_factor
+        db_c = self.center_pt + RIGHT * 1.35 * s
+        for dot, base_ang in self.db_dots:
+            cur_ang = base_ang + t * 1.2
+            dot.move_to(db_c + np.array([np.cos(cur_ang) * 0.48 * s, np.sin(cur_ang) * 0.15 * s + 0.1 * s, 0]))
+
+        p_frac = (t * 0.8) % 1.0
+        start = self.center_pt + LEFT * 0.60 * s
+        end = self.center_pt + RIGHT * 0.70 * s
+        self.packet.move_to(start + (end - start) * p_frac)
+
+
+class VectorReflexSwitch(VGroup):
+    """
+    Pure Manim vector representation of a Reactive Agent's Condition-Action Reflex Switch.
+    Shows high-speed direct routing: Condition Sensor -> Precision Switch Arm -> Effector Trigger.
+    """
+    def __init__(self, center: np.ndarray = ORIGIN, scale: float = 1.0, **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center, dtype=float)
+        self.scale_factor = scale
+        self.time_tracker = ValueTracker(0.0)
+        self._build_switch()
+        self.add_updater(lambda mob, dt: mob._step_switch(dt))
+
+    def _build_switch(self):
+        c = self.center_pt
+        s = self.scale_factor
+
+        chassis = RoundedRectangle(
+            width=3.2 * s, height=1.4 * s, corner_radius=0.12 * s,
+            fill_color="#2C81FE", fill_opacity=0.06, stroke_color="#2C81FE", stroke_width=2.0 * s
+        ).move_to(c)
+        tag = Text("IF CONDITION -> THEN ACTION", font="Helvetica", weight=BOLD, color="#2C81FE").scale(0.18 * s)
+        tag.next_to(chassis.get_top(), DOWN, buff=0.12 * s)
+
+        self.term_in = Dot(c + LEFT * 1.1 * s + DOWN * 0.15 * s, radius=0.11 * s, color="#0F172A")
+        self.term_out = Dot(c + RIGHT * 1.1 * s + DOWN * 0.15 * s, radius=0.11 * s, color="#0F172A")
+
+        self.arm_pivot = self.term_in.get_center()
+        self.arm_target = self.term_out.get_center()
+        self.switch_arm = Line(
+            self.arm_pivot,
+            self.arm_pivot + (self.arm_target - self.arm_pivot) * 0.85 + UP * 0.25 * s,
+            color="#E58F6D", stroke_width=4.0 * s
+        )
+
+        self.spark = Circle(radius=0.16 * s, stroke_color="#F0C265", stroke_width=2.5 * s, fill_opacity=0).move_to(self.term_out.get_center())
+
+        self.add(chassis, tag, self.term_in, self.term_out, self.switch_arm, self.spark)
+
+    def _step_switch(self, dt: float):
+        t = self.time_tracker.get_value() + dt
+        self.time_tracker.set_value(t)
+        cycle = (t * 1.5) % 2.0
+        s = self.scale_factor
+        if cycle < 1.0:
+            self.switch_arm.put_start_and_end_on(self.arm_pivot, self.arm_target + UP * 0.02 * s)
+            self.switch_arm.set_color("#2C81FE")
+            self.spark.set_stroke(opacity=0.4 + 0.6 * np.sin(t * 8.0))
+        else:
+            self.switch_arm.put_start_and_end_on(self.arm_pivot, self.arm_pivot + (self.arm_target - self.arm_pivot) * 0.85 + UP * 0.25 * s)
+            self.switch_arm.set_color("#E58F6D")
+            self.spark.set_stroke(opacity=0.0)
+
+
+class VectorAutonomousHeroCore(VGroup):
+    """
+    Pure Manim vector hero artifact representing an Autonomous AI Agent.
+    Combines central reasoning nucleus, orbiting perception scanner, and rotary action cog.
+    """
+    def __init__(self, center: np.ndarray = ORIGIN, scale: float = 1.0, **kwargs):
+        super().__init__(**kwargs)
+        self.center_pt = np.array(center, dtype=float)
+        self.scale_factor = scale
+        self.time_tracker = ValueTracker(0.0)
+        self._build_hero()
+        self.add_updater(lambda mob, dt: mob._step_hero(dt))
+
+    def _build_hero(self):
+        c = self.center_pt
+        s = self.scale_factor
+
+        self.outer_ring = Circle(radius=1.35 * s, stroke_color="#62B7E4", stroke_width=2.0 * s, fill_opacity=0).move_to(c)
+        self.cog_ring = DashedVMobject(Circle(radius=1.15 * s, stroke_color="#2C81FE", stroke_width=3.5 * s, fill_opacity=0), num_dashes=16).move_to(c)
+        self.core_disc = Circle(radius=0.75 * s, fill_color="#1E293B", fill_opacity=0.95, stroke_color="#F0C265", stroke_width=2.5 * s).move_to(c)
+        self.core_symbol = Text("ACT", font="Helvetica", weight=BOLD, color="#FFFFFF").scale(0.32 * s)
+        self.core_symbol.move_to(c)
+
+        self.sat1 = Dot(c + RIGHT * 1.35 * s, radius=0.09 * s, color="#F0C265")
+        self.sat2 = Dot(c + LEFT * 1.35 * s, radius=0.09 * s, color="#8ECDB7")
+
+        self.add(self.outer_ring, self.cog_ring, self.core_disc, self.core_symbol, self.sat1, self.sat2)
+
+    def _step_hero(self, dt: float):
+        t = self.time_tracker.get_value() + dt
+        self.time_tracker.set_value(t)
+        s = self.scale_factor
+        c = self.center_pt
+        self.outer_ring.set_stroke(width=(1.5 + 1.0 * np.sin(t * 2.0)) * s, opacity=0.5 + 0.5 * np.cos(t * 2.0))
+        ang1 = t * 1.4
+        ang2 = t * 1.4 + np.pi
+        self.sat1.move_to(c + np.array([np.cos(ang1) * 1.35 * s, np.sin(ang1) * 1.35 * s, 0]))
+        self.sat2.move_to(c + np.array([np.cos(ang2) * 1.35 * s, np.sin(ang2) * 1.35 * s, 0]))

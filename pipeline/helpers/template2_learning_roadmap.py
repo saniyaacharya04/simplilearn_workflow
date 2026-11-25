@@ -265,9 +265,17 @@ def create_learning_roadmap_mobject(
 
     # 3. Dynamic card geometry overlapping with left photo SME (as in img-2)
     if card_center_y is None:
-        card_center_y = 0.69 if len(bullets) == 3 else 0.85
-
-    card_h = 3.30 if len(bullets) == 3 else (2.40 if len(bullets) == 2 else max(3.30, len(bullets) * 1.05))
+        if len(bullets) <= 2:
+            card_center_y = 0.20
+            card_h = 2.80
+        elif len(bullets) == 3:
+            card_center_y = 0.10
+            card_h = 3.60
+        else:
+            card_center_y = -0.45
+            card_h = min(5.20, 1.10 + len(bullets) * 0.82)
+    else:
+        card_h = 3.30 if len(bullets) == 3 else (2.40 if len(bullets) == 2 else max(3.30, len(bullets) * 0.95))
 
     card_shadow = RoundedRectangle(
         width=card_width,
@@ -290,16 +298,16 @@ def create_learning_roadmap_mobject(
 
     card_group = VGroup(card_shadow, card_body)
 
-    # 4. Header text directly above card per guidelines
+    # 4. Header text directly above card per guidelines (strictly <= 3.2 y to prevent clipping)
     header = CrispText(
         header_text,
-        size=24,
+        size=22,
         font=font,
         weight=BOLD,
         color="#202428",
         align="left",
     ).set_z_index(2)
-    header.move_to([card_center_x, card_body.get_top()[1] + 0.45, 0])
+    header.move_to([card_center_x, min(3.10, card_body.get_top()[1] + 0.38), 0])
 
     # 5. Construct bullet items (badge + wrapped lines)
     # Ensure badge is strictly to the right of the SME 70% boundary (x >= -1.35 / x >= 780px)
@@ -307,7 +315,7 @@ def create_learning_roadmap_mobject(
     badge_radius = 0.17
     badge_x = max(card_center_x - card_width / 2.0 + 0.52, -1.35)
 
-    top_y = card_body.get_top()[1] - 0.68
+    top_y = card_body.get_top()[1] - 0.55
     spacing = 0.90 if len(bullets) <= 3 else (card_h - 1.0) / max(1, len(bullets) - 1)
 
     for idx, text_str in enumerate(bullets):

@@ -1254,6 +1254,48 @@ Generate valid JSON containing all {expected_scenes} scenes adhering strictly to
 """
 
 
+def load_reference_design_patterns(topic_dir: Optional[Union[str, Path]] = None) -> str:
+    """
+    Loads contrastive reference design patterns (positive motion graphics vs. negative static boxes)
+    from reference_design_pattern.json to ground LLM visual_description generation.
+    """
+    candidates = []
+    if topic_dir:
+        candidates.extend([
+            Path(topic_dir) / "reference_design_pattern.json",
+            Path(topic_dir) / "metadata_blueprints" / "reference_design_pattern.json",
+        ])
+    candidates.extend([
+        PROJECT_ROOT / "reference_design_pattern.json",
+        SCRIPT_DIR / "reference_design_pattern.json",
+        Path.cwd() / "reference_design_pattern.json"
+    ])
+
+    for cand in candidates:
+        if cand.exists():
+            try:
+                with open(cand, "r", encoding="utf-8") as f:
+                    patterns = json.load(f)
+                lines = [
+                    "### REFERENCE DESIGN BENCHMARK: CONTRASTIVE PATTERNS (POSITIVE MOTION GRAPHICS VS NEGATIVE STATIC SLIDES)",
+                    "Every presentation step's `visual_description` and `dominant_visual_concept` must adhere to the high-craft",
+                    "motion graphics standard demonstrated in the positive patterns below, strictly avoiding the negative slide anti-patterns:\n"
+                ]
+                for k, v in patterns.items():
+                    p_type = v.get("type", f"pattern_{k}")
+                    pos = v.get("positive_pattern", "").strip()
+                    neg = v.get("negative_pattern", "").strip()
+                    lines.append(f"--- EXAMPLE BENCHMARK {k} ({p_type}):")
+                    if pos:
+                        lines.append(f"[POSITIVE BENCHMARK - ADOPT THIS KINETIC CHOREOGRAPHY]:\n{pos}\n")
+                    if neg:
+                        lines.append(f"[NEGATIVE ANTI-PATTERN - STRICTLY AVOID THIS STATIC PPT BOXING]:\n{neg}\n")
+                return "\n".join(lines)
+            except Exception:
+                pass
+    return ""
+
+
 def parse_input_to_json(input_text: str) -> Dict[str, Any]:
     """
     Robust JSON and presentation step parser for LLM responses.
@@ -1859,6 +1901,13 @@ class InstructionalDesign:
         for k, v in prompt_replacements.items():
             formatted_system_prompt = formatted_system_prompt.replace("{" + k + "}", str(v))
 
+        # Ingest contrastive reference design patterns (positive vs. negative benchmarks)
+        ref_patterns_text = load_reference_design_patterns(
+            getattr(self, "output_folder", None) or getattr(self, "input_folder", None)
+        )
+        if ref_patterns_text:
+            formatted_system_prompt += f"\n\n{ref_patterns_text}\n"
+
         formatted_user_prompt = INSTRUCTIONAL_USER_PROMPT.format(
             lesson_title=lesson_title,
             total_duration=total_duration,
@@ -2153,33 +2202,6 @@ class InstructionalDesign:
         if not master_found:
             blueprint = self.generate_instructions(transcript_data, lesson_title)
 
-        # Check for perfected Scene 3 storyboard preservation
-        scene3_candidates = [
-            meta_dir / "claude_sonnet_storyboard_scene_3.json",
-            meta_dir.parent / "claude_sonnet_storyboard_scene_3.json"
-        ]
-        s3_data_found = None
-        s3_source_name = None
-        for s3_cand in scene3_candidates:
-            if s3_cand.exists():
-                try:
-                    with open(s3_cand, "r", encoding="utf-8") as s3_f:
-                        raw_s3 = json.load(s3_f)
-                    s3_data_found = raw_s3.get("scene_storyboard", raw_s3)
-                    s3_source_name = s3_cand.name
-                    break
-                except Exception:
-                    pass
-
-        if s3_data_found:
-            if not s3_data_found.get("dynamic_selection_reason"):
-                s3_data_found["dynamic_selection_reason"] = "Preserved perfected Scene 3 blueprint"
-            for sc_i, sc in enumerate(blueprint.get("scenes", [])):
-                if int(sc.get("scene_id", sc.get("scene_number", sc_i + 1))) == 3:
-                    blueprint["scenes"][sc_i] = s3_data_found
-                    print(f"[*] [Stage 1] Injected perfected Scene 3 storyboard from {s3_source_name}")
-                    break
-
         # Enforce that every scene has presentation_steps and every step has an explicit matching_section
         for idx, sc in enumerate(blueprint.get("scenes", []), 1):
             sid = sc.get("scene_number") or sc.get("scene_id") or idx
@@ -2262,10 +2284,9 @@ class InstructionalDesign:
         # Export companion instruction files
         export_targets = [
             meta_dir / f"instructions_{model_slug}.json",
-            meta_dir / "instructions_gemini-3.8-flash.json",
             meta_dir / "instructions.json",
             topic_dir / f"instructions_{model_slug}.json",
-            topic_dir / "instructions_gemini-3.8-flash.json"
+            topic_dir / "instructions.json"
         ]
         for exp_tgt in export_targets:
             try:
@@ -2273,6 +2294,18 @@ class InstructionalDesign:
                     json.dump(instructions_dict, f, indent=2, ensure_ascii=False)
             except Exception as e:
                 print(f"[Notice] Failed to write instructions file {exp_tgt}: {e}")
+
+        # Preserve and export reference design patterns for downstream stages
+        src_pattern_file = PROJECT_ROOT / "reference_design_pattern.json"
+        if not src_pattern_file.exists():
+            src_pattern_file = SCRIPT_DIR / "reference_design_pattern.json"
+        if src_pattern_file.exists():
+            for target_pattern_path in [meta_dir / "reference_design_pattern.json", topic_dir / "reference_design_pattern.json"]:
+                try:
+                    import shutil
+                    shutil.copy2(src_pattern_file, target_pattern_path)
+                except Exception as e_copy:
+                    print(f"[Notice] Failed to copy reference design patterns to {target_pattern_path}: {e_copy}")
 
         # Export raw text prompt instructions
         prompt_dir = topic_dir / "prompt_context_and_guidelines"
@@ -2293,8 +2326,9 @@ class InstructionalDesign:
 
         for raw_tgt in [
             prompt_dir / f"instructions_raw_{model_slug}.txt",
-            prompt_dir / "instructions_raw_gemini-3.8-flash.txt",
-            topic_dir / f"instructions_raw_{model_slug}.txt"
+            prompt_dir / "instructions_raw.txt",
+            topic_dir / f"instructions_raw_{model_slug}.txt",
+            topic_dir / "instructions_raw.txt"
         ]:
             try:
                 with open(raw_tgt, "w", encoding="utf-8") as f:
