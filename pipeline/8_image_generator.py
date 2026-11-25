@@ -409,30 +409,33 @@ class ImageGenerator:
                 except Exception as e:
                     print(f"  ⚠️ Qwen 2.1 generation failed: {e}")
 
-        # 2. Try Google GenAI (Nano-Banana / gemini-3.8-flash-image)
-        if not generated and self.client_google is not None and ("banana" in model_choice or "google" in model_choice or "gemini" in model_choice or self.api_provider in ["gemini", "auto"]):
-            try:
-                print(f"  🍌 [Model: Google GenAI] Generating image with Gemini Flash Image...")
-                response = self.client_google.models.generate_content(
-                    model="gemini-3.8-flash-image",
-                    contents=prompt,
-                    config=types.GenerateContentConfig(
-                        response_modalities=["IMAGE"],
-                        image_config=types.ImageConfig(aspect_ratio="1:1")
+        # 2. Try Google GenAI (Imagen / Nano-Banana)
+        if not generated and self.client_google is not None and ("banana" in model_choice or "google" in model_choice or "gemini" in model_choice or "imagen" in model_choice or self.api_provider in ["gemini", "auto"]):
+            for img_m in ["imagen-3.0-generate-002", "nano-banana-pro-preview"]:
+                try:
+                    print(f"  🍌 [Model: Google GenAI] Generating image with {img_m}...")
+                    response = self.client_google.models.generate_content(
+                        model=img_m,
+                        contents=prompt,
+                        config=types.GenerateContentConfig(
+                            response_modalities=["IMAGE"],
+                            image_config=types.ImageConfig(aspect_ratio="1:1")
+                        )
                     )
-                )
-                if response and hasattr(response, "candidates") and response.candidates:
-                    for part in response.candidates[0].content.parts:
-                        if hasattr(part, "inline_data") and part.inline_data:
-                            img_bytes = part.inline_data.data
-                            if isinstance(img_bytes, str):
-                                img_bytes = base64.b64decode(img_bytes)
-                            with open(png_output_path, "wb") as pf:
-                                pf.write(img_bytes)
-                            generated = True
-                            break
-            except Exception as e:
-                print(f"  ⚠️ Google GenAI generation notice: {e}")
+                    if response and hasattr(response, "candidates") and response.candidates:
+                        for part in response.candidates[0].content.parts:
+                            if hasattr(part, "inline_data") and part.inline_data:
+                                img_bytes = part.inline_data.data
+                                if isinstance(img_bytes, str):
+                                    img_bytes = base64.b64decode(img_bytes)
+                                with open(png_output_path, "wb") as pf:
+                                    pf.write(img_bytes)
+                                generated = True
+                                break
+                    if generated:
+                        break
+                except Exception as e:
+                    print(f"  ⚠️ Google GenAI generation notice ({img_m}): {e}")
 
         # 3. Deterministic Local Simplilearn 2D Flat Vector Synthesis
         if not generated and not os.path.exists(png_output_path):
@@ -622,6 +625,30 @@ class ImageGeneration:
             with open(asset_classification_output_file, 'r', encoding='utf-8') as f:
                 asset_classification = json.load(f)
 
+        # Normalize image prompts into a universal lookup map
+        prompt_map = {}
+        if isinstance(image_prompts_json, dict):
+            if "prompts" in image_prompts_json and isinstance(image_prompts_json["prompts"], list):
+                for p in image_prompts_json["prompts"]:
+                    if isinstance(p, dict):
+                        pid = p.get("prompt_id") or p.get("image_id") or p.get("name")
+                        p_text = p.get("diffusion_prompt") or p.get("prompt")
+                        if pid and p_text:
+                            prompt_map[str(pid)] = str(p_text)
+            else:
+                for k, v in image_prompts_json.items():
+                    if isinstance(v, str):
+                        prompt_map[str(k)] = v
+                    elif isinstance(v, dict):
+                        prompt_map[str(k)] = v.get("diffusion_prompt") or v.get("prompt", "")
+        elif isinstance(image_prompts_json, list):
+            for p in image_prompts_json:
+                if isinstance(p, dict):
+                    pid = p.get("prompt_id") or p.get("image_id")
+                    p_text = p.get("diffusion_prompt") or p.get("prompt")
+                    if pid and p_text:
+                        prompt_map[str(pid)] = str(p_text)
+
         images_folder = f"{base_folder}/images"
         os.makedirs(images_folder, exist_ok=True)
 
@@ -636,7 +663,7 @@ class ImageGeneration:
 
                     if "Image_names" in story_block and story_block["Image_names"]:
                         for p_nmber, image_name in enumerate(story_block["Image_names"]):
-                            prompt = image_prompts_json.get(image_name, "None")
+                            prompt = prompt_map.get(image_name) or image_prompts_json.get(image_name, "None")
                             if prompt == "None" or not prompt:
                                 continue
 
@@ -665,6 +692,22 @@ class ImageGeneration:
             if os.path.exists(asset_classification_output_file):
                 with open(asset_classification_output_file, 'w', encoding='utf-8') as f:
                     json.dump(asset_classification, f, indent=4)
+
+        # Ensure all defined prompt assets are synthesized even if not nested in classified_assets story_blocks
+        if prompt_map:
+            print(f"   Synthesizing {len(prompt_map)} defined prompt assets into {images_folder}...")
+            for img_name, prompt_text in prompt_map.items():
+                full_path = os.path.join(images_folder, f"{img_name}.png")
+                bg_path = os.path.join(images_folder, f"{img_name}_bg.png")
+                if not os.path.exists(full_path) and not os.path.exists(bg_path):
+                    self.generator.generate_image(
+                        prompt=prompt_text,
+                        dimensions=image_dimensions,
+                        output_filename=f"{img_name}.png",
+                        image_creation_model=image_creation_model,
+                        target_dir=images_folder,
+                        comfy_url=comfy_url
+                    )
 
         return images_folder
 
