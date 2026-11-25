@@ -71,6 +71,7 @@ for _scene_cls in (Scene, MovingCameraScene):
         pass
 _orig_anim_safe_defined = True
 
+
 def fit_into_box(target_mobject, frame_mobject, pad_x=0.25, pad_y=0.20):
     if hasattr(frame_mobject, '__class__') and frame_mobject.__class__.__name__ == 'Polygon':
         pad_x = max(pad_x, getattr(frame_mobject, 'width', 0) * 0.22)
@@ -200,7 +201,7 @@ try:
     from manim.utils.rate_functions import *
 except Exception:
     pass
-from manim_slides import Slide
+# from manim_slides import Slide # Removed due to ModuleNotFoundError
 
 # --- Global Constants and Helper Functions (Simplilearn Framework) ---
 
@@ -227,8 +228,6 @@ C_WHITE = "#FFFFFF"            # Pure white for cards, text on dark
 FONT_OPEN_SANS = "Open Sans"
 
 # Helper for CrispText (maps descriptive sizes to Manim unit heights)
-
-
 
 
 def CrispText(text, size=24, font="Open Sans", **kwargs):
@@ -343,7 +342,6 @@ def CrispText(text, size=24, font="Open Sans", **kwargs):
         return orig_scale(tw)
     mob.scale_to_fit_width = safe_scale_width
     return mob
-
 class FlowingParticle(Dot):
     def __init__(self, path_mobject, color=C_HIGHLIGHT_ORANGE, radius=0.08, speed=0.5, **kwargs):
         super().__init__(color=color, radius=radius, **kwargs)
@@ -364,7 +362,7 @@ class FlowingParticle(Dot):
         self.remove_updater(self.updaters[0]) # Remove the position updater
 
 
-class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slides
+class FinalScene(MovingCameraScene): # Removed Slide from inheritance
     def construct(self):
         # 1. Canvas Background: #F0F4F8 (Modern Soft Light Slate Canvas)
         self.camera.background_color = C_LIGHT_CANVAS
@@ -669,23 +667,8 @@ class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slide
         self.fit_into_box = fit_into_box
         self.clamp_to_screen = clamp_to_screen
 
-
-
-        def create_header(*args, **kwargs):
-            return create_title(*args, **kwargs)
-
-
-
-
-
-
-
-
-
-
-
-
-
+        # The following helper functions are defined globally and assigned to 'self' at the end of construct.
+        # Their redefinition locally here would shadow the global ones and is removed.
 
 
         # --- Scene Setup: Define common positions and dimensions for Layout 70% ---
@@ -696,9 +679,9 @@ class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slide
 
         # 1. Environment components (hero illustrations)
         # Assume images exist in 'images/' directory.
-        solar_plant_img = ImageMobject("images/scene_5_solar_plant.png")
-        power_grid_img = ImageMobject("images/scene_5_power_grid.png")
-        database_img = ImageMobject("images/scene_5_database.png")
+        solar_plant_img = Group(ImageMobject("images/scene_5_solar_plant.png")) # Wrapped in Group
+        power_grid_img = Group(ImageMobject("images/scene_5_power_grid.png")) # Wrapped in Group
+        database_img = Group(ImageMobject("images/scene_5_database.png")) # Wrapped in Group
         
         # Scale to fit height and then arrange
         img_height = 1.2 # Standard height for these icons
@@ -707,41 +690,41 @@ class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slide
         database_img.scale_to_fit_height(img_height)
 
         # Arrange environment images horizontally
-        environment_icons = VGroup(solar_plant_img, power_grid_img, database_img).arrange(RIGHT, buff=0.6)
+        environment_icons = Group(solar_plant_img, power_grid_img, database_img).arrange(RIGHT, buff=0.6) # Changed to Group
         
         # Ensure the environment group is on the right side of the content area
-        environment_group = Group(environment_icons)
+        environment_group = Group(environment_icons) # Already Group
         environment_group.move_to(RIGHT * 4.0 + DOWN * 0.5) # Center in the right content area
         environment_label = CrispText("Operational Environment", size="header", weight=BOLD, color=C_DARK_SLATE_TITLE)
         environment_label.next_to(environment_group, DOWN, buff=0.4)
-        environment_vgroup = VGroup(environment_group, environment_label) # Group for easy animation
+        environment_vgroup = Group(environment_group, environment_label) # Changed to Group
 
         # 2. Agent Core component (human operator icon)
-        human_operator_img = ImageMobject("images/scene_5_human_operator.png")
+        human_operator_img = Group(ImageMobject("images/scene_5_human_operator.png")) # Wrapped in Group
         human_operator_img.scale_to_fit_height(1.8) # Slightly larger as a central figure
         
         # Position agent to the left of the environment, within the content area
-        agent_core_group = Group(human_operator_img)
+        agent_core_group = Group(human_operator_img) # Already Group
         agent_core_group.move_to(RIGHT * 0.8 + DOWN * 0.5)
         agent_core_label = CrispText("Agent Core", size="header", weight=BOLD, color=C_DARK_SLATE_TITLE)
         agent_core_label.next_to(agent_core_group, DOWN, buff=0.4)
-        agent_core_vgroup = VGroup(agent_core_group, agent_core_label)
+        agent_core_vgroup = Group(agent_core_group, agent_core_label) # Changed to Group
 
         # 3. Internal State component (smaller database icon for memory/state)
-        internal_state_icon = ImageMobject("images/scene_5_database.png")
+        internal_state_icon = Group(ImageMobject("images/scene_5_database.png")) # Wrapped in Group
         internal_state_icon.scale_to_fit_height(0.8) # Smaller scale
         internal_state_icon.move_to(agent_core_group.get_center() + LEFT * 1.5 + UP * 0.8) # Position near agent
         internal_state_label = CrispText("Internal State", size="badge", weight=BOLD, color=C_DARK_SLATE_TITLE)
         internal_state_label.next_to(internal_state_icon, DOWN, buff=0.2)
-        internal_state_vgroup = VGroup(internal_state_icon, internal_state_label)
+        internal_state_vgroup = Group(internal_state_icon, internal_state_label) # Changed to Group
 
         # 4. Action Tool (wrench icon)
-        wrench_img = ImageMobject("images/scene_5_wrench.png")
+        wrench_img = Group(ImageMobject("images/scene_5_wrench.png")) # Wrapped in Group
         wrench_img.scale_to_fit_height(0.65) # Smaller icon
         wrench_img.move_to(environment_group.get_center() + UP * 1.0) # Position near environment, for action impact
         wrench_label = CrispText("Tool Execution", size="badge", weight=BOLD, color=C_DARK_SLATE_TITLE)
         wrench_label.next_to(wrench_img, DOWN, buff=0.2)
-        wrench_vgroup = VGroup(wrench_img, wrench_label)
+        wrench_vgroup = Group(wrench_img, wrench_label) # Changed to Group
 
 
         # --- Paths and Particles ---
@@ -798,16 +781,18 @@ class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slide
 
 
         # --- Scene Title Initialization ---
-        current_title_group = create_title("Continuous Agent-Environment Feedback Loop")
-        self.play(FadeIn(current_title_group, shift=DOWN*0.1), run_time=0.8)
+        initial_title_group = create_title("Continuous Agent-Environment Feedback Loop")
+        self.play(FadeIn(initial_title_group, shift=DOWN*0.1), run_time=0.8)
         self.wait(0.5)
+        current_title_group = initial_title_group # Set current title for subsequent fades
 
         ## Presentation Step 1: The Operational Environment
-        self.play(FadeIn(current_title_group, shift=DOWN*0.1), run_time=0.8)
+        self.play(FadeIn(initial_title_group, shift=DOWN*0.1), run_time=0.8)
         # Narration: Dynamic enterprise setting: solar arrays, grid fluctuations, databases
         self.sync_to(0.0) 
         self.play(FadeOut(current_title_group), run_time=0.35)
-        current_title_group = step1_title
+        self.play(run_time=0.45) # Combined transition
+        current_title_group = step1_title # Update current title
 
         # Animate environment components
         self.play(
@@ -840,13 +825,14 @@ class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slide
 
         self.wait_until_last_animation_finishes()
         self.wait(5.0) # Additional wait for narration
-        self.next_slide()
+        # self.next_slide() # Removed due to Manim-Slides removal
 
 
         ## Presentation Step 2: Continuous Sensory Observation
         # Narration: Agent ingests real-time environmental telemetry
         self.sync_to(7.0) # Adjusted timestamp based on previous run_time
         step2_title = create_title("Continuous Sensory Observation")
+        self.remove(initial_title_group)
         self.play(FadeOut(current_title_group), run_time=0.35)
         self.play(FadeIn(step2_title, shift=DOWN * 0.1), run_time=0.45)
         current_title_group = step2_title
@@ -885,14 +871,14 @@ class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slide
         )
         
         self.wait(5.0) # Hold for narration
-        self.next_slide()
+        # self.next_slide() # Removed due to Manim-Slides removal
 
 
         ## Presentation Step 3: Internal State Transformation
         # Narration: Updating beliefs and operational context based on observations
         self.sync_to(17.0) # Adjusted timestamp
         step3_title = create_title("Internal State Transformation")
-        self.remove(step2_title)
+        # self.remove(step2_title) # Removed redundant remove, FadeOut handles removal
         self.play(FadeOut(current_title_group), run_time=0.35)
         self.play(FadeIn(step3_title, shift=DOWN * 0.1), run_time=0.45)
         current_title_group = step3_title
@@ -938,14 +924,14 @@ class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slide
         )
 
         self.wait(5.0) # Hold for narration
-        self.next_slide()
+        # self.next_slide() # Removed due to Manim-Slides removal
 
 
         ## Presentation Step 4: Action Impact & Environmental Shift
         # Narration: Agent actions alter the external state of the environment
         self.sync_to(27.0) # Adjusted timestamp
         step4_title = create_title("Action Impact & Environmental Shift")
-        self.remove(step3_title)
+        # self.remove(step3_title) # Removed redundant remove, FadeOut handles removal
         self.play(FadeOut(current_title_group), run_time=0.35)
         self.play(FadeIn(step4_title, shift=DOWN * 0.1), run_time=0.45)
         current_title_group = step4_title
@@ -990,14 +976,14 @@ class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slide
         )
         
         self.wait(5.0) # Hold for narration
-        self.next_slide()
+        # self.next_slide() # Removed due to Manim-Slides removal
 
 
         ## Presentation Step 5: Closed-Loop Convergence
         # Narration: Perpetual feedback loop driving convergence toward mission goals
         self.sync_to(37.0) # Adjusted timestamp
         step5_title = create_title("Closed-Loop Convergence")
-        self.remove(step4_title)
+        # self.remove(step4_title) # Removed redundant remove, FadeOut handles removal
         self.play(FadeOut(current_title_group), run_time=0.35)
         self.play(FadeIn(step5_title, shift=DOWN * 0.1), run_time=0.45)
         current_title_group = step5_title
@@ -1005,7 +991,7 @@ class FinalScene(Slide, MovingCameraScene): # Inherit from Slide for Manim-Slide
         # All elements are now on screen with particles flowing.
         # Highlight the entire loop to show convergence.
         # Group all dynamic elements for a collective highlight
-        full_loop_elements = VGroup(
+        full_loop_elements = Group( # Changed to Group
             environment_vgroup,
             agent_core_vgroup,
             internal_state_vgroup,
