@@ -1102,10 +1102,6 @@ class FinalScene(MovingCameraScene):
             node_reason.animate.move_to(np.array([-2.20, 0.20, 0])),
             run_time=0.75
         )
-            FadeOut(node_achieved), FadeOut(arr_success),
-            FadeOut(node_error), FadeOut(arr_error),
-            run_time=0.65
-        )
         self.play(Create(handoff_path), FadeIn(handoff_badge, scale=1.08), run_time=0.85)
 
         # [3.2] 159.75s -> 168.77s: "Good agent design always includes a point at which the agent recognizes the limits of its confidence and escalates."
