@@ -1853,7 +1853,8 @@ class InstructionalDesign:
                 except Exception:
                     pass
 
-        chosen_prompt = INSTRUCTIONAL_SYSTEM_PROMPT_DYNAMIC if theme == "dynamic_learning" else INSTRUCTIONAL_SYSTEM_PROMPT
+        # Standardize exclusively on dynamic_learning open-canvas choreography
+        chosen_prompt = INSTRUCTIONAL_SYSTEM_PROMPT_DYNAMIC
         formatted_system_prompt = chosen_prompt
         for k, v in prompt_replacements.items():
             formatted_system_prompt = formatted_system_prompt.replace("{" + k + "}", str(v))

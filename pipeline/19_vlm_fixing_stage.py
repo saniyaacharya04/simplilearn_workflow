@@ -517,22 +517,6 @@ class VLMTimestampedFixStage:
    - ACTIONABLE DIRECTIVES:
      * When text is floating awkwardly or colliding with an animation, formulate a concrete directive to adjust label positioning, font size, or attach it cleanly to the focal node with leader lines.
 """
-        elif archetype == "k12_education":
-            rules_1_and_2 = """
-1. K-12 ENGAGING NARRATIVE & OPEN-CANVAS SPATIAL DISCIPLINE:
-   - Pedagogical storytelling and visual clarity: Allow open-canvas layouts, centered focal illustrations, community/science maps, character callouts, and multi-element scenes. Do NOT force a rigid corporate 2-column macro container unless the topic specifically presents a side-by-side comparison.
-   - Large, legible typography: Ensure section headings are 22-26pt and explanatory labels are 15-18pt so elementary and middle school learners can read effortlessly without squinting.
-   - Friendly visual elements: Use bright, high-contrast rounded cards, speech bubbles, and colorful badges with generous internal padding (min 0.2).
-
-2. OPEN CANVAS CLEARANCE & SCREEN MARGINS:
-   - Ensure all elements stay strictly within safe 16:9 canvas boundaries: x in [-6.4, 6.4], y in [-3.3, 3.2].
-   - Provide generous breathing room around illustrations and focal icons so elements do not crowd screen edges.
-"""
-            rule_4 = """
-4. STATEMENT ENCAPSULATION & NARRATIVE CALLOUT BUBBLES:
-   - Encapsulate key facts, takeaway sentences, and definitions into rounded cards or colorful callout bubbles (e.g. create_card or create_colored_card).
-   - Ensure card height sizes dynamically based on wrapped text so text never spills out or shrinks into unreadable text.
-"""
         elif archetype == "stem_math":
             rules_1_and_2 = """
 1. MATHEMATICAL & GEOMETRICAL SPATIAL DISCIPLINE:
@@ -549,31 +533,16 @@ class VLMTimestampedFixStage:
    - Theorems, key formulas, and problem statements should be enclosed in clean formula cards (e.g. create_card) with high contrast.
    - Always ensure MathTex width is clamped to card width so long derivations wrap or break across lines rather than exceeding boundaries.
 """
-        elif archetype == "promo_vertical":
-            rules_1_and_2 = """
-1. 9:16 MOBILE PORTRAIT CANVAS DISCIPLINE:
-   - Target mobile portrait frame: width 720, height 1280. Elements must stay strictly within x in [-3.0, 3.0], y in [-5.5, 5.5].
-   - Single vertical stack layout with bold, centered kinetic typography and a single hero graphic in the center.
-
-2. VERTICAL MARGINS & MOBILE SAFE ZONES:
-   - Maintain generous margins from top and bottom screen edges (keep content within y in [-5.0, 5.0]).
-"""
-            rule_4 = """
-4. MOBILE HIGHLIGHT CALLOUTS:
-   - Short, punchy headline cards stacked vertically with generous spacing.
-"""
         else:
             rules_1_and_2 = """
-1. BALANCED VISUAL DISCIPLINE:
+1. OPEN-CANVAS DYNAMIC LEARNING VISUAL DISCIPLINE:
    - Keep elements cleanly organized with generous margins and clear visual hierarchy.
    - Spatial bounds: Stay strictly within x in [-6.4, 6.4], y in [-3.3, 3.2].
-
-2. BREATHING MARGINS & CONTAINER SAFETY:
-   - Keep all content strictly above DOWN * 3.3 and below UP * 3.2.
+   - Strictly avoid static cards or stacked rectangular boxes; allow living vector mechanisms to breathe in open canvas negative space.
 """
             rule_4 = """
-4. STATEMENT ENCAPSULATION:
-   - Encapsulate key statements into clean cards or distinct visual groups with high contrast.
+4. DIRECT IN-DIAGRAM ANNOTATIONS:
+   - Attach concise labels (1-3 words) and status pills directly to focal elements.
 """
 
         format_spec = f"""
@@ -1001,12 +970,12 @@ M:SS <Imperative, actionable instructions describing the visual adjustments, rep
                 print(f"  [WARN] Failed to load manifest {manifest_file}: {e}")
 
         config_file = Path(base_folder) / "ex_config.json"
-        theme = "digital_learning"
+        theme = "dynamic_learning"
         if config_file.exists():
             try:
                 with open(config_file, "r", encoding="utf-8") as f:
                     config_data = json.load(f)
-                    theme = config_data.get("theme", "digital_learning")
+                    theme = config_data.get("theme", "dynamic_learning")
             except Exception:
                 pass
 

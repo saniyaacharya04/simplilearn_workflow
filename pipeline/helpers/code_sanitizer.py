@@ -55,15 +55,12 @@ def is_executive_topic(base_folder: str = None, topic_id: str = None) -> bool:
 
 def get_visual_archetype(base_folder: str = None, topic_id: str = None, code_content: str = "") -> str:
     """
-    Dynamically identifies the visual archetype of the video:
-    - 'executive': Standard executive visual architecture.
-    - 'k12_education': Engaging open-canvas storytelling for K-12.
-    - 'stem_math': Coordinate axes, geometry, calculus, and scientific proofs.
-    - 'process_flow': Node-link pipelines, state machines, tree architectures.
-    - 'promo_vertical': 9:16 mobile portrait format.
+    Identifies the visual archetype of the video:
+    - 'executive': Standard dynamic learning visual architecture (Simplilearn OSL 3.0).
+    - 'stem_math': Coordinate axes, geometry, calculus, and scientific proofs (when Axes/NumberPlane present).
     """
-    if is_executive_topic(base_folder, topic_id):
-        return "executive"
+    if code_content and ("Axes(" in code_content or "NumberPlane(" in code_content or "Polygon(" in code_content):
+        return "stem_math"
 
     if base_folder:
         cfg_path = os.path.join(base_folder, "ex_config.json")
@@ -73,26 +70,12 @@ def get_visual_archetype(base_folder: str = None, topic_id: str = None, code_con
                     cfg = json.load(f)
                 theme = str(cfg.get("theme", "")).lower()
                 ctx = str(cfg.get("creative_context", "")).lower()
-                if theme == "promo":
-                    return "promo_vertical"
-                if theme == "k12" or ctx == "k12":
-                    if "Axes(" in code_content or "NumberPlane(" in code_content:
-                        return "stem_math"
-                    return "k12_education"
                 if theme in ("stem", "math", "science") or ctx in ("stem", "math"):
                     return "stem_math"
             except Exception:
                 pass
 
-    if topic_id and topic_id.startswith("Ace_"):
-        if "Axes(" in code_content or "NumberPlane(" in code_content:
-            return "stem_math"
-        return "k12_education"
-
-    if "Axes(" in code_content or "NumberPlane(" in code_content or "Polygon(" in code_content:
-        return "stem_math"
-
-    # Default to executive if no specific archetype matches
+    # Default to executive dynamic learning standard
     return "executive"
 
 

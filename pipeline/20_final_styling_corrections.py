@@ -602,14 +602,6 @@ class FinalStylingCorrections:
              * Together, `VGroup(left_col, right_col).move_to(DOWN * 0.45)` fills the screen symmetrically without empty margins.
           4. CONTAINER CONTAINMENT & MARGINS: Any section title, sub-heading, or text inside a macro container must be positioned INSIDE the container relative to its inner bounds. Never allow text to collide with container borders.
 """
-        elif archetype == "k12_education":
-            layout_rules = """
-        - K-12 ENGAGING NARRATIVE & OPEN-CANVAS SPATIAL RULES:
-          1. OPEN CANVAS FREEDOM: Allow full-canvas, centered, or multi-element layouts for illustrations, community scenes, character callouts, and science models. Do NOT force a rigid corporate 2-column macro container unless the topic specifically presents a side-by-side comparison.
-          2. LARGE LEGIBLE TYPOGRAPHY: Ensure section headings are 22-26pt and explanatory labels are 15-18pt so younger students can read effortlessly.
-          3. DYNAMIC CONTAINER WIDTHS: Cards and callout bubbles can span natural widths (width 3.5 to 8.0) as needed by the content, with generous padding (min 0.2).
-          4. SCREEN BOUNDS: All elements must stay strictly within safe 16:9 canvas boundaries: x in [-6.4, 6.4], y in [-3.3, 3.2].
-"""
         elif archetype == "stem_math":
             layout_rules = """
         - MATHEMATICAL & GEOMETRICAL SPATIAL RULES:
@@ -617,12 +609,6 @@ class FinalStylingCorrections:
           2. CENTERED FIGURES: Center geometric shapes (triangles, circles, coordinate graphs) prominently in the main viewport.
           3. VERTICAL DERIVATIONS: Stack derivation lines vertically with aligned equal signs. Ensure MathTex is font_size 18-22 with clear vertical line spacing (buff=0.25).
           4. GEOMETRY LABELS: Position vertex labels, angle arcs, and callouts cleanly outside the shape boundaries with buff=0.25 to 0.35. Labels must NEVER overlap line strokes or shape interiors.
-"""
-        elif archetype == "promo_vertical":
-            layout_rules = """
-        - 9:16 MOBILE PORTRAIT RULES:
-          1. Canvas is 720x1280. Elements must stay strictly within x in [-3.0, 3.0], y in [-5.5, 5.5].
-          2. Single vertical stack layout with bold, centered kinetic typography and a single hero graphic in the center.
 """
         else:
             layout_rules = """
@@ -657,29 +643,11 @@ class FinalStylingCorrections:
         ### MATHEMATICAL & GEOMETRICAL UI ARCHITECTURE:
         1. MAXIMIZE CANVAS FOR MATHEMATICAL OBJECTS:
            - Allow geometric diagrams, proof figures, and coordinate axes (Axes, NumberPlane) to occupy full central canvas width (up to 10.0 units) and height (up to 5.5 units).
-           - Do NOT compress plots into 3.3 sub-column boxes.
+           - Do NOT compress plots into small sub-column boxes.
         2. THEOREM & FORMULA CARDS:
            - Use `create_card` for theorem statements, problem definitions, and key takeaways with dynamic width (width=4.5 to 8.5) and dynamic height fitting text.
         3. CRITICAL MANIM SIZING:
            - NEVER use `.set_width(w).set_height(h)` in Manim! Always set constructor width and height or use `.stretch_to_fit_width(w).stretch_to_fit_height(h)`.
-"""
-        elif archetype == "k12_education":
-            ui_architecture_section = """
-        ### K-12 ENGAGING STORYTELLING UI ARCHITECTURE:
-        1. OPEN CANVAS & PEDAGOGICAL COMPOSITION:
-           - Center narrative illustrations, community scenes, character callouts, and science models openly across the screen.
-           - Avoid rigid corporate 2-column macro container splits unless directly contrasting two concepts.
-        2. CALLOUT BUBBLES & NARRATIVE CARDS:
-           - Use `create_card` with natural widths (3.5 to 8.0) and colorful fills, large font sizes (15-18pt body, 22-26pt headings).
-        3. CRITICAL MANIM SIZING:
-           - NEVER use `.set_width(w).set_height(h)` in Manim! Always set constructor width and height or use `.stretch_to_fit_width(w).stretch_to_fit_height(h)`.
-"""
-        elif archetype == "promo_vertical":
-            ui_architecture_section = """
-        ### 9:16 MOBILE PORTRAIT UI ARCHITECTURE:
-        1. 9:16 CANVAS RULES:
-           - Single vertical column stack with bold kinetic text.
-           - Canvas is 720x1280. Elements must stay strictly within x in [-3.0, 3.0], y in [-5.5, 5.5].
 """
         else:
             ui_architecture_section = """
