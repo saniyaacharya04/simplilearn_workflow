@@ -82,9 +82,10 @@ The project entry point `run_pipeline.py` is located strictly in the project roo
 ```text
 Simplilearn/
 ├── run_pipeline.py                     # High-Performance Asynchronous Parallel Pipeline Orchestrator
+├── reference_design_pattern.json       # Grounding reference design patterns (Positive/Negative blueprints)
 ├── ppt_trackers/                       # Atomic JSON progress trackers (Stages 0a to 23)
 ├── input/                              # Raw SME video recordings (.mp4)
-├── output/                             # Dedicated topic delivery folders (<video_name>/)
+├── output/                             # Dedicated local topic delivery folders (untracked in Git)
 └── pipeline/
     ├── 0a_audio_cleaner.py             # Stage 0A: Voice Cleaner & Loudness Normalization
     ├── 0b_transcription.py             # Stage 0B: Faster-Whisper Speech Transcription
@@ -95,7 +96,7 @@ Simplilearn/
     ├── 2_asset_classification.py       # Stage 2: Asset Classification
     ├── 3_asset_construction.py         # Stage 3: Asset Construction
     ├── 4_image_prompt_generation.py    # Stage 4: 2D Vector Image Prompt Generation
-    ├── 5_generate_audio.py             # Stage 5: Audio Runtime & CGI Manifest (CGI_Input.json)
+    ├── 5_populate_audio_runtime.py     # Stage 5: Audio Runtime & CGI Manifest (CGI_Input.json)
     ├── 6_presentation_composer.py      # Stage 6: Presentation Composer
     ├── 7_presentation_experience_planner.py # Stage 7: Experience Planner
     ├── 8_image_generator.py            # Stage 8: 2D Vector Image Generation
@@ -125,9 +126,12 @@ Simplilearn/
         ├── semantic_matcher_asset.py   # Semantic NLP asset matching
         ├── image_generation_helper.py  # Multi-engine vector & diffusion synthesis helper (Qwen/GenAI)
         ├── Qwen Image 2.1 Edit.json    # ComfyUI diffusion workflow template for Qwen 2.1
+        ├── vector_primitives.py        # Dynamic vector components (Scales, Gauges, Hero Core, Switches)
         ├── template1_title_intro.py    # Reusable Scene 1 Title Intro template
         ├── template2_learning_roadmap.py # Reusable Scene 2 Learning Roadmap template
         ├── template3_topic_coverage.py # Reusable Scene 3 Topic Coverage template
+        ├── template4_process_flow.py   # Reusable Scene 4 Process Flow template
+        ├── template5_action_flowchart.py # Reusable Scene 5 Action Flowchart template
         ├── manim_compiler.py           # Subprocess Manim compilation runner
         ├── manim_probe_runner.py       # Bounding box & probe runner
         ├── reset_topics_for_styling_rerun.py # Utility to reset downstream stages for re-runs
@@ -155,9 +159,9 @@ Every stage updates an atomic tracker in `ppt_trackers/` using concurrency-safe 
 | **2. Asset Classification** | `pipeline/2_asset_classification.py` | Decomposes scenes into process flows, comparison tables, and node graphs. | `2_asset_class_output_tracker.json` | `asset_classification_gemini-3.8-flash.json` |
 | **3. Asset Construction** | `pipeline/3_asset_construction.py` | Builds concrete procedural elements with ZERO placeholders. | `3_asset_construct_output_tracker.json` | `*_constructed_assets.json` |
 | **4. Image Prompting** | `pipeline/4_image_prompt_generation.py` | Diffusion prompts for 2D flat illustrations (no 3D, no drop shadows). | `4_prompt_images_output_tracker.json` | `image_prompt_gemini-3.8-flash.json` |
-| **5. Audio / CGI Timing** | `pipeline/5_generate_audio.py` | Master time-coded storyboard manifest with section runtimes. | `5_audio_output_tracker.json` | `CGI_Input.json` |
-| **6. Presentation Composer** | `pipeline/6_presentation_composer.py` | Spatial layout adhering to Layout 70, 20, and 100 safe zones. | `6_presentation_composer_tracker.json` | `enhanced_anim_claude-haiku-4-5-20251001.json` |
-| **7. Experience Planner** | `pipeline/7_presentation_experience_planner.py` | Schedules progressive reveals (Entry -> Settle -> Focus -> Exit). | `7_experience_planner_tracker.json` | `experience_plan_gemini-3.6-flash.json` |
+| **5. Audio / CGI Timing** | `pipeline/5_populate_audio_runtime.py` | Master time-coded storyboard manifest with section runtimes. | `5_audio_output_tracker.json` | `CGI_Input.json` |
+| **6. Presentation Composer** | `pipeline/6_presentation_composer.py` | Spatial layout adhering to Layout 70, 20, and 100 safe zones. | `6_presentation_composer_tracker.json` | `enhanced_anim_gemini-3.8-flash.json` |
+| **7. Experience Planner** | `pipeline/7_presentation_experience_planner.py` | Schedules progressive reveals (Entry -> Settle -> Focus -> Exit). | `7_experience_planner_tracker.json` | `experience_plan_gemini-3.8-flash.json` |
 | **8. Image Generation** | `pipeline/8_image_generator.py` | Multi-engine synthesis (Qwen 2.1 T2I/R2I, Google GenAI, and Simplilearn vector graphics), dual transparent PNG cutout (rembg + color keying), and manifest update. | `8_image_generation_tracker.json` | `images/*` |
 | **9. Styling Generator** | `pipeline/9_styling_generator.py` | Injects Simplilearn OSL 3.0 colors, Open Sans typography, and theme tokens. | `9_styling_output_tracker.json` | `styling_gemini-3.8-flash.json` |
 | **10. Code Generation** | `pipeline/10_generate_code.py` | Synthesizes Manim Community Python animation scripts. | `10_code_generation_tracker.json` | `manim_codes/group_*.py` |
@@ -304,6 +308,32 @@ Stage 8 (`pipeline/8_image_generator.py`) provides an enterprise multi-engine ge
 - **Widescreen Single-Line Banners (Stage 10)**: `CrispText` autowrapping expanded to 75+ characters with `disable_wrap=True` support, preventing awkward multi-line title wrapping across all 16:9 widescreen views.
 - **Layout 20 PiP Safe Zone**: Strict coordinate bounding ($x \ge 3.80, y \ge 1.50$) guarantees animations, dials, and waypoints never collide with or get obscured by the speaker video.
 - **Executive Dark Container Palette**: Minimizes empty white space and replaces micro-font bullet walls with structured dark navy cards (`#06152B`, `#0A2540`) and live telemetry status chips.
+
+### 6. Dynamic Vector Primitives & Kinetic Mechanics (`pipeline/helpers/vector_primitives.py`)
+Provides production-ready, pure Manim vector components with continuous internal updaters and telemetry:
+- **`VectorAutonomousHeroCore`**: Multilayer autonomous agent nucleus with rotating satellite sensory nodes, dashed action cogs, and ambient breathing glow.
+- **`VectorReflexSwitch`**: High-speed condition-action reflex mechanism modeling reactive agent state transitions with animated sparks and arm toggles.
+- **`PremiumBalanceScale`**: Triple-stepped brass-inlay plinths, knurled pivots, and dynamic weight pans modeling algorithmic trade-offs.
+- **`PrecisionChronometerGauge`**: Calibrated alert/optimal radial zones, needle indicators, and live readouts for latency and throughput metrics.
+- **`PulsingShockwaves` & `GlowingDataStream`**: Kinetic vector flow channels guiding learner focus along active data pathways.
+
+### 7. Grounding Reference Design Patterns (`reference_design_pattern.json`)
+Supplies explicit positive and negative structural design patterns to LLM prompt contexts in Stages 1, 7, and 10:
+- **Positive Patterns**: Mandates progressive reveal tiers, directional pulse streams, elastic transitions, and spatial docking.
+- **Negative Patterns**: Prohibits static two-column card grids, unillustrated boxes, undifferentiated typography, and stationary bullet lists.
+
+### 8. Standardized OSL 3.0 Slide Templates (`pipeline/helpers/`)
+Modular, parameter-driven slide templates adhering to Simplilearn typography, clearances, and safe zones:
+- **`template1_title_intro.py`**: Scene 1 Title Intro with dynamic pill capsule banner, icon badge disc, and widescreen safe-margin autowrapping.
+- **`template2_learning_roadmap.py`**: Scene 2 Learning Objectives Roadmap with adaptive card height, boundary clamping ($y \le 3.10$), and sequential badge reveals.
+- **`template3_topic_coverage.py`**: Scene 3 Topic Coverage / Module Syllabus overview.
+- **`template4_process_flow.py`**: Scene 4 Linear multi-stage process flows with kinetic connector arrows.
+- **`template5_action_flowchart.py`**: Scene 5 Conditional action flowcharts and decision tree matrices.
+
+### 9. Output Directory & Zero Media Git Policy
+- **Local Isolation**: All generated media, audio slices, keyframe snapshots, and Manim videos reside in `output/<video_name>/`.
+- **Git Exclusions**: `output/`, `output_*/`, `*_gemini/`, `ppt_trackers_*/`, and large binary media files (`*.mp4`, `*.wav`, `*.mp3`, `*.png`) are strictly ignored via `.gitignore`.
+- **Zero Media Leaks**: The Git repository remains exclusively committed to pipeline source code, templates, helpers, and schemas.
 
 ---
 
