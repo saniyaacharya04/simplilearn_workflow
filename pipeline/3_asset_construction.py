@@ -364,11 +364,61 @@ class AssetConstruction:
             "y_max": 2.20 if layout == "70" else (2.10 if layout == "20" else -1.5),
             "anchor": "RIGHT" if layout == "70" else ("CENTER" if layout == "20" else "BOTTOM")
         }
+        desc_lower = asset_desc.lower()
+        if any(w in desc_lower for w in ["flywheel", "pra", "cycle", "revolving", "rotor"]):
+            archetype = "VectorFlywheelMechanism"
+            guide = "Foundation: Outer beveled gear rim with precision tick notches. Primary: 3 revolving stage pods (Perception #62B7E4, Reasoning #9B99C7, Action #8ECDB7). Secondary: Clockwise flow arcs with feedback loop. Detail: Center spindle hub with bearing rings, rotating spokes, and diagnostic iteration counter badge."
+        elif any(w in desc_lower for w in ["infinity", "lemniscate", "figure-8", "interaction loop"]):
+            archetype = "VectorInfinityLoopBridge"
+            guide = "Foundation: Dual anchor domain disks (Agent left, Environment right). Primary: Continuous parametric figure-8 lemniscate path curve. Secondary: 4 waypoint callout pills (Observe, Decide, Execute, Re-evaluate). Detail: Continuous traveling data packet stream."
+        elif any(w in desc_lower for w in ["funnel", "buffer", "ingestion", "intake"]):
+            archetype = "VectorContextFunnel"
+            guide = "Foundation: Top intake ports for multi-source signals. Primary: 3-stage tapered polygonal funnel body with filtration mesh tiers. Secondary: Bottom collection reservoir cylinder labeled Working Context Buffer. Detail: Trickling data particles."
+        elif any(w in desc_lower for w in ["quad", "chamber", "architecture core", "central engine", "engine core"]):
+            archetype = "VectorQuadChamberCore"
+            guide = "Foundation: Central cognitive hub with glowing core and rotating spokes. Primary: 4 quadrant chambers (Perception, Memory, Reasoning, Action) with wide Layout 20 horizontal spread. Secondary: Connecting bus conduits and orbital synchronization ring. Detail: Clockwise traveling orbital pulse."
+        elif any(w in desc_lower for w in ["telemetry", "gauge", "anomaly", "chart", "sensor"]):
+            archetype = "VectorTelemetryChart"
+            guide = "Foundation: 2D coordinate axes with grid lines. Primary: Smoothly animating continuous signal curve. Secondary: Dashed threshold baseline. Detail: Pulsing anomaly highlight marker."
+        elif any(w in desc_lower for w in ["scale", "balance", "tradeoff"]):
+            archetype = "PremiumBalanceScale"
+            guide = "Foundation: Stepped plinth pedestal. Primary: Fluted column pillar with gimbal pivot and balance beam. Secondary: Twin suspended parabolic pans. Detail: Harmonic ambient sway."
+        elif any(w in desc_lower for w in ["shield", "security", "policy", "verify"]):
+            archetype = "VectorSecurityShield"
+            guide = "Foundation: 2D vector shield body. Primary: Central cryptographic keyhole. Secondary: Verification badge pill. Detail: Pulsing authorization halo."
+        elif any(w in desc_lower for w in ["matrix", "2x2", "quadrant", "swot", "prioritization"]):
+            archetype = "Vector2x2Matrix"
+            guide = "Foundation: 4-quadrant coordinate axes with labeled quadrant cards. Primary: Quadrant focus bounds. Detail: Plotted project dots."
+        elif any(w in desc_lower for w in ["sprint", "agile", "scrum", "pdca"]):
+            archetype = "VectorAgileSprintCycle"
+            guide = "Foundation: Circular sprint feedback loop with 4 milestone pods. Primary: Directional flow arrows. Detail: Orbiting progress dot."
+        elif any(w in desc_lower for w in ["kpi", "gauge", "dial", "speedometer", "metric card"]):
+            archetype = "VectorKPIGaugeCard"
+            guide = "Foundation: Executive metric card container with 10px rounded corners. Primary: Semicircular gauge track with active progress arc and indicator needle. Secondary: Prominent numerical readout counter with baseline subtext. Detail: Breathing needle oscillation updater."
+        elif any(w in desc_lower for w in ["heatmap", "risk", "severity", "compliance grid"]):
+            archetype = "VectorRiskHeatmap"
+            guide = "Foundation: 3x3 Impact vs Likelihood severity grid with pastel-coded risk tiers. Primary: Coordinate axes labels. Secondary: Risk token badges mapped to cells. Detail: Pulsing perimeter focus border on critical risk cells."
+        elif any(w in desc_lower for w in ["raci", "governance table", "responsibility matrix", "stakeholder matrix"]):
+            archetype = "VectorRACIMatrix"
+            guide = "Foundation: Dark slate header bar with stakeholder roles. Primary: Deliverable task rows with rounded cards. Secondary: Color-coded R/A/C/I pills (Mint, Amber, Sky, Lilac). Detail: Dynamic row highlight scanner."
+        elif any(w in desc_lower for w in ["funnel", "conversion", "sales funnel", "pipeline funnel"]):
+            archetype = "VectorMarketingFunnel"
+            guide = "Foundation: Descending tiered conversion funnel. Primary: Proportional rounded width tiers with pastel fills. Secondary: Stage title labels. Detail: Trickling conversion particle flow updater."
+        elif any(w in desc_lower for w in ["solar", "photovoltaic", "solar array", "solara grid", "panel"]):
+            archetype = "VectorAdvancedSolarArray"
+            guide = "Foundation: Dual-axis tracking gimbal mount and aluminum tripod trusses with ground shadow. Primary: Dual angled photovoltaic panel wings with 3x2 silicon wafer cells and silver busbars. Secondary: Glass glare reflection sweep polygon and inverter telemetry status badge. Detail: Continuous reflection sheen sweep and pulsing inverter LED."
+        elif any(w in desc_lower for w in ["hammer", "static tool", "passive tool", "manual tool"]):
+            archetype = "VectorMechanicalHammerTool"
+            guide = "Foundation: Ground shadow and resting plinth pedestal with status badge pill. Primary: Angled ergonomic hammer handle with grip ribs and metallic collar. Secondary: Forged steel striking face and curved claw with central eye block. Detail: Dormant status indicator pulse."
+        else:
+            archetype = "SimplilearnDiagramBlock"
+            guide = "Foundation layer: grounded base container. Primary structure: modular visual components with relative offsets. Secondary structure: directional connectors. Detail layer: 10px rounded borders (#DADCE0) with pastel accent fills."
+
         return {
             "asset_id": f"s{sid:02d}_asset_{aid:02d}",
             "description": asset_desc,
-            "manim_class_archetype": "SimplilearnDiagramBlock",
-            "construction_guidelines": f"Foundation layer: grounded base container. Primary structure: modular visual components with relative offsets. Secondary structure: directional connectors. Detail layer: 10px rounded borders (#DADCE0) with pastel accent fills.",
+            "manim_class_archetype": archetype,
+            "construction_guidelines": guide,
             "manim_geometry_bounds": bounds,
             "osl_compliance": {
                 "corner_radius_px": 10,

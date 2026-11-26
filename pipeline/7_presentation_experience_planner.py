@@ -201,6 +201,18 @@ SYSTEM_PROMPT_EXPERIENCE_PLANNER = """
         1. ENTRY — how and when it is introduced.
         2. SETTLE — its resulting position and relationship to surrounding content.
         3. ACTIVE STATE — when/how it is emphasized, annotated or transformed.
+           * CONTINUOUS KINETIC MOTION MANDATE: Every hero visual mechanism MUST remain alive with continuous ambient motion (never frozen or static).
+           * Flywheels must revolve continuously while narration plays, with traveling pulse dots along the feedback loop.
+           * Infinity loops must feature continuous particle streams traversing the figure-8 curve.
+           * Funnels must feature continuous particle ingestion trickling down through the filtration mesh into the buffer reservoir.
+           * Quad-chamber engine cores must have continuous orbital synchronization pulses circulating the central hub.
+           * Telemetry dials/charts must exhibit live waveform undulation or subtle needle jitter.
+            * Marketing funnels must feature continuous particle trickle descending through the conversion tiers into the bottom reservoir.
+            * Executive KPI dials must exhibit live needle breathing oscillation around the target value.
+            * Risk heatmaps must feature continuous attention pulsing along high-severity risk boundaries.
+            * RACI governance matrices must have smooth row highlight sweeps scanning across deliverables.
+            * Agile sprint cycles must feature a continuous orbiting dot traversing the circular milestone track.
+           * Avoid holding static slides for more than 2-3 seconds without background kinetic updaters.
         4. TRANSITION — what happens when attention moves elsewhere.
         5. EXIT — whether it is removed, transformed, repositioned or retained.
 
@@ -1025,7 +1037,15 @@ class PresentationExperiencePlanner:
         jazzy_model_name: Optional[str] = None
     ) -> str:
         folder = base_folder or str(Path(composition_path).parent)
-        config_path = os.path.join(folder, "ex_config.json")
+        folder_path = Path(folder)
+        if folder_path.name == "metadata_blueprints":
+            topic_dir = folder_path.parent
+            meta_dir = folder_path
+        else:
+            topic_dir = folder_path
+            meta_dir = folder_path / "metadata_blueprints"
+
+        config_path = os.path.join(str(topic_dir), "ex_config.json")
         ex_conf = {}
         if os.path.exists(config_path):
             try:
@@ -1068,7 +1088,7 @@ class PresentationExperiencePlanner:
             blueprint=blueprint,
             classified_catalog=classified,
             constructed_catalog=constructed,
-            base_folder=folder,
+            base_folder=str(topic_dir),
             target_scene=target_scene,
             exp_model_name=exp_model_name,
             exp_vendor=exp_vendor,
@@ -1081,7 +1101,6 @@ class PresentationExperiencePlanner:
             json.dump(plan_output, f, indent=2, ensure_ascii=False)
 
         # Write authoritative experience_plan_<model>.json directly inside meta_dir
-        meta_dir = Path(folder) / "metadata_blueprints"
         meta_dir.mkdir(parents=True, exist_ok=True)
         m_name = exp_model_name or self.model_name
         experience_file = meta_dir / f"experience_plan_{m_name}.json"
@@ -1275,6 +1294,7 @@ if __name__ == "__main__":
     parser.add_argument("-b", "--blueprint", default=None, help="Optional storyboard blueprint JSON")
     parser.add_argument("-a", "--assets", default=None, help="Optional classified assets JSON")
     parser.add_argument("-k", "--constructed", default=None, help="Optional constructed assets JSON")
+    parser.add_argument("-f", "--base-folder", default=None, help="Optional base topic folder path")
     parser.add_argument("-t", "--target-scene", default=None, help="Optional target scene ID")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM API provider")
     parser.add_argument("-m", "--model", default="gemini-3.8-flash", help="Model name")
@@ -1290,5 +1310,6 @@ if __name__ == "__main__":
         blueprint_path=args.blueprint,
         assets_path=args.assets,
         constructed_path=args.constructed,
+        base_folder=args.base_folder,
         target_scene=args.target_scene
     )

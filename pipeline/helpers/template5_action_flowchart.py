@@ -43,7 +43,7 @@ import numpy as np
 from manim import *
 import manimpango
 
-COLOR_NAVY       = "#0A2540"
+COLOR_NAVY       = "#1E293B"
 COLOR_DARK_NAVY  = "#0F172A"
 COLOR_BLUE       = "#007ACC"
 COLOR_COBALT     = "#1D4ED8"
@@ -72,7 +72,7 @@ def get_simplilearn_font(preferred: str = "Open Sans") -> str:
     return "Sans"
 
 
-def CrispText(text, size=24, font="Sans-Serif", **kwargs):
+def CrispText(text, size=24, font="Open Sans", **kwargs):
     """Typography renderer with 4x supersampling for crisp glyph display."""
     if "font_size" in kwargs:
         size = kwargs.pop("font_size")
@@ -184,7 +184,7 @@ def create_action_flowchart_mobject(
 
     # 3. Subtitle annotation pill
     sub_box = RoundedRectangle(corner_radius=0.10, width=5.2, height=0.42, fill_color="#EFF6FF", fill_opacity=1.0, stroke_color=COLOR_BLUE, stroke_width=1.2).move_to(stage_center + DOWN * 1.45)
-    sub_txt = CrispText("LLM core interprets sensory state & dynamically routes actions", size=10.5, color=COLOR_DARK_NAVY, weight=BOLD, font=font).move_to(sub_box)
+    sub_txt = CrispText("LLM core interprets sensory state & dynamically routes actions", size=10.5, color=COLOR_DARK, weight=BOLD, font=font).move_to(sub_box)
     sub_pill = VGroup(sub_box, sub_txt)
 
     return {

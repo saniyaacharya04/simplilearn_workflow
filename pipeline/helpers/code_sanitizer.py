@@ -17,15 +17,12 @@ and brittle path references:
 
 import os
 import sys
+import re
+import json
+
 _CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 if _CURRENT_DIR not in sys.path:
     sys.path.insert(0, _CURRENT_DIR)
-
-
-import os
-import re
-import json
-from pathlib import Path
 
 
 def is_executive_topic(base_folder: str = None, topic_id: str = None) -> bool:

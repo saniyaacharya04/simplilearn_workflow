@@ -46,7 +46,7 @@ import manimpango
 # =========================================================
 # BRAND COLOR TOKENS
 # =========================================================
-COLOR_NAVY       = "#0A2540"
+COLOR_NAVY       = "#1E293B"
 COLOR_DARK_NAVY  = "#0F172A"
 COLOR_BLUE       = "#007ACC"
 COLOR_COBALT     = "#1D4ED8"
@@ -74,7 +74,7 @@ def get_simplilearn_font(preferred: str = "Open Sans") -> str:
     return "Sans"
 
 
-def CrispText(text, size=24, font="Sans-Serif", **kwargs):
+def CrispText(text, size=24, font="Open Sans", **kwargs):
     """
     High-fidelity typography renderer providing consistent letter spacing,
     crisp glyph outlines, and automatic word wrapping via 4x supersampling.

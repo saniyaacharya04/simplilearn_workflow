@@ -463,7 +463,7 @@ Your responsibility is precise TEMPORAL SYNCHRONIZATION, PACING, and LEGIBILITY:
      ```python
      self.sync_to(word_start)
      self.play(txt.animate.set_color(COLOR_HIGHLIGHT), run_time=0.3)
-     self.play(txt.animate.set_color(COLOR_NAVY_TITLE), run_time=0.5)
+     self.play(txt.animate.set_color(COLOR_TITLE), run_time=0.5)
      ```
 
 3. TYPOGRAPHY SCALE & WHITESPACE ELIMINATION MANDATE:
@@ -1454,7 +1454,7 @@ class GenerateTimingAdjustments:
                     except Exception:
                         print(f"Existing file for {group_num} is corrupted or broken. Re-synchronizing...")
 
-            robust_crisp_text = r"""def CrispText(text, size=24, font="Poppins", **kwargs):
+            robust_crisp_text = r"""def CrispText(text, size=24, font="Open Sans", **kwargs):
     if "font_size" in kwargs:
         size = kwargs.pop("font_size")
     try:

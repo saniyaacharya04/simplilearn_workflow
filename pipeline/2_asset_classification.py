@@ -138,18 +138,10 @@ INSTRUCTIONS_SYSTEM_PROMPT = """
 
         Semantic importance alone does NOT justify an Asset. Visual styling fidelity alone does NOT justify an Asset, except for designated UI Assets.
 
-        If an artefact can be recreated using a small collection of:
-        • rectangles
-        • circles
-        • polygons
-        • lines
-        • text
-        • standard icons
+        If an artefact is merely a basic flat container, plain bullet box, or trivial single-shape placeholder, it is NOT an Asset. However, multi-part kinematic mechanisms, structured visual metaphors (flywheels, infinity loops, funnels), and complex domain UI models ALWAYS qualify as Assets.
 
-        it is NOT an Asset.
-
-        Default bias:
-        Prefer NOT suggesting Assets.
+        Classification Strategy:
+        Identify both domain UI assets and rich, multi-component KINEMATIC & GEOMETRIC VISUAL METAPHORS.
 
         ====================================================
         WHAT QUALIFIES AS AN ASSET
@@ -172,6 +164,25 @@ INSTRUCTIONS_SYSTEM_PROMPT = """
         • layered physical objects with meaningful structure
         • reusable domain-specific artefacts with rich geometry
 
+        • Kinetic Conceptual Metaphors & Dynamic Mechanisms:
+          - Rotational progression cycles / flywheels (multi-stage circular rotors rotating about a central hub)
+          - Continuous loops & infinity paths (lemniscates bridging multiple entities with circulating nodes)
+          - Converging aggregation conduits / funnels (funnels channeling multiple telemetry/data inputs into a buffer)
+          - Multi-tier modular memory hierarchies with dynamic read/write bus lines
+          - Multi-state finite state machine orchestrators
+
+        Complex Kinematic & Geometric Visual Metaphors (ALWAYS qualify as Assets):
+        • Flywheels and Rotary Progression Drives (e.g., 3-stage PRA loop, continuous cyclic gears, revolving multi-stage rotors)
+        • Infinity Loops and Topological Interaction Bridges (e.g., figure-8 lemniscates connecting agent & environment, bi-directional feedback loops with waypoint callouts)
+        • Ingestion Funnels and Multi-Stage Buffers (e.g., tapered 3-stage polygonal context funnels, filtration meshes, reservoir chambers)
+        • Multi-Chamber Engine Cores and Cognitive Hubs (e.g., quad-chamber architecture cores with perception, memory, reasoning, and action bays connected to central hub)
+        • Telemetry Gauges, Coordinate Anomaly Monitors & Sensor Arrays (calibrated vector dials, dual-axis telemetry graphs with dynamic threshold bounds)
+        • Strategic 2x2 Matrices, Balanced Decision Trees, and Agile Sprint Cycles
+        • Marketing & Conversion Funnels (descending tiered process funnels with proportional conversion drop-offs)
+        • Executive KPI Dials & Chronometer Gauges (performance benchmark cards with semicircular meter and dynamic needle)
+        • Enterprise Risk Severity Heatmaps (3x3 Impact vs Likelihood grids with color-coded risk bands and token markers)
+        • Cross-Functional RACI Governance Tables (stakeholder responsibility matrices with color-coded R/A/C/I badge pills)
+
         Special UI Assets (ALWAYS qualify as Assets):
         • browser windows
         • email inbox interfaces
@@ -191,7 +202,7 @@ INSTRUCTIONS_SYSTEM_PROMPT = """
         navigation structures, component layouts, states, controls, and styling
         details that benefit from reusable construction rather than flat imagery.
 
-        For such UI Assets, include:
+        For such UI & Kinematic Assets, include:
 
         • primary layout regions
         • navigation elements
@@ -210,23 +221,16 @@ INSTRUCTIONS_SYSTEM_PROMPT = """
         EXPLICIT NON-ASSETS
         ====================================================
 
-        Almost never Assets:
+        Non-Assets (do NOT classify as assets):
 
-        • comparison panels
-        • KPI cards
-        • summary metric panels
-        • dashboards made from simple cards
-        • tables
-        • timelines
-        • flowcharts
-        • process diagrams
-        • charts and graphs
-        • callout boxes
-        • legends
-        • containers
-        • frames
+        • plain PowerPoint-style text boxes
+        • simple bullet list containers
+        • basic rectangle card holders without internal kinematic structure
+        • generic callout bubbles without architectural decomposition
+        • static slide frames
 
-        These should normally be built directly from Manim primitives.
+        These simple flat cards should be constructed as standard layout elements.
+        Conversely, all complex visual metaphors (Flywheels, Infinity Loops, Funnels, Engine Cores, Gauges) MUST be classified as Assets.
 
         ====================================================
         IMAGE SUGGESTION GUIDELINES
@@ -334,8 +338,8 @@ INSTRUCTIONS_SYSTEM_PROMPT = """
                 Asset Suggestion: None
                 Image Suggestion: None
 
-        • When uncertain, choose Image Suggestion or neither.
-        • Asset classification should be rare and reserved for geometrically rich reusable artefacts.
+        • When uncertain, choose Image Suggestion for decorative art, and Asset Suggestion for functional/kinematic visual mechanisms.
+        • Asset classification is mandatory for multi-part geometric and kinematic visual metaphors (flywheels, loops, funnels, engine cores, gauges).
 
         DEFINITION OF SAME ARTEFACT:
 
@@ -516,35 +520,101 @@ class AssetClassification:
         self.api_key = api_key or self.google_api_key or self.claude_api_key or os.environ.get("GEMINI_API_KEY")
 
     def classify_scene_local(self, scene: Dict[str, Any], sid: int) -> List[Dict[str, Any]]:
-        """Fallback rule-based classification adhering to Simplilearn OSL 3.0 rules."""
-        stype = scene.get("scene_type", "")
+        """
+        Dynamic rule-based and semantic classification adhering to Simplilearn OSL 3.0 rules.
+        Inspects step-level visual descriptions, dominant visual concepts, and matching sections
+        to identify complex kinetic metaphors (flywheels, infinity loops, funnels, solar arrays, etc.).
+        """
         layout = str(scene.get("sme_layout", "70"))
         title = scene.get("title", f"Scene {sid}")
-        narration = scene.get("voiceover_narration", "")
+        steps = scene.get("presentation_steps", [])
+
+        if not steps:
+            # Fallback for single-step or unpartitioned scenes
+            full_text = f"{title} {scene.get('voiceover_narration', '')} {scene.get('visual_description', '')}"
+            asset_suggs = self._detect_semantic_assets(full_text, title)
+            image_suggs = self._detect_semantic_images(full_text, title)
+            if not asset_suggs and layout in ["70", "20"]:
+                asset_suggs = [f"Kinetic Vector Diagram and Living Visual Mechanism for {title}."]
+            return [{
+                "Asset_Suggestion": asset_suggs if asset_suggs else None,
+                "Image_Suggestion": image_suggs if image_suggs else None
+            }]
 
         guidelines = []
-        if layout == "20":
+        for step_i, step in enumerate(steps, 1):
+            st_title = step.get("title") or step.get("step_title") or f"Step {step_i}"
+            vd = step.get("visual_description", "")
+            if isinstance(vd, dict):
+                vd = f"{vd.get('matching_section', '')} {vd.get('purpose', '')}"
+            ms = step.get("matching_section", "")
+            dvc = step.get("dominant_visual_concept", "")
+            narr = step.get("narration") or step.get("voiceover_narration") or ""
+
+            step_text = f"{st_title} {vd} {ms} {dvc} {narr}"
+            asset_suggs = self._detect_semantic_assets(step_text, st_title)
+            image_suggs = self._detect_semantic_images(step_text, st_title)
+
+            if not asset_suggs and layout in ["70", "20"] and step_i == 1:
+                asset_suggs = [f"Kinetic Vector Diagram and Living Visual Mechanism for {title} ({st_title})."]
+
             guidelines.append({
-                "Asset_Suggestion": [
-                    f"Architectural System Diagram for {title}. Multi-layered schematic showing modular component hierarchy, data flow connectors, and dynamic states."
-                ],
-                "Image_Suggestion": None
+                "Asset_Suggestion": asset_suggs if asset_suggs else None,
+                "Image_Suggestion": image_suggs if image_suggs else None
             })
-        elif layout == "70":
-            guidelines.append({
-                "Asset_Suggestion": [
-                    f"Kinetic Vector Diagram and Living Visual Mechanism for {title}. Modular components, telemetry indicators, dynamic state connectors, and transparent hero illustration in open canvas space."
-                ],
-                "Image_Suggestion": [
-                    f"Modern 2D flat vector educational illustration representing {title} in professional corporate aesthetic."
-                ]
-            })
-        else:
-            guidelines.append({
-                "Asset_Suggestion": None,
-                "Image_Suggestion": None
-            })
+
         return guidelines
+
+    def _detect_semantic_assets(self, text: str, context_label: str) -> List[str]:
+        """Detect kinetic metaphors and complex domain assets from blueprint text."""
+        assets = []
+        t = text.lower()
+
+        # 1. Flywheels & Rotary Progression Cycles
+        if re.search(r"\bflywheel\b|\brotary\b|\brotational progression\b|\b3-stage.*cycle\b|\bpra cycle\b", t):
+            assets.append("Rotational progression cycle / flywheel: 3-stage circular rotor mechanism rotating about a central hub with illuminated apex phases and dynamic state indicators.")
+
+        # 2. Infinity Loops & Topological Interaction Bridges
+        if re.search(r"\binfinity\b|\blemniscate\b|\bfigure-8\b|\bcontinuous loop\b|\binteraction loop\b", t):
+            assets.append("Continuous observation-execution infinity path: Figure-8 lemniscate bridging agent perception and environment with circulating animated telemetry nodes.")
+
+        # 3. Context Aggregation & Conversion Funnels
+        if re.search(r"\bfunnel\b|\bcontext aggregation\b|\bconverging\b|\bchanneling multiple\b|\bcontext buffer\b", t):
+            assets.append("Context aggregation funnel: Tapered multi-stage polygonal intake funnel channeling telemetry readings, prompts, tool outputs, and error alerts into working context buffer.")
+
+        # 4. Solar Photovoltaic Arrays
+        if re.search(r"\bsolar\b|\bphotovoltaic\b|\bpv array\b|\bsolara site\b|\bsolar farm\b", t):
+            assets.append("VectorAdvancedSolarArray: Broadcast-quality 2.5D photovoltaic array with live power generation status and telemetry wave pulses.")
+
+        # 5. Static Mechanical Tools
+        if re.search(r"\bhammer\b|\bstatic tool\b|\binanimate tool\b|\bpassive tool\b", t):
+            assets.append("VectorMechanicalHammerTool: Self-contained tool card with precision mechanical hammer illustration and dormant Idle/Waiting status indicator.")
+
+        # 6. Strategic Decision Matrices & Heatmaps
+        if re.search(r"\bdecision matrix\b|\btrade-off matrix\b|\b2x2 matrix\b|\brisk heatmap\b|\braci\b", t):
+            assets.append("Strategic multi-attribute decision matrix with color-coded score badges and optimal action indicator.")
+
+        # 7. Dynamic Telemetry Gauges & Meters
+        if re.search(r"\bconfidence gauge\b|\btelemetry gauge\b|\bkpi gauge\b|\bcalibrated dial\b", t):
+            assets.append("Dynamic telemetry gauge with calibrated semicircular scale, needle indicator, and alert thresholds.")
+
+        return list(dict.fromkeys(assets))
+
+    def _detect_semantic_images(self, text: str, context_label: str) -> List[str]:
+        """Detect hero illustration requirements from blueprint text."""
+        images = []
+        t = text.lower()
+
+        if re.search(r"\bhuman engineer\b|\boperator\b|\bescalat\w* handoff\b|\btechnician\b|\bspecialist\b", t):
+            images.append("A professional technical human systems engineer holding an active digital diagnostic tablet representing the escalation handoff receiver, full-length vector educational illustration on pure white background.")
+
+        if re.search(r"\bsolar sensor\b|\btelemetry ingress\b|\bsensor hardware\b", t):
+            images.append("High-resolution technical illustration of an industrial solar sensor unit with telemetry antennas and real-time signal conduits.")
+
+        if re.search(r"\bneural core\b|\bllm brain\b|\bcognitive engine\b|\bintelligence hub\b", t):
+            images.append("High-resolution technical illustration of a cognitive neural circuit brain with illuminated dendritic pathways.")
+
+        return list(dict.fromkeys(images))
 
     def classify_all_assets(
         self,
@@ -586,8 +656,31 @@ class AssetClassification:
             narration = scene.get("voiceover_narration", "")
             layout = str(scene.get("sme_layout", "70"))
             
-            visual_desc = scene.get("primary_content") or scene.get("visual_description") or title
-            storyboard_context = f"Scene {sid}:\n   <Visual>: {visual_desc}"
+            # AGGREGATE STEP-LEVEL VISUAL DESCRIPTIONS
+            step_visuals = []
+            for step_i, step in enumerate(scene.get("presentation_steps", []), 1):
+                st_title = step.get("title") or step.get("step_title") or f"Step {step_i}"
+                vd = step.get("visual_description")
+                ms = step.get("matching_section", "")
+                dvc = step.get("dominant_visual_concept", "")
+                desc = ""
+                if isinstance(vd, dict):
+                    desc = vd.get("matching_section") or vd.get("purpose") or ""
+                elif isinstance(vd, str):
+                    desc = vd
+                if not desc and ms:
+                    desc = ms
+                if dvc and dvc not in desc:
+                    desc = f"{dvc}. {desc}" if desc else dvc
+                if desc:
+                    step_visuals.append(f"Step {step_i} ({st_title}): {desc.strip()}")
+
+            if step_visuals:
+                visual_desc = "\n   ".join(step_visuals)
+            else:
+                visual_desc = scene.get("primary_content") or scene.get("visual_description") or title
+
+            storyboard_context = f"Scene {sid} - {title}:\n   <Visual Elements>:\n   {visual_desc}"
 
             if use_gemini:
                 try:

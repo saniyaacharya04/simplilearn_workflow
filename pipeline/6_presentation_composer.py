@@ -308,6 +308,11 @@ SYSTEM_PROMPT_PRESENTATION_COMPOSER = """
         • minimize unnecessary whitespace
         • maintain symmetry and visual balance
         • align related components to common edges or axes
+        • SCREEN SPACE UTILIZATION & AVOIDING VOIDS:
+          - High-density multi-component architectures (such as quad-chamber engine cores, multi-layer neural stacks, and wide comparison frameworks) MUST be composed across the full horizontal canvas (Layout 20: x in [-6.2, 6.2]).
+          - Strictly avoid clustering elements onto one side and leaving large blank voids on the other (especially the left 40% of the screen).
+          - For Layout 70 scenes, center and expand diagrams across the entire allocated safe zone (x in [0.5, 6.5]), with generous card widths (e.g. 5.5 to 6.0 units wide) so the frame feels intentionally filled, not sparsely stranded.
+          - Mandatory Visual Metaphors: When the storyboard specifies a Flywheel (rotary PRA drive), Infinity Path (figure-8 interaction loop), Context Funnel (multi-stage ingestion), Quad-Chamber Core, Marketing Funnel (descending conversion tiers), Executive 2x2 Matrix (Impact vs Effort), KPI Gauge Dial, 3x3 Risk Heatmap, or RACI Governance Table, you MUST compose these exact geometric constructs as prominent hero centerstage assets, NOT generic bullet cards!
 
         For every major component explicitly state its directional extent, for example
 
@@ -964,7 +969,15 @@ class PresentationComposer:
         jazzy_vendor: Optional[str] = None
     ) -> str:
         folder = base_folder or str(Path(blueprint_path).parent)
-        config_path = os.path.join(folder, "ex_config.json")
+        folder_path = Path(folder)
+        if folder_path.name == "metadata_blueprints":
+            topic_dir = folder_path.parent
+            meta_dir = folder_path
+        else:
+            topic_dir = folder_path
+            meta_dir = folder_path / "metadata_blueprints"
+
+        config_path = os.path.join(str(topic_dir), "ex_config.json")
         ex_conf = {}
         if os.path.exists(config_path):
             try:
@@ -987,8 +1000,8 @@ class PresentationComposer:
         if assets_path and Path(assets_path).exists():
             with open(assets_path, "r", encoding="utf-8") as f:
                 classified = json.load(f)
-        elif folder:
-            cand = list(Path(folder).glob("*classified_assets*.json")) or list(Path(folder).glob("asset_classification_*.json"))
+        elif topic_dir:
+            cand = list(Path(topic_dir).glob("*classified_assets*.json")) or list(Path(topic_dir).glob("asset_classification_*.json"))
             if cand:
                 with open(cand[0], "r", encoding="utf-8") as f:
                     classified = json.load(f)
@@ -997,8 +1010,8 @@ class PresentationComposer:
         if constructed_path and Path(constructed_path).exists():
             with open(constructed_path, "r", encoding="utf-8") as f:
                 constructed = json.load(f)
-        elif folder:
-            cand = list(Path(folder).glob("*constructed_assets*.json")) or list(Path(folder).glob("construction_output_*.json"))
+        elif topic_dir:
+            cand = list(Path(topic_dir).glob("*constructed_assets*.json")) or list(Path(topic_dir).glob("construction_output_*.json"))
             if cand:
                 with open(cand[0], "r", encoding="utf-8") as f:
                     constructed = json.load(f)
@@ -1007,7 +1020,7 @@ class PresentationComposer:
             blueprint,
             classified_catalog=classified,
             constructed_catalog=constructed,
-            base_folder=folder,
+            base_folder=str(topic_dir),
             target_scene=target_scene,
             jazzy_model_name=jazzy_model_name,
             jazzy_vendor=jazzy_vendor
@@ -1020,7 +1033,6 @@ class PresentationComposer:
             json.dump(comp, f, indent=2, ensure_ascii=False)
 
         # 2. Write authoritative enhanced_anim_<model>.json directly into metadata_blueprints
-        meta_dir = Path(folder) / "metadata_blueprints"
         meta_dir.mkdir(parents=True, exist_ok=True)
         m_name = jazzy_model_name or self.model_name
         enhanced_file = meta_dir / f"enhanced_anim_{m_name}.json"
@@ -1211,6 +1223,7 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", required=True, help="Output presentation composition JSON")
     parser.add_argument("-a", "--assets", default=None, help="Optional classified assets JSON")
     parser.add_argument("-c", "--constructed", default=None, help="Optional constructed assets JSON")
+    parser.add_argument("-f", "--base-folder", default=None, help="Optional base topic folder path")
     parser.add_argument("-t", "--target-scene", default=None, help="Optional target scene ID to process")
     parser.add_argument("-p", "--provider", default="auto", choices=["auto", "gemini", "claude", "local"], help="LLM API provider")
     parser.add_argument("-m", "--model", default="gemini-3.8-flash", help="Model name")
@@ -1225,5 +1238,6 @@ if __name__ == "__main__":
         args.output,
         assets_path=args.assets,
         constructed_path=args.constructed,
+        base_folder=args.base_folder,
         target_scene=args.target_scene
     )

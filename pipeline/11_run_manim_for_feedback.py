@@ -91,16 +91,9 @@ except ImportError:
     portalocker = None
 import time
 import re
-import random
 import shutil
-import textwrap
 from filelock import FileLock
-from openai import OpenAI
 import sys
-try:
-    from moviepy import AudioFileClip, concatenate_audioclips, VideoFileClip
-except ImportError:
-    from moviepy.editor import AudioFileClip, concatenate_audioclips, VideoFileClip
 from pathlib import Path
 import subprocess
 import google.generativeai as genai
@@ -319,31 +312,9 @@ Code:
 """
 
     
-    def call_corrector(self,prompt: str, model: str,
-                   max_tokens: int = 150000) -> tuple[str, str]:
-        """Returns (code, finish_reason). finish_reason == 'length' means the
-        response was cut off before the model was actually done -- the caller
-        MUST treat that as a failed call, not a usable fix."""
-        
-        '''
-        api_key = os.environ.get("DEEPSEEK_API_KEY")
-        if not api_key:
-            sys.exit("ERROR: set DEEPSEEK_API_KEY in your environment.")
-
-        client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            stream=False,
-            max_tokens=max_tokens,
-            reasoning_effort="high",
-            extra_body={"thinking": {"type": "enabled"}}
-        )
-
-        usage = response.usage
-        input_tokens = getattr(usage, "prompt_tokens", 0) or 0
-        output_tokens = getattr(usage, "completion_tokens", 0) or 0
-        '''
+    def call_corrector(self, prompt: str, model: str,
+                       max_tokens: int = 150000) -> tuple[str, str]:
+        """Returns (code, finish_reason)."""
         genai.configure(api_key=self.google_api_key)
         clean_model = "gemini-3.8-flash" if ("3.5" in str(model) or "2.5" in str(model)) else model
         model_variant = f"models/{clean_model}"
@@ -357,17 +328,9 @@ Code:
             )
         )
         choice = response.text
-
-        '''
-        finish_reason = getattr(choice, "finish_reason", "") or ""
-        if finish_reason == "length":
-            print(f"    [!] response was TRUNCATED (hit max_tokens={max_tokens}) -- "
-                f"this is NOT a complete/usable file.")
-        '''
-                
         return self.extract_code_from_response(choice), "None"
 
-    def sort_key(self,k):
+    def sort_key(self, k):
         match = re.search(r"group_(\d+).py", k)
         if match:
             group_num = int(match.group(1))
@@ -376,7 +339,8 @@ Code:
 
     def execute_script(self, script_dir, base_folder, conf_file, timeout_seconds: int = 900):
         """
-        Placeholder for execution logic. To be populated later.
+        Executes Manim rendering for all scene scripts, verifies video output,
+        and generates verification feedback frames.
         """
         with open(conf_file,'r',encoding='utf-8') as f:
             config_data = json.load(f)
@@ -395,6 +359,18 @@ Code:
         manim_adjusted_codes_folder = script_dir
         raw_videos_folder = Path(f"{base_folder}/manim_raw_videos")
         os.makedirs(raw_videos_folder,exist_ok=True)
+
+        # Ensure no duplicate scene_*.mp4 files persist alongside canonical group_*.mp4
+        for item in raw_videos_folder.glob("scene_*.mp4"):
+            m = re.match(r"scene_(\d+)\.mp4", item.name)
+            if m:
+                equiv_group = raw_videos_folder / f"group_{m.group(1)}.mp4"
+                if equiv_group.exists():
+                    try:
+                        item.unlink()
+                        print(f"Purged duplicate video file: {item.name} (canonical group_{m.group(1)}.mp4 is active)")
+                    except Exception:
+                        pass
 
         conda_env_name = os.environ.get(
             "CONDA_MANIM_ENV",

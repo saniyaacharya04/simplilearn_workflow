@@ -99,7 +99,6 @@ import argparse
 from glob import glob
 from collections import defaultdict
 from pathlib import Path
-import shutil
 import subprocess
 import re
 import time
@@ -312,23 +311,11 @@ class SuggestionsFromVLM:
         return dict(sorted(by_section.items(), key=lambda kv: kv[1][0]["frame_number"]))
 
 
-    def load_design_specs(self,enhanced_anim_path, scene_number):
-        '''
-        if not enhanced_anim_path or not Path(enhanced_anim_path).is_file():
-            return {}
-        with open(enhanced_anim_path) as f:
-            data = json.load(f)
-        specs = {}
-        for idx, sec in enumerate(data.get(str(scene_number), []), start=1):
-            text = sec.get("matching_section", "")
-            if len(text) > DESIGN_SPEC_MAX_CHARS:
-                text = text[:DESIGN_SPEC_MAX_CHARS] + " ...(truncated)"
-            specs[str(idx)] = text
-        '''
+    def load_design_specs(self, enhanced_anim_path, scene_number):
         if not enhanced_anim_path or not os.path.exists(enhanced_anim_path):
             return ""
         try:
-            with open(enhanced_anim_path,'r', encoding="utf-8") as f:
+            with open(enhanced_anim_path, 'r', encoding="utf-8") as f:
                 specs = f.read()
             return specs
         except Exception:

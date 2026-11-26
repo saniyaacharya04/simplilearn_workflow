@@ -58,6 +58,9 @@ OUTPUT_DIRS_TO_DELETE = [
     "vlm_inputs",
     "visual_triangulation",
     "manim_styled_codes",
+    "temp_assembly",
+    "temp_audio",
+    "temp_sme_assembly",
     "manim_time_synced_code",
 ]
 

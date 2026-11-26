@@ -228,13 +228,7 @@ class ImplementCodeCorrections:
                 asset_classification_output_file = str(cand)
                 break
 
-        '''
-        spurious_patterns_file = "./spurious_code_patterns.txt"
-        with open(spurious_patterns_file,'r') as f:
-            spurious_patterns = f.read()
-        '''
-            
-        os.makedirs(refined_scene_codes_dir,exist_ok=True)
+        os.makedirs(refined_scene_codes_dir, exist_ok=True)
 
         corrections_dir = f"{base_folder}/specific_suggestions"
 
@@ -303,7 +297,7 @@ class ImplementCodeCorrections:
           * Text must NEVER bleed out of or touch container borders.
         - STRICT CASING & COLOR PALETTE ENFORCEMENT:
           * NO ALL-CAPS: All titles, subtitles, card headers, labels, and tags must NEVER be written in ALL CAPS. Use Title Case for titles and headers; use Sentence Case for descriptions and bullet points.
-          * Text Color: Text on light cards and white canvas MUST be `#404040` (Dark Charcoal). Text on dark navy headers (#0B3C5D) must be `#FFFFFF`.
+          * Text Color: Text on light cards and white canvas MUST be `#404040` (Dark Charcoal). Text on dark slate headers (#1E293B / #0F172A) must be `#FFFFFF`. Navy blue (#0B3C5D, #06152B, #0A2540) is strictly prohibited.
           * Approved 10-Color Palette: Sky Blue (#62B7E4), Steel Blue (#7EA2C8), Lavender (#9B99C7), Mint (#8ECDB7), Warm Amber (#E6A157), Mustard Gold (#DDB945), Coral (#E58F6D), Warm Tan (#B88968), Dusty Rose (#D98CA1), Soft Lilac (#C1A5C6).
           * Focus Highlight: #F78908 (3px stroke, 1.0s draw time). Green is strictly forbidden for containers and cards.
         - STRICT ANTI-PPT & AUTHENTIC LIVING MECHANISM MANDATE:

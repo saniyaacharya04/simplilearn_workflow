@@ -23,6 +23,7 @@ output_*/
 *_gemini/
 *_revised.json
 instructions_gemini_revised.json
+verification_screenshots/
 temp_*/
 **/temp_*/
 *.log

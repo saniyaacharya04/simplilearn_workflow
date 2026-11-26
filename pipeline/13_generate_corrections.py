@@ -348,7 +348,7 @@ class SuggestCorrections:
 
         * STRICT NO ALL-CAPS MANDATE: All titles, subtitles, card headers, labels, and tags must NEVER be written in ALL CAPS. Use Title Case for titles and card headers; use Sentence Case for descriptions and bullet points.
         * Approved Color Palette: Use the 10 approved infographic pastel tones (#62B7E4 Sky Blue, #7EA2C8 Steel Blue, #9B99C7 Lavender, #8ECDB7 Mint, #E6A157 Warm Amber, #DDB945 Mustard Gold, #E58F6D Coral, #B88968 Warm Tan, #D98CA1 Dusty Rose, #C1A5C6 Soft Lilac).
-        * Text Contrast: Primary text inside light cards/canvas MUST be #404040. Header text on dark navy cards (#0B3C5D) must be #FFFFFF.
+        * Text Contrast: Primary text inside light cards/canvas MUST be #404040. Header text on dark slate headers (#1E293B / #0F172A) must be #FFFFFF. Navy blue (#0B3C5D, #06152B, #0A2540) is strictly prohibited.
         * Focus Highlight: Use #F78908 (3px stroke, 1.0s draw time). Green is strictly forbidden for containers and cards.
         
         ## Step Lifecycle, Lingering Clutter & Symbol Guardrails

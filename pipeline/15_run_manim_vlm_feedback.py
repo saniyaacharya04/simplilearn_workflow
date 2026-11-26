@@ -86,16 +86,8 @@ import glob
 import portalocker
 import time
 import re
-import random
 import shutil
-import textwrap
-from filelock import FileLock
-from openai import OpenAI
 import sys
-try:
-    from moviepy import AudioFileClip, concatenate_audioclips, VideoFileClip
-except ImportError:
-    from moviepy.editor import AudioFileClip, concatenate_audioclips, VideoFileClip
 from pathlib import Path
 import subprocess
 import google.generativeai as genai
@@ -322,7 +314,7 @@ Code:
 
     def execute_script(self, script_dir, base_folder, conf_file, timeout_seconds: int = 1200):
         """
-        Placeholder for execution logic. To be populated later.
+        Executes Manim rendering for VLM feedback review and keyframe capture.
         """
         with open(conf_file,'r',encoding='utf-8') as f:
             config_data = json.load(f)

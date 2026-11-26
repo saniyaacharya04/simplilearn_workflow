@@ -292,7 +292,7 @@ def resolve_dynamic_sme_framing(
         if stype in ["breakthrough_emphasis", "key_pivot"] and duration <= 20.0:
             chosen_layout = "100"
             reason = f"Breakthrough emphasis address within <= 20s range ({duration:.1f}s) (OSL 3.0 Layout 1)."
-        elif stype in ["demo_walkthrough", "architecture_breakdown", "pipeline_schematic", "workflow_schematic"]:
+        elif stype in ["demo_walkthrough", "architecture_breakdown", "pipeline_schematic", "workflow_schematic"] or any(w in norm_text for w in ["four pillars", "core components", "architecture breakdown", "engine core", "quad chamber", "framework breakdown", "multi-stage pipeline"]):
             chosen_layout = "20"
             reason = "High visual density (wide architecture / code / workflow); scaled SME to 20% PIP to allocate 1814px width (OSL 3.0 Layout 3)."
         else:

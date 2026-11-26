@@ -103,7 +103,7 @@ import time
 import shutil
 import re
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Union
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -718,13 +718,17 @@ class CodeGenerator:
 
         ---
 
-        ## VISUAL EXCELLENCE & LIVING KINETIC VECTOR STANDARD
+        ## VISUAL EXCELLENCE: HERO ILLUSTRATIONS & LIVING KINETIC VECTORS
 
         Strictly avoid static PowerPoint-style slides (plain rectangular text boxes, dense bullet lists, and static card layouts).
-        Equally avoid over-reliance on static raster PNG illustrations. A scene must NEVER be static!
-        Follow the canonical LIVING VECTOR STANDARD:
-        1. Procedural Manim Vector Mechanisms & Living Schematics (NEVER STATIC):
-           - Build creative, custom, procedural Manim vector mechanics rather than static PowerPoint cards or raster PNG images:
+        A scene must NEVER be a flat static slide!
+        Follow the canonical DYNAMIC VISUAL STANDARD:
+        1. Mandatory Hero Illustration Asset Integration:
+           - Whenever image paths are provided under `------------Image Paths------------` (e.g. character illustrations, sensor panels, neural cores, tool hubs), you MUST load and display them using `ImageMobject(image_path).scale_to_fit_height(...)` mounted cleanly with balanced typography plinths.
+           - NEVER ignore provided image assets or replace them with crude stick figures or basic line sketches!
+           - Always wrap image assets in `Group(...)` (not `VGroup`) and anchor them as hero visual centerpieces.
+        2. Procedural Manim Vector Mechanisms & Living Schematics (NEVER STATIC):
+           - Surround hero images and core concepts with dynamic, kinetic Manim vector mechanics:
              * Rotating mechanical cogs and planetary gear trains (for action execution and tool actuation).
              * Continuous rotating radar sweeps (`DynamicRadarSweep`) with active scan lines and pulsing concentric rings (for perception and monitoring).
              * Pulsing neural halo clusters (`NeuralHaloPulses`) with glowing core nodes and kinetic dendrites (for LLM reasoning and cognition hubs).
@@ -732,7 +736,7 @@ class CodeGenerator:
              * Dynamic continuous loops with animated dashed trajectories and flowing data packets (for agent-environment interaction loops).
              * Live telemetry dials, sweeping gauges, and responsive meters (for monitoring and threshold alerts).
              * Continuous updaters (`add_updater`) to keep background grids, orbital nodes, flow indicators, and telemetry sweeps continuously moving throughout the entire scene duration.
-        2. Semantic Kinetic Vector Animation Toolkit:
+        3. Semantic Kinetic Vector Animation Toolkit:
            - Run live procedural Manim vector animations over or alongside cards, contextually selected by semantic domain:
              * `FlowingStream` / Dynamic Conduits (for data pipelines, network streams, and component messaging).
              * `TelemetryWaves` / Waveforms (for sensor telemetry, time-series signals, and continuous monitoring).
@@ -793,7 +797,20 @@ class CodeGenerator:
           * MINIMALISTIC SCREEN: Exactly 1 to 2 focal objects centerstage at any given time. Never clutter the screen with multiple complex diagrams at once.
           * LOW TEXT ARCHITECTURE: Use low text with strategically placed annotations (1 to 3 words per label/badge). STRICTLY ZERO tabular grids, ZERO multi-column data matrices, ZERO paragraphs.
           * CUES ON PICTOGRAMS & ICONS: Rely on rich vector pictograms, symbols, and picture icons rather than text lists.
-          * VISUALLY RICH FRAMEWORKS: Build living vector primitives (PremiumBalanceScale, PrecisionChronometerGauge, NeuralReasoningCore, ActionDispatchHub, VectorGoalTarget, VectorOperatorStation).
+          * VISUALLY RICH FRAMEWORKS: Build or instantiate living vector primitives:
+            - `VectorFlywheelMechanism`: Revolving 3-stage PRA cycle (Perception, Reasoning, Action) with gear rim, feedback flow arcs, and continuous rotation.
+            - `VectorInfinityLoopBridge`: Parametric figure-8 lemniscate bridging Agent and Environment with waypoint callouts (Observe, Decide, Execute, Re-evaluate) and continuous traveling packet dots.
+            - `VectorContextFunnel`: 3-stage tapered ingestion funnel with intake nozzles and working context buffer reservoir.
+            - `VectorQuadChamberCore`: Expansive 4-chamber engine core spanning full Layout 20 canvas with continuous orbital synchronization ring.
+            - `VectorMarketingFunnel`: Descending 4-tier conversion funnel with continuous particle trickle flow updater.
+            - `Vector2x2Matrix`: 4-quadrant executive matrix (Impact vs Effort, SWOT) with quadrant focus bounds and project coordinate plotting.
+            - `VectorKPIGaugeCard`: Executive metric dial card with semicircular meter, live needle oscillation, and prominent numerical counter readout.
+            - `VectorRiskHeatmap`: 3x3 Impact vs Likelihood severity grid with pastel zones, coordinate axes, and critical attention pulse border.
+            - `VectorAgileSprintCycle`: Continuous circular sprint loop with 4 milestone pods and traveling orbit dot.
+            - `VectorRACIMatrix`: Structured table with role headers, deliverable rows, and color-coded R/A/C/I pills.
+            - `VectorAdvancedSolarArray`: High-fidelity 2.5D photovoltaic array with 3x2 silicon wafer cells, silver busbars, animated glass reflection glare sheen sweep, aluminum trusses, and live inverter telemetry LED.
+            - `VectorMechanicalHammerTool`: Realistic 2D forged steel hammer tool resting on a pedestal with grip ribs and a dormant passive status indicator.
+            - `VectorTelemetryChart`, `PremiumBalanceScale`, `PrecisionChronometerGauge`, `NeuralReasoningCore`, `ActionDispatchHub`, `VectorGoalTarget`, `VectorOperatorStation`.
           * SMOOTH MORPHING TRANSITIONS: Evolve and transform focal objects smoothly between steps; avoid abrupt cutaways or static wipes.
           * NO CAMERA MOVEMENTS: Maintain 100% steady camera framing on the 16:9 canvas per Simplilearn OSL 3.0.
           * SHORT NARRATION AUDIO-VISUAL SYNC: Keep presentation steps granular (8-15s per beat) so every spoken sentence triggers an active visual event.
@@ -1140,9 +1157,9 @@ class CodeGenerator:
              * Data or entity movement: `MoveAlongPath(Dot(), path)` or flowing particle streams.
              * Active processes: rotating halos (`Rotate`), pulsing rings (`PulsingShockwaves`), or oscillating waves (`TelemetryWaves`).
              * State transitions: morphing paths, illuminating active routes, dynamic value updates.
-           - Pre-defined vector classes are available in global scope if helpful (`PremiumBalanceScale`, `PrecisionChronometerGauge`, `NeuralReasoningCore`, `ActionDispatchHub`, `PulsingNode`, `FlowingStream`, `BalanceScale`, `TelemetryWaves`, `PulsingShockwaves`, `NeuralHaloPulses`, `DynamicRadarSweep`), OR feel free to construct any custom Manim VGroup geometry that best demonstrates the lesson!
+           - Pre-defined vector classes are available in global scope if helpful (`VectorFlywheelMechanism`, `VectorInfinityLoopBridge`, `VectorContextFunnel`, `VectorQuadChamberCore`, `VectorTelemetryChart`, `VectorAPIGateway`, `Vector2x2Matrix`, `VectorMarketingFunnel`, `VectorAgileSprintCycle`, `VectorSecurityShield`, `VectorAdvancedSolarArray`, `VectorMechanicalHammerTool`, `VectorKPIGaugeCard`, `VectorRiskHeatmap`, `VectorRACIMatrix`, `PremiumBalanceScale`, `PrecisionChronometerGauge`, `NeuralReasoningCore`, `ActionDispatchHub`, `PulsingNode`, `FlowingStream`, `BalanceScale`, `TelemetryWaves`, `PulsingShockwaves`, `NeuralHaloPulses`, `DynamicRadarSweep`), OR feel free to construct any custom Manim VGroup geometry that best demonstrates the lesson!
            - ARCHITECTURAL VECTOR MECHANICS MANDATE (QUALITY REQUIREMENT):
-             * For conceptual mechanisms like weighing trade-offs, analytical balance scales, chronometer dials, utility gauges, cognitive reasoning cores, and action dispatch hubs, ALWAYS use pure Manim vector primitives (`PremiumBalanceScale`, `PrecisionChronometerGauge`, `NeuralReasoningCore`, `ActionDispatchHub`).
+             * For conceptual mechanisms like weighing trade-offs, analytical balance scales, chronometer dials, utility gauges, cognitive reasoning cores, action dispatch hubs, flywheels, infinity loops, and context funnels, ALWAYS use pure Manim vector primitives (`VectorFlywheelMechanism`, `VectorInfinityLoopBridge`, `VectorContextFunnel`, `VectorQuadChamberCore`, `VectorTelemetryChart`, `PremiumBalanceScale`, `PrecisionChronometerGauge`, `NeuralReasoningCore`, `ActionDispatchHub`).
              * For simple flowchart connectors or UI icons, build living Manim vector geometry rather than generic bitmap icons.
              * MANDATORY HERO ILLUSTRATIONS: When high-resolution concept illustration PNG assets are listed in 'Image Paths' or exist in 'images/' for this scene (e.g. solar power plant facility, human enterprise engineer, real-world equipment), you MUST load and display them using `ImageMobject(img_path)` per Section 13 below as hero anchors!
              * Judicial boxing: Avoid heavy PPT square container boxes. Let the apparatus breathe in open canvas negative space, using boxes only as micro-pills or base plinths.
@@ -1152,7 +1169,10 @@ class CodeGenerator:
            - Font sizes: Titles (24-28), Headers (18-20), Body (14-16), Badges/Pills (12-13).
         6. Focus Highlights: When a node or element has focus_highlight active, animate a 3.5px highlight stroke using color "#F78908" when spoken in narration (`pulse = element.copy().set_fill(opacity=0).set_stroke(color="#F78908", width=3.5)`).
         7. Multi-Pillar Balancing: Fit multi-pillar diagrams within safe width 12.0 so pillar 1 never clips the left margin (x >= -6.40).
-        8. SME Layout & Geometry: Strictly preserve the reserved SME window placeholder (keep x <= -1.20 for Layout 70 or top-right quadrant for Layout 20 clear). Strictly DO NOT draw any visible mock camera placeholder frames or placeholder labels!
+        8. SME Layout & Screen Space Utilization:
+           - Layout 20 (Corner PiP): SME is strictly confined to the top-right corner. The entire main screen (x in [-6.0, 6.0], y in [-3.2, 1.4]) is available for content! Center diagrams (e.g. CX=0) and expand them across the horizontal canvas. NEVER push content to the far right leaving the entire left 50% blank!
+           - Layout 70 (Left Frame): SME is on the left. Content occupies the right 60% (x in [0.5, 6.5]). Scale diagrams and cards generously to fill this area without leaving awkward voids.
+           - Strictly preserve the reserved SME window placeholder (keep x <= -1.20 for Layout 70 or top-right quadrant for Layout 20 clear). Strictly DO NOT draw any visible mock camera placeholder frames or placeholder labels!
         9. STRICT PROHIBITION OF ALL CAPS (CLIENT MANDATE):
            - ALL CAPS is NEVER permitted anywhere on screen!
            - All titles, subtitles, headers, labels, state names, node tags, and pills MUST use Title Case (e.g. "Asset Allocation", "Sprint Review", "Receptor Binding", "Cash Reserve").
@@ -1894,6 +1914,10 @@ class CodeGenerator:
             if "def CrispText" not in code_content:
                 crisp_def = r"""from manim import *
 import numpy as np
+try:
+    from vector_primitives import *
+except ImportError:
+    pass
 import manim.utils.rate_functions as _rf
 for _k in dir(_rf):
     if not _k.startswith("_"):

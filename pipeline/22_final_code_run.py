@@ -109,10 +109,7 @@ import glob
 import portalocker
 import time
 import re
-import random
 import shutil
-import textwrap
-from filelock import FileLock
 
 try:
     from moviepy import AudioFileClip, concatenate_audioclips, VideoFileClip
@@ -1175,7 +1172,8 @@ CURRENT PYTHON SCRIPT:
 
     def execute_script(self, script_dir, base_folder, conf_file, force=False, target_group=None):
         """
-        Placeholder for execution logic. To be populated later.
+        Executes final Manim rendering for all scenes, verifies synchronization,
+        and packages the delivered outputs.
         """
         with open(conf_file,'r', encoding="utf-8") as f:
             config_data = json.load(f)
