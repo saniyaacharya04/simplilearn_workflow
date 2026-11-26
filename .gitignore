@@ -21,6 +21,8 @@ env/
 output/
 output_*/
 *_gemini/
+*_revised.json
+instructions_gemini_revised.json
 temp_*/
 **/temp_*/
 *.log
