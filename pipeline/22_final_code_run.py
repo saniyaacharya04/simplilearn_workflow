@@ -677,7 +677,7 @@ Provide your evaluation as a concise JSON report with:
             print(f"Skipping VLM QA audit for Scene {group_num} (SKIP_VLM_QA=1)")
             return
 
-        client = genai.Client(api_key=self.google_api_key)
+        client = genai.Client(api_key=self.google_api_key, http_options=types.HttpOptions(timeout=90000))
         contents = [vlm_prompt]
         for label, img in valid_images:
             contents.append(f"Keyframe: {label}")
@@ -916,24 +916,28 @@ CURRENT PYTHON SCRIPT:
 {source_code}
 ```
 """
-            client = genai.Client(api_key=self.google_api_key)
+            client = genai.Client(api_key=self.google_api_key, http_options=types.HttpOptions(timeout=180000))
             contents = [repair_prompt]
             max_defect_imgs = int(os.environ.get("VLM_DEFECT_IMGS", "4"))
             for label, img in valid_images[:max_defect_imgs]:
                 contents.append(f"Visual Defect Screenshot: {label}")
                 contents.append(img)
 
-            vlm_thinking_level = os.environ.get("VLM_THINKING_LEVEL", "high")
-            print(f"🤖 [VLM Self-Healing] Requesting Gemini layout repair for Scene {group_num} (attempt {repair_attempt}/{max_repair_attempts}) with high-thinking mode (thinking_level='{vlm_thinking_level}')...")
-            resp = client.models.generate_content(
-                model="gemini-3.8-flash",
-                contents=contents,
-                config=types.GenerateContentConfig(
-                    temperature=0.2,
-                    max_output_tokens=65000,
-                    thinking_config=types.ThinkingConfig(thinking_level=vlm_thinking_level),
+            vlm_thinking_level = os.environ.get("VLM_THINKING_LEVEL", "low")
+            print(f"🤖 [VLM Self-Healing] Requesting Gemini layout repair for Scene {group_num} (attempt {repair_attempt}/{max_repair_attempts}) with thinking mode (thinking_level='{vlm_thinking_level}')...")
+            try:
+                resp = client.models.generate_content(
+                    model="gemini-3.8-flash",
+                    contents=contents,
+                    config=types.GenerateContentConfig(
+                        temperature=0.2,
+                        max_output_tokens=16384,
+                        thinking_config=types.ThinkingConfig(thinking_level=vlm_thinking_level),
+                    )
                 )
-            )
+            except Exception as e:
+                print(f"[VLM Self-Healing] Gemini layout repair call failed: {e}. Skipping repair.")
+                return False
 
             repaired_code = extract_code_from_response(resp.text or "")
             if not repaired_code.strip():
